@@ -1,10 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
-package domain;
+
 import java.util.*;
 
-// line 64 "../domain_model.ump"
+// line 62 "domain_model.ump"
 public class Board
 {
 
@@ -30,10 +30,10 @@ public class Board
     game = aGame;
   }
 
-  public Board(int aIdForGame, GameSituation aGameSituationForGame, System aSystemForGame)
+  public Board(int aIdForGame, GameState aGameStateForGame, System aSystemForGame)
   {
     cells = new ArrayList<Cell>();
-    game = new Game(aIdForGame, aGameSituationForGame, this, aSystemForGame);
+    game = new Game(aIdForGame, aGameStateForGame, this, aSystemForGame);
   }
 
   //------------------------

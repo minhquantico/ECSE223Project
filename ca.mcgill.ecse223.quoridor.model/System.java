@@ -1,10 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
-package domain;
+
 import java.util.*;
 
-// line 74 "../domain_model.ump"
+// line 73 "domain_model.ump"
 public class System
 {
 
@@ -167,9 +167,9 @@ public class System
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Game addGame(int aId, GameSituation aGameSituation, Board aBoard)
+  public Game addGame(int aId, GameState aGameState, Board aBoard)
   {
-    return new Game(aId, aGameSituation, aBoard, this);
+    return new Game(aId, aGameState, aBoard, this);
   }
 
   public boolean addGame(Game aGame)

@@ -1,10 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
-package domain;
+
 import java.util.*;
 
-// line 10 "../domain_model.ump"
+// line 8 "domain_model.ump"
 public class Player
 {
 

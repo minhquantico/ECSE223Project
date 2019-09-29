@@ -1,5 +1,3 @@
-
-
 class Wall
 {
   Integer  id;
@@ -25,7 +23,7 @@ class Game
   int id;
 1 -- 2 Player;
 
-    1 <@>- 1 GameSituation;
+    1 <@>- 1 GameState;
 }
 
 class Move
@@ -67,8 +65,9 @@ class Board
     1 -- 1 Game;
 }
 
-class GameSituation
+class GameState
 {
+      * -> 1 Player turn;
 }
 
 class System
@@ -77,9 +76,8 @@ class System
   1 <@>-* Game;
 }
 
-
 class User
 {
   username;
-  1 -- 0..2 Player;
+1 -- 0..2 Player;
 }

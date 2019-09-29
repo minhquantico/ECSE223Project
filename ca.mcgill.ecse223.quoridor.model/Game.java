@@ -1,10 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
-package domain;
+
 import java.util.*;
 
-// line 22 "../domain_model.ump"
+// line 20 "domain_model.ump"
 public class Game
 {
 
@@ -17,7 +17,7 @@ public class Game
 
   //Game Associations
   private List<Player> players;
-  private GameSituation gameSituation;
+  private GameState gameState;
   private Board board;
   private System system;
 
@@ -25,15 +25,15 @@ public class Game
   // CONSTRUCTOR
   //------------------------
 
-  public Game(int aId, GameSituation aGameSituation, Board aBoard, System aSystem)
+  public Game(int aId, GameState aGameState, Board aBoard, System aSystem)
   {
     id = aId;
     players = new ArrayList<Player>();
-    if (aGameSituation == null || aGameSituation.getGame() != null)
+    if (aGameState == null || aGameState.getGame() != null)
     {
-      throw new RuntimeException("Unable to create Game due to aGameSituation");
+      throw new RuntimeException("Unable to create Game due to aGameState");
     }
-    gameSituation = aGameSituation;
+    gameState = aGameState;
     if (aBoard == null || aBoard.getGame() != null)
     {
       throw new RuntimeException("Unable to create Game due to aBoard");
@@ -46,11 +46,11 @@ public class Game
     }
   }
 
-  public Game(int aId, System aSystem)
+  public Game(int aId, Player aTurnForGameState, System aSystem)
   {
     id = aId;
     players = new ArrayList<Player>();
-    gameSituation = new GameSituation(this);
+    gameState = new GameState(aTurnForGameState, this);
     board = new Board(this);
     boolean didAddSystem = setSystem(aSystem);
     if (!didAddSystem)
@@ -106,9 +106,9 @@ public class Game
     return index;
   }
   /* Code from template association_GetOne */
-  public GameSituation getGameSituation()
+  public GameState getGameState()
   {
-    return gameSituation;
+    return gameState;
   }
   /* Code from template association_GetOne */
   public Board getBoard()
@@ -228,11 +228,11 @@ public class Game
       Player aPlayer = players.get(i - 1);
       aPlayer.delete();
     }
-    GameSituation existingGameSituation = gameSituation;
-    gameSituation = null;
-    if (existingGameSituation != null)
+    GameState existingGameState = gameState;
+    gameState = null;
+    if (existingGameState != null)
     {
-      existingGameSituation.delete();
+      existingGameState.delete();
     }
     Board existingBoard = board;
     board = null;
@@ -253,7 +253,7 @@ public class Game
   {
     return super.toString() + "["+
             "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "gameSituation = "+(getGameSituation()!=null?Integer.toHexString(System.identityHashCode(getGameSituation())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "gameState = "+(getGameState()!=null?Integer.toHexString(System.identityHashCode(getGameState())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "board = "+(getBoard()!=null?Integer.toHexString(System.identityHashCode(getBoard())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "system = "+(getSystem()!=null?Integer.toHexString(System.identityHashCode(getSystem())):"null");
   }
