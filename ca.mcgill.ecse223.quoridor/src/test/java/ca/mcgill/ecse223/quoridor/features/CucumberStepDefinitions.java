@@ -497,7 +497,7 @@ public class CucumberStepDefinitions {
 	    throw new cucumber.api.PendingException();
 	}
 	
-	/////////////////////////////////////////////
+	///////////////////////////////////////////// Gohar 
 	
 	    //Rotate Wall
 		//Rotate Wall
@@ -598,6 +598,162 @@ public class CucumberStepDefinitions {
 
 		@Then("The position is invalid")
 		public void the_position_is_invalid() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+		
+		//...................
+		//...................
+		// Initialize Board Feature - LENOY
+		// ..................
+		//...................
+		
+		@When("The initialization of the board is initiated")
+		public void the_initialization_of_the_board_is_initiated() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("It is white player to move")
+		public void it_is_white_player_to_move() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("White's pawn is in its initial position")
+		public void white_s_pawn_is_in_its_initial_position() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("Black's pawn is in its initial position")
+		public void black_s_pawn_is_in_its_initial_position() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("All of White's walls are in stock")
+		public void all_of_White_s_walls_are_in_stock() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("All of Black's walls are in stock")
+		public void all_of_Black_s_walls_are_in_stock() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("White's clock is counting down")
+		public void white_s_clock_is_counting_down() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("It is shown that this is White's turn")
+		public void it_is_shown_that_this_is_White_s_turn() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+		
+		//.......................
+		//.......................
+		// Switch Current Player - LENOY
+		//.......................
+		//.......................
+		
+		@Given("The player to move is white")
+		public void the_player_to_move_is_white() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Given("The clock of white is running")
+		public void the_clock_of_white_is_running() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Given("The clock of black is stopped")
+		public void the_clock_of_black_is_stopped() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@When("Player white completes his move")
+		public void player_white_completes_his_move() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The clock of white is stopped")
+		public void the_clock_of_white_is_stopped() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The clock of black is running")
+		public void the_clock_of_black_is_running() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The player to move is black")
+		public void the_player_to_move_is_black() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The user interface is showing it is black's turn")
+		public void the_user_interface_is_showing_it_is_black_s_turn() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Given("The player to move is black")
+		public void the_player_to_move_is_black1() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Given("The clock of black is running")
+		public void the_clock_of_black_is_running1() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Given("The clock of white is stopped")
+		public void the_clock_of_white_is_stopped1() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@When("Player black completes his move")
+		public void player_black_completes_his_move() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The clock of black is stopped")
+		public void the_clock_of_black_is_stopped1() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The clock of white is running")
+		public void the_clock_of_white_is_running1() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The player to move is white")
+		public void the_player_to_move_is_white1() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The user interface is showing it is white's turn")
+		public void the_user_interface_is_showing_it_is_white_s_turn() {
 		    // Write code here that turns the phrase above into concrete actions
 		    throw new cucumber.api.PendingException();
 		}
