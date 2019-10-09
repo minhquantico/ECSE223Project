@@ -318,4 +318,184 @@ public class CucumberStepDefinitions {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new cucumber.api.PendingException();
 	}
+	
+	/////////////////////////////////////////////
+	
+	@Given("A new game is initializing")
+	public void a_new_game_is_initializing() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("Next player to set user name is white")
+	public void next_player_to_set_user_name_is_white() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("There is existing user Daniel")
+	public void there_is_existing_user_Daniel() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The player selects existing Daniel")
+	public void the_player_selects_existing_Daniel() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The name of player white in the new game shall be Daniel")
+	public void the_name_of_player_white_in_the_new_game_shall_be_Daniel() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("Next player to set user name is black")
+	public void next_player_to_set_user_name_is_black() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("There is existing user Marton")
+	public void there_is_existing_user_Marton() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The player selects existing Marton")
+	public void the_player_selects_existing_Marton() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The name of player black in the new game shall be Marton")
+	public void the_name_of_player_black_in_the_new_game_shall_be_Marton() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("There is no existing user Rijul")
+	public void there_is_no_existing_user_Rijul() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The player provides new user name: Rijul")
+	public void the_player_provides_new_user_name_Rijul() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The name of player white in the new game shall be Rijul")
+	public void the_name_of_player_white_in_the_new_game_shall_be_Rijul() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("There is no existing user Hyacinth")
+	public void there_is_no_existing_user_Hyacinth() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The player provides new user name: Hyacinth")
+	public void the_player_provides_new_user_name_Hyacinth() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The name of player black in the new game shall be Hyacinth")
+	public void the_name_of_player_black_in_the_new_game_shall_be_Hyacinth() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The player provides new user name: Daniel")
+	public void the_player_provides_new_user_name_Daniel() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The player shall be warned that Daniel already exists")
+	public void the_player_shall_be_warned_that_Daniel_already_exists() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Next player to set user name is white")
+	public void next_player_to_set_user_name_is_white() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The player provides new user name: Marton")
+	public void the_player_provides_new_user_name_Marton() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The player shall be warned that Marton already exists")
+	public void the_player_shall_be_warned_that_Marton_already_exists() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@And("Next player to set user name is black")
+	public void next_player_to_set_user_name_is_black() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+	
+	//feature 2
+	
+	@When("A new game is initializing")
+	public void a_new_game_is_initializing() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("White player chooses a username")
+	public void white_player_chooses_a_username() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Black player chooses a username")
+	public void black_player_chooses_a_username() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Total thinking time is set")
+	public void total_thinking_time_is_set() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The game is ready to start")
+	public void the_game_is_ready_to_start() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The game is ready to start")
+	public void the_game_is_ready_to_start() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("I start the clock")
+	public void i_start_the_clock() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The board is initialized")
+	public void the_board_is_initialized() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+	
+	/////////////////////////////////////////////
 }
