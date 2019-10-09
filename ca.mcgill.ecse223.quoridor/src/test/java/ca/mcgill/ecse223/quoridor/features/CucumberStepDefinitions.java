@@ -498,4 +498,107 @@ public class CucumberStepDefinitions {
 	}
 	
 	/////////////////////////////////////////////
+	
+	    //Rotate Wall
+		//Rotate Wall
+		//Rotate Wall
+		//Rotate Wall
+		@Then("I have a wall in my hand over the board")
+		public void i_have_a_wall_in_my_hand_over_the_board() {
+		    // Write code here that turns the phrase above into concrete actions
+			throw new cucumber.api.PendingException();
+		}
+
+		@Given("A wall move candidate exists with vertical at position \\({int}, {int})")
+		public void a_wall_move_candidate_exists_with_vertical_at_position(Integer int1, Integer int2) {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Given("A wall move candidate exists with horizontal at position \\({int}, {int})")
+		public void a_wall_move_candidate_exists_with_horizontal_at_position(Integer int1, Integer int2) {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@When("I try to flip the wall")
+		public void i_try_to_flip_the_wall() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The wall shall be rotated over the board to vertical")
+		public void the_wall_shall_be_rotated_over_the_board_to_vertical() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The wall shall be rotated over the board to horizontal")
+		public void the_wall_shall_be_rotated_over_the_board_to_horizontal() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("A wall move candidate shall exist with vertical at position \\({int}, {int})")
+		public void a_wall_move_candidate_shall_exist_with_vertical_at_position(Integer int1, Integer int2) {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("A wall move candidate shall exist with horizontal at position \\({int}, {int})")
+		public void a_wall_move_candidate_shall_exist_with_horizontal_at_position(Integer int1, Integer int2) {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+		//Validate Position
+		//Validate Position
+		//Validate Position
+		//Validate Position
+		@Given("A game position is supplied with pawn coordinate {int}:{int}")
+		public void a_game_position_is_supplied_with_pawn_coordinate(Integer int1, Integer int2) {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@When("Validation of the position is initiated")
+		public void validation_of_the_position_is_initiated() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The position is ok")
+		public void the_position_is_ok() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The position is error")
+		public void the_position_is_error() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Given("A game position is supplied with wall coordinate {int}:{int}-horizontal")
+		public void a_game_position_is_supplied_with_wall_coordinate_horizontal(Integer int1, Integer int2) {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Given("A game position is supplied with wall coordinate {int}:{int}-vertical")
+		public void a_game_position_is_supplied_with_wall_coordinate_vertical(Integer int1, Integer int2) {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The position is valid")
+		public void the_position_is_valid() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+
+		@Then("The position is invalid")
+		public void the_position_is_invalid() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
 }
