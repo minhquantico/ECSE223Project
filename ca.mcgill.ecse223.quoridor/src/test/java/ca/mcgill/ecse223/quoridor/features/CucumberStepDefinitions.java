@@ -207,7 +207,7 @@ public class CucumberStepDefinitions {
 	
 	@When("I initiate to load a saved game quoridor_test_game_{int}.dat")
 	public void i_initiate_to_load_a_saved_game_quoridor_test_game__dat(Integer int1) {
-	    // Write code here that turns the phrase above into concrete actions
+	    // Write code here tha-
 	    throw new cucumber.api.PendingException();
 	}
 
@@ -271,4 +271,51 @@ public class CucumberStepDefinitions {
 	    throw new cucumber.api.PendingException();
 	}
 
+	@Given("No file save_game_test.dat exists in the filesystem")
+	public void no_file_save_game_test_dat_exists_in_the_filesystem() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The user initiates to save the game with name save_game_test.dat")
+	public void the_user_initiates_to_save_the_game_with_name_save_game_test_dat() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("A file with save_game_test.dat is created in the filesystem")
+	public void a_file_with_save_game_test_dat_is_created_in_the_filesystem() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("File save_game_test.dat exists in the filesystem")
+	public void file_save_game_test_dat_exists_in_the_filesystem() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The user confirms to overwrite existing file")
+	public void the_user_confirms_to_overwrite_existing_file() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("File with save_game_test.dat is updated in the filesystem")
+	public void file_with_save_game_test_dat_is_updated_in_the_filesystem() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The user cancels to overwrite existing file")
+	public void the_user_cancels_to_overwrite_existing_file() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("File save_game_test.dat is not changed in the filesystem")
+	public void file_save_game_test_dat_is_not_changed_in_the_filesystem() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
 }
