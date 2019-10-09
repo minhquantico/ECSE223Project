@@ -19,8 +19,7 @@ import ca.mcgill.ecse223.quoridor.model.User;
 import ca.mcgill.ecse223.quoridor.model.Wall;
 import ca.mcgill.ecse223.quoridor.model.WallMove;
 import io.cucumber.java.After;
-import io.cucumber.java.en.And;
-import io.cucumber.java.en.Given;
+import io.cucumber.java.en.*;
 
 public class CucumberStepDefinitions {
 
@@ -204,6 +203,72 @@ public class CucumberStepDefinitions {
 		}
 
 		game.setCurrentPosition(gamePosition);
+	}
+	
+	@When("I initiate to load a saved game quoridor_test_game_{int}.dat")
+	public void i_initiate_to_load_a_saved_game_quoridor_test_game__dat(Integer int1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The position is valid")
+	public void the_position_is_valid() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("It is player's turn")
+	public void it_is_player_s_turn() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("player is at {int}:{int}")
+	public void player_is_at(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("white is at {int}:{int}")
+	public void white_is_at(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("player has a vertical wall at {int}:{int}")
+	public void player_has_a_vertical_wall_at(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("white has a horizontal wall at {int}:{int}")
+	public void white_has_a_horizontal_wall_at(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Both players have {int} in their stacks")
+	public void both_players_have_in_their_stacks(Integer int1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("I initiate to load a saved game quoridor_test_game_invalid_pawn.dat")
+	public void i_initiate_to_load_a_saved_game_quoridor_test_game_invalid_pawn_dat() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The position is invalid")
+	public void the_position_is_invalid() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The load returns error")
+	public void the_load_returns_error() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
 	}
 
 }
