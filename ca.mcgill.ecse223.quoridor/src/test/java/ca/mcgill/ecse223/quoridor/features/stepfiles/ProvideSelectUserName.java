@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.features.CucumberStepDefinitions;
 import ca.mcgill.ecse223.quoridor.model.*;
 import io.cucumber.java.After;
 import io.cucumber.java.en.*;
@@ -14,7 +15,8 @@ public class ProvideSelectUserName
 {
 	@Given("A new game is initializing")
 	public void a_new_game_is_initializing() {
-	    // Write code here that turns the phrase above into concrete actions
+	    //CucumberStepDefinitions.initQuoridorAndBoard();
+	    //createUsersAndPlayers("user1", "user2");
 	    throw new cucumber.api.PendingException();
 	}
 

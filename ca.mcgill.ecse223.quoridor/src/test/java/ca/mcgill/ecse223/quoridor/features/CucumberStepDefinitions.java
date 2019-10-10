@@ -143,7 +143,7 @@ public class CucumberStepDefinitions {
 
 	// Place your extracted methods below
 
-	private void initQuoridorAndBoard() {
+	public void initQuoridorAndBoard() {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		Board board = new Board(quoridor);
 		// Creating tiles by rows, i.e., the column index changes with every tile
@@ -155,7 +155,7 @@ public class CucumberStepDefinitions {
 		}
 	}
 
-	private ArrayList<Player> createUsersAndPlayers(String userName1, String userName2) {
+	public ArrayList<Player> createUsersAndPlayers(String userName1, String userName2) {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		User user1 = quoridor.addUser(userName1);
 		User user2 = quoridor.addUser(userName2);
@@ -195,7 +195,7 @@ public class CucumberStepDefinitions {
 		return playersList;
 	}
 
-	private void createAndStartGame(ArrayList<Player> players) {
+	public void createAndStartGame(ArrayList<Player> players) {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		// There are total 36 tiles in the first four rows and
 		// indexing starts from 0 -> tiles with indices 36 and 36+8=44 are the starting
