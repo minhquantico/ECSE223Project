@@ -29,27 +29,27 @@ public class CucumberStepDefinitions {
 	// ***********************************************
 
 	@Given("^The game is not running$")
-	public void theGameIsNotRunning() {
+	public static void theGameIsNotRunning() {
 		initQuoridorAndBoard();
 		createUsersAndPlayers("user1", "user2");
 	}
 
 	@Given("^The game is running$")
-	public void theGameIsRunning() {
+	public static void theGameIsRunning() {
 		initQuoridorAndBoard();
 		ArrayList<Player> createUsersAndPlayers = createUsersAndPlayers("user1", "user2");
 		createAndStartGame(createUsersAndPlayers);
 	}
 
 	@And("^It is my turn to move$")
-	public void itIsMyTurnToMove() throws Throwable {
+	public static void itIsMyTurnToMove() throws Throwable {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		Player currentPlayer = quoridor.getCurrentGame().getWhitePlayer();
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(currentPlayer);
 	}
 
 	@Given("The following walls exist:")
-	public void theFollowingWallsExist(io.cucumber.datatable.DataTable dataTable) {
+	public static void theFollowingWallsExist(io.cucumber.datatable.DataTable dataTable) {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		List<Map<String, String>> valueMaps = dataTable.asMaps();
 		// keys: wrow, wcol, wdir
@@ -94,12 +94,12 @@ public class CucumberStepDefinitions {
 	}
 
 	@And("I do not have a wall in my hand")
-	public void iDoNotHaveAWallInMyHand() {
+	public static void iDoNotHaveAWallInMyHand() {
 		// GUI-related feature -- TODO for later
 	}
 	
 	@And("^I have a wall in my hand over the board$")
-	public void iHaveAWallInMyHandOverTheBoard() throws Throwable {
+	public static void iHaveAWallInMyHandOverTheBoard() throws Throwable {
 		// GUI-related feature -- TODO for later
 	}
 	
@@ -121,7 +121,7 @@ public class CucumberStepDefinitions {
 
 	// After each scenario, the test model is discarded
 	@After
-	public void tearDown() {
+	public static void tearDown() {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		// Avoid null pointer for step definitions that are not yet implemented.
 		if (quoridor != null) {
@@ -143,7 +143,7 @@ public class CucumberStepDefinitions {
 
 	// Place your extracted methods below
 
-	public void initQuoridorAndBoard() {
+	public static void initQuoridorAndBoard() {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		Board board = new Board(quoridor);
 		// Creating tiles by rows, i.e., the column index changes with every tile
@@ -155,7 +155,7 @@ public class CucumberStepDefinitions {
 		}
 	}
 
-	public ArrayList<Player> createUsersAndPlayers(String userName1, String userName2) {
+	public static ArrayList<Player> createUsersAndPlayers(String userName1, String userName2) {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		User user1 = quoridor.addUser(userName1);
 		User user2 = quoridor.addUser(userName2);
@@ -195,7 +195,7 @@ public class CucumberStepDefinitions {
 		return playersList;
 	}
 
-	public void createAndStartGame(ArrayList<Player> players) {
+	public static void createAndStartGame(ArrayList<Player> players) {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		// There are total 36 tiles in the first four rows and
 		// indexing starts from 0 -> tiles with indices 36 and 36+8=44 are the starting

@@ -15,8 +15,8 @@ public class ProvideSelectUserName
 {
 	@Given("A new game is initializing")
 	public void a_new_game_is_initializing() {
-	    //CucumberStepDefinitions.initQuoridorAndBoard();
-	    //createUsersAndPlayers("user1", "user2");
+	    CucumberStepDefinitions.initQuoridorAndBoard();
+	    CucumberStepDefinitions.createUsersAndPlayers("user1", "user2");
 	    throw new cucumber.api.PendingException();
 	}
 
