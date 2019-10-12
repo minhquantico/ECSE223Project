@@ -21,6 +21,7 @@ public static class Controller{
 	
 	
 	/**
+	   * @author Jake Pogharian
 	   * This method is used to get the location over which wall is hovering from the GUI and then to return 
 	   * the Tile object bearing the coordinates of that area
 	   * @return Tile This returns sum of numA and numB.
@@ -33,6 +34,7 @@ public static class Controller{
 	
 	
 	/**
+	   *  @author Jake Pogharian
 	   * This method is used to perform the act of dropping a wall. It will perform the necessary changes 
 	   * to both the View and the Model. For the view it will remove the wall from the hand, notify in case of invalid attempted move, etc.
 	   * For the model, it will register the wall move and complete the move when it is in fact valid, change whose turn it is, etc.
@@ -50,6 +52,9 @@ public static class Controller{
 
 public class DropWall
 {
+	/**
+	   *  @author Jake Pogharian
+	*/
 	@Given("The wall move candidate with {string} at position \\({int}, {int}) is valid")
 	public void the_wall_move_candidate_with_at_position_is_valid(String string, Integer int1, Integer int2) {
 		

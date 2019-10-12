@@ -19,6 +19,7 @@ public static class Controller
 	
 	
 	/**
+	   * @author Jake Pogharian
 	   * This method is used to set the thinking time for each player. This will dictate how much time the player has remaining. 
 	   * It is called before the start of the game in order to set the initial remaining time for both players
 	   * @param int minutes: This will be used to set the specific number of minutes of remaining time (thinking time) (must be less than the minute equivalent of 24 hours)
@@ -36,6 +37,10 @@ private void setThinkingTime(int minutes, int seconds)
 
 public class SetTotalThinkingTime
 {
+	/**
+	   *  @author Jake Pogharian
+	*/
+	
 	@When("{int}:{int} is set as the thinking time")
 	public void is_set_as_the_thinking_time(Integer int1, Integer int2) {
 		throw new PendingException();
