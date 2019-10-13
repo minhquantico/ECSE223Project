@@ -19,21 +19,25 @@ import io.cucumber.java.en.*;
 
 public class LoadPosition
 {
+	/* Traian Coza */
 	@When("I initiate to load a saved game {string}")
 	public void i_initiate_to_load_a_saved_game(String string) {
 	    Controller.loadGame(new File(string));
 	}
 
+	/* Traian Coza */
 	@When("The position to load is valid")
 	public void the_position_to_load_is_valid() {
 		assertTrue(Controller.positionIsValid());
 	}
 
+	/* Traian Coza */
 	@Then("It shall be {string}'s turn")
 	public void it_shall_be_s_turn(String string) {
 		assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0, string.equals("white"));
 	}
 
+	/* Traian Coza */
 	@Then("{string} shall be at {int}:{int}")
 	public void shall_be_at(String string, Integer int1, Integer int2) {
 	    Tile t = string.equals("white") ?
@@ -43,6 +47,7 @@ public class LoadPosition
 	    assertTrue(t.getRow() == int1 && t.getColumn() == int2);
 	}
 
+	/* Traian Coza */
 	@Then("{string} shall have a vertical wall at {int}:{int}")
 	public void shall_have_a_vertical_wall_at(String string, Integer int1, Integer int2) {
 		List<Wall> walls = string.equals("white") ?
@@ -58,6 +63,7 @@ public class LoadPosition
 		assertTrue(exists);
 	}
 
+	/* Traian Coza */
 	@Then("{string} shall have a horizontal wall at {int}:{int}")
 	public void shall_have_a_horizontal_wall_at(String string, Integer int1, Integer int2) {
 		List<Wall> walls = string.equals("white") ?
@@ -73,17 +79,20 @@ public class LoadPosition
 		assertTrue(exists);
 	}
 
+	/* Traian Coza */
 	@Then("Both players shall have {int} in their stacks")
 	public void both_players_shall_have_in_their_stacks(Integer int1) {
 		assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() == int1);
 		assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size() == int1);
 	}
 
+	/* Traian Coza */
 	@When("The position to load is invalid")
 	public void the_position_to_load_is_invalid() {
 	    assertFalse(Controller.positionIsValid());
 	}
 
+	/* Traian Coza */
 	@Then("The load shall return an error")
 	public void the_load_shall_return_an_error() {
 	    assertTrue(false);
@@ -91,11 +100,18 @@ public class LoadPosition
 	
 	static class Controller
 	{
+		/**
+		 *  Load game in QuoridorApplication from provided file.
+		 */
 		public static void loadGame(File file)
 		{		
 			throw new UnsupportedOperationException();
 		}
 
+		/**
+		 * Check if current GamePosition is valid.
+		 * @return true of false
+		 */
 		public static boolean positionIsValid() {
 			// TODO Auto-generated method stub
 			return false;
