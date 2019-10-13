@@ -13,6 +13,20 @@ import io.cucumber.java.en.*;
 
 public class SwitchCurrentPlayer
 {
+	
+	static class Controller {
+		/**
+		 * This controller method ends the move of the player passed as an argument.
+		 * @author Lenoy Christy
+		 * @when ("Player {string} completes his move")
+		 * @param player - The player whose move it currently is.
+		 * @return GamePosition - a GamePosition object with updated information on the player positions and the next player to move. 
+		 */
+		public static GamePosition endMove(Player player) {
+			throw new UnsupportedOperationException();
+		}
+	}
+	
 	/**
 	 * @author Lenoy Christy
 	 * @param string
@@ -141,17 +155,5 @@ public class SwitchCurrentPlayer
 		throw new UnsupportedOperationException();
 	}
 	
-	static class Controller {
-		/**
-		 * This controller method ends the move of the player passed as an argument.
-		 * @author Lenoy Christy
-		 * @when ("Player {string} completes his move")
-		 * @param player - The player whose move it currently is.
-		 * @return GamePosition - a GamePosition object with updated information on the player positions and the next player to move. 
-		 */
-		public static GamePosition endMove(Player player) {
-			throw new UnsupportedOperationException();
-		}
-		
-	}
+	
 }

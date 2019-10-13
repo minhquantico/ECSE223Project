@@ -15,6 +15,20 @@ import io.cucumber.java.en.*;
 public class InitializeBoard
 {
 	
+	static class Controller{
+		/**
+		 * This method initializes the Quoridor Board for the current game
+		 * 
+		 * @when("The initialization of the board is initiated")
+		 * @author Lenoy Christy
+		 * @return Board - a Board object that is ready to be set up. 
+		 */
+		public  static Board initQuoridorBoard() { 
+			throw new UnsupportedOperationException();
+				
+		}
+	}
+	
 	/**
 	 * @author Lenoy Christy
 	 */
@@ -100,17 +114,5 @@ public class InitializeBoard
 		throw new cucumber.api.PendingException(); 
 	}
 	
-	static class Controller{
-		/**
-		 * This method initializes the Quoridor Board for the current game
-		 * 
-		 * @when("The initialization of the board is initiated")
-		 * @author Lenoy Christy
-		 * @return Board - a Board object that is ready to be set up. 
-		 */
-		public  static Board initQuoridorBoard() { 
-			throw new UnsupportedOperationException();
-				
-		}
-	}
+	
 }
