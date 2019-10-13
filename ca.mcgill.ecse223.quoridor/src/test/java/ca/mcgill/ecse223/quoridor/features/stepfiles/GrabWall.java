@@ -12,16 +12,20 @@ import io.cucumber.java.en.*;
 
 public class GrabWall
 {
+	
+	
+	
+//1st scenario
+	
 	@Given("I have more walls on stock")
 	public void i_have_more_walls_on_stock() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    //follows from the @Given("The game is running") step definition
+		// since the method createAndStartGame initializes and fills both wallStocks.
 	}
 	
 	@When("I try to grab a wall from my stock")
 	public void i_try_to_grab_a_wall_from_my_stock() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    QuoridorController.grabWallFromStock(currentPlayer);
 	}
 	
 	@Then("A wall move candidate shall be created at initial position")
@@ -30,11 +34,20 @@ public class GrabWall
 	    throw new cucumber.api.PendingException();
 	}
 	
-	@Then("The wall in my hand shall disappear from my stock")
+	@And("I shall have a wall in my hand over the board")
+	public void i_shall_have_a_wall_in_my_hand_over_the_board() {
+		
+	}
+	
+	@And("The wall in my hand shall disappear from my stock")
 	public void the_wall_in_my_hand_shall_disappear_from_my_stock() {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new cucumber.api.PendingException();
 	}
+	
+
+	
+//2nd scenario
 	
 	@Given("I have no more walls on stock")
 	public void i_have_no_more_walls_on_stock() {
@@ -54,3 +67,6 @@ public class GrabWall
 	    throw new cucumber.api.PendingException();
 	}
 }
+
+
+	

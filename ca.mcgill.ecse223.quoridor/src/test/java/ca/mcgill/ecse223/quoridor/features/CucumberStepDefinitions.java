@@ -1,11 +1,16 @@
 package ca.mcgill.ecse223.quoridor.features;
 
+import static org.junit.Assert.*;
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Assert;
+
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.model.Board;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.Game;
@@ -24,6 +29,10 @@ import io.cucumber.java.en.*;
 
 public class CucumberStepDefinitions {
 
+	// might need this, see below
+	// Wall wall;
+	
+	
 	// ***********************************************
 	// Background step definitions
 	// ***********************************************
@@ -96,11 +105,13 @@ public class CucumberStepDefinitions {
 	@And("I do not have a wall in my hand")
 	public static void iDoNotHaveAWallInMyHand() {
 		// GUI-related feature -- TODO for later
+	    throw new cucumber.api.PendingException();
 	}
 	
 	@And("^I have a wall in my hand over the board$")
 	public static void iHaveAWallInMyHandOverTheBoard() throws Throwable {
 		// GUI-related feature -- TODO for later
+	    throw new cucumber.api.PendingException();
 	}
 	
 	@Given("^A new game is initializing$")
@@ -113,7 +124,156 @@ public class CucumberStepDefinitions {
 	// ***********************************************
 	// Scenario and scenario outline step definitions
 	// ***********************************************
+	
+	
+	
 
+//GrabWall	
+	
+	//1st scenario
+	
+		@Given("I have more walls on stock")
+		public void i_have_more_walls_on_stock() {
+		    
+		}
+		
+		@When("I try to grab a wall from my stock")
+		public void i_try_to_grab_a_wall_from_my_stock() {
+			Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
+		    Controller.grabWallFromStock(currentPlayer);
+		    
+		    // might need to do the following based on how grabWallFromStock is implemented:
+		    // wall = Controller.grabWallFromStock(currentPlayer, aWall);
+		}
+		
+		@Then("A wall move candidate shall be created at initial position")
+		public void a_wall_move_candidate_shall_be_created_at_initial_position() {
+			//if the wall that was taken out was the first wall,
+			// then the following assertion is sufficient
+			assertEquals(0, QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced().getId());
+			
+			//again, the alternative to the above would be the following:
+			// assertEquals(wall.getId(), QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced().getId());
+			
+			//FOR ME: not sure what initial position is, and what attribute of wallMove should be equal to it
+			assertEquals(initialPosition, QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getTargetTile() )
+		}
+		
+		@And("I shall have a wall in my hand over the board")
+		public void i_shall_have_a_wall_in_my_hand_over_the_board() {
+			// GUI-related feature -- TODO for later
+			throw new cucumber.api.PendingException();
+		}
+		
+		@And("The wall in my hand shall disappear from my stock")
+		public void the_wall_in_my_hand_shall_disappear_from_my_stock() {
+		
+			assertEquals(9, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfWhiteWallsInStock());
+			//or, if we have the wall that was grabbed:
+			//assertFalse(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().contains(wall));
+		}
+		
+
+		
+	//2nd scenario
+		
+		@Given("I have no more walls on stock")
+		public void i_have_no_more_walls_on_stock() {
+			Player currentPlayer =  QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
+		    List<Wall> whiteWallsInStock = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock();
+		    whiteWallsInStock = new ArrayList<Wall>();
+		}
+		
+		@Then("I shall be notified that I have no more walls")
+		public void i_shall_be_notified_that_I_have_no_more_walls() {
+		    // Write code here that turns the phrase above into concrete actions
+		    throw new cucumber.api.PendingException();
+		}
+		
+		@Then("I shall have no walls in my hand")
+		public void i_shall_have_no_walls_in_my_hand() {
+			// GUI-related feature -- TODO for later
+		    throw new cucumber.api.PendingException();
+		}
+	
+
+//MoveWall
+		
+		public class MoveWall
+		{
+			@Given("A wall move candidate exists with {string} at position \\({int}, {int})")
+			public void a_wall_move_candidate_exists_with_at_position(String dir, Integer aRow, Integer aCol) {
+				
+				//create everything needed to create the wallMoveCandidate
+				Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
+				Tile targetTile = new Tile(aRow, aCol, QuoridorApplication.getQuoridor().getBoard());
+				Wall wallCandidate = new Wall(0, currentPlayer);
+				Game game = QuoridorApplication.getQuoridor().getCurrentGame();
+				Direction wallDirection;
+				if(dir.equalsIgnoreCase("vertical")) {
+					wallDirection = Direction.Vertical;
+				}else {
+					wallDirection = Direction.Horizontal;
+				}
+				
+				//create and set the wallMoveCandidate
+				WallMove wallMoveCandidate = new WallMove(0, 1, currentPlayer, targetTile, game, wallDirection, wallCandidate);
+				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(wallMoveCandidate);
+			}
+
+			
+			@Given("The wall candidate is not at the {string} edge of the board")
+			public void the_wall_candidate_is_not_at_the_edge_of_the_board(String side) {
+				// GUI-related feature -- TODO for later
+			    throw new cucumber.api.PendingException();
+			}
+
+			@When("I try to move the wall {string}")
+			public void i_try_to_move_the_wall(String direction) {
+			    Controller.moveWall(direction);
+			    // it might also be:
+			    //Controller.moveWall(direction, wall)
+			    //see controller
+			}
+
+			@Then("The wall shall be moved over the board to position \\({int}, {int})")
+			public void the_wall_shall_be_moved_over_the_board_to_position(Integer int1, Integer int2) {
+			    // Write code here that turns the phrase above into concrete actions
+			    throw new cucumber.api.PendingException();
+			}
+
+			@Then("A wall move candidate shall exist with {string} at position \\({int}, {int})")
+			public void a_wall_move_candidate_shall_exist_with_at_position(String string, Integer int1, Integer int2) {
+			    // Write code here that turns the phrase above into concrete actions
+			    throw new cucumber.api.PendingException();
+			}
+
+			
+			
+			@Given("The wall candidate is at the {string} edge of the board")
+			public void the_wall_candidate_is_at_the_edge_of_the_board(String string) {
+			    // Write code here that turns the phrase above into concrete actions
+			    throw new cucumber.api.PendingException();
+			}
+
+			@Then("I shall be notified that my move is illegal")
+			public void i_shall_be_notified_that_my_move_is_illegal() {
+			    // Write code here that turns the phrase above into concrete actions
+			    throw new cucumber.api.PendingException();
+			}
+		}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	/*
 	 * TODO Insert your missing step definitions here
 	 * 
