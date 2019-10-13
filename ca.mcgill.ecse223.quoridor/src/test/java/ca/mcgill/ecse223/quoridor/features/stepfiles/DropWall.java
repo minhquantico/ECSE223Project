@@ -60,11 +60,6 @@ public class DropWall
 	    throw new cucumber.api.PendingException();
 	}
 
-	@Then("I shall have a wall in my hand over the board")
-	public void i_shall_have_a_wall_in_my_hand_over_the_board() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
-	}
 
 	@Then("It shall be my turn to move")
 	public void it_shall_be_my_turn_to_move() {
