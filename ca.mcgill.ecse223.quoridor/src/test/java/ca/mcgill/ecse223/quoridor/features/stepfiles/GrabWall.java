@@ -21,15 +21,15 @@ public class GrabWall
 	static class Controller{
 		/**  
 		 * 	@author David Budaghyan
-		@When("I try to grab a wall from my stock")
+		 *  implements @When("I try to grab a wall from my stock")
+		 *  @param aPlayer
 		*/
+		//might need a aWall parameter. Depends on GUI
 		public static void grabWallFromStock(Player aPlayer) {
-			//not sure if we need aWall parameter. Depends on GUI
 			// alternative: grabWallFromStock(Player aPlayer, Wall aWall)
-			//based on our current GUI prediction, there is no need for it in this method, but might need to change!
 			throw new java.lang.UnsupportedOperationException();
 			
-			//if we do change, then we can also return the aWall parameter.
+			//if we do change to alternative, then we can also return the aWall parameter.
 		}
 	}
 	

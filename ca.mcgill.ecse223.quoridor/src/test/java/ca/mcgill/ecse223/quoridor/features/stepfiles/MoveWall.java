@@ -20,11 +20,12 @@ package ca.mcgill.ecse223.quoridor.features.stepfiles;
 			
 			/**  
 			 * 	@author David Budaghyan
-			@When("I try to move the wall {string}")
+			 *  implements @When("I try to move the wall {string}") 
+			 *  @param direction
 			 */
+			// might need a wall parameter - depends on later decisions
+			//or maybe some type of pointer to the users mouse
 			public static void moveWall(String direction) {
-				//again, might need a wall parameter.
-				//GUI dependent decision, i.e. we will decide later
 				throw new java.lang.UnsupportedOperationException();
 			}
 			

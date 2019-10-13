@@ -69,7 +69,7 @@ public class SavePosition
 	public static class Controller {
 
 		/**
-		 * Same current game to provided file.
+		 * Save current game to provided file.
 		 * @param file
 		 */
 		public static void saveGame(File file) {
