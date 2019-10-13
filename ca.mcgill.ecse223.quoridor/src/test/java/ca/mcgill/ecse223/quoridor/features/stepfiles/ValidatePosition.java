@@ -14,9 +14,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.en.*;
 
 public class ValidatePosition{
-
 	static class Controller{
-
 		/**
 		 * This controller method valdidates the postion of the pawn in the game
 		 * Used in @When("Validation of the position is initiated") statement in Validate Position Feature

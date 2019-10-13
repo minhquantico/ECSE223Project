@@ -15,10 +15,9 @@ import io.cucumber.java.en.*;
 
 public class RotateWall{
 	static class Controller {
-
 		/**
-		 * This controller method flips the walls already placed on the board
-		 * For example, walls placed vertically will be flipped horizontally and vice versa.
+		 * This controller method flips the walls that are about to be placed on the board
+		 * For example, walls that are about to be placed vertically will be flipped horizontally and vice versa.
 		 * Used in @When("I try to flip the wall") statement in the Rotate Wall feature
 		 * @author Gohar Saqib Fazal
 		 * @param wallMove: Wall Move object that contains information 
@@ -27,7 +26,6 @@ public class RotateWall{
 		public static void flip_wall(WallMove wallMove) {
 			throw new UnsupportedOperationException();
 		}
-
 	}
 
 	/**
