@@ -37,7 +37,7 @@ public class SwitchCurrentPlayer
 		   initClock(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
 	   }
 	   else initClock(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
-	    throw new cucumber.api.PendingException();
+	    
 	}
 	
 	/**
@@ -50,7 +50,7 @@ public class SwitchCurrentPlayer
 			   stopClock(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
 		   }
 		   else stopClock(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
-	    throw new cucumber.api.PendingException();
+	    
 	}
 	
 	/**
@@ -64,7 +64,7 @@ public class SwitchCurrentPlayer
 		   }
 		   else Controller.endMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
 
-	    throw new cucumber.api.PendingException();
+	    
 	}
 	
 	/**
@@ -152,7 +152,7 @@ public class SwitchCurrentPlayer
 	 * @param player
 	 */
 	public static void stopClock(Player player) { // CLOCK METHOD NOT IMPLEMENTED. TODO FOR ITERATION 3
-		throw new UnsupportedOperationException();
+		throw new cucumber.api.PendingException();
 	}
 	
 	

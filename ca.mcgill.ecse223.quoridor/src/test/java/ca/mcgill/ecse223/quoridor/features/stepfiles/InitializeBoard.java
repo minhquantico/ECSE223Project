@@ -37,7 +37,7 @@ public class InitializeBoard
 	    // Write code here that turns the phrase above into concrete actions
 		Controller.initQuoridorBoard(); 
 		
-	    throw new cucumber.api.PendingException();
+	    
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class InitializeBoard
 	 * @author Lenoy Christy
 	 * @return boolean
 	 */
-	public static boolean isClockRunning() { // METHOD NOT YET IMPLEMENTED. TODO FOR LATER
+	public static boolean isClockRunning() { // CLOCK METHOD NOT YET IMPLEMENTED. TODO FOR LATER
 		throw new cucumber.api.PendingException(); 
 	}
 	
