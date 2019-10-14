@@ -171,45 +171,58 @@ public class Controller {
 	
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
-	 * **/
-	/* This method selects an existing username from the list of users already created.
-	It takes an input string that represents the username and searches the list of users to find it.
-	If there is a match, the user with that username is linked to the player. If there is no match,
-	the method does not link the user with the player and notifies the player that there exists no
-	user with that username. */
+	 * Step: @When("The player selects existing {string}")
+	 * @param string: username selected by player
+	 * This method selects an existing username from the list of users already created.
+	 * It takes an input string that represents the username and searches the list of users to find it.
+	 * If there is a match, the user with that username is linked to the player. If there is no match,
+	 * the method does not link the user with the player and notifies the player that there exists no
+	 * user with that username. **/
 	public static void SelectExistingUsername(String string) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
 	
 	
-	/** @author Minh Quan Hoang **/
-	//This method creates a new username by creating a new user and adding it to the list of users
+	/** @author Minh Quan Hoang 
+	 * Feature: ProvideSelectUserName
+	 * Step: @When("The player provides new user name: {string}")
+	 * @param string: username to be created
+	 * This method creates a new username by creating a new user
+	 * and adding it to the list of users **/
 	public static void CreateNewUsername(String string) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
 	
-	/** @author Minh Quan Hoang **/
-	//Initializes a new game and changes the status of the game to initializing
+	/** @author Minh Quan Hoang 
+	 * Feature: ProvideSelectUserName
+	 * Step: @When("A new game is being initialized")
+	 * Initializes a new game and changes the status of the game to initializing **/
 	public static void InitializeNewGame() {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
-	/** @author Minh Quan Hoang **/
-	//Starts the clock
+	/** @author Minh Quan Hoang 
+	 * Feature: ProvideSelectUserName
+	 * Step: @When("I start the clock")
+	 * Starts the clock **/
 	public static void StartClock() {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
-	/** @author Minh Quan Hoang **/
-	// Sets the total thinking time after the game is initialized
+	/** @author Minh Quan Hoang 
+	 * Feature: ProvideSelectUserName
+	 * Step: @When("Total thinking time is set")
+	 * Sets the total thinking time after the game is initialized **/
 	public static void setTotalThinkingTime() {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
-	/** @author Minh Quan Hoang **/
-	//Selects the username for the black player
+	/** @author Minh Quan Hoang 
+	 * Feature: ProvideSelectUserName
+	 * Step: @When("Black player chooses a username")
+	 * Selects the username for the black player **/
 	public static void setBlackPlayerUsername() {
 		/* The player selects a username from the list of users from the GUI or inputs a new one. 
 		If he inputs a new one, then this method calls the CreateNewUserName controller method to create
@@ -217,8 +230,10 @@ public class Controller {
 		and sets the username for the black player. */ 
 		throw new java.lang.UnsupportedOperationException();
 	}
-	/** @author Minh Quan Hoang **/
-	//Selects the username for the white player
+	/** @author Minh Quan Hoang 
+	 * Feature: ProvideSelectUserName
+	 * Step: @When("White player chooses a username")
+	 * Selects the username for the white player **/
 	public static void setWhitePlayerUsername() {
 		//This method does the same as the method above but for the white player
 		throw new java.lang.UnsupportedOperationException();
