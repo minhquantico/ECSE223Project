@@ -1,15 +1,25 @@
 package ca.mcgill.ecse223.quoridor.features;
 
+
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+
+
+
 
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
@@ -28,9 +38,13 @@ import ca.mcgill.ecse223.quoridor.model.User;
 import ca.mcgill.ecse223.quoridor.model.Wall;
 import ca.mcgill.ecse223.quoridor.model.WallMove;
 import io.cucumber.java.After;
-import io.cucumber.java.en.*;
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 
 public class CucumberStepDefinitions {
+	
 
 	// might need this, see GrabWall below
 	// Wall wall;
@@ -40,6 +54,7 @@ public class CucumberStepDefinitions {
 	// Background step definitions
 	// ***********************************************
 
+ 
 	@Given("^The game is not running$")
 	public void theGameIsNotRunning() {
 		initQuoridorAndBoard();
@@ -190,6 +205,7 @@ public class CucumberStepDefinitions {
 					//assertFalse(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().contains(wall));
 				}
 				
+
 
 				
 			//2nd scenario
@@ -898,6 +914,15 @@ public class CucumberStepDefinitions {
 	
 	
 //-------------------------------------------------------------------------------------------------------------------------
+
+	
+	
+	
+	
+
+
+//-------------------------------------------------------------------------------------------------------------------------
+
 
 	// ***********************************************
 	// Clean up

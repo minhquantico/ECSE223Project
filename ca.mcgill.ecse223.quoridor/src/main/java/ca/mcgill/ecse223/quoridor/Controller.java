@@ -134,6 +134,7 @@ public class Controller {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
+
 	/**
 	 * @author Gohar Saqib Fazal 
 	 * This controller method validates the position of the wall in the game
@@ -184,17 +185,20 @@ public class Controller {
 	}
 	
 	
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("The player provides new user name: {string}")
 	 * @param string: Username to be created.
 	 * This method creates a new username by creating a new user
 	 * and adding it to the list of users **/
+
 	public static void CreateNewUsername(String string) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
 	
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("A new game is being initialized")
@@ -203,6 +207,7 @@ public class Controller {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("I start the clock")
@@ -211,6 +216,7 @@ public class Controller {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("Total thinking time is set")
@@ -219,6 +225,7 @@ public class Controller {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("Black player chooses a username")
@@ -230,14 +237,17 @@ public class Controller {
 		and sets the username for the black player. */ 
 		throw new java.lang.UnsupportedOperationException();
 	}
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("White player chooses a username")
 	 * Selects the username for the white player **/
+
 	public static void setWhitePlayerUsername() {
 		//This method does the same as the method above but for the white player
 		throw new java.lang.UnsupportedOperationException();
 	}
+}
 	
 	
 	
@@ -247,11 +257,8 @@ public class Controller {
 	
 	//Jake's controller methods//
 	
-	
-	
-	
-	
-	
+
+
 	
 	
 	
@@ -260,16 +267,4 @@ public class Controller {
 //--------------------------------------------------------------------------------------------------------------------------
 		
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-}
+
