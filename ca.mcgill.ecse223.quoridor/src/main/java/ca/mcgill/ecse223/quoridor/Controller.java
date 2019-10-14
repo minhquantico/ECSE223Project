@@ -134,11 +134,7 @@ public class Controller {
 		throw new java.lang.UnsupportedOperationException();
 	}
 
-<<<<<<< HEAD
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Jake
+
 	/**
 	 * @author Gohar Saqib Fazal 
 	 * This controller method validates the position of the wall in the game
@@ -184,84 +180,83 @@ public class Controller {
 	 * If there is a match, the user with that username is linked to the player. If there is no match,
 	 * the method does not link the user with the player and notifies the player that there exists no
 	 * user with that username. **/
-=======
-	 * **/
+
 	/* This method selects an existing username from the list of users already created.
 	It takes an input string that represents the username and searches the list of users to find it.
 	If there is a match, the user with that username is linked to the player. If there is no match,
 	the method does not link the user with the player and notifies the player that there exists no
 	user with that username. */
->>>>>>> Jake
+
 	public static void SelectExistingUsername(String string) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
 	
 	
-<<<<<<< HEAD
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("The player provides new user name: {string}")
 	 * @param string: username to be created
 	 * This method creates a new username by creating a new user
 	 * and adding it to the list of users **/
-=======
+
 	/** @author Minh Quan Hoang **/
 	//This method creates a new username by creating a new user and adding it to the list of users
->>>>>>> Jake
+
 	public static void CreateNewUsername(String string) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
 	
-<<<<<<< HEAD
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("A new game is being initialized")
 	 * Initializes a new game and changes the status of the game to initializing **/
-=======
+
 	/** @author Minh Quan Hoang **/
 	//Initializes a new game and changes the status of the game to initializing
->>>>>>> Jake
+
 	public static void InitializeNewGame() {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
-<<<<<<< HEAD
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("I start the clock")
 	 * Starts the clock **/
-=======
+
 	/** @author Minh Quan Hoang **/
 	//Starts the clock
->>>>>>> Jake
+
 	public static void StartClock() {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
-<<<<<<< HEAD
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("Total thinking time is set")
 	 * Sets the total thinking time after the game is initialized **/
-=======
+
 	/** @author Minh Quan Hoang **/
 	// Sets the total thinking time after the game is initialized
->>>>>>> Jake
+
 	public static void setTotalThinkingTime() {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
-<<<<<<< HEAD
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("Black player chooses a username")
 	 * Selects the username for the black player **/
-=======
+
 	/** @author Minh Quan Hoang **/
 	//Selects the username for the black player
->>>>>>> Jake
+
 	public static void setBlackPlayerUsername() {
 		/* The player selects a username from the list of users from the GUI or inputs a new one. 
 		If he inputs a new one, then this method calls the CreateNewUserName controller method to create
@@ -269,19 +264,20 @@ public class Controller {
 		and sets the username for the black player. */ 
 		throw new java.lang.UnsupportedOperationException();
 	}
-<<<<<<< HEAD
+
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("White player chooses a username")
 	 * Selects the username for the white player **/
-=======
+
 	/** @author Minh Quan Hoang **/
 	//Selects the username for the white player
->>>>>>> Jake
+
 	public static void setWhitePlayerUsername() {
 		//This method does the same as the method above but for the white player
 		throw new java.lang.UnsupportedOperationException();
 	}
+}
 	
 	
 	
@@ -291,55 +287,8 @@ public class Controller {
 	
 	//Jake's controller methods
 	
-<<<<<<< HEAD
-	
-=======
-	/**
-	   * @author Jake Pogharian
-	   * Feature: Set Total Thinking Time
-	   * This method is used to set the thinking time for each player. This will dictate how much time the player has remaining. 
-	   * It is called before the start of the game in order to set the initial remaining time for both players
-	   * @param minutes: This int will be used to set the specific number of minutes of remaining time (thinking time) (must be less than the minute equivalent of 24 hours)
-	   * @param seconds: This int will be used to set the specific number of seconds of remaining time (thinking time) for each player (must be less than the second equivalent of 24 hours)
-	   */
-private void setThinkingTime(int minutes, int seconds) 
-{
-	
-	throw new java.lang.UnsupportedOperationException();
-}
-	
-
-/**
- * @author Jake Pogharian
- * Feature: Drop Wall
- * This method is used to get the location over which wall is hovering from the GUI and then to return 
- * the Tile object bearing the coordinates of that area
- * @return Tile This returns sum of numA and numB.
- */
-private Tile getTile() 
-{
-	 throw new java.lang.UnsupportedOperationException();
-}
 
 
-
-/**
- * @author Jake Pogharian
- * Feature: Drop Wall
- * This method is used to perform the act of dropping a wall. It will perform the necessary changes 
- * to both the View and the Model. For the view it will remove the wall from the hand, notify in case of invalid attempted move, etc.
- * For the model, it will register the wall move and complete the move when it is in fact valid, change whose turn it is, etc.
- * @param Tile t: This is a parameter of type Tile and will be used by the method to know where to perform the wall drop.
- */
-private void dropWall(Tile t) 
-{
-	 throw new java.lang.UnsupportedOperationException();	
-}
->>>>>>> Jake
-	
-	
-	
-	
 	
 	
 	
@@ -348,20 +297,4 @@ private void dropWall(Tile t)
 //--------------------------------------------------------------------------------------------------------------------------
 		
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-<<<<<<< HEAD
-=======
->>>>>>> Stashed changes
->>>>>>> Jake
-}
+
