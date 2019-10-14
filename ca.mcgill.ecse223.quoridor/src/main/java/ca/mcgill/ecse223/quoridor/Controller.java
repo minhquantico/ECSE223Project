@@ -235,7 +235,7 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: StartNewGame
+	 * Feature: StartNewGame 
 	 * Step: @When("White player chooses a username")
 	 * Selects the username for the white player **/
 	public static void setWhitePlayerUsername() {
@@ -252,11 +252,12 @@ public class Controller {
 /**
  * @author Jake Pogharian
  * Feature: Drop Wall
+ * step:  when "I release the wall in my hand"
  * This method is used to get the location over which wall is hovering from the GUI and then to return 
  * the Tile object bearing the coordinates of that area
  * @return Tile This returns sum of numA and numB.
  */
-private Tile getTile() 
+public static Tile getTile() 
 {
 	 throw new java.lang.UnsupportedOperationException();
 }
@@ -266,12 +267,13 @@ private Tile getTile()
 /**
  * @author Jake Pogharian
  * Feature: Drop Wall
+ * step: when "I release the wall in my hand"
  * This method is used to perform the act of dropping a wall. It will perform the necessary changes 
  * to both the View and the Model. For the view it will remove the wall from the hand, notify in case of invalid attempted move, etc.
  * For the model, it will register the wall move and complete the move when it is in fact valid, change whose turn it is, etc.
  * @param Tile t: This is a parameter of type Tile and will be used by the method to know where to perform the wall drop.
  */
-private void dropWall(Tile t) 
+public static Tile dropWall(Tile t) 
 {
 	 throw new java.lang.UnsupportedOperationException();	
 }
@@ -279,12 +281,14 @@ private void dropWall(Tile t)
 
 /**
  * @author Jake Pogharian
+ * Feature: setThinkingTime
+ * step: When "{int}:{int} is set as the thinking time"
  * This method is used to set the thinking time for each player. This will dictate how much time the player has remaining. 
  * It is called before the start of the game in order to set the initial remaining time for both players
  * @param minutes: This int will be used to set the specific number of minutes of remaining time (thinking time) (must be less than the minute equivalent of 24 hours)
  * @param seconds: This int will be used to set the specific number of seconds of remaining time (thinking time) for each player (must be less than the second equivalent of 24 hours)
  */
-private void setThinkingTime(int minutes, int seconds) 
+public static void setThinkingTime(int minutes, int seconds) 
 {
 
 throw new java.lang.UnsupportedOperationException();

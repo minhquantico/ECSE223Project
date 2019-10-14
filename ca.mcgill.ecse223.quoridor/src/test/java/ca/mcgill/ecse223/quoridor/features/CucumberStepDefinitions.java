@@ -329,7 +329,7 @@ public class CucumberStepDefinitions {
 				 */
 				@When("The initialization of the board is initiated")
 				public void the_initialization_of_the_board_is_initiated() {
-				    // Write code here that turns the phrase above into concrete actions
+				    
 					Controller.initQuoridorBoard(); 
 					
 				    
@@ -340,8 +340,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("It shall be white player to move")
 				public void it_shall_be_white_player_to_move() {
-                   //Player currentPlayer = quoridor.getCurrentGame().getWhitePlayer();
-                   //QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() getCurrentPosition().setPlayerToMove(currentPlayer);
+                   
 				   assert (QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()) % 2 == 0 : "ERROR: NOT WHITE PLAYER'S TURN";
 				}
 
@@ -350,7 +349,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("White's pawn shall be in its initial position")
 				public void white_s_pawn_shall_be_in_its_initial_position() {
-				    // Write code here that turns the phrase above into concrete actions
+				    
 					assert ((QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn() == 5) 
 							&& (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow() == 9))
 							: "ERROR: WHITE PLAYER NOT IN CORRECT POS"; 
@@ -361,7 +360,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("Black's pawn shall be in its initial position")
 				public void black_s_pawn_shall_be_in_its_initial_position() {
-				    // Write code here that turns the phrase above into concrete actions
+				   
 					assert ((QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn() == 5) 
 							&& (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow() == 1)) 
 							: "ERROR: Black PLAYER NOT IN CORRECT POS";    
@@ -924,9 +923,8 @@ public class CucumberStepDefinitions {
 					
 					@When("{int}:{int} is set as the thinking time")
 					public void is_set_as_the_thinking_time(Integer int1, Integer int2) {
-						throw new cucumber.api.PendingException();
-						//To implement
-						//Controller.InitializeThinkingTime(int1, int2);
+											
+						Controller.setThinkingTime(int1, int2);
 
 					}
 					
