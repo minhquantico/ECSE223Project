@@ -242,7 +242,7 @@ public class Controller {
 		//This method does the same as the method above but for the white player
 		throw new java.lang.UnsupportedOperationException();
 	}
-}
+
 	
 	
 //--------------------------------------------------------------------------------------------------------------------------
@@ -294,6 +294,6 @@ throw new java.lang.UnsupportedOperationException();
 	
 	
 //--------------------------------------------------------------------------------------------------------------------------
-		
+}	
 	
 
