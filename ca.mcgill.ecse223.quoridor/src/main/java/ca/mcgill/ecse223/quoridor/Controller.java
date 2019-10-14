@@ -255,7 +255,7 @@ public class Controller {
  * step:  when "I release the wall in my hand"
  * This method is used to get the location over which wall is hovering from the GUI and then to return 
  * the Tile object bearing the coordinates of that area
- * @return Tile This returns sum of numA and numB.
+ * @return Tile this returns the specific tile at that location.
  */
 public static Tile getTile() 
 {
