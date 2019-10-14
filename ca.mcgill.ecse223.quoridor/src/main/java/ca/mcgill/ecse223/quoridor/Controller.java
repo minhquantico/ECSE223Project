@@ -172,7 +172,6 @@ public class Controller {
 	
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
-<<<<<<< HEAD
 	 * Step: @When("The player selects existing {string}")
 	 * @param string: username selected by player
 	 * This method selects an existing username from the list of users already created.
@@ -181,11 +180,7 @@ public class Controller {
 	 * the method does not link the user with the player and notifies the player that there exists no
 	 * user with that username. **/
 
-	/* This method selects an existing username from the list of users already created.
-	It takes an input string that represents the username and searches the list of users to find it.
-	If there is a match, the user with that username is linked to the player. If there is no match,
-	the method does not link the user with the player and notifies the player that there exists no
-	user with that username. */
+
 
 	public static void SelectExistingUsername(String string) {
 		// TODO Auto-generated method stub
