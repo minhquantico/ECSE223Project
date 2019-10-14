@@ -183,8 +183,6 @@ public class Controller {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
-	
-	
 
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
@@ -192,13 +190,11 @@ public class Controller {
 	 * @param string: Username to be created.
 	 * This method creates a new username by creating a new user
 	 * and adding it to the list of users **/
-
 	public static void CreateNewUsername(String string) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
 	
-
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("A new game is being initialized")
@@ -242,15 +238,11 @@ public class Controller {
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("White player chooses a username")
 	 * Selects the username for the white player **/
-
 	public static void setWhitePlayerUsername() {
 		//This method does the same as the method above but for the white player
 		throw new java.lang.UnsupportedOperationException();
 	}
 }
-	
-	
-	
 	
 	
 //--------------------------------------------------------------------------------------------------------------------------
