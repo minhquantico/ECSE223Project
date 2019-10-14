@@ -196,7 +196,7 @@ public class Controller {
 	}
 	
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("A new game is being initialized")
 	 * Initializes a new game and changes the status of the game to initializing **/
 	public static void InitializeNewGame() {
@@ -205,7 +205,7 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("I start the clock")
 	 * Starts the clock **/
 	public static void StartClock() {
@@ -214,7 +214,7 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("Total thinking time is set")
 	 * Sets the total thinking time after the game is initialized **/
 	public static void setTotalThinkingTime() {
@@ -223,7 +223,7 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("Black player chooses a username")
 	 * Selects the username for the black player **/
 	public static void setBlackPlayerUsername() {
@@ -235,7 +235,7 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("White player chooses a username")
 	 * Selects the username for the white player **/
 	public static void setWhitePlayerUsername() {
