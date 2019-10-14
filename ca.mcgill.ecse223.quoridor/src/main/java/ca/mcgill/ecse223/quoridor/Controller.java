@@ -173,7 +173,7 @@ public class Controller {
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("The player selects existing {string}")
-	 * @param string: username selected by player
+	 * @param string: Username selected by player.
 	 * This method selects an existing username from the list of users already created.
 	 * It takes an input string that represents the username and searches the list of users to find it.
 	 * If there is a match, the user with that username is linked to the player. If there is no match,
@@ -183,24 +183,20 @@ public class Controller {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
-	
-	
 
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("The player provides new user name: {string}")
-	 * @param string: username to be created
+	 * @param string: Username to be created.
 	 * This method creates a new username by creating a new user
 	 * and adding it to the list of users **/
-
 	public static void CreateNewUsername(String string) {
 		// TODO Auto-generated method stub
 		throw new java.lang.UnsupportedOperationException();
 	}
 	
-
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("A new game is being initialized")
 	 * Initializes a new game and changes the status of the game to initializing **/
 	public static void InitializeNewGame() {
@@ -209,7 +205,7 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("I start the clock")
 	 * Starts the clock **/
 	public static void StartClock() {
@@ -218,7 +214,7 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("Total thinking time is set")
 	 * Sets the total thinking time after the game is initialized **/
 	public static void setTotalThinkingTime() {
@@ -227,7 +223,7 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("Black player chooses a username")
 	 * Selects the username for the black player **/
 	public static void setBlackPlayerUsername() {
@@ -239,10 +235,9 @@ public class Controller {
 	}
 
 	/** @author Minh Quan Hoang 
-	 * Feature: ProvideSelectUserName
+	 * Feature: StartNewGame
 	 * Step: @When("White player chooses a username")
 	 * Selects the username for the white player **/
-
 	public static void setWhitePlayerUsername() {
 		//This method does the same as the method above but for the white player
 		throw new java.lang.UnsupportedOperationException();
@@ -250,12 +245,9 @@ public class Controller {
 }
 	
 	
-	
-	
-	
 //--------------------------------------------------------------------------------------------------------------------------
 	
-	//Jake's controller methods
+	//Jake's controller methods//
 	
 /**
  * @author Jake Pogharian
