@@ -273,7 +273,7 @@ public static Tile getTile()
  * For the model, it will register the wall move and complete the move when it is in fact valid, change whose turn it is, etc.
  * @param Tile t: This is a parameter of type Tile and will be used by the method to know where to perform the wall drop.
  */
-public static Tile dropWall(Tile t) 
+public static void dropWall(Tile t) 
 {
 	 throw new java.lang.UnsupportedOperationException();	
 }

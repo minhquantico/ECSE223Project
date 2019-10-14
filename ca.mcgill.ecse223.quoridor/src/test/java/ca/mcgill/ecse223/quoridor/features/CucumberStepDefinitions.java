@@ -1006,10 +1006,9 @@ public class CucumberStepDefinitions {
 
 					@When("I release the wall in my hand")
 					public void i_release_the_wall_in_my_hand() {
-						throw new cucumber.api.PendingException();
-						// To implement
-						// Tile t = Controller.getTile();
-						// Controller.dropWall(t);
+						
+						Tile t = Controller.getTile();
+						Controller.dropWall(t);
 					}
 
 
