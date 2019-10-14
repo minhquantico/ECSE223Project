@@ -172,7 +172,7 @@ public class Controller {
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("The player selects existing {string}")
-	 * @param string: username selected by player
+	 * @param string: Username selected by player.
 	 * This method selects an existing username from the list of users already created.
 	 * It takes an input string that represents the username and searches the list of users to find it.
 	 * If there is a match, the user with that username is linked to the player. If there is no match,
@@ -187,7 +187,7 @@ public class Controller {
 	/** @author Minh Quan Hoang 
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("The player provides new user name: {string}")
-	 * @param string: username to be created
+	 * @param string: Username to be created.
 	 * This method creates a new username by creating a new user
 	 * and adding it to the list of users **/
 	public static void CreateNewUsername(String string) {
