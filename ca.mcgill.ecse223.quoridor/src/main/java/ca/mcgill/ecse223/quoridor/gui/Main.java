@@ -13,18 +13,7 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		// TODO Auto-generated method stub
-		Pane mainPane = new Pane();
-		
-		ComboBox<String> button = new ComboBox<>();
-		button.getItems().add("Press me!");
-		button.setEditable(true);
-		
-		mainPane.getChildren().add(button);
-		
-		primaryStage.setTitle("Traian Sux");
-		primaryStage.setScene(new Scene(mainPane));
-		primaryStage.show();
+		new StartMenu().show();
 	}
 	
 	public static void main(String[] args) {
