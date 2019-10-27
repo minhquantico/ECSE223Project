@@ -21,7 +21,7 @@ public class GamePosition
 
   //GamePosition Attributes
   private int id;
-
+  
   //GamePosition Associations
   private PlayerPosition whitePosition;
   private PlayerPosition blackPosition;

@@ -7,9 +7,8 @@ public class QuoridorApplication {
 	private static Quoridor quoridor;
 
 	public static Quoridor getQuoridor() {
-		if (quoridor == null) {
+		if (quoridor == null)
 			quoridor = new Quoridor();
-		}
  		return quoridor;
 	}
 

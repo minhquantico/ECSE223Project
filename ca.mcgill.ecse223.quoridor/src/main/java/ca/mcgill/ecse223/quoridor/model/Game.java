@@ -32,7 +32,7 @@ public class Game
   private Player whitePlayer;
   private Player blackPlayer;
   private Quoridor quoridor;
-
+  
   //------------------------
   // CONSTRUCTOR
   //------------------------
