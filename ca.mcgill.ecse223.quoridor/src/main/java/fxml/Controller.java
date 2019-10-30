@@ -32,7 +32,7 @@ public class Controller
 	boolean test = false;
 	@FXML
 	public void buttonClicked(ActionEvent e) { 
-		MainController.instance.setScreen("StartGame");
+		MainController.instance.setScreen("PlayScreen");
 
 		//call controller method to set Thinking time
 		
