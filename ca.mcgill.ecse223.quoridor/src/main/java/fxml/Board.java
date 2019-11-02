@@ -266,7 +266,7 @@ public class Board extends Pane
 		}
 	}
 	
-	class Player extends Circle
+	public class Player extends Circle
 	{
 		public final int TOTALWALLS = 20;
 		
@@ -507,6 +507,10 @@ public class Board extends Pane
 			clock.interrupt();
 		}
 		
+		public boolean isClockStopped() {
+			if(clock == null || !clock.isAlive()) return true;
+			else return false; 
+		}
 		
 	}
 }
