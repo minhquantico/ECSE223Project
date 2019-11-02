@@ -31,6 +31,12 @@ public class SelectUsernameController {
     
     @FXML
     private Button Next;
+    
+
+    @FXML
+    void nextClicked(ActionEvent event) {
+
+    }
 
     @FXML
     void nextButtonClick(ActionEvent event) {
