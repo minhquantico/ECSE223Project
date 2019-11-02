@@ -10,10 +10,16 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class Main extends Application {
+	
+	public static Main instance;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		new StartMenu().show();
+		//new StartMenu().show();
+		instance = this;
+		RotateWall demo = RotateWall.create();
+		if (demo != null)
+			demo.show();
 	}
 	
 	public static void main(String[] args) {

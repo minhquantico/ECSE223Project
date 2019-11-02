@@ -134,7 +134,7 @@ public class StartMenu extends Stage {
 		{	
 			scene = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("StartMenu.fxml")));
 			scene2 = new Scene(FXMLLoader.load(getClass().getClassLoader().getResource("SelectUsernameMenu.fxml")));
-			this.setScene(scene);
+			this.setScene(scene);s
 		}
 		catch (IOException ex)
 		{
