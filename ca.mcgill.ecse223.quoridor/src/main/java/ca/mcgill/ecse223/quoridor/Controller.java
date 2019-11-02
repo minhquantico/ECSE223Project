@@ -90,7 +90,7 @@ public class Controller {
 	 * step:("I initiate to load a saved game {string}")
 	 *  Load game in QuoridorApplication from provided file.
 	 */
-	public static void loadGame(File file) throws FileNotFoundException
+	public static void loadGame(File file) throws FileNotFoundException, InvalidPositionException
 	{
 		InitializeNewGame();
 		initQuoridorBoard();
@@ -116,6 +116,9 @@ public class Controller {
 				Move move;
 				if (or == '-')	// Step move
 				{
+					if (!initPosValidation(target))
+						throw new InvalidPositionException();
+					
 					move = new StepMove(no, no/2+1, player, target, QuoridorApplication.getQuoridor().getCurrentGame());
 
 					if (player.hasGameAsWhite())
@@ -125,6 +128,9 @@ public class Controller {
 				}
 				else		// Wall move
 				{
+					if (!initPosValidation(target, or == 'h' ? Direction.Horizontal : Direction.Vertical))
+						throw new InvalidPositionException();
+					
 					Wall w;
 					if (player.hasGameAsWhite())
 					{
@@ -145,9 +151,12 @@ public class Controller {
 							w);
 				}
 				
+				
+				
 				QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
 				QuoridorApplication.getQuoridor().getCurrentGame().addPosition(current);
 				QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(current);
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove();
 				no++;
 			}
 		}
@@ -423,3 +432,9 @@ throw new java.lang.UnsupportedOperationException();
 }	
 	
 
+class InvalidPositionException extends Exception
+{
+	public InvalidPositionException() {}
+	public InvalidPositionException(String message) { super(message); }
+	
+}
