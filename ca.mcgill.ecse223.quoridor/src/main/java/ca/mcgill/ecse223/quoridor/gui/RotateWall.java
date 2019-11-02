@@ -35,11 +35,19 @@ public class RotateWall extends Stage{
     private double y;
     
     private static RotateWall instance;
+    
+    //static Image image_cursor = new Image(RotateWall.class.getClassLoader().getResourceAsStream("Wall.png"));
     public static RotateWall create()
     {
     	try
     	{
+    		//Image image = new Image(getClass().getClassLoader().getResourceAsStream("Wall.png"));
+    		Image image_cursor = new Image(RotateWall.class.getClassLoader().getResourceAsStream("Wall.png"));
+    		System.out.println(image_cursor);
+    		
     		Scene s = new Scene(FXMLLoader.load(Main.instance.getClass().getClassLoader().getResource("RotateWall.fxml")));
+    		System.out.println(new ImageCursor(image_cursor));
+    		s.setCursor(new ImageCursor(image_cursor));
     		instance.setScene(s);
     		return instance;
     	}
