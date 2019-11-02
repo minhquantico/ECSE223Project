@@ -488,5 +488,25 @@ public class Board extends Pane
 		}
 		
 		public boolean hasWon() { return isWinner(position); }
+
+		private Thread clock;
+		private long remainingTime;
+		public void startClock()
+		{
+			clock = new Thread(()-> {
+				while (!Thread.currentThread().isInterrupted() && remainingTime > 0)
+					try {
+						Thread.sleep(1000);
+						remainingTime--;
+					} catch (InterruptedException e) {e.printStackTrace();}
+			});
+			
+			
+		}
+		public void stopClock() {
+			clock.interrupt();
+		}
+		
+		
 	}
 }

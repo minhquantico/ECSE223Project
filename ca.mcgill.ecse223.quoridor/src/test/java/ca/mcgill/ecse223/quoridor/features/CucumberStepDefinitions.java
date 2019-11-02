@@ -29,6 +29,7 @@ import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.Game;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import ca.mcgill.ecse223.quoridor.model.Game.MoveMode;
+import fxml.PlayScreenController;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Player;
 import ca.mcgill.ecse223.quoridor.model.PlayerPosition;
@@ -395,8 +396,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("It shall be shown that this is White's turn")
 				public void it_shall_be_shown_that_this_is_White_s_turn() {
-				    // Write code here that turns the phrase above into concrete actions
-					//GUI  -- TODO FOR LATER
+					assert(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage)) : "ERROR: GUI NOT SHOWING WHITE PLAYER TURN";
 					throw new cucumber.api.PendingException();
 				}	
 	
@@ -411,9 +411,9 @@ public class CucumberStepDefinitions {
 				@Given("The clock of {string} is running")
 				public void the_clock_of_is_running(String string) {
 				   if (isWhiteTurn()) { 
-					   initClock(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
+					   PlayScreenController.instance.board.players[0].startClock();
 				   }
-				   else initClock(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
+				   else PlayScreenController.instance.board.players[1].startClock();
 				    
 				}
 				
@@ -424,9 +424,9 @@ public class CucumberStepDefinitions {
 				@Given("The clock of {string} is stopped")
 				public void the_clock_of_is_stopped(String string) {
 					if (isWhiteTurn()) { 
-						   stopClock(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
+						   PlayScreenController.instance.board.players[0].stopClock();
 					   }
-					   else stopClock(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
+					   else PlayScreenController.instance.board.players[1].stopClock();
 				    
 				}
 				
@@ -450,7 +450,10 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("The user interface shall be showing it is {string} turn")
 				public void the_user_interface_shall_be_showing_it_is_turn(String string) {
-					//GUI -- TODO FOR LATER
+					if(isWhiteTurn()) {
+						assert(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage)) : "ERROR: GUI NOT SHOWING WHITE PLAYER TURN";
+					}
+					else assert(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.BlackPlayerImage)) : "ERROR: GUI NOT SHOWING WHITE PLAYER TURN";
 				}
 				
 				/**
@@ -460,9 +463,9 @@ public class CucumberStepDefinitions {
 				@Then("The clock of {string} shall be stopped")
 				public void the_clock_of_shall_be_stopped(String string) {
 					if (isWhiteTurn()) {
-						assert QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getRemainingTime().getTime() == 0 : "ERROR: CLOCK NOT STOPPED";
+						assert(PlayScreenController.instance.board.players[0].isClockStopped()); 
 					}
-					else assert QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getRemainingTime().getTime() == 0 : "ERROR: CLOCK NOT STOPPED";
+					else assert (PlayScreenController.instance.board.players[0].isClockStopped()); 
 				}
 				
 				/**
@@ -471,7 +474,10 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("The clock of {string} shall be running")
 				public void the_clock_of_shall_be_running(String string) {
-				    assert isClockRunning(); 
+					if(isWhiteTurn()) 
+						assertFalse(PlayScreenController.instance.board.players[0].isClockStopped());
+					else assertFalse(PlayScreenController.instance.board.players[1].isClockStopped());
+				    
 				}
 				
 				/**
