@@ -2,7 +2,9 @@ package fxml;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -39,11 +41,13 @@ public class SGController {
 
     	System.out.println("it's in!!!");
 		MainController.instance.setScreen("SelectUsername");
+		
 
     }
 
     @FXML
     void initialize() {
+    	ca.mcgill.ecse223.quoridor.Controller.InitializeNewGame();
         assert sgButton != null : "fx:id=\"sgButton\" was not injected: check your FXML file 'StartGame.fxml'.";
         assert lgButton != null : "fx:id=\"lgButton\" was not injected: check your FXML file 'StartGame.fxml'.";
 
