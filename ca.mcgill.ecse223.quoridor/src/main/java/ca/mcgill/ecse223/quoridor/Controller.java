@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.quoridor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.sql.Time;
 import java.util.Scanner;
 
 import ca.mcgill.ecse223.quoridor.model.Board;
@@ -406,6 +407,7 @@ public static Tile getTile()
  */
 public static void dropWall(Tile t) 
 {
+	
 	 throw new java.lang.UnsupportedOperationException();	
 }
 
@@ -421,8 +423,9 @@ public static void dropWall(Tile t)
  */
 public static void setThinkingTime(int minutes, int seconds) 
 {
-
-throw new java.lang.UnsupportedOperationException();
+	Time time = new Time(0, minutes, seconds);
+	QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().setRemainingTime(time);
+	QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer().setRemainingTime(time);
 }
 	
 	

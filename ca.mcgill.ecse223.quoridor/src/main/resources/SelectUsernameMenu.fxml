@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StartMenu">
+  <children>
+    <Pane layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0">
+      <children>
+        <Text layoutX="98.0" layoutY="56.0" scaleX="2.4320350923668137" scaleY="2.2530592400194966" strokeType="OUTSIDE" strokeWidth="0.0" text="White Player">
+          <font>
+            <Font size="16.0" fx:id="x1" />
+          </font>
+        </Text>
+        <Text layoutX="173.0" layoutY="123.0" scaleX="0.959679729830877" scaleY="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a username:" />
+        <Text font="$x1" layoutX="97.0" layoutY="217.0" scaleX="2.4320350923668137" scaleY="2.2530592400194966" strokeType="OUTSIDE" strokeWidth="0.0" text="Black Player" />
+        <Text layoutX="170.0" layoutY="275.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose a username:" />
+        <ComboBox editable="true" layoutX="344.0" layoutY="101.0" prefWidth="192.69677734375">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Item 1" />
+              <String fx:value="Item 2" />
+              <String fx:value="Item 3" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+        <ComboBox editable="true" layoutX="345.0" layoutY="256.0" prefWidth="192.69677734375">
+          <items>
+            <FXCollections fx:factory="observableArrayList">
+              <String fx:value="Item 1" />
+              <String fx:value="Item 2" />
+              <String fx:value="Item 3" />
+            </FXCollections>
+          </items>
+        </ComboBox>
+        <Button layoutX="502.0" layoutY="355.0" mnemonicParsing="false" text="Start" />
+      </children>
+    </Pane>
+  </children>
+</AnchorPane>
