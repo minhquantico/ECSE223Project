@@ -32,17 +32,19 @@ public class Controller
 	boolean test = false;
 	@FXML
 	public void buttonClicked(ActionEvent e) { 
-		MainController.instance.setScreen("PlayScreen");
-
-		//call controller method to set Thinking time
 		
-		//if successful go to next scene! --> initialize board
+		int minute;
+		int second;
 		
-		//if controller method returns boolean false (invalid thinking time), turn the warning label visible
-		if(test==false) {
-			warning.setVisible(true);
-		}
 		
+		 try {
+	            minute = Integer.parseInt(fieldMinute.getText().toString());
+	            second =Integer.parseInt(fieldSecond.getText().toString());
+	            //ca.mcgill.ecse223.quoridor.Controller.setThinkingTime(minute, second);
+	            MainController.instance.setScreen("PlayScreen");
+	        } catch (NumberFormatException e1) {
+	            warning.setVisible(true);
+	        }
 	}
 	
 
