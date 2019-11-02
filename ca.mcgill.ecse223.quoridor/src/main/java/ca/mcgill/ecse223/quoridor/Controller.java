@@ -1,19 +1,25 @@
 package ca.mcgill.ecse223.quoridor;
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 import ca.mcgill.ecse223.quoridor.model.Board;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.Game;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import ca.mcgill.ecse223.quoridor.model.Game.MoveMode;
+import fxml.Board.Cell;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Move;
 import ca.mcgill.ecse223.quoridor.model.Player;
 import ca.mcgill.ecse223.quoridor.model.PlayerPosition;
+import ca.mcgill.ecse223.quoridor.model.Quoridor;
 import ca.mcgill.ecse223.quoridor.model.StepMove;
 import ca.mcgill.ecse223.quoridor.model.Tile;
 import ca.mcgill.ecse223.quoridor.model.Wall;
@@ -253,7 +259,44 @@ public class Controller {
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
 	public static Boolean initPosValidation (Tile aTargetTile) {
-		throw new java.lang.UnsupportedOperationException();
+		//throw new java.lang.UnsupportedOperationException();
+//		Quoridor model = null;
+//		try {
+//			model = new Quoridor();
+//		} catch(Exception e) {
+//			System.out.println(e.getMessage());
+//		}
+//		if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().equals(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) && QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().equals(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer())) {
+//			return true;
+//		}
+//		else {
+//			return false;
+//		}
+//		return true;
+		//assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().equals(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
+		
+			Set<Tile> moves = new HashSet<>();
+			for (int d = 0; d < 4; d++)
+			{
+				if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().isBlockedDirection(d))
+					continue;
+				if (!position.direction(d).hasPlayer())
+					moves.add(position.direction(d));
+				else
+					if (!position.direction(d).isBlockedDirection(d) && !position.direction(d).direction(d).hasPlayer())
+						moves.add(position.direction(d).direction(d));
+					else
+					{
+						if (!position.direction(d).isBlockedDirection(d-1) &&
+								!position.direction(d).direction(d-1).hasPlayer())
+							moves.add(position.direction(d).direction(d-1));
+						if (!position.direction(d).isBlockedDirection(d+1) &&
+								!position.direction(d).direction(d+1).hasPlayer())
+							moves.add(position.direction(d).direction(d+1));
+					}
+			}	
+			return moves;
+				
 	}
 
 
