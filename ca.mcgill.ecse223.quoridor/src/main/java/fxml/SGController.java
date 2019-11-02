@@ -38,7 +38,7 @@ public class SGController {
     void buttonClicked(ActionEvent event) {
 
     	System.out.println("it's in!!!");
-		MainController.instance.setScreen("thinkingScreen");
+		MainController.instance.setScreen("SelectUsername");
 
     }
 

@@ -398,6 +398,7 @@ public static Tile getTile()
  */
 public static void dropWall(Tile t) 
 {
+	
 	 throw new java.lang.UnsupportedOperationException();	
 }
 
