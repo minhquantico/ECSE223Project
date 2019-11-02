@@ -5,9 +5,11 @@ import java.util.Scanner;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 
+import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import ca.mcgill.ecse223.quoridor.model.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,10 +43,13 @@ public class SelectUsernameController {
 	    	
 	    	String whiteUsername = comboBoxWhite.getSelectionModel().getSelectedItem();
 	    	String blackUsername = comboBoxBlack.getSelectionModel().getSelectedItem();
+	    	
+	    	for(int i = 0; i < )
+	    	List<User> = new List<User>(QuoridorApplication.getQuoridor().getUsers());
 	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
 	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
-	    	//for()//comboBoxWhite.get is not in the list) {
-	    		//add in the list
+	    	//for()//comboBoxWhite.get is not in the list or null or already in list) {
+	    		
 	    	
 	    	
 	    	

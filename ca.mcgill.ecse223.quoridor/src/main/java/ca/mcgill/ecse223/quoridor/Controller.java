@@ -319,8 +319,7 @@ public class Controller {
 	 * the method does not link the user with the player and notifies the player that there exists no
 	 * user with that username. **/
 	public static void SelectExistingUsername(String string) {
-		// TODO Auto-generated method stub
-		throw new java.lang.UnsupportedOperationException();
+		QuoridorApplication.
 	}
 
 	/** @author Minh Quan Hoang 
