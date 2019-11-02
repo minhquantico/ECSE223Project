@@ -1,12 +1,22 @@
 package ca.mcgill.ecse223.quoridor;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.util.Scanner;
 
 import ca.mcgill.ecse223.quoridor.model.Board;
 import ca.mcgill.ecse223.quoridor.model.Direction;
+import ca.mcgill.ecse223.quoridor.model.Game;
+import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
+import ca.mcgill.ecse223.quoridor.model.Game.MoveMode;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
+import ca.mcgill.ecse223.quoridor.model.Move;
 import ca.mcgill.ecse223.quoridor.model.Player;
+import ca.mcgill.ecse223.quoridor.model.PlayerPosition;
+import ca.mcgill.ecse223.quoridor.model.StepMove;
 import ca.mcgill.ecse223.quoridor.model.Tile;
+import ca.mcgill.ecse223.quoridor.model.Wall;
 import ca.mcgill.ecse223.quoridor.model.WallMove;
 
 
@@ -80,9 +90,105 @@ public class Controller {
 	 * step:("I initiate to load a saved game {string}")
 	 *  Load game in QuoridorApplication from provided file.
 	 */
-	public static void loadGame(File file)
-	{		
-		throw new java.lang.UnsupportedOperationException();
+	public static void loadGame(File file) throws FileNotFoundException
+	{
+		InitializeNewGame();
+		initQuoridorBoard();
+		
+		try (Scanner input = new Scanner(file))
+		{
+			int no = 0;
+			GamePosition current = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+			while (input.hasNext())
+			{
+				input.next((no/2+1) + "\\.");
+				String token = input.next("[a-i][1-9][hv]?");
+				int col = token.charAt(0) - 'a';
+				int row = token.charAt(1) - '1';
+				char or = token.length() == 2 ? '-' : token.charAt(2);
+				
+				current = cloneGamePosition(current);
+				
+				Player player = no % 2 == 0 ?
+						QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer() :
+						QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
+				Tile target = QuoridorApplication.getQuoridor().getBoard().getTile(row*9+col);
+				Move move;
+				if (or == '-')	// Step move
+				{
+					move = new StepMove(no, no/2+1, player, target, QuoridorApplication.getQuoridor().getCurrentGame());
+
+					if (player.hasGameAsWhite())
+						current.setWhitePosition(new PlayerPosition(player, target));
+					else
+						current.setBlackPosition(new PlayerPosition(player, target));
+				}
+				else		// Wall move
+				{
+					Wall w;
+					if (player.hasGameAsWhite())
+					{
+						w = current.getWhiteWallsInStock(0);
+						current.removeWhiteWallsInStock(w);
+						current.addWhiteWallsOnBoard(w);
+					}
+					else
+					{
+						w = current.getBlackWallsInStock(0);
+						current.removeBlackWallsInStock(w);
+						current.addBlackWallsOnBoard(w);
+					}
+					
+					move = new WallMove(no, no/2+1, player, target,
+							QuoridorApplication.getQuoridor().getCurrentGame(),
+							or == 'h' ? Direction.Horizontal : Direction.Vertical,
+							w);
+				}
+				
+				QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
+				QuoridorApplication.getQuoridor().getCurrentGame().addPosition(current);
+				QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(current);
+				no++;
+			}
+		}
+	}
+	
+	private static GamePosition cloneGamePosition(GamePosition pos)
+	{
+		GamePosition cloned;
+		if (pos == null)
+		{
+			cloned = new GamePosition(0,
+					new PlayerPosition(
+							QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(),
+							QuoridorApplication.getQuoridor().getBoard().getTile(8*9+4)),
+					new PlayerPosition(
+							QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(),
+							QuoridorApplication.getQuoridor().getBoard().getTile(0*9+4)),
+					QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(),
+					QuoridorApplication.getQuoridor().getCurrentGame());
+			
+			for (int i = 0; i < 10; i++)
+			{
+				cloned.addWhiteWallsInStock(new Wall(i*2, QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
+				cloned.addBlackWallsInStock(new Wall(i*2+1, QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
+			}
+		}
+		else
+		{
+			cloned = new GamePosition(pos.getId()+1, pos.getWhitePosition(), pos.getBlackPosition(), pos.getPlayerToMove(), pos.getGame());
+
+			for (Wall w : pos.getWhiteWallsInStock())
+				cloned.addWhiteWallsInStock(w);
+			for (Wall w : pos.getBlackWallsInStock())
+				cloned.addBlackWallsInStock(w);
+			for (Wall w : pos.getWhiteWallsOnBoard())
+				cloned.addWhiteWallsOnBoard(w);
+			for (Wall w : pos.getBlackWallsOnBoard())
+				cloned.addBlackWallsOnBoard(w);
+		}
+		
+		return cloned;
 	}
 
 	/**
@@ -104,8 +210,24 @@ public class Controller {
 	 * Save current game to provided file.
 	 * @param file
 	 */
-	public static void saveGame(File file) {
-		throw new java.lang.UnsupportedOperationException();
+	public static void saveGame(File file) throws FileNotFoundException
+	{
+		try (PrintStream output = new PrintStream(file))
+		{
+			int no = 0;
+			for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
+			{
+				if (no % 2 == 0)
+					output.print(no/2+1 + ".");
+				output.print(' ');
+				output.print('a' + m.getTargetTile().getColumn());
+				output.print('1' + m.getTargetTile().getRow());
+				if (m instanceof WallMove)
+					output.print(((WallMove)m).getWallDirection() == Direction.Horizontal ? 'h' : 'v');
+				if (no % 2 == 1)
+					output.println();
+			}
+		}
 	}
 
 	/**
