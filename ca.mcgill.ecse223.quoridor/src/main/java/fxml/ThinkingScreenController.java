@@ -13,7 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /* The controller class must be mentioned in SceneBuilder to use with an .fxml file. */
-public class Controller 
+public class ThinkingScreenController 
 {
 	/* @FXML annotated fields will be populated with the SceneBuilder components with matching fx:id */
 	@FXML
