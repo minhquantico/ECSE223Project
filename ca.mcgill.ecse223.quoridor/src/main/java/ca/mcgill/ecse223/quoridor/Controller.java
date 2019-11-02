@@ -75,9 +75,16 @@ public class Controller {
 	 * step: ("The initialization of the board is initiated")
 	 * @return Board - a Board object that is ready to be set up. 
 	 */
-	public static Board initQuoridorBoard() { 
-		throw new java.lang.UnsupportedOperationException();
-			
+	public static void initQuoridorAndBoard() {
+		Quoridor quoridor = QuoridorApplication.getQuoridor();
+		Board board = new Board(quoridor);
+		// Creating tiles by rows, i.e., the column index changes with every tile
+		// creation
+		for (int i = 1; i <= 9; i++) { // rows
+			for (int j = 1; j <= 9; j++) { // columns
+				board.addTile(i, j);
+			}
+		}
 	}
 	
 	/**
@@ -503,17 +510,7 @@ class InvalidPositionException extends Exception
 }
 
 
-public static void initQuoridorAndBoard() {
-	Quoridor quoridor = QuoridorApplication.getQuoridor();
-	Board board = new Board(quoridor);
-	// Creating tiles by rows, i.e., the column index changes with every tile
-	// creation
-	for (int i = 1; i <= 9; i++) { // rows
-		for (int j = 1; j <= 9; j++) { // columns
-			board.addTile(i, j);
-		}
-	}
-}
+
 
 public static ArrayList<Player> createUsersAndPlayers(String userName1, String userName2) {
 	Quoridor quoridor = QuoridorApplication.getQuoridor();
