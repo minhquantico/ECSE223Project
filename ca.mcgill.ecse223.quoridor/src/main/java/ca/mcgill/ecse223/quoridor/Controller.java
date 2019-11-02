@@ -11,6 +11,7 @@ import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.Game;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import ca.mcgill.ecse223.quoridor.model.Game.MoveMode;
+import fxml.PlayScreenController;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Move;
 import ca.mcgill.ecse223.quoridor.model.Player;
@@ -77,8 +78,11 @@ public class Controller {
 	 * @param player - The player whose move it currently is.
 	 * @return GamePosition - a GamePosition object with updated information on the player positions and the next player to move. 
 	 */
-	public static GamePosition endMove(Player player) {
-		throw new java.lang.UnsupportedOperationException();
+	public static void endMove() {
+		if ( (QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()) % 2 == 0) 
+			PlayScreenController.instance.board.activePlayer = 1; 
+		else PlayScreenController.instance.board.activePlayer = 0;
+		
 	}
 	
 	
