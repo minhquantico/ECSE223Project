@@ -213,7 +213,7 @@ public class Board extends Pane
 		{
 			if (this.isSet())
 				return false;
-			if (Board.this.players[activePlayer].walls == 0)
+			if (Board.this.players[activePlayer].walls == 0) //replace this with our model's stuff
 				return false;
 
 			if (vertical)
@@ -266,7 +266,7 @@ public class Board extends Pane
 		}
 	}
 	
-	public class Player extends Circle
+	class Player extends Circle
 	{
 		public final int TOTALWALLS = 20;
 		
@@ -488,29 +488,5 @@ public class Board extends Pane
 		}
 		
 		public boolean hasWon() { return isWinner(position); }
-
-		private Thread clock;
-		private long remainingTime;
-		public void startClock()
-		{
-			clock = new Thread(()-> {
-				while (!Thread.currentThread().isInterrupted() && remainingTime > 0)
-					try {
-						Thread.sleep(1000);
-						remainingTime--;
-					} catch (InterruptedException e) {e.printStackTrace();}
-			});
-			
-			
-		}
-		public void stopClock() {
-			clock.interrupt();
-		}
-		
-		public boolean isClockStopped() {
-			if(clock == null || !clock.isAlive()) return true;
-			else return false; 
-		}
-		
 	}
 }

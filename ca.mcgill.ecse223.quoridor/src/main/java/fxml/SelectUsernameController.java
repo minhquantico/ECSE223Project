@@ -1,12 +1,9 @@
 package fxml;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.Scanner;
 
-import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -18,59 +15,26 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
+
+
 public class SelectUsernameController {
 
-		@FXML
-	    private ComboBox<String> comboBoxWhite;
+	  @FXML
+	    private ComboBox<?> comboBoxWhite;
 
 	    @FXML
-	    private ComboBox<String> comboBoxBlack;
+	    private ComboBox<?> comboBoxBlack;
 
 	    @FXML
 	    private Pane pane;
 
 	    @FXML
-	    private Button Next;
-
-	    @FXML
-	    void nextClicked(MouseEvent event) {
-	    	
-	    	String whiteUsername = comboBoxWhite.getSelectionModel().getSelectedItem();
-	    	String blackUsername = comboBoxBlack.getSelectionModel().getSelectedItem();
-	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
-	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
-	    	//for()//comboBoxWhite.get is not in the list) {
-	    		//add in the list
-	    	
-	    	
-	    	
-	    	
+	    void clickedNext(ActionEvent event) {
 	    	MainController.instance.setScreen("thinkingScreen");
 
 	    }
-	    
     
-	    @FXML
-	    void initialize()
-	    {
-	    	try {
-	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-				Scanner input = new Scanner(file);
-				while(input.hasNext()) {
-				comboBoxWhite.getItems().add(input.nextLine());
-				}
-				File file2 = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-				Scanner input2 = new Scanner(file2);
-				while(input2.hasNext()) {
-				comboBoxBlack.getItems().add(input2.nextLine());
-				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    }
 }
