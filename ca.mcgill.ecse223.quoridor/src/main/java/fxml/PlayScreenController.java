@@ -53,5 +53,16 @@ public class PlayScreenController {
     void buttonClickedSaveGame(ActionEvent event) {
 
     }
+    
+    @FXML
+    public void initialize()
+    {
+    	Board board = new Board(false, false);
+    	board.prefWidthProperty().bind(boardPane.widthProperty());
+    	board.prefHeightProperty().bind(boardPane.heightProperty());
+    	
+    	boardPane.getChildren().add(board);
+    	System.out.println("Yes");
+    }
 
 }
