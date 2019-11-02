@@ -14,7 +14,8 @@
             <Image url="@SelectUsername_image.png" />
          </image>
       </ImageView>
-      <ComboBox fx:id="comboBoxWhite" layoutX="206.0" layoutY="283.0" prefWidth="150.0" />
-      <ComboBox fx:id="comboBoxBlack" layoutX="656.0" layoutY="282.0" prefWidth="150.0" />
+      <ComboBox fx:id="comboBoxWhite" editable="true" layoutX="206.0" layoutY="283.0" prefWidth="150.0" />
+      <ComboBox fx:id="comboBoxBlack" editable="true" layoutX="656.0" layoutY="282.0" prefWidth="150.0" />
+      <Button layoutX="818.0" layoutY="544.0" mnemonicParsing="false" onAction="#clickedNext" text="Next" />
    </children>
 </Pane>

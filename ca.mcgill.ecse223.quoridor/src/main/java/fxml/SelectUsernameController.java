@@ -20,26 +20,19 @@ import javafx.stage.Stage;
 import javafx.scene.control.Button;
 public class SelectUsernameController {
 
-    @FXML
-    private ComboBox<?> comboBoxWhite;
+	  @FXML
+	    private ComboBox<?> comboBoxWhite;
 
-    @FXML
-    private ComboBox<?> comboBoxBlack;
+	    @FXML
+	    private ComboBox<?> comboBoxBlack;
 
-    @FXML
-    private Pane pane;
+	    @FXML
+	    private Pane pane;
+
+	    @FXML
+	    void clickedNext(ActionEvent event) {
+	    	MainController.instance.setScreen("thinkingScreen");
+
+	    }
     
-    @FXML
-    private Button Next;
-    
-
-    @FXML
-    void nextClicked(ActionEvent event) {
-
-    }
-
-    @FXML
-    void nextButtonClick(ActionEvent event) {
-    	MainController.instance.setScreen("thinkingScreen");
-    }
 }
