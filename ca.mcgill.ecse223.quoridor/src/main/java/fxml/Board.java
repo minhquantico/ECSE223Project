@@ -1,6 +1,7 @@
 
 package fxml;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -31,8 +32,8 @@ public class Board extends Pane
 	public int activePlayer;
 	
 	private Cell[][] cells = new Cell[COLS][ROWS];
-	private Wall[][] vWall = new Wall[COLS][ROWS];		// vWall[0][y]=null && vWall[x][ROWS-1]=null
-	private Wall[][] hWall = new Wall[COLS][ROWS];		// hWall[x][0]=null && hWall[COLS-1][y]=null
+	private Wall[][] vWall = new Wall[COLS-1][ROWS-1];		// vWall[0][y]=null && vWall[x][ROWS-1]=null
+	private Wall[][] hWall = new Wall[COLS-1][ROWS-1];		// hWall[x][0]=null && hWall[COLS-1][y]=null
 	
 	private Consumer<? super Player> onPlayerWin;
 	
@@ -42,9 +43,20 @@ public class Board extends Pane
 			{
 				if (activePlayer == players.length)
 					activePlayer = 0;
+				long elapsed = System.currentTimeMillis();
 				players[activePlayer].takeTurn();
+				elapsed = System.currentTimeMillis() - elapsed;
+				Time rem = activePlayer == 0 ?
+						QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getRemainingTime() :
+						QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getRemainingTime();
+				rem = new Time(rem.getTime() - elapsed);
+				if (activePlayer == 0)
+					QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(rem);
+				else
+					QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(rem);
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
+			catch (Exception ex) { ex.printStackTrace(); }
 		while (!players[activePlayer++].hasWon());
 		activePlayer--;
 		if (onPlayerWin != null)
@@ -59,21 +71,22 @@ public class Board extends Pane
 			for (int j = 0; j < ROWS; j++)
 			{
 				this.getChildren().add(cells[i][j] = new Cell(i, j));
-				if (i != 0 && j != ROWS-1)
+				if (i != COLS-1 && j != ROWS-1)
+				{
 					this.getChildren().add(vWall[i][j] = new Wall(i, j, true));
-				if (j != 0 && i != COLS-1)
 					this.getChildren().add(hWall[i][j] = new Wall(i, j, false));
+				}
 			}
 		
 		this.players = new Player[isPlayerComputer.length];		// 2 Players
 		if (players.length >= 1)
-			this.players[0] = new Player(2, Color.GREEN, isPlayerComputer[0]);
+			this.players[0] = new Player(3, Color.GREEN, isPlayerComputer[0]);
 		if (players.length >= 2)
-			this.players[1] = new Player(0, Color.RED, isPlayerComputer[1]);
+			this.players[1] = new Player(1, Color.RED, isPlayerComputer[1]);
 		if (players.length >= 3)
-			this.players[2] = new Player(3, Color.ORANGE, isPlayerComputer[2]);
+			this.players[2] = new Player(2, Color.ORANGE, isPlayerComputer[2]);
 		if (players.length >= 4)
-			this.players[3] = new Player(1, Color.PURPLE, isPlayerComputer[3]);
+			this.players[3] = new Player(0, Color.PURPLE, isPlayerComputer[3]);
 		
 		this.activePlayer = 0;
 //		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
@@ -100,7 +113,7 @@ public class Board extends Pane
 			action.accept(cells[i/ROWS][i%ROWS]);
 	}
 	
-	class Cell extends Pane
+	public class Cell extends Pane
 	{
 		public final Background DEFAULT = new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY));
 		public final Background SELECTED = new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY));
@@ -152,10 +165,10 @@ public class Board extends Pane
 		{
 			switch ((d + 4) % 4)
 			{
-			case 0: return y == 0 || x != 0 && hWall[x-1][y].isSet() || x != COLS-1 && hWall[x][y].isSet();
-			case 1: return x == COLS-1 || y != 0 && vWall[x+1][y-1].isSet() || y != ROWS-1 && vWall[x+1][y].isSet();
-			case 2: return y == ROWS-1 || x != 0 && hWall[x-1][y+1].isSet() || x != COLS-1 && hWall[x][y+1].isSet();
-			case 3: return x == 0 || y != 0 && vWall[x][y-1].isSet() || y != ROWS-1 && vWall[x][y].isSet();
+			case 0: return y == 0 || x != 0 && hWall[x-1][y-1].isSet() || x != COLS-1 && hWall[x][y-1].isSet();
+			case 1: return x == COLS-1 || y != 0 && vWall[x][y-1].isSet() || y != ROWS-1 && vWall[x][y].isSet();
+			case 2: return y == ROWS-1 || x != 0 && hWall[x-1][y].isSet() || x != COLS-1 && hWall[x][y].isSet();
+			case 3: return x == 0 || y != 0 && vWall[x-1][y-1].isSet() || y != ROWS-1 && vWall[x-1][y].isSet();
 			default: return false;
 			}
 		}
@@ -176,19 +189,15 @@ public class Board extends Pane
 			
 			if (vertical)
 			{
-				assert x != 0;
-				assert y != ROWS-1;
-				this.layoutXProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(x - Board.this.WALLSIZE/2));
+				this.layoutXProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply((x+1) - Board.this.WALLSIZE/2));
 				this.layoutYProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(y + Board.this.WALLSIZE/2));			
 				this.prefWidthProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(Board.this.WALLSIZE));
 				this.prefHeightProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(2 - Board.this.WALLSIZE));
 			}
 			else
 			{
-				assert y != 0;
-				assert x != COLS-1;
 				this.layoutXProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(x + Board.this.WALLSIZE/2));
-				this.layoutYProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(y - Board.this.WALLSIZE/2));			
+				this.layoutYProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply((y+1) - Board.this.WALLSIZE/2));			
 				this.prefWidthProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(2 - Board.this.WALLSIZE));
 				this.prefHeightProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(Board.this.WALLSIZE));
 			}
@@ -204,7 +213,7 @@ public class Board extends Pane
 		{
 			if (this.isSet())
 				return false;
-			if (Board.this.players[activePlayer].walls == 0)
+			if (Board.this.players[activePlayer].walls == 0) //replace this with our model's stuff
 				return false;
 
 			if (vertical)
@@ -213,7 +222,7 @@ public class Board extends Pane
 					return false;
 				if (y < ROWS-2 && vWall[x][y+1].isSet())
 					return false;
-				if (hWall[x-1][y+1].isSet())
+				if (hWall[x][y].isSet())
 					return false;
 			}
 			else
@@ -222,7 +231,7 @@ public class Board extends Pane
 					return false;
 				if (x < COLS-2 && hWall[x+1][y].isSet())
 					return false;
-				if (vWall[x+1][y-1].isSet())
+				if (vWall[x][y].isSet())
 					return false;
 			}
 			
@@ -259,8 +268,6 @@ public class Board extends Pane
 	
 	class Player extends Circle
 	{
-		ca.mcgill.ecse223.quoridor.model.Player modelPlayer;
-		
 		public final int TOTALWALLS = 20;
 		
 		

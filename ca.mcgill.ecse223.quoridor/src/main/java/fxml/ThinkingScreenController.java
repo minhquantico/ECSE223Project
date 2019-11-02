@@ -13,7 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /* The controller class must be mentioned in SceneBuilder to use with an .fxml file. */
-public class Controller 
+public class ThinkingScreenController 
 {
 	/* @FXML annotated fields will be populated with the SceneBuilder components with matching fx:id */
 	@FXML
@@ -32,17 +32,20 @@ public class Controller
 	boolean test = false;
 	@FXML
 	public void buttonClicked(ActionEvent e) { 
-		MainController.instance.setScreen("PlayScreen");
-
-		//call controller method to set Thinking time
 		
-		//if successful go to next scene! --> initialize board
+		int minute;
+		int second;
 		
-		//if controller method returns boolean false (invalid thinking time), turn the warning label visible
-		if(test==false) {
-			warning.setVisible(true);
-		}
 		
+		 try {
+	            minute = Integer.parseInt(fieldMinute.getText().toString());
+	            second =Integer.parseInt(fieldSecond.getText().toString());
+	            //ca.mcgill.ecse223.quoridor.Controller.setThinkingTime(minute, second);
+	            //ca.mcgill.ecse223.quoridor.Controller.startClock();
+	            MainController.instance.setScreen("PlayScreen");
+	        } catch (NumberFormatException e1) {
+	            warning.setVisible(true);
+	        }
 	}
 	
 

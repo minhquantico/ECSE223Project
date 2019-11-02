@@ -4,6 +4,8 @@ package fxml;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+
+
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -27,10 +29,10 @@ public class PlayScreenController {
     private Label wallLabel;
 
     @FXML
-    private ImageView WhitePlayerImage;
+    public ImageView WhitePlayerImage;
 
     @FXML
-    private Pane pane;
+    public Pane pane;
 
     @FXML
     private Label timeLabel;
@@ -39,10 +41,12 @@ public class PlayScreenController {
     private Button SaveGameLabel;
 
     @FXML
-    private ImageView BlackPlayerImage;
+    public ImageView BlackPlayerImage;
 
     @FXML
     private Pane boardPane;
+    
+    public Board board;
 
     @FXML
     void buttonClickedEndTurn(ActionEvent event) {
@@ -54,10 +58,15 @@ public class PlayScreenController {
 
     }
     
+    
+    public static PlayScreenController instance;
+    
     @FXML
     public void initialize()
     {
-    	Board board = new Board(false, false);
+    	instance = this;
+    	
+    	board = new Board(false, false);
     	board.prefWidthProperty().bind(boardPane.widthProperty());
     	board.prefHeightProperty().bind(boardPane.heightProperty());
     	
