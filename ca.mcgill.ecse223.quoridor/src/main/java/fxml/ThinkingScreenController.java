@@ -13,7 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /* The controller class must be mentioned in SceneBuilder to use with an .fxml file. */
-public class Controller 
+public class ThinkingScreenController 
 {
 	/* @FXML annotated fields will be populated with the SceneBuilder components with matching fx:id */
 	@FXML
@@ -41,6 +41,7 @@ public class Controller
 	            minute = Integer.parseInt(fieldMinute.getText().toString());
 	            second =Integer.parseInt(fieldSecond.getText().toString());
 	            //ca.mcgill.ecse223.quoridor.Controller.setThinkingTime(minute, second);
+	            //ca.mcgill.ecse223.quoridor.Controller.startClock();
 	            MainController.instance.setScreen("PlayScreen");
 	        } catch (NumberFormatException e1) {
 	            warning.setVisible(true);
