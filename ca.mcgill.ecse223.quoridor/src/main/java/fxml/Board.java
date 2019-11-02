@@ -9,8 +9,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
-import ca.mcgill.ecse223.quoridor.model.Move;
-import ca.mcgill.ecse223.quoridor.model.StepMove;
+import ca.mcgill.ecse223.quoridor.model.*;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -89,20 +88,24 @@ public class Board extends Pane
 			this.players[3] = new Player(0, Color.PURPLE, isPlayerComputer[3]);
 		
 		this.activePlayer = 0;
-//		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
-//		{
-//			if (m instanceof StepMove)
-//			{
-//				
-//			}
-//			else
-//			{
-//				
-//			}
-//		}
+
 		
 		if (players.length > 0)
 			this.game.start();
+	}
+	public void loadGame() { 
+		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
+			{
+				if (m instanceof StepMove)
+				{
+					players[activePlayer].moveTo(cells[m.getTargetTile().getRow()-1][m.getTargetTile().getColumn()-1]);
+				}
+				else
+				{
+					(((WallMove)m).getWallDirection().equals(Direction.Horizontal)? 
+							hWall:vWall)[m.getTargetTile().getRow()-1][m.getTargetTile().getColumn()-1].set();
+				}
+			}
 	}
 	
 	public void setOnPlayerWin(Consumer<? super Player> action) { this.onPlayerWin = action; }

@@ -331,7 +331,7 @@ public class CucumberStepDefinitions {
 				@When("The initialization of the board is initiated")
 				public void the_initialization_of_the_board_is_initiated() {
 				    
-					Controller.initQuoridorBoard(); 
+					Controller.initQuoridorAndBoard(); 
 					
 				    
 				}
@@ -388,7 +388,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("White's clock shall be counting down")
 				public void white_s_clock_shall_be_counting_down() {
-				    assert (isClockRunning()) : "ERROR: CLOCK NOT COUNTING DOWN";
+				    assertFalse(PlayScreenController.instance.board.players[0].isClockStopped());
 				}
 
 				/**
@@ -397,7 +397,7 @@ public class CucumberStepDefinitions {
 				@Then("It shall be shown that this is White's turn")
 				public void it_shall_be_shown_that_this_is_White_s_turn() {
 					assert(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage)) : "ERROR: GUI NOT SHOWING WHITE PLAYER TURN";
-					throw new cucumber.api.PendingException();
+	
 				}	
 	
 
@@ -436,12 +436,7 @@ public class CucumberStepDefinitions {
 				 */
 				@When("Player {string} completes his move")
 				public void player_completes_his_move(String string) {
-					if (isWhiteTurn()) { 
-						   Controller.endMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
-					   }
-					   else Controller.endMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
-
-				    
+					Controller.endMove();
 				}
 				
 				/**
