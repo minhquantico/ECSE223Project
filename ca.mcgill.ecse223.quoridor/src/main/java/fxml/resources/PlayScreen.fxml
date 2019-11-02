@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.PlayScreenController">
+   <children>
+      <ImageView fitHeight="631.0" fitWidth="940.0">
+         <image>
+            <Image url="@PlayScreen_image.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="timeLabel" layoutX="157.0" layoutY="134.0" text="_____" />
+      <Pane id="boardPane" fx:id="boardPane" layoutX="229.0" layoutY="110.0" prefHeight="486.0" prefWidth="502.0" style="-fx-background-color: white;" styleClass="theme" stylesheets="@PlayScreen.css" />
+      <Button fx:id="EndTurnLabel" layoutX="838.0" layoutY="532.0" mnemonicParsing="false" onAction="#buttonClickedEndTurn" text="End Turn" />
+      <Button fx:id="SaveGameLabel" layoutX="62.0" layoutY="521.0" mnemonicParsing="false" onAction="#buttonClickedSaveGame" text="Save Game" />
+      <Label fx:id="wallLabel" layoutX="821.0" layoutY="164.0" text="Label" />
+      <ImageView fx:id="WhitePlayerImage" fitHeight="67.0" fitWidth="239.0" layoutX="409.0" layoutY="15.0">
+         <image>
+            <Image url="@White_Player_Image.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="BlackPlayerImage" fitHeight="49.0" fitWidth="243.0" layoutX="381.0" layoutY="23.0">
+         <image>
+            <Image url="@Black_Player_Image.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

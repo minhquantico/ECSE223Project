@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.SGController">
+   <children>
+      <ImageView fitHeight="631.0" fitWidth="940.0">
+         <image>
+            <Image url="@startGame_image.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="sgButton" layoutX="382.0" layoutY="299.0" mnemonicParsing="false" onAction="#buttonClicked" text="Start Game" />
+      <Button fx:id="sgButton1" layoutX="382.0" layoutY="371.0" mnemonicParsing="false" text="Load Game" />
+   </children>
+</Pane>
