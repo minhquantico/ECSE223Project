@@ -53,7 +53,6 @@ public class SelectUsernameController {
 
 	    }
 	    
-    
 	    @FXML
 	    void initialize()
 	    {
