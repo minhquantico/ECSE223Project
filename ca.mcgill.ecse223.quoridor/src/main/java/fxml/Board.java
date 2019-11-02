@@ -76,17 +76,17 @@ public class Board extends Pane
 			this.players[3] = new Player(1, Color.PURPLE, isPlayerComputer[3]);
 		
 		this.activePlayer = 0;
-		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
-		{
-			if (m instanceof StepMove)
-			{
-				
-			}
-			else
-			{
-				
-			}
-		}
+//		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
+//		{
+//			if (m instanceof StepMove)
+//			{
+//				
+//			}
+//			else
+//			{
+//				
+//			}
+//		}
 		
 		if (players.length > 0)
 			this.game.start();
