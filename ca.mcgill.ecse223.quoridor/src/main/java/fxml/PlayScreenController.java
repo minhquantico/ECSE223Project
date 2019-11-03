@@ -169,8 +169,7 @@ static int wallRectY;
     				
     				int xcoord =(int)(boardPaneX+board.hWall[i][j].getLayoutX()+wallWidth/2);
     				int ycoord=(int)(boardPaneY+board.hWall[i][j].getLayoutY()+wallHeight/2);
-    				//System.out.println(xcoord);
-    				//System.out.println(ycoord);
+    		
     				
     				deltaX=xcoord-x;
     				deltaY=ycoord-y;
@@ -191,9 +190,7 @@ static int wallRectY;
     				
     				if(10>(chosenXCoord - x) && -10<(chosenXCoord-x) && (chosenYCoord-y)<10 && (chosenYCoord-y)>-10) {
     					board.hWall[walli][wallj].set();
-    					System.out.println("these are wall coords");
-    					System.out.println(xcoord);
-    					System.out.println(ycoord);
+    			
     					return;
     				
     				}
@@ -210,8 +207,6 @@ static int wallRectY;
     				
     				int xcoord =(int)(boardPaneX+board.vWall[i][j].getLayoutX()+wallHeight/2);
     				int ycoord=(int)(boardPaneY+board.vWall[i][j].getLayoutY()+wallWidth/2);
-    				//System.out.println(xcoord);
-    				//System.out.println(ycoord);
     				
     				deltaX=xcoord-x;
     				deltaY=ycoord-y;
@@ -232,9 +227,6 @@ static int wallRectY;
     				
     				if(10>(chosenXCoord - x) && -10<(chosenXCoord-x) && (chosenYCoord-y)<10 && (chosenYCoord-y)>-10) {
     					board.vWall[walli][wallj].set();
-    					System.out.println("these are wall coords");
-    					System.out.println(xcoord);
-    					System.out.println(ycoord);
     					return;
     				
     				}
