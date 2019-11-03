@@ -3,7 +3,7 @@ package fxml;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
+import static java.lang.Math.sqrt;
 
 
 import java.io.IOException;
@@ -118,9 +118,11 @@ static int wallRectY;
        selectWallForDrop(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, wallMoveMode);
       wallMoveMode=WallMoveMode.horizontal;
       
-      System.out.println((int)(e.getX()));
+      System.out.println("this is X: of mouse event");
+      System.out.println((int)(e.getX())+wallRectX);
+
       System.out.println("this is Y");
-      System.out.println((int)(e.getY()));
+      System.out.println((int)(e.getY())+wallRectY);
     }
     
     @FXML
@@ -137,41 +139,105 @@ static int wallRectY;
     static int boardPaneX=0;
     static int boardPaneY=0;
     
+    static int wallWidth;
+    
     //helper method for placing the wall
     public static void selectWallForDrop(Board board, int x, int y, WallMoveMode wallMoveMode) {
+    	
+    	
+    	int walli=0;
+    	int wallj=0;
+    	Double minDist;
+    	Double dist;
+    	
+    	int chosenXCoord=0;
+    	int chosenYCoord=0;
+    	
+    	int deltaX=0;
+    	int deltaY=0;
+    	
     	if(wallMoveMode==wallMoveMode.horizontal) {
     		//check if drop location is close to horizontal wall location
-    		for(int i=1; i<8;i++) {
-    			for(int j=1; j<8; j++) {
+    		dist=(double)1000;
+    		minDist=(double)1100;
+    		for(int i=0; i<8;i++) {
+    			for(int j=0; j<8; j++) {
     				
-    				int xcoord =(int)(boardPaneX+board.hWall[i][j].getLayoutX());
-    				int ycoord=(int)(boardPaneY+board.hWall[i][j].getLayoutY());
+    				
+    				
+    				int xcoord =(int)(boardPaneX+board.hWall[i][j].getLayoutX()+4);
+    				int ycoord=(int)(boardPaneY+board.hWall[i][j].getLayoutY()+7);
     				//System.out.println(xcoord);
     				//System.out.println(ycoord);
     				
-    				if(40>(xcoord - x) && -40<(xcoord-x) && (ycoord-y)<40 && (ycoord-y)>-40) {
-    					board.hWall[i][j].set();
+    				deltaX=xcoord-x;
+    				deltaY=ycoord-y;
+    				
+    				//calculate distance from mmouse click to wall position
+    				dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
+    				
+    				if(Double.compare(dist,minDist)<0) { 
+    					minDist=dist;
+    					walli=i;
+    					wallj=j;
+    					
+    					//xCoord of shortest distance wall
+    					
+    					chosenXCoord=xcoord;
+    					chosenYCoord=ycoord;
+    				}
+    				
+    				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
+    					board.hWall[walli][wallj].set();
+    					System.out.println("these are wall coords");
+    					System.out.println(xcoord);
+    					System.out.println(ycoord);
     					return;
     				
     				}
     			}
     		}
     	}else {
-    		//check if drop location is close to vertical wall location
-    		for(int i=1; i<8;i++) {
-    			for(int j=1; j<8; j++) {
-    				int xcoord =(int)(boardPaneX+board.vWall[i][j].getLayoutX());
-    				int ycoord=(int)(boardPaneY+board.vWall[i][j].getLayoutY());
+    		//check if drop location is close to horizontal wall location
+    		dist=(double)1000;
+    		minDist=(double)1100;
+    		for(int i=0; i<8;i++) {
+    			for(int j=0; j<8; j++) {
+    				
+    				
+    				
+    				int xcoord =(int)(boardPaneX+board.vWall[i][j].getLayoutX()+4);
+    				int ycoord=(int)(boardPaneY+board.vWall[i][j].getLayoutY()+7);
     				//System.out.println(xcoord);
     				//System.out.println(ycoord);
     				
-    				if(40>(xcoord - x) && -40<(xcoord-x) && (ycoord-y)<40 && (ycoord-y)>-40) {
-    					board.vWall[i][j].set();
+    				deltaX=xcoord-x;
+    				deltaY=ycoord-y;
+    				
+    				//calculate distance from mmouse click to wall position
+    				dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
+    				
+    				if(Double.compare(dist,minDist)<0) { 
+    					minDist=dist;
+    					walli=i;
+    					wallj=j;
+    					
+    					//xCoord of shortest distance wall
+    					
+    					chosenXCoord=xcoord;
+    					chosenYCoord=ycoord;
+    				}
+    				
+    				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
+    					board.vWall[walli][wallj].set();
+    					System.out.println("these are wall coords");
+    					System.out.println(xcoord);
+    					System.out.println(ycoord);
     					return;
+    				
     				}
     			}
-    		}
-    	}
+    		}}
     }
     
     @FXML
@@ -190,7 +256,7 @@ static int wallRectY;
     	
     	wallRectX=(int)wallStock.getLayoutX();
     	wallRectY=(int)wallStock.getLayoutY();
-    	
+    	wallWidth=(int)wallStock.getWidth()/2;
     	System.out.println("Yes");
     }
 }
