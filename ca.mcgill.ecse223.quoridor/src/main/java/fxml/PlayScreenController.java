@@ -140,6 +140,7 @@ static int wallRectY;
     static int boardPaneY=0;
     
     static int wallWidth;
+    static int wallHeight;
     
     //helper method for placing the wall
     public static void selectWallForDrop(Board board, int x, int y, WallMoveMode wallMoveMode) {
@@ -165,8 +166,8 @@ static int wallRectY;
     				
     				
     				
-    				int xcoord =(int)(boardPaneX+board.hWall[i][j].getLayoutX()+4);
-    				int ycoord=(int)(boardPaneY+board.hWall[i][j].getLayoutY()+7);
+    				int xcoord =(int)(boardPaneX+board.hWall[i][j].getLayoutX()+wallWidth/2);
+    				int ycoord=(int)(boardPaneY+board.hWall[i][j].getLayoutY()+wallHeight/2);
     				//System.out.println(xcoord);
     				//System.out.println(ycoord);
     				
@@ -206,8 +207,8 @@ static int wallRectY;
     				
     				
     				
-    				int xcoord =(int)(boardPaneX+board.vWall[i][j].getLayoutX()+4);
-    				int ycoord=(int)(boardPaneY+board.vWall[i][j].getLayoutY()+7);
+    				int xcoord =(int)(boardPaneX+board.vWall[i][j].getLayoutX()+wallHeight/2);
+    				int ycoord=(int)(boardPaneY+board.vWall[i][j].getLayoutY()+wallWidth/2);
     				//System.out.println(xcoord);
     				//System.out.println(ycoord);
     				
@@ -256,7 +257,8 @@ static int wallRectY;
     	
     	wallRectX=(int)wallStock.getLayoutX();
     	wallRectY=(int)wallStock.getLayoutY();
-    	wallWidth=(int)wallStock.getWidth()/2;
+    	wallWidth=(int)wallStock.getWidth();
+    	wallHeight=(int)wallStock.getHeight();
     	System.out.println("Yes");
     }
 }
