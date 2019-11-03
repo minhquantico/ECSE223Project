@@ -727,7 +727,6 @@ public class CucumberStepDefinitions {
 				 */
 				@When("I try to flip the wall")
 				public void i_try_to_flip_the_wall() {
-					//Controller.flip_wall(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 					Controller.flip_wall(PlayScreenController.instance.wall);
 				}
 
