@@ -209,6 +209,15 @@ public class Board extends Pane
 			this.setOnMouseReleased(e -> this.set());
 		}
 		
+		//jake works here
+//---------------------------------------------------------------------------------------------------------------------------------------
+	
+		
+		//david works here 
+		
+		
+		
+		
 		public boolean isSet() { return set; }
 		public boolean isSettable()
 		{
