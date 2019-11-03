@@ -19,6 +19,7 @@ import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import ca.mcgill.ecse223.quoridor.model.Game.MoveMode;
 import fxml.Board.Cell;
 import fxml.PlayScreenController;
+import fxml.PlayScreenController.WallMoveMode;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Move;
 import ca.mcgill.ecse223.quoridor.model.Player;
@@ -350,7 +351,12 @@ public class Controller {
 	 * such as which wall is being flipped and the direction of set wall
 	 */
 	public static void flip_wall(WallMove wallMove) {
-		throw new java.lang.UnsupportedOperationException();
+		if(wallMove.getWallDirection() == Direction.Horizontal){
+			wallMove.setWallDirection(Direction.Vertical);
+		}
+		else{
+			wallMove.setWallDirection(Direction.Horizontal);
+		}
 	}
 	
 	
