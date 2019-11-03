@@ -96,8 +96,9 @@ public class Controller {
 	 * @return GamePosition - a GamePosition object with updated information on the player positions and the next player to move. 
 	 */
 	public static void endMove() {
-		if board
-		
+		if (PlayScreenController.instance.board.activePlayer == 0) 
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
+		else QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());	
 	}
 	
 	
