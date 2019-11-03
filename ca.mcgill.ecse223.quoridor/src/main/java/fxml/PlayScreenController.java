@@ -16,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -71,18 +73,6 @@ public class PlayScreenController {
     
     public static PlayScreenController instance;
     
-    @FXML
-    public void initialize()
-    {
-    	instance = this;
-    	
-    	board = new Board(false, false);
-    	board.prefWidthProperty().bind(boardPane.widthProperty());
-    	board.prefHeightProperty().bind(boardPane.heightProperty());
-    	
-    	boardPane.getChildren().add(board);
-    	System.out.println("Yes");
-    }
     //gohar works here
     
 //---------------------------------------------------------------------------------------------------------
@@ -102,6 +92,7 @@ public class PlayScreenController {
     	   pane.getChildren().add(wall);
     	   wall.setMouseTransparent(true);
     	   event = e;
+    	   pane.requestFocus();
     }
 
     @FXML
@@ -114,5 +105,23 @@ public class PlayScreenController {
     public void releaseWall(MouseEvent e) {
        event = null;
        pane.getChildren().remove(wall);
+    }
+    @FXML
+    public void onRotation(KeyEvent event){
+        if(event.getCode().equals(KeyCode.R))
+            wall.setRotate(wall.getRotate() + 90);
+    }
+    
+    @FXML
+    public void initialize()
+    {
+    	instance = this;
+    	
+    	board = new Board(false, false);
+    	board.prefWidthProperty().bind(boardPane.widthProperty());
+    	board.prefHeightProperty().bind(boardPane.heightProperty());
+    	
+    	boardPane.getChildren().add(board);
+    	System.out.println("Yes");
     }
 }
