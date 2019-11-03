@@ -16,7 +16,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
@@ -80,7 +83,35 @@ public class PlayScreenController {
     
 //---------------------------------------------------------------------------------------------------------
     //david works here
-    
-    
-    
+    @FXML
+    Rectangle wallStock;
+
+
+    @FXML
+    Rectangle wall;
+
+    @FXML
+    MouseEvent event = null;
+
+    @FXML
+    public void createWall(MouseEvent e) {
+       wall = new Rectangle(97,17);
+    	   wall.setFill(Color.GREY);
+    	   dragWall(e);
+    	   pane.getChildren().add(wall);
+    	   wall.setMouseTransparent(true);
+    	   event = e;
+    }
+
+    @FXML
+    public void dragWall(MouseEvent e) {
+       wall.setLayoutX(e.getSceneX() - wall.getWidth()/2); 
+    	   wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
+    }
+
+    @FXML
+    public void releaseWall(MouseEvent e) {
+       event = null;
+       pane.getChildren().remove(wall);
+    }
 }
