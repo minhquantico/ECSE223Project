@@ -59,6 +59,29 @@ public class Board extends Pane
 		while (!players[activePlayer++].hasWon());
 		activePlayer--;
 	});
+	public int getWallX(int i,int j,char d) {
+		if(d=='h') {
+			return (int) hWall[i][j].getLayoutX();
+		} else {
+			return (int) vWall[i][j].getLayoutX();
+		}
+	} 
+	
+	public int getWallY(int i,int j,char d) {
+		if(d=='h') {
+			return (int) hWall[i][j].getLayoutY();
+		} else {
+			return (int) vWall[i][j].getLayoutY();
+		}
+	} 
+	
+	public void setVisible(int i, int j,char d) {
+		if(d=='h') {
+			hWall[i][j].set();
+		}else {
+			vWall[i][j].set();
+		}
+	}
 	
 	public Board(boolean... isPlayerComputer)
 	{
