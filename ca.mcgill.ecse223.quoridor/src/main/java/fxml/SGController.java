@@ -3,6 +3,10 @@ package fxml;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+
+import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -49,6 +53,7 @@ public class SGController {
     void initialize() {
     	ca.mcgill.ecse223.quoridor.Controller.initQuoridorAndBoard();
     	ca.mcgill.ecse223.quoridor.Controller.InitializeNewGame();
+    	QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Initializing);
         assert sgButton != null : "fx:id=\"sgButton\" was not injected: check your FXML file 'StartGame.fxml'.";
         assert lgButton != null : "fx:id=\"lgButton\" was not injected: check your FXML file 'StartGame.fxml'.";
 
