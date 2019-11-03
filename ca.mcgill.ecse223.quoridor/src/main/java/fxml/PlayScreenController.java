@@ -3,6 +3,9 @@ package fxml;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import ca.mcgill.ecse223.quoridor.model.Direction;
+
 import static java.lang.Math.sqrt;
 
 
@@ -78,12 +81,7 @@ public class PlayScreenController {
 //---------------------------------------------------------------------------------------------------------
     //david works here
 
-   public static enum WallMoveMode {
-	   vertical,
-	   horizontal
-   }
-  public static WallMoveMode wallMoveMode = WallMoveMode.horizontal;
-   
+    Direction direction = Direction.Horizontal;
     @FXML
     Rectangle wall;
 
@@ -115,18 +113,18 @@ static int wallRectY;
     public void releaseWall(MouseEvent e) {
      //  event = null;
        pane.getChildren().remove(wall);
-       selectWallForDrop(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, wallMoveMode);
-      wallMoveMode=WallMoveMode.horizontal;
+       selectWallForDrop(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
+       direction=Direction.Horizontal;
     }
     
     @FXML
     public void onRotation(KeyEvent event){
         if(event.getCode().equals(KeyCode.R))
             wall.setRotate(wall.getRotate() + 90);
-        if(wallMoveMode==WallMoveMode.horizontal){
-        	wallMoveMode=WallMoveMode.vertical;
+        if(direction==Direction.Horizontal){
+        	direction=Direction.Vertical;
         }else {
-        	wallMoveMode=WallMoveMode.horizontal;
+        	direction=Direction.Horizontal;
         }	
     }
     
@@ -137,7 +135,7 @@ static int wallRectY;
     static int wallHeight;
     
     //helper method for placing the wall
-    public static void selectWallForDrop(Board board, int x, int y, WallMoveMode wallMoveMode) {
+    public static void selectWallForDrop(Board board, int x, int y, Direction direction) {
     	
     	
     	int walli=0;
@@ -151,7 +149,7 @@ static int wallRectY;
     	int deltaX=0;
     	int deltaY=0;
     	
-    	if(wallMoveMode==wallMoveMode.horizontal) {
+    	if(direction==direction.Horizontal) {
     		//check if drop location is close to horizontal wall location
     		dist=(double)1000;
     		minDist=(double)1100;
