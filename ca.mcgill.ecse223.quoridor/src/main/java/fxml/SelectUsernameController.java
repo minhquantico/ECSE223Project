@@ -69,19 +69,18 @@ public class SelectUsernameController {
 	    @FXML
 	    void initialize()
 	    {
-	    	try {
-	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-				Scanner input = new Scanner(file);
-				while(input.hasNext()) {
-				comboBoxWhite.getItems().add(input.nextLine());
+	    	try (Scanner input = new Scanner(new File(getClass().getClassLoader().getResource("Usernames.txt").getFile())))
+	    	{
+				while(input.hasNextLine())
+					QuoridorApplication.getQuoridor().addUser(input.nextLine());
+				for (User user : QuoridorApplication.getQuoridor().getUsers())
+				{
+					comboBoxWhite.getItems().add(user.getName());
+					comboBoxBlack.getItems().add(user.getName());
 				}
-				File file2 = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-				Scanner input2 = new Scanner(file2);
-				while(input2.hasNext()) {
-				comboBoxBlack.getItems().add(input2.nextLine());
-				}
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
+			}
+	    	catch (FileNotFoundException e)
+	    	{
 				e.printStackTrace();
 			}
 	    }
