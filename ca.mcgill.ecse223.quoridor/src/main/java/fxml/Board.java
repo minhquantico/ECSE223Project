@@ -116,7 +116,7 @@ public class Board extends Pane
 			action.accept(cells[i/ROWS][i%ROWS]);
 	}
 	
-	class Cell extends Pane
+	public class Cell extends Pane
 	{
 		public final Background DEFAULT = new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY));
 		public final Background SELECTED = new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY));

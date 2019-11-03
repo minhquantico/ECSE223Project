@@ -810,8 +810,8 @@ public class CucumberStepDefinitions {
 					/** @author Minh Quan Hoang **/
 					//Creates a new username with the string as username
 					@When("The player provides new user name: {string}")
-					public void the_player_provides_new_user_name(String string) {
-					    Controller.CreateNewUsername(string);
+					public void the_player_provides_new_user_name(Player player, String string) {
+					    Controller.CreateNewUsername(player, string);
 					}
 					/** @author Minh Quan Hoang **/
 					//Checks whether the username string already exists
