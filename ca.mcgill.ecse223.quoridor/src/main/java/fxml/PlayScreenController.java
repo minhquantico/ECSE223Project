@@ -67,23 +67,7 @@ public class PlayScreenController {
     @FXML
     void buttonClickedSaveGame(ActionEvent event) {
 
-    }
-    
-    @FXML
-    void dragWall(ActionEvent event) {
-    	
-    }
-    
-    @FXML
-    void createWall(ActionEvent event) {
-    	
-    }
-    
-    @FXML
-    void releaseWall(ActionEvent event) {
-    	
-    }
-    
+    }    
     
     public static PlayScreenController instance;
     
@@ -103,9 +87,6 @@ public class PlayScreenController {
     
 //---------------------------------------------------------------------------------------------------------
     //david works here
-    @FXML
-    Rectangle wallStock;
-
 
     @FXML
     Rectangle wall;
