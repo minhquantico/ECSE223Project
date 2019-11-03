@@ -529,6 +529,23 @@ public static void dropWall(fxml.Board board, int x, int y, Direction direction)
 		}}
 }
 
+public static boolean validateWallMoveCandidatePosition() {
+	WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+	if(wallMoveCandidate==null) {
+		return false;
+	}
+	else {
+		return validateWallPosition(wallMoveCandidate);
+	}
+}
+
+
+public static boolean validateWallPosition(WallMove wallMove) {
+	
+	
+	
+	return false;
+}
 /**
  * @author Jake Pogharian
  * Feature: setThinkingTime
