@@ -78,6 +78,12 @@ public class PlayScreenController {
 //---------------------------------------------------------------------------------------------------------
     //david works here
 
+   public static enum WallMoveMode {
+	   vertical,
+	   horizontal
+   }
+  public static WallMoveMode wallMoveMode = WallMoveMode.horizontal;
+   
     @FXML
     Rectangle wall;
 
@@ -100,16 +106,72 @@ public class PlayScreenController {
        wall.setLayoutX(e.getSceneX() - wall.getWidth()/2); 
     	   wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
     }
+    
+static int wallRectX;
+static int wallRectY;
+
 
     @FXML
     public void releaseWall(MouseEvent e) {
-       event = null;
+     //  event = null;
        pane.getChildren().remove(wall);
+       selectWallForDrop(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, wallMoveMode);
+      wallMoveMode=WallMoveMode.horizontal;
+      
+      System.out.println((int)(e.getX()));
+      System.out.println("this is Y");
+      System.out.println((int)(e.getY()));
     }
+    
     @FXML
     public void onRotation(KeyEvent event){
         if(event.getCode().equals(KeyCode.R))
             wall.setRotate(wall.getRotate() + 90);
+        if(wallMoveMode==WallMoveMode.horizontal){
+        	wallMoveMode=WallMoveMode.vertical;
+        }else {
+        	wallMoveMode=WallMoveMode.horizontal;
+        }	
+    }
+    
+    static int boardPaneX=0;
+    static int boardPaneY=0;
+    
+    //helper method for placing the wall
+    public static void selectWallForDrop(Board board, int x, int y, WallMoveMode wallMoveMode) {
+    	if(wallMoveMode==wallMoveMode.horizontal) {
+    		//check if drop location is close to horizontal wall location
+    		for(int i=1; i<8;i++) {
+    			for(int j=1; j<8; j++) {
+    				
+    				int xcoord =(int)(boardPaneX+board.hWall[i][j].getLayoutX());
+    				int ycoord=(int)(boardPaneY+board.hWall[i][j].getLayoutY());
+    				//System.out.println(xcoord);
+    				//System.out.println(ycoord);
+    				
+    				if(40>(xcoord - x) && -40<(xcoord-x) && (ycoord-y)<40 && (ycoord-y)>-40) {
+    					board.hWall[i][j].set();
+    					return;
+    				
+    				}
+    			}
+    		}
+    	}else {
+    		//check if drop location is close to vertical wall location
+    		for(int i=1; i<8;i++) {
+    			for(int j=1; j<8; j++) {
+    				int xcoord =(int)(boardPaneX+board.vWall[i][j].getLayoutX());
+    				int ycoord=(int)(boardPaneY+board.vWall[i][j].getLayoutY());
+    				//System.out.println(xcoord);
+    				//System.out.println(ycoord);
+    				
+    				if(40>(xcoord - x) && -40<(xcoord-x) && (ycoord-y)<40 && (ycoord-y)>-40) {
+    					board.vWall[i][j].set();
+    					return;
+    				}
+    			}
+    		}
+    	}
     }
     
     @FXML
@@ -122,6 +184,13 @@ public class PlayScreenController {
     	board.prefHeightProperty().bind(boardPane.heightProperty());
     	
     	boardPane.getChildren().add(board);
+    	
+    	boardPaneX=(int)boardPane.getLayoutX();
+    	boardPaneY=(int)boardPane.getLayoutY();
+    	
+    	wallRectX=(int)wallStock.getLayoutX();
+    	wallRectY=(int)wallStock.getLayoutY();
+    	
     	System.out.println("Yes");
     }
 }
