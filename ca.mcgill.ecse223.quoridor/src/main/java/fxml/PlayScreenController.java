@@ -117,12 +117,6 @@ static int wallRectY;
        pane.getChildren().remove(wall);
        selectWallForDrop(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, wallMoveMode);
       wallMoveMode=WallMoveMode.horizontal;
-      
-      System.out.println("this is X: of mouse event");
-      System.out.println((int)(e.getX())+wallRectX);
-
-      System.out.println("this is Y");
-      System.out.println((int)(e.getY())+wallRectY);
     }
     
     @FXML
