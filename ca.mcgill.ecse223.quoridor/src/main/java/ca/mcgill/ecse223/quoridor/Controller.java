@@ -113,8 +113,9 @@ public class Controller {
 	 */
 	public static void loadGame(File file) throws FileNotFoundException, InvalidPositionException
 	{
+		initQuoridorAndBoard();
 		InitializeNewGame();
-		initQuoridorBoard();
+		
 		
 		try (Scanner input = new Scanner(file))
 		{
