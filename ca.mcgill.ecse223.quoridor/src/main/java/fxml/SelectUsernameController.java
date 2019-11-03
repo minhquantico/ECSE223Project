@@ -1,11 +1,12 @@
 package fxml;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 
-import java.awt.List;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -42,10 +43,16 @@ public class SelectUsernameController {
 	    void nextClicked(MouseEvent event) {
 	    	
 	    	String whiteUsername = comboBoxWhite.getSelectionModel().getSelectedItem();
-	    	String blackUsername = comboBoxBlack.getSelectionModel().getSelectedItem();
+	    	String blackUsername = comboBoxBlack.getSelectionModel().getSelectedItem(); 
 	    	
-	    	for(int i = 0; i < )
-	    	List<User> = new List<User>(QuoridorApplication.getQuoridor().getUsers());
+	    	ArrayList<User> list = new ArrayList<User>(QuoridorApplication.getQuoridor().getUsers());
+	    	
+	    	for(User u: list) {
+	    		if(u.getName() == whiteUsername) {
+	    			
+	    		}
+	    	}
+	    	
 	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
 	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
 	    	//for()//comboBoxWhite.get is not in the list or null or already in list) {

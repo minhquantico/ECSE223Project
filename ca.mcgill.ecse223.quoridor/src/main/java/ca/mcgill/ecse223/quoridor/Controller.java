@@ -1,4 +1,4 @@
-s
+
 package ca.mcgill.ecse223.quoridor;
 
 import static org.junit.Assert.assertTrue;
