@@ -206,9 +206,7 @@ public class Board extends Pane
 			}
 			
 			this.setBackground(DEFAULT);
-			this.setOnMouseEntered(e -> this.setBackground(this.isSettable() ? SET : DEFAULT));
-			this.setOnMouseExited(e -> this.setBackground(DEFAULT));
-			this.setOnMouseClicked(e -> this.set());
+			this.setOnMouseReleased(e -> this.set());
 		}
 		
 		public boolean isSet() { return set; }
@@ -258,8 +256,6 @@ public class Board extends Pane
 				return false;
 			
 			this.setBackground(SET);
-			this.setOnMouseEntered(null);
-			this.setOnMouseExited(null);
 			this.set = true;
 			
 			Board.this.players[activePlayer].walls--;
