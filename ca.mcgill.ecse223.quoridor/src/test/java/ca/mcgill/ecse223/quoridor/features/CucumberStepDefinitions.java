@@ -727,7 +727,8 @@ public class CucumberStepDefinitions {
 				 */
 				@When("I try to flip the wall")
 				public void i_try_to_flip_the_wall() {
-					Controller.flip_wall(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
+					//Controller.flip_wall(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
+					Controller.flip_wall(PlayScreenController.instance.wall);
 				}
 
 				/**
@@ -737,10 +738,10 @@ public class CucumberStepDefinitions {
 				@Then("The wall shall be rotated over the board to {string}")
 				public void the_wall_shall_be_rotated_over_the_board_to(String dir) {
 					if(dir.equalsIgnoreCase("vertical")) {
-						assert QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Vertical);
+						assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Vertical));
 					}
 					else {
-						assert QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Horizontal);
+						assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Horizontal));
 					}
 				}
 	

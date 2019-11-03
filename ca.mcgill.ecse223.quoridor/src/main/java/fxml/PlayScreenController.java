@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import ca.mcgill.ecse223.quoridor.model.Direction;
+import ca.mcgill.ecse223.quoridor.model.WallMove;
 
 import static java.lang.Math.sqrt;
 
@@ -91,11 +92,13 @@ public class PlayScreenController {
     //david works here
 
     Direction direction = Direction.Horizontal;
-    @FXML
-    Rectangle wall;
+    
+    public Rectangle wall;
 
     @FXML
     MouseEvent event = null;
+    
+    WallMove wallMove;
 
     @FXML
     public void createWall(MouseEvent e) {
@@ -128,13 +131,15 @@ static int wallRectY;
     
     @FXML
     public void onRotation(KeyEvent event){
-        if(event.getCode().equals(KeyCode.R))
-            wall.setRotate(wall.getRotate() + 90);
+        if(event.getCode().equals(KeyCode.R)) {
+            ca.mcgill.ecse223.quoridor.Controller.flip_wall(wall);
+        }
+        
         if(direction==Direction.Horizontal){
         	direction=Direction.Vertical;
         }else {
         	direction=Direction.Horizontal;
-        }	
+        }
     }
     
     static int boardPaneX=0;

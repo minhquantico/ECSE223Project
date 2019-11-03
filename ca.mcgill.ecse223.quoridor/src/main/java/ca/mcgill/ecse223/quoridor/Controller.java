@@ -16,8 +16,10 @@ import ca.mcgill.ecse223.quoridor.model.Game;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import ca.mcgill.ecse223.quoridor.model.Game.MoveMode;
 import fxml.Board.Cell;
+import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
+import javafx.scene.shape.Rectangle;
 import fxml.PlayScreenController;
-import fxml.PlayScreenController.WallMoveMode;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Move;
 import ca.mcgill.ecse223.quoridor.model.Player;
@@ -296,7 +298,7 @@ public class Controller {
 	}
 	
 	
-	
+		
 	/**
 	 * @author Gohar Saqib Fazal 
 	 * This controller method flips the wall that is in the user's hand
@@ -305,12 +307,13 @@ public class Controller {
 	 * @param wallMove: Wall Move object that contains information 
 	 * such as which wall is being flipped and the direction of set wall
 	 */
-	public static void flip_wall(WallMove wallMove) {
-		if(wallMove.getWallDirection() == Direction.Horizontal){
-			wallMove.setWallDirection(Direction.Vertical);
-		}
-		else{
-			wallMove.setWallDirection(Direction.Horizontal);
+	public static void flip_wall(Rectangle wall) {
+		switch ((int)wall.getRotate())
+		{
+		case 0: wall.setRotate(90); QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Vertical); break;
+		case 90: wall.setRotate(0); QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Horizontal); break;
+		default:
+			wall.setRotate(0); QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Horizontal);
 		}
 	}
 	
@@ -331,7 +334,7 @@ public class Controller {
 	 * the method does not link the user with the player and notifies the player that there exists no
 	 * user with that username. **/
 	public static void SelectExistingUsername(String string) {
-		QuoridorApplication.
+		//QuoridorApplication.
 	}
 
 	/** @author Minh Quan Hoang 
