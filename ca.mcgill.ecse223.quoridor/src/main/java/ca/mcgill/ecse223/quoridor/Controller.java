@@ -172,8 +172,6 @@ public class Controller {
 							w);
 				}
 				
-				
-				
 				QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
 				QuoridorApplication.getQuoridor().getCurrentGame().addPosition(current);
 				QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(current);
@@ -185,38 +183,16 @@ public class Controller {
 	
 	private static GamePosition cloneGamePosition(GamePosition pos)
 	{
-		GamePosition cloned;
-		if (pos == null)
-		{
-			cloned = new GamePosition(0,
-					new PlayerPosition(
-							QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(),
-							QuoridorApplication.getQuoridor().getBoard().getTile(8*9+4)),
-					new PlayerPosition(
-							QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(),
-							QuoridorApplication.getQuoridor().getBoard().getTile(0*9+4)),
-					QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(),
-					QuoridorApplication.getQuoridor().getCurrentGame());
-			
-			for (int i = 0; i < 10; i++)
-			{
-				cloned.addWhiteWallsInStock(new Wall(i*2, QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
-				cloned.addBlackWallsInStock(new Wall(i*2+1, QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
-			}
-		}
-		else
-		{
-			cloned = new GamePosition(pos.getId()+1, pos.getWhitePosition(), pos.getBlackPosition(), pos.getPlayerToMove(), pos.getGame());
+		GamePosition cloned = new GamePosition(pos.getId()+1, pos.getWhitePosition(), pos.getBlackPosition(), pos.getPlayerToMove(), pos.getGame());
 
-			for (Wall w : pos.getWhiteWallsInStock())
-				cloned.addWhiteWallsInStock(w);
-			for (Wall w : pos.getBlackWallsInStock())
-				cloned.addBlackWallsInStock(w);
-			for (Wall w : pos.getWhiteWallsOnBoard())
-				cloned.addWhiteWallsOnBoard(w);
-			for (Wall w : pos.getBlackWallsOnBoard())
-				cloned.addBlackWallsOnBoard(w);
-		}
+		for (Wall w : pos.getWhiteWallsInStock())
+			cloned.addWhiteWallsInStock(w);
+		for (Wall w : pos.getBlackWallsInStock())
+			cloned.addBlackWallsInStock(w);
+		for (Wall w : pos.getWhiteWallsOnBoard())
+			cloned.addWhiteWallsOnBoard(w);
+		for (Wall w : pos.getBlackWallsOnBoard())
+			cloned.addBlackWallsOnBoard(w);
 		
 		return cloned;
 	}
@@ -403,10 +379,10 @@ public class Controller {
 			
 			// Creating tiles by rows, i.e., the column index changes with every tile
 			// creation
-			initQuoridorAndBoard();
+			//initQuoridorAndBoard();
 			ArrayList<Player> createUsersAndPlayers=createUsersAndPlayers("user1","user2");
 		    createAndStartGame(createUsersAndPlayers);
-			}
+	}
 
 
 	/** @author Minh Quan Hoang 

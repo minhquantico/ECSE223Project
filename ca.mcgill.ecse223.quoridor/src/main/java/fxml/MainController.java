@@ -30,7 +30,8 @@ public class MainController extends Stage {
             return true;
             
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return false;
             
         }
