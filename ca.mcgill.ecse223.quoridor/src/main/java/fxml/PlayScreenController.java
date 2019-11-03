@@ -95,7 +95,6 @@ public class PlayScreenController {
     	board.prefHeightProperty().bind(boardPane.heightProperty());
     	
     	boardPane.getChildren().add(board);
-    	//pane.getChildren().add(wallStock);
     	System.out.println("Yes");
     }
     //gohar works here
