@@ -163,6 +163,7 @@ static int wallRectY;
     	wallRectY=(int)wallStock.getLayoutY();
     	wallWidth=(int)wallStock.getWidth();
     	wallHeight=(int)wallStock.getHeight();
+    	pane.getChildren().remove(BlackPlayerImage);
     	System.out.println("Yes");
     }
 }
