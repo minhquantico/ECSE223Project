@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.*;
 import javafx.application.Platform;
@@ -42,17 +43,9 @@ public class Board extends Pane
 			{
 				if (activePlayer == players.length)
 					activePlayer = 0;
-				long elapsed = System.currentTimeMillis();
+
 				players[activePlayer].takeTurn();
-				elapsed = System.currentTimeMillis() - elapsed;
-				Time rem = activePlayer == 0 ?
-						QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getRemainingTime() :
-						QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getRemainingTime();
-				rem = new Time(rem.getTime() - elapsed);
-				if (activePlayer == 0)
-					QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(rem);
-				else
-					QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(rem);
+				Controller.endMove();
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
 			catch (Exception ex) { ex.printStackTrace(); }

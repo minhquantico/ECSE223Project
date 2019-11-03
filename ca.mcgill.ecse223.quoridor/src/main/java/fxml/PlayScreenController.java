@@ -65,20 +65,7 @@ public class PlayScreenController {
     
     public Board board;
 
-    @FXML
-    void buttonClickedEndTurn(ActionEvent event) {
-    	ca.mcgill.ecse223.quoridor.Controller.endMove();
-    	if (instance.board.activePlayer == 0) {
-    		pane.getChildren().remove(BlackPlayerImage);
-    		pane.getChildren().add(WhitePlayerImage);
-    	}	
-    	else { 
-    		pane.getChildren().remove(WhitePlayerImage);
-    		pane.getChildren().add(BlackPlayerImage); 
-    	}
-
-    }
-
+   
     @FXML
     void buttonClickedSaveGame(ActionEvent event) {
 
