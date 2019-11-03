@@ -372,7 +372,8 @@ public class Controller {
 	 * Feature: StartNewGame
 	 * Step: @When("I start the clock")
 	 * Starts the clock **/
-	public static void StartClock() {
+	public static void StartClock(long seconds) {
+		
 		PlayScreenController.instance.board.players[0].startClock();
 	}
 
