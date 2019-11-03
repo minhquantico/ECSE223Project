@@ -142,9 +142,10 @@ static int wallRectY;
     static int wallWidth;
     static int wallHeight;
     
-    //helper method for placing the wall
+
+    
+    //Must put this in the Controller
     public static void selectWallForDrop(Board board, int x, int y, WallMoveMode wallMoveMode) {
-    	
     	
     	int walli=0;
     	int wallj=0;
@@ -188,7 +189,7 @@ static int wallRectY;
     					chosenYCoord=ycoord;
     				}
     				
-    				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
+    				if(10>(chosenXCoord - x) && -10<(chosenXCoord-x) && (chosenYCoord-y)<10 && (chosenYCoord-y)>-10) {
     					board.hWall[walli][wallj].set();
     					System.out.println("these are wall coords");
     					System.out.println(xcoord);
@@ -229,7 +230,7 @@ static int wallRectY;
     					chosenYCoord=ycoord;
     				}
     				
-    				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
+    				if(10>(chosenXCoord - x) && -10<(chosenXCoord-x) && (chosenYCoord-y)<10 && (chosenYCoord-y)>-10) {
     					board.vWall[walli][wallj].set();
     					System.out.println("these are wall coords");
     					System.out.println(xcoord);
@@ -240,6 +241,8 @@ static int wallRectY;
     			}
     		}}
     }
+    
+    
     
     @FXML
     public void initialize()
