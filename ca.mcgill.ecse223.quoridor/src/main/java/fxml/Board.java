@@ -241,14 +241,6 @@ public class Board extends Pane
 			this.setBackground(DEFAULT);
 		}
 		
-		//jake works here
-//---------------------------------------------------------------------------------------------------------------------------------------
-	
-		
-		//david works here 
-		
-		
-		
 		
 		public boolean isSet() { return set; }
 		public boolean isSettable()
