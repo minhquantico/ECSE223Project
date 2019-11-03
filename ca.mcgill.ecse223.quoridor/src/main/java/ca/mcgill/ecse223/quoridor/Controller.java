@@ -73,8 +73,7 @@ public class Controller {
 	/**
 	 *  @author Lenoy Christy
 	 * Feature: Initialize board
-	 * step: ("The initialization of the board is initiated")
-	 * @return Board - a Board object that is ready to be set up. 
+	 * step: ("The initialization of the board is initiated") 
 	 */
 	public static void initQuoridorAndBoard() {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
@@ -91,14 +90,19 @@ public class Controller {
 	/**
 	 * @author Lenoy Christy
 	 * Feature: SwitchCurrentPlayer
-	 * step: ("Player {string} completes his move")
-	 * @param player - The player whose move it currently is.
-	 * @return GamePosition - a GamePosition object with updated information on the player positions and the next player to move. 
+	 * step: ("Player {string} completes his move") 
 	 */
 	public static void endMove() {
-		if (PlayScreenController.instance.board.activePlayer == 0) 
+		if (PlayScreenController.instance.board.activePlayer == 0) {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
-		else QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());	
+			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.WhitePlayerImage);
+			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.BlackPlayerImage);
+		}	
+		else {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
+			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.BlackPlayerImage);
+			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.WhitePlayerImage);
+		}
 	}
 	
 	

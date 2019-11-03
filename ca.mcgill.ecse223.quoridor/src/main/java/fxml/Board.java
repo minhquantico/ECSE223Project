@@ -41,16 +41,17 @@ public class Board extends Pane
 		do
 			try
 			{
-				if (activePlayer == players.length)
-					activePlayer = 0;
-
 				players[activePlayer].takeTurn();
-				Controller.endMove();
+				Platform.runLater(() ->
+				{
+					Controller.endMove();
+					if (++activePlayer == players.length)
+						activePlayer = 0;
+				});
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
 			catch (Exception ex) { ex.printStackTrace(); }
-		while (!players[activePlayer++].hasWon());
-		activePlayer--;
+		while (!players[activePlayer].hasWon());
 	});
 	public int getWallX(int i,int j,char d) {
 		if(d=='h') {
@@ -397,7 +398,10 @@ public class Board extends Pane
 			synchronized (Board.this)
 			{
 				if (isComputer)
+				{
+					Thread.sleep(1000);
 					Platform.runLater(() -> doBestMove());
+				}
 				else
 					getPossibleMoves().forEach(c -> c.setSelected(true));
 				
