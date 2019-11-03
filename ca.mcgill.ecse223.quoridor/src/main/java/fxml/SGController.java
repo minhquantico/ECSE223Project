@@ -53,7 +53,6 @@ public class SGController {
     void initialize() {
     	ca.mcgill.ecse223.quoridor.Controller.initQuoridorAndBoard();
     	ca.mcgill.ecse223.quoridor.Controller.InitializeNewGame();
-    	QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Initializing);
         assert sgButton != null : "fx:id=\"sgButton\" was not injected: check your FXML file 'StartGame.fxml'.";
         assert lgButton != null : "fx:id=\"lgButton\" was not injected: check your FXML file 'StartGame.fxml'.";
 

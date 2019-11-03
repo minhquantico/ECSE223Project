@@ -531,5 +531,8 @@ public class Board extends Pane
 			else return false; 
 		}
 		
+		public void setRemainingTime(long t) { this.remainingTime = t; }
+		public long getRemainingTime() { return this.remainingTime; }
+		
 	}
 }

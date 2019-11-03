@@ -2,6 +2,7 @@ package fxml;
 
 import java.io.IOException;
 
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import javafx.event.ActionEvent;

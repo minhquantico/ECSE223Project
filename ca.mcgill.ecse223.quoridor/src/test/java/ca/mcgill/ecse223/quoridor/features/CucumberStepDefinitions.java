@@ -782,8 +782,8 @@ public class CucumberStepDefinitions {
 					/** @author Minh Quan Hoang **/
 					//Link the player with his username
 					@When("The player selects existing {string}")
-					public void the_player_selects_existing(String string) {
-					    Controller.SelectExistingUsername(string);
+					public void the_player_selects_existing(Player player, String string) {
+					    Controller.SelectExistingUsername(player, string);
 					}
 					/** @author Minh Quan Hoang **/
 					//Check if the name of the player is the new username
@@ -810,8 +810,8 @@ public class CucumberStepDefinitions {
 					/** @author Minh Quan Hoang **/
 					//Creates a new username with the string as username
 					@When("The player provides new user name: {string}")
-					public void the_player_provides_new_user_name(Player player, String string) {
-					    Controller.CreateNewUsername(player, string);
+					public void the_player_provides_new_user_name(String string) {
+					    Controller.CreateNewUsername(string);
 					}
 					/** @author Minh Quan Hoang **/
 					//Checks whether the username string already exists
@@ -854,14 +854,14 @@ public class CucumberStepDefinitions {
 					/** @author Minh Quan Hoang **/
 					//Get username for white player from player class
 					@When("White player chooses a username")
-					public void white_player_chooses_a_username() {
-					    Controller.setWhitePlayerUsername();
+					public void white_player_chooses_a_username(String username) {
+					    Controller.setWhitePlayerUsername(username);
 					}
 					/** @author Minh Quan Hoang **/
 					//Get username for black player from player class
 					@When("Black player chooses a username")
-					public void black_player_chooses_a_username() {
-					    Controller.setBlackPlayerUsername();
+					public void black_player_chooses_a_username(String username) {
+					    Controller.setBlackPlayerUsername(username);
 					}
 					/** @author Minh Quan Hoang **/
 					//Sets the total thinking time
