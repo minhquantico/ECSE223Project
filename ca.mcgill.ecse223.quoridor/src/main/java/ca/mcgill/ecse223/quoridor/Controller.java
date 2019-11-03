@@ -493,8 +493,8 @@ public static void dropWall(Tile t)
 public static void setThinkingTime(int minutes, int seconds) 
 {
 	Time time = new Time(0, minutes, seconds);
-	QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().setRemainingTime(time);
-	QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer().setRemainingTime(time);
+	QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(time);
+	QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().setRemainingTime(time);
 }
 	
 	
