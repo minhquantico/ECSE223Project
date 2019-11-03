@@ -881,8 +881,8 @@ public class CucumberStepDefinitions {
 					/** @author Minh Quan Hoang **/
 					//Sets the total thinking time
 					@When("Total thinking time is set")
-					public void total_thinking_time_is_set() {
-						Controller.setTotalThinkingTime();
+					public void total_thinking_time_is_set(int minutes, int seconds) {
+						Controller.setTotalThinkingTime(minutes, seconds);
 					}
 					/** @author Minh Quan Hoang **/
 					//Checks if the game is ready to start

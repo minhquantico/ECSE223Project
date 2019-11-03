@@ -336,8 +336,15 @@ public class Controller {
 	 * If there is a match, the user with that username is linked to the player. If there is no match,
 	 * the method does not link the user with the player and notifies the player that there exists no
 	 * user with that username. **/
-	public static void SelectExistingUsername(String string) {
-		//QuoridorApplication.
+
+	public static void SelectExistingUsername(Player player, String string) {
+		if(player.hasGameAsWhite()) {
+		QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setUser(User.getWithName(string));
+		}
+		else {
+		QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().setUser(User.getWithName(string));	
+		}
+
 	}
 
 	/** @author Minh Quan Hoang 
@@ -347,12 +354,14 @@ public class Controller {
 	 * This method creates a new username by creating a new user
 	 * and adding it to the list of users **/
 	public static void CreateNewUsername(Player player, String username) {
-		// TODO Auto-generated method stub
+		/*
 		if(player.hasGameAsWhite()) {
 		QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getUser().setName(username);
 		} else {
 		QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser().setName(username);
-		}
+		}*/
+		QuoridorApplication.getQuoridor().addUser(username);
+		ArrayList<User> list = new ArrayList<User>(QuoridorApplication.getQuoridor().getUsers());
 		
 	}
 	
@@ -385,9 +394,9 @@ public class Controller {
 	 * Feature: StartNewGame
 	 * Step: @When("Total thinking time is set")
 	 * Sets the total thinking time after the game is initialized **/
-	public static void setTotalThinkingTime() {
-		// TODO Auto-generated method stub
-		throw new java.lang.UnsupportedOperationException();
+	public static void setTotalThinkingTime(int minutes, int seconds) {
+		
+		setThinkingTime(minutes, seconds); //overlaps with Jake's controller method
 	}
 
 	/** @author Minh Quan Hoang 
