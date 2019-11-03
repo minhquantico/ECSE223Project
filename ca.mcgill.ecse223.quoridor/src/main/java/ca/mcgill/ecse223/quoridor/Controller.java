@@ -113,8 +113,9 @@ public class Controller {
 	 */
 	public static void loadGame(File file) throws FileNotFoundException, InvalidPositionException
 	{
+		initQuoridorAndBoard();
 		InitializeNewGame();
-		initQuoridorBoard();
+		
 		
 		try (Scanner input = new Scanner(file))
 		{
@@ -369,8 +370,7 @@ public class Controller {
 	 * the method does not link the user with the player and notifies the player that there exists no
 	 * user with that username. **/
 	public static void SelectExistingUsername(String string) {
-		// TODO Auto-generated method stub
-		throw new java.lang.UnsupportedOperationException();
+		QuoridorApplication.
 	}
 
 	/** @author Minh Quan Hoang 
@@ -403,6 +403,7 @@ public class Controller {
 			ArrayList<Player> createUsersAndPlayers=createUsersAndPlayers("user1","user2");
 		    createAndStartGame(createUsersAndPlayers);
 			}
+
 
 	/** @author Minh Quan Hoang 
 	 * Feature: StartNewGame
@@ -492,8 +493,8 @@ public static void dropWall(Tile t)
 public static void setThinkingTime(int minutes, int seconds) 
 {
 	Time time = new Time(0, minutes, seconds);
-	QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().setRemainingTime(time);
-	QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer().setRemainingTime(time);
+	QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(time);
+	QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().setRemainingTime(time);
 }
 	
 	

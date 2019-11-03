@@ -31,10 +31,12 @@ public class Board extends Pane
 	public int activePlayer;
 	
 	private Cell[][] cells = new Cell[COLS][ROWS];
-	private Wall[][] vWall = new Wall[COLS-1][ROWS-1];		// vWall[0][y]=null && vWall[x][ROWS-1]=null
-	private Wall[][] hWall = new Wall[COLS-1][ROWS-1];		// hWall[x][0]=null && hWall[COLS-1][y]=null
+	public Wall[][] vWall = new Wall[COLS-1][ROWS-1];		// vWall[0][y]=null && vWall[x][ROWS-1]=null
+	public Wall[][] hWall = new Wall[COLS-1][ROWS-1];		// hWall[x][0]=null && hWall[COLS-1][y]=null
 	
 	private Consumer<? super Player> onPlayerWin;
+	
+	public static Board board;
 	
 	private Thread game = new Thread(() -> {
 		do
@@ -64,6 +66,7 @@ public class Board extends Pane
 	
 	public Board(boolean... isPlayerComputer)
 	{
+		board=this;
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		for (int i = 0; i < COLS; i++)
@@ -116,7 +119,7 @@ public class Board extends Pane
 			action.accept(cells[i/ROWS][i%ROWS]);
 	}
 	
-	class Cell extends Pane
+	public class Cell extends Pane
 	{
 		public final Background DEFAULT = new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY));
 		public final Background SELECTED = new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY));
@@ -183,7 +186,15 @@ public class Board extends Pane
 		private Background SET = new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY));
 		private int x, y; 
 		private boolean vertical, set = false;
-
+		
+		public int getX() {
+			return this.x;
+		}
+		
+		public int getY() {
+			return this.y;
+		}
+		
 		public Wall(int x, int y, boolean vertical)
 		{
 			this.x = x;
@@ -206,10 +217,17 @@ public class Board extends Pane
 			}
 			
 			this.setBackground(DEFAULT);
-			this.setOnMouseEntered(e -> this.setBackground(this.isSettable() ? SET : DEFAULT));
-			this.setOnMouseExited(e -> this.setBackground(DEFAULT));
-			this.setOnMouseClicked(e -> this.set());
+			this.setOnMouseReleased(e -> this.set());
 		}
+		
+		//jake works here
+//---------------------------------------------------------------------------------------------------------------------------------------
+	
+		
+		//david works here 
+		
+		
+		
 		
 		public boolean isSet() { return set; }
 		public boolean isSettable()
@@ -258,8 +276,6 @@ public class Board extends Pane
 				return false;
 			
 			this.setBackground(SET);
-			this.setOnMouseEntered(null);
-			this.setOnMouseExited(null);
 			this.set = true;
 			
 			Board.this.players[activePlayer].walls--;

@@ -40,9 +40,12 @@ public class ThinkingScreenController
 		 try {
 	            minute = Integer.parseInt(fieldMinute.getText().toString());
 	            second =Integer.parseInt(fieldSecond.getText().toString());
-	            //ca.mcgill.ecse223.quoridor.Controller.setThinkingTime(minute, second);
-	            //ca.mcgill.ecse223.quoridor.Controller.startClock();
-	            MainController.instance.setScreen("PlayScreen");
+	            if(minute!=0||second!=0) {
+	            	ca.mcgill.ecse223.quoridor.Controller.setThinkingTime(minute, second);
+	            	//ca.mcgill.ecse223.quoridor.Controller.startClock();
+	            	 MainController.instance.setScreen("PlayScreen");
+	            }
+	           
 	        } catch (NumberFormatException e1) {
 	            warning.setVisible(true);
 	        }
