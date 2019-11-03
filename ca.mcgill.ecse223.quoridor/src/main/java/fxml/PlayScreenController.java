@@ -122,7 +122,7 @@ static int wallRectY;
     public void releaseWall(MouseEvent e) {
      //  event = null;
        pane.getChildren().remove(wall);
-       selectWallForDrop(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
+       ca.mcgill.ecse223.quoridor.Controller.dropWall(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
        direction=Direction.Horizontal;
     }
     
@@ -143,96 +143,7 @@ static int wallRectY;
     static int wallWidth;
     static int wallHeight;
     
-    //helper method for placing the wall
-    public static void selectWallForDrop(Board board, int x, int y, Direction direction) {
-    	
-    	
-    	int walli=0;
-    	int wallj=0;
-    	Double minDist;
-    	Double dist;
-    	
-    	int chosenXCoord=0;
-    	int chosenYCoord=0;
-    	
-    	int deltaX=0;
-    	int deltaY=0;
-    	
-    	if(direction==direction.Horizontal) {
-    		//check if drop location is close to horizontal wall location
-    		dist=(double)1000;
-    		minDist=(double)1100;
-    		for(int i=0; i<8;i++) {
-    			for(int j=0; j<8; j++) {
-    				
-    				
-    				
-    				int xcoord =(int)(boardPaneX+board.hWall[i][j].getLayoutX()+wallWidth/2);
-    				int ycoord=(int)(boardPaneY+board.hWall[i][j].getLayoutY()+wallHeight/2);
-    		
-    				
-    				deltaX=xcoord-x;
-    				deltaY=ycoord-y;
-    				
-    				//calculate distance from mmouse click to wall position
-    				dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
-    				
-    				if(Double.compare(dist,minDist)<0) { 
-    					minDist=dist;
-    					walli=i;
-    					wallj=j;
-    					
-    					//xCoord of shortest distance wall
-    					
-    					chosenXCoord=xcoord;
-    					chosenYCoord=ycoord;
-    				}
-    				
-    				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
-    					board.hWall[walli][wallj].set();
-    			
-    					return;
-    				
-    				}
-    			}
-    		}
-    	}else {
-    		//check if drop location is close to horizontal wall location
-    		dist=(double)1000;
-    		minDist=(double)1100;
-    		for(int i=0; i<8;i++) {
-    			for(int j=0; j<8; j++) {
-    				
-    				
-    				
-    				int xcoord =(int)(boardPaneX+board.vWall[i][j].getLayoutX()+wallHeight/2);
-    				int ycoord=(int)(boardPaneY+board.vWall[i][j].getLayoutY()+wallWidth/2);
-    				
-    				deltaX=xcoord-x;
-    				deltaY=ycoord-y;
-    				
-    				//calculate distance from mmouse click to wall position
-    				dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
-    				
-    				if(Double.compare(dist,minDist)<0) { 
-    					minDist=dist;
-    					walli=i;
-    					wallj=j;
-    					
-    					//xCoord of shortest distance wall
-    					
-    					chosenXCoord=xcoord;
-    					chosenYCoord=ycoord;
-    				}
-    				
-    				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
-    					board.vWall[walli][wallj].set();
-    					return;
-    				
-    				}
-    			}
-    		}}
-    }
+ 
     
     @FXML
     public void initialize()

@@ -435,12 +435,99 @@ public static Tile getTile()
  * For the model, it will register the wall move and complete the move when it is in fact valid, change whose turn it is, etc.
  * @param Tile t: This is a parameter of type Tile and will be used by the method to know where to perform the wall drop.
  */
-public static void dropWall(Tile t) 
-{
+public static void dropWall(fxml.Board board, int x, int y, Direction direction) {
 	
-	 throw new java.lang.UnsupportedOperationException();	
+	int boardPaneX=229;
+	int boardPaneY=110;
+	int wallWidth=106;
+	int wallHeight=29;
+	
+	int walli=0;
+	int wallj=0;
+	Double minDist;
+	Double dist;
+	
+	int chosenXCoord=0;
+	int chosenYCoord=0;
+	
+	int deltaX=0;
+	int deltaY=0;
+	
+	if(direction==direction.Horizontal) {
+		//check if drop location is close to horizontal wall location
+		dist=(double)1000;
+		minDist=(double)1100;
+		for(int i=0; i<8;i++) {
+			for(int j=0; j<8; j++) {
+				
+				
+				
+				int xcoord =(int)(boardPaneX+board.getWallX(i,j,'h')+wallWidth/2);
+				int ycoord=(int)(boardPaneY+board.getWallY(i,j,'h')+wallHeight/2);
+		
+				
+				deltaX=xcoord-x;
+				deltaY=ycoord-y;
+				
+				//calculate distance from mmouse click to wall position
+				dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
+				
+				if(Double.compare(dist,minDist)<0) { 
+					minDist=dist;
+					walli=i;
+					wallj=j;
+					
+					//xCoord of shortest distance wall
+					
+					chosenXCoord=xcoord;
+					chosenYCoord=ycoord;
+				}
+				
+				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
+					board.setVisible(i,j,'h');
+			
+					return;
+				
+				}
+			}
+		}
+	}else {
+		//check if drop location is close to horizontal wall location
+		dist=(double)1000;
+		minDist=(double)1100;
+		for(int i=0; i<8;i++) {
+			for(int j=0; j<8; j++) {
+				
+				
+				
+				int xcoord =(int)(boardPaneX+board.getWallX(i,j,'v')+wallHeight/2);
+				int ycoord=(int)(boardPaneY+board.getWallY(i,j,'v')+wallWidth/2);
+				
+				deltaX=xcoord-x;
+				deltaY=ycoord-y;
+				
+				//calculate distance from mmouse click to wall position
+				dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
+				
+				if(Double.compare(dist,minDist)<0) { 
+					minDist=dist;
+					walli=i;
+					wallj=j;
+					
+					//xCoord of shortest distance wall
+					
+					chosenXCoord=xcoord;
+					chosenYCoord=ycoord;
+				}
+				
+				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
+					board.setVisible(i, j,'v');
+					return;
+				
+				}
+			}
+		}}
 }
-
 
 /**
  * @author Jake Pogharian
