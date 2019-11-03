@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
@@ -44,6 +45,12 @@ public class PlayScreenController {
 
     @FXML
     public ImageView BlackPlayerImage;
+    
+    @FXML
+    private Label abcd;
+    
+    @FXML
+    public Rectangle wallStock;
 
     @FXML
     private Pane boardPane;
@@ -60,6 +67,21 @@ public class PlayScreenController {
 
     }
     
+    @FXML
+    void dragWall(ActionEvent event) {
+    	
+    }
+    
+    @FXML
+    void createWall(ActionEvent event) {
+    	
+    }
+    
+    @FXML
+    void releaseWall(ActionEvent event) {
+    	
+    }
+    
     
     public static PlayScreenController instance;
     
@@ -73,10 +95,10 @@ public class PlayScreenController {
     	board.prefHeightProperty().bind(boardPane.heightProperty());
     	
     	boardPane.getChildren().add(board);
+    	//pane.getChildren().add(wallStock);
     	System.out.println("Yes");
     }
-    
-    
+    //gohar works here
     
 //---------------------------------------------------------------------------------------------------------
     //david works here

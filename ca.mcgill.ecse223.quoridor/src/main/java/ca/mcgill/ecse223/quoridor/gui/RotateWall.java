@@ -72,6 +72,8 @@ public class RotateWall extends Stage{
           image.setOnMouseReleased(new EventHandler<MouseEvent>() {
             @Override public void handle(MouseEvent mouseEvent) {
               image.getScene().setCursor(Cursor.DEFAULT);
+              //image.setVisible(false);
+              pane.getChildren().remove(image);
             }
           });
           image.setOnMouseDragged(new EventHandler<MouseEvent>() {

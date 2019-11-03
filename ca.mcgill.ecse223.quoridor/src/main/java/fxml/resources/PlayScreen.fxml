@@ -30,7 +30,7 @@
          </image>
       </ImageView>
       <Rectangle fx:id="wallStock" arcHeight="5.0" arcWidth="5.0" fill="#b9bfba" height="29.0" layoutX="787.0" layoutY="327.0" onMouseDragged="#dragWall" onMousePressed="#createWall" onMouseReleased="#releaseWall" stroke="BLACK" strokeType="INSIDE" width="106.0" />
-      <Label layoutX="809.0" layoutY="311.0" text="Wall Stock">
+      <Label fx:id="abcd" layoutX="809.0" layoutY="311.0" text="Wall Stock">
          <font>
             <Font size="13.0" />
          </font>
