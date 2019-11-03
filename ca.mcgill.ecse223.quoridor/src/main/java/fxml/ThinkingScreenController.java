@@ -44,6 +44,7 @@ public class ThinkingScreenController
 	            	ca.mcgill.ecse223.quoridor.Controller.setThinkingTime(minute, second);
 	            	//ca.mcgill.ecse223.quoridor.Controller.startClock();
 	            	 MainController.instance.setScreen("PlayScreen");
+	            	 PlayScreenController.instance.board.startGame();
 	            }
 	           
 	        } catch (NumberFormatException e1) {

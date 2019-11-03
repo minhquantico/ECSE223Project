@@ -1,8 +1,6 @@
 
 package ca.mcgill.ecse223.quoridor;
 
-import static org.junit.Assert.assertTrue;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -178,7 +176,7 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
 				QuoridorApplication.getQuoridor().getCurrentGame().addPosition(current);
 				QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(current);
-				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove();
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(player.getNextPlayer());
 				no++;
 			}
 		}
@@ -503,7 +501,7 @@ public static void setThinkingTime(int minutes, int seconds)
 //--------------------------------------------------------------------------------------------------------------------------
 	
 
-class InvalidPositionException extends Exception
+static class InvalidPositionException extends Exception
 {
 	public InvalidPositionException() {}
 	public InvalidPositionException(String message) { super(message); }

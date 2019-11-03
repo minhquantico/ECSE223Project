@@ -179,7 +179,7 @@ static int wallRectY;
     {
     	instance = this;
     	
-    	board = new Board(false, false);
+    	board = new Board(false, true);
     	board.prefWidthProperty().bind(boardPane.widthProperty());
     	board.prefHeightProperty().bind(boardPane.heightProperty());
     	

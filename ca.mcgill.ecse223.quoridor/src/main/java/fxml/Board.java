@@ -34,8 +34,6 @@ public class Board extends Pane
 	public Wall[][] vWall = new Wall[COLS-1][ROWS-1];		// vWall[0][y]=null && vWall[x][ROWS-1]=null
 	public Wall[][] hWall = new Wall[COLS-1][ROWS-1];		// hWall[x][0]=null && hWall[COLS-1][y]=null
 	
-	private Consumer<? super Player> onPlayerWin;
-	
 	public static Board board;
 	
 	private Thread game = new Thread(() -> {
@@ -60,8 +58,6 @@ public class Board extends Pane
 			catch (Exception ex) { ex.printStackTrace(); }
 		while (!players[activePlayer++].hasWon());
 		activePlayer--;
-		if (onPlayerWin != null)
-			Platform.runLater(() -> onPlayerWin.accept(players[activePlayer]));
 	});
 	
 	public Board(boolean... isPlayerComputer)
@@ -91,32 +87,40 @@ public class Board extends Pane
 			this.players[3] = new Player(0, Color.PURPLE, isPlayerComputer[3]);
 		
 		this.activePlayer = 0;
-
-		
-		if (players.length > 0)
-			this.game.start();
-	}
-	public void loadGame() { 
-		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
-			{
-				if (m instanceof StepMove)
-				{
-					players[activePlayer].moveTo(cells[m.getTargetTile().getRow()-1][m.getTargetTile().getColumn()-1]);
-				}
-				else
-				{
-					(((WallMove)m).getWallDirection().equals(Direction.Horizontal)? 
-							hWall:vWall)[m.getTargetTile().getRow()-1][m.getTargetTile().getColumn()-1].set();
-				}
-			}
 	}
 	
-	public void setOnPlayerWin(Consumer<? super Player> action) { this.onPlayerWin = action; }
+	public void loadFromModel()
+	{
+		GamePosition curr = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		players[0].moveTo(cells[curr.getWhitePosition().getTile().getRow()-1][curr.getWhitePosition().getTile().getColumn()-1]);
+		players[1].moveTo(cells[curr.getBlackPosition().getTile().getRow()-1][curr.getBlackPosition().getTile().getColumn()-1]);
+		
+		forEachWall(w -> w.unset());
+		for (ca.mcgill.ecse223.quoridor.model.Wall wall : curr.getWhiteWallsOnBoard())
+			(wall.getMove().getWallDirection().equals(Direction.Horizontal) ? hWall : vWall)
+					[wall.getMove().getTargetTile().getRow()-1][wall.getMove().getTargetTile().getColumn()-1]
+					.set();
+		
+		for (ca.mcgill.ecse223.quoridor.model.Wall wall : curr.getBlackWallsOnBoard())
+			(wall.getMove().getWallDirection().equals(Direction.Horizontal) ? hWall : vWall)
+					[wall.getMove().getTargetTile().getRow()-1][wall.getMove().getTargetTile().getColumn()-1]
+					.set();
+	}
+	
+	public void startGame() { if (players.length > 0) this.game.start(); }
+	public void setGameLoop(Runnable r) { game = new Thread(r); }
 	
 	private void forEachCell(Consumer<? super Cell> action)
 	{
 		for (int i = 0; i < ROWS * COLS; i++)
 			action.accept(cells[i/ROWS][i%ROWS]);
+	}
+	
+	private void forEachWall(Consumer<? super Wall> action)
+	{
+		boolean vertical = false;
+		for (int i = 0; i < (ROWS-1) * (COLS-1); i += vertical ? 1 : 0, vertical = !vertical)
+			action.accept((vertical ? hWall : vWall)[i/(ROWS-1)][i%(ROWS-1)]);
 	}
 	
 	public class Cell extends Pane
@@ -187,13 +191,8 @@ public class Board extends Pane
 		private int x, y; 
 		private boolean vertical, set = false;
 		
-		public int getX() {
-			return this.x;
-		}
-		
-		public int getY() {
-			return this.y;
-		}
+		public int getX() { return this.x; }
+		public int getY() { return this.y; }
 		
 		public Wall(int x, int y, boolean vertical)
 		{
@@ -217,7 +216,6 @@ public class Board extends Pane
 			}
 			
 			this.setBackground(DEFAULT);
-			this.setOnMouseReleased(e -> this.set());
 		}
 		
 		//jake works here
@@ -270,25 +268,26 @@ public class Board extends Pane
 			}
 		}
 		
-		public boolean set()
+		public void set()
 		{
-			if (!isSettable())
-				return false;
-			
-			this.setBackground(SET);
 			this.set = true;
+			this.setBackground(SET);
 			
-			Board.this.players[activePlayer].walls--;
+			//Board.this.players[activePlayer].walls--;
 			if (game.isAlive())
 				synchronized (Board.this) { Board.this.notify(); }
-			return true;
+		}
+		
+		public void unset()
+		{
+			this.set = false;
+			this.setBackground(DEFAULT);
 		}
 	}
 	
 	public class Player extends Circle
 	{
 		public final int TOTALWALLS = 20;
-		
 		
 		public int walls;
 		
@@ -412,8 +411,6 @@ public class Board extends Pane
 					catch (InterruptedException ex) {}
 			}
 			
-			//StopWatch w = new StopWatch();
-			
 			Set<Cell> moves = getPossibleMoves();
 			
 			List<Cell> bestCells = new ArrayList<>();
@@ -446,13 +443,10 @@ public class Board extends Pane
 			int minWallCost = Integer.MAX_VALUE;
 			
 			boolean vertical = false;
-			for (int i = 0; i < COLS; i++)
-				for (int j = 0; j < ROWS; j += vertical ? 1 : 0, vertical = !vertical)
+			for (int i = 0; i < COLS-1; i++)
+				for (int j = 0; j < ROWS-1; j += vertical ? 1 : 0, vertical = !vertical)
 				{
 					Wall curr = (vertical ? hWall : vWall)[i][j];
-					
-					if (curr == null)
-						continue;
 					
 					if (curr.isSettable())
 					{
@@ -470,8 +464,6 @@ public class Board extends Pane
 							bestWalls.add(curr);
 					}
 				}
-			
-			//System.out.println("Time: " + w.getTimeElapsed() * 1000 + "ms");
 			
 			if (bestWalls.isEmpty() || minCellCost < minWallCost + (int)(Math.random() * 2))
 				moveTo(bestCells.get((int)(Math.random()*bestCells.size())));
