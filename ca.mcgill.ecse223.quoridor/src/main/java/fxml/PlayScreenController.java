@@ -4,6 +4,7 @@ package fxml;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.WallMove;
@@ -11,7 +12,8 @@ import fxml.Board.Player;
 
 import static java.lang.Math.sqrt;
 
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -28,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
@@ -70,6 +73,19 @@ public class PlayScreenController {
    
     @FXML
     void buttonClickedSaveGame(ActionEvent event) {
+    	FileChooser chooser = new FileChooser();
+    	File f = chooser.showSaveDialog(MainController.instance);
+    	if (f != null)
+			try {
+				Controller.saveGame(f);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+//    		catch (FileNotFoundException | Controller.InvalidPositionException ex)
+//    		{
+//    			System.err.println("Load Error: " + ex.getMessage());
+//    		}
 
     }    
     
