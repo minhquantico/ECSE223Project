@@ -743,13 +743,13 @@ public class CucumberStepDefinitions {
 
 				
 
-					/** @author Minh Quan Hoang **/
-					//Initiates Quoridor, a Board and the users and players
-					@Given("A new game is initializing")
-					public void a_new_game_is_initializing() {
-					    initQuoridorAndBoard();
-					    createUsersAndPlayers("user1", "user2");
-					}
+//					/** @author Minh Quan Hoang **/
+//					//Initiates Quoridor, a Board and the users and players
+//					@Given("A new game is initializing")
+//					public void a_new_game_is_initializing() {
+//					    initQuoridorAndBoard();
+//					    createUsersAndPlayers("user1", "user2");
+//					}
 					/** @author Minh Quan Hoang **/
 					//Chooses the next player to set the username
 					@Given("Next player to set user name is {string}")
