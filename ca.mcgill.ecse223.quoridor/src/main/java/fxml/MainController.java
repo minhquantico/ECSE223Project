@@ -22,7 +22,9 @@ public class MainController extends Stage {
 	public MainController() { MainController.instance = this; }
 	
     public boolean loadScreen(String name, String resource, String resourceCSS) {
-        try {
+    System.out.println(name);
+    	
+    	try {
             //FXMLLoader myLoader = new FXMLLoader(getClass().getResource(resource));
             Scene scene = new Scene(FXMLLoader.load(ThinkingScreenController.class.getResource(resource)));
 			scene.getStylesheets().add(ThinkingScreenController.class.getResource(resourceCSS).toExternalForm());

@@ -470,11 +470,13 @@ public class Controller {
 		if (isWallSet(aTargetTile.getColumn(),aTargetTile.getRow(), dir))
 			return false;
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
+					!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
+					!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
 			return false;
+		
+		
 
-		if (QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection() == Direction.Vertical)
+		if (dir == Direction.Vertical)
 		{
 			if (aTargetTile.getRow() > 1 && isWallSet(aTargetTile.getColumn(), aTargetTile.getRow()-1,Direction.Vertical))
 				return false;
@@ -635,7 +637,39 @@ public static Tile getTile()
  * For the model, it will register the wall move and complete the move when it is in fact valid, change whose turn it is, etc.
  * @param Tile t: This is a parameter of type Tile and will be used by the method to know where to perform the wall drop.
  */
-public static void dropWall(fxml.Board board, int x, int y, Direction direction) {
+public static void dropWall(fxml.Board board, int x, int y, Direction direction) 
+{
+	Player aPlayer=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
+	WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+	wallMoveCandidate.setTargetTile(getAppropriateWallMove(board, x, y, direction));
+	if (!initPosValidation(wallMoveCandidate.getTargetTile(), direction))
+		cancelCandidate();
+	else
+	{
+		if(aPlayer.hasGameAsWhite()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
+		}else {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
+		}
+		
+		System.out.println(wallMoveCandidate.getTargetTile());
+		if(direction==Direction.Horizontal) {
+			
+			board.setVisible(wallMoveCandidate.getTargetTile().getColumn()-1,wallMoveCandidate.getTargetTile().getRow()-1,'h');
+		}else {
+			board.setVisible(wallMoveCandidate.getTargetTile().getColumn()-1,wallMoveCandidate.getTargetTile().getRow()-1,'v');
+		}
+	
+	}
+
+}
+
+
+
+public static Tile getAppropriateWallMove(fxml.Board board, int x, int y, Direction direction)
+{
 	
 	//validate the wallMoveCandidate from the model prior to placing it on the board 
 //	if(validateWallMoveCandidatePosition()==true) {
@@ -655,6 +689,7 @@ public static void dropWall(fxml.Board board, int x, int y, Direction direction)
 			
 			int deltaX=0;
 			int deltaY=0;
+			Tile tile=null;
 		
 		if(direction==direction.Horizontal) {
 			//check if drop location is close to horizontal wall location
@@ -687,20 +722,10 @@ public static void dropWall(fxml.Board board, int x, int y, Direction direction)
 					}
 					
 					if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
-						board.setVisible(i,j,'h');
-						//model element
-						Player aPlayer=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
-						WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
-						if(aPlayer.hasGameAsWhite()) {
-						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
-						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
 						
-						}else {
-							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
-							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
-							
-						}
-						return;
+						//model element
+						
+						return tile=getTile(j+1, i+1);
 					
 					}
 				}
@@ -735,27 +760,15 @@ public static void dropWall(fxml.Board board, int x, int y, Direction direction)
 					}
 					
 					if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
-						board.setVisible(i, j,'v');
 						
-						Player aPlayer=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
-						WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
-						if(aPlayer.hasGameAsWhite()) {
-						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
-						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
 						
-						}else {
-							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
-							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
-							
-						}
-						return;
+						return tile=getTile(j+1,i+1);
 					
 				}
 			}
 		}
 		}
-	//}
-		cancelCandidate();
+		return tile;
 }
 
 
