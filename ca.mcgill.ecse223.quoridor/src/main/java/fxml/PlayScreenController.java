@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.WallMove;
+import fxml.Board.Player;
 
 import static java.lang.Math.sqrt;
 
@@ -150,6 +151,19 @@ static int wallRectY;
     	
     	boardPaneX=(int)boardPane.getLayoutX();
     	boardPaneY=(int)boardPane.getLayoutY();
+    	
+    	for (Player player : board.players) {
+    		player.setOnRemainingTimeChange(t ->
+    		{
+    			long minutes = (board.getActivePlayer().getRemainingTime()) / 60;
+    			long seconds = (board.getActivePlayer().getRemainingTime()) % 60;
+    			
+    			if(seconds > 9)
+    			timeLabel.setText(minutes + " : " + seconds);
+    			else
+    			timeLabel.setText(minutes + " : 0" + seconds);
+    		});
+    	}
     	
     	wallRectX=(int)wallStock.getLayoutX();
     	wallRectY=(int)wallStock.getLayoutY();

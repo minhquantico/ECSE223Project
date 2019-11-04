@@ -124,6 +124,8 @@ public class Board extends Pane
 					.set();
 	}
 	
+	public Player getActivePlayer() { return this.players[activePlayer]; }
+	
 	public void startGame() { if (players.length > 0) this.game.start(); }
 	public void setGameLoop(Runnable r) { game = new Thread(r); }
 	
@@ -520,6 +522,7 @@ public class Board extends Pane
 			startClock();
 		}
 		
+		private Consumer<Long> onRemainingTimeChanged;
 		public void startClock()
 		{
 			clock = new Thread(()->{
@@ -527,14 +530,14 @@ public class Board extends Pane
 					try {
 						Thread.sleep(1000);
 						remainingTime--;
+						if (onRemainingTimeChanged != null)
+							Platform.runLater(() -> onRemainingTimeChanged.accept(remainingTime));
 					} catch (InterruptedException e) {e.printStackTrace();}
 		});
 			
-			
+			clock.start();
 		}
-		public void stopClock() {
-			clock.interrupt();
-		}
+		public void stopClock() { clock.interrupt(); }
 		
 		public boolean isClockStopped() {
 			if(clock == null || !clock.isAlive()) return true;
@@ -542,6 +545,6 @@ public class Board extends Pane
 		}
 		
 		public long getRemainingTime() { return this.remainingTime; }
-		
+		public void setOnRemainingTimeChange(Consumer<Long> action) { this.onRemainingTimeChanged = action; }
 	}
 }

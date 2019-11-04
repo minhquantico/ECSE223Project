@@ -846,10 +846,10 @@ public class CucumberStepDefinitions {
 					@Then("Next player to set user name shall be {string}")
 					public void next_player_to_set_user_name_shall_be(String string) {
 						if(string.equals("black")) {
-					    assertNull(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser());
+					    assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser().getName() == "user2");
 						}
 					    else if(string.equals("white")){
-					    assertNull(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getUser());
+					    assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getUser().getName() == "user1");
 					    }
 					}
 				

@@ -373,8 +373,7 @@ public class Controller {
 	 * Step: @When("I start the clock")
 	 * Starts the clock **/
 	public static void StartClock(long seconds) {
-		
-		PlayScreenController.instance.board.players[0].startClock();
+		PlayScreenController.instance.board.players[0].startClock(seconds);
 	}
 
 	/** @author Minh Quan Hoang 
