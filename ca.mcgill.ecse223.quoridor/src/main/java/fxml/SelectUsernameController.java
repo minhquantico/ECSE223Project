@@ -10,7 +10,11 @@ import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import ca.mcgill.ecse223.quoridor.model.*;
 
 import javafx.event.ActionEvent;
@@ -59,11 +63,45 @@ public class SelectUsernameController {
 	    			isListedBlack = true;
 	    		}
 	    	}
-	    	if(!isListedWhite)
-	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(whiteUsername);
-	    	if(!isListedBlack)
-	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(blackUsername);
 	    	
+	    	try (Scanner input = new Scanner(new File(getClass().getClassLoader().getResource("Usernames.txt").getFile())))
+	    	{
+	    	if(!isListedWhite) {
+	    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(whiteUsername);
+	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
+	    		FileWriter fileWriter;
+				try {
+					fileWriter = new FileWriter(file);
+					PrintWriter printWriter = new PrintWriter(fileWriter);
+		    		printWriter.print(whiteUsername);
+		    		printWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					}
+	    		
+	    		}
+	    	
+	    	if(!isListedBlack) {
+	    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(blackUsername);
+	    		
+	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
+	    		FileWriter fileWriter;
+				try {
+					fileWriter = new FileWriter(file);
+					PrintWriter printWriter = new PrintWriter(fileWriter);
+		    		printWriter.print(blackUsername);
+		    		printWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					}
+	    		
+	    		}
+	    	}
+	    	
+	    	catch (FileNotFoundException e)
+	    	{
+				e.printStackTrace();
+			}
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
 
