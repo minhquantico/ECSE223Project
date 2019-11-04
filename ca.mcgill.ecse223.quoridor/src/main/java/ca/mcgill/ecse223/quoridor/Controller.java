@@ -69,6 +69,11 @@ public class Controller {
 		PlayScreenController.instance.putInHand(e);
 	}
 	
+	/**
+	 * @author David Budaghyan 
+	 * Feature: MoveWall
+	 * 
+	 */
 	public static void cancelCandidate() {
 		System.err.println("mother fucker");
 		//System.out.println("Candidate: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
@@ -81,6 +86,11 @@ public class Controller {
 		
 		
 	}
+	
+	/**
+	 * @author David Budaghyan 
+	 * @return boolean (true or false) depending on whether the current player has walls in stock 
+	 */
 	
 	public static boolean checkCurrentPlayerStock() {
 		if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite()) {
@@ -118,6 +128,7 @@ public class Controller {
 	 *  @author Lenoy Christy
 	 * Feature: Initialize board
 	 * step: ("The initialization of the board is initiated") 
+	 * initializes the quoridor game and Board
 	 */
 	public static void initQuoridorAndBoard() {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
@@ -135,6 +146,7 @@ public class Controller {
 	 * @author Lenoy Christy
 	 * Feature: SwitchCurrentPlayer
 	 * step: ("Player {string} completes his move") 
+	 * end the Move of the current player and get the next player to move
 	 */
 	public static void endMove() {
 		if (PlayScreenController.instance.board.activePlayer == 0) {
@@ -298,8 +310,20 @@ public class Controller {
 	
 	
 //--------------------------------------------------------------------------------------------------------------------------
-	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param x
+	 * @param y
+	 * @return Tile object at the specified coordinates
+	 */
 	public static Tile getTile(int x, int y) { return QuoridorApplication.getQuoridor().getBoard().getTile((x-1)*9+(y-1)); }
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param x
+	 * @param y
+	 * @param d
+	 * @return true or false depending on whether the wall at given coordinates were set
+	 */
 	public static boolean isWallSet(int x, int y, Direction d)
 	{
 		List<Wall> wallsOnBoard = new ArrayList<>(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsOnBoard());
@@ -312,7 +336,12 @@ public class Controller {
 		
 		return false;
 	}
-	
+	/**
+	 * @author Gohar Saqib Fazal 
+	 * @param tile
+	 * @param d
+	 * @return the possible moves (tiles) that the player can move to 
+	 */
 	public static Tile direction(Tile tile, int d)
 	{
 		switch ((d + 4) % 4)
@@ -324,6 +353,13 @@ public class Controller {
 		default: return null;
 		}
 	}
+	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param tile
+	 * @param d
+	 * @return true or false depending on whether the user's intended tile and direction are blocked
+	 */
 	
 	public static boolean isBlockedDirection(Tile tile, int d)
 	{
@@ -353,12 +389,22 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param tile
+	 * @return true or false depending on whether or not there is a player on the given tile
+	 */
 	public static boolean hasPlayer(Tile tile) {
 		return (
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() == tile ||
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile() == tile);
 
 	}
+	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @return a set of Tiles that the player can move to
+	 */
 	public static Set<Tile> getPossibleStepMoves()
 	{
 		Tile tile;
@@ -410,74 +456,6 @@ public class Controller {
 				
 	}
 	
-//	public void Wall(int x, int y, boolean vertical)
-//	{
-//		this.x = x;
-//		this.y = y;
-//		this.vertical = vertical;
-//		
-//		if (vertical)
-//		{
-//			this.layoutXProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply((x+1) - Board.this.WALLSIZE/2));
-//			this.layoutYProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(y + Board.this.WALLSIZE/2));			
-//			this.prefWidthProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(Board.this.WALLSIZE));
-//			this.prefHeightProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(2 - Board.this.WALLSIZE));
-//		}
-//		else
-//		{
-//			this.layoutXProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(x + Board.this.WALLSIZE/2));
-//			this.layoutYProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply((y+1) - Board.this.WALLSIZE/2));			
-//			this.prefWidthProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(2 - Board.this.WALLSIZE));
-//			this.prefHeightProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(Board.this.WALLSIZE));
-//		}
-//		
-//		this.setBackground(DEFAULT);
-//	}
-	
-	
-	
-//		if (isWallSet(tile.getColumn(),tile.getRow(),Direction dir))
-//			return false;
-//		if (PlayScreenController.instance.board.players[PlayScreenController.instance.board.activePlayer].walls == 0)
-//			return false;
-//
-//		if (QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection() == Direction.Vertical)
-//		{
-//			if (tile.getRow() > 1 && isWallSet(tile.getColumn(), tile.getRow()-1,Direction.Vertical))
-//				return false;
-//			if (tile.getRow() < 9-2 && isWallSet(tile.getColumn(), tile.getRow()+1, Direction.Vertical))
-//				return false;
-//			if (isWallSet(tile.getColumn(),tile.getRow(), Direction.Horizontal))
-//				return false;
-//		}
-//		else
-//		{
-//			if (tile.getColumn() > 1 && isWallSet(tile.getColumn()-1, tile.getRow(), Direction.Horizontal))
-//				return false;
-//			if (tile.getColumn() < 9-2 && isWallSet(tile.getColumn()+1, tile.getRow(),Direction.Horizontal))
-//				return false;
-//			if (isWallSet(tile.getColumn(),tile.getRow(),Direction.Vertical))
-//				return false;
-//		}
-		
-//		this.set = true;		// Temporarily set wall
-//		for (Player p : players)
-//			if (p.getShortestPathLength() == -1)
-//				{ this.set = false; break; }
-		
-//		if (!this.set)
-//			return false;
-//		else
-//		{
-//			this.set = false;
-//			return true;
-//		}
-	
-	
-	
-	
-	
-
 
 	/**
 	 * @author Gohar Saqib Fazal 

@@ -27,7 +27,7 @@ public class PlayerPosition
   {
     if (!setPlayer(aPlayer))
     {
-      throw new RuntimeException("Unable to create PlayerPosition due to aPlayer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to cre ate PlayerPosition due to aPlayer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
     }
     if (!setTile(aTile))
     {
