@@ -544,6 +544,7 @@ public class Controller {
 		PlayScreenController.instance.board.players[1].stopClock();
 
 	}
+	
 
 	/**
 	 * @author Minh Quan Hoang Feature: StartNewGame Step: @When("Total thinking
@@ -879,6 +880,7 @@ public class Controller {
 	}
 
 	public static void createAndInitializeGame(ArrayList<Player> players) {
+		if(QuoridorApplication.getQuoridor()==null) {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		// There are total 36 tiles in the first four rows and
 		// indexing starts from 0 -> tiles with indices 36 and 36+8=44 are the starting
@@ -902,6 +904,7 @@ public class Controller {
 		}
 
 		game.setCurrentPosition(gamePosition);
+		}
 	}
 
 }

@@ -777,9 +777,9 @@ public class CucumberStepDefinitions {
 					//Check if the name of the player is the new username
 					@Then("The name of player {string} in the new game shall be {string}")
 					public void the_name_of_player_in_the_new_game_shall_be(String string, String string2) {
-						if(string.equals("black"))
+						if(string.equals("Black"))
 						assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser().getName().equals(string2));
-						else if(string.equals("white"))
+						else if(string.equals("White"))
 						assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getUser().getName().equals(string2));
 					
 					}
@@ -849,7 +849,7 @@ public class CucumberStepDefinitions {
 					//Get username for black player from player class
 					@When("Black player chooses a username")
 					public void black_player_chooses_a_username() {
-					    Controller.setBlackPlayerUsername("default");
+					    Controller.setBlackPlayerUsername("default2");
 					}
 					/** @author Minh Quan Hoang **/
 					//Sets the total thinking time
@@ -867,21 +867,26 @@ public class CucumberStepDefinitions {
 					//Changes the status of the game to be ready to start
 					@Given("The game is ready to start")
 					public void the_game_is_ready_to_start() {
+						if(QuoridorApplication.getQuoridor().hasCurrentGame()) {
 					    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(Game.GameStatus.ReadyToStart);
-					    
+						}
 					}
 					/** @author Minh Quan Hoang **/
 					//Start running the game and initialize board (create and start game method)
 					@When("I start the clock")
-					public void i_start_the_clock(long time) {
-					    Controller.StartClock(time);
+					public void i_start_the_clock() {
+					    //this is GUI
+						
 					}
 					/** @author Minh Quan Hoang **/
 					//Checks if the game status is set to running
 					@Then("The game shall be running")
 					public void the_game_shall_be_running() {
+						if(QuoridorApplication.getQuoridor().hasCurrentGame()) {
+
 					    assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(Game.GameStatus.Running));
-					}
+						}
+						}
 					/** @author Minh Quan Hoang **/
 					//Checks if the board has been initialized
 					@Then("The board shall be initialized")
