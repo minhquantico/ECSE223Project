@@ -100,13 +100,13 @@ public class PlayScreenController {
     		wallLabel.setTextFill(Color.RED);
     	}
     	wall = new Rectangle(97,17);
-   	   wall.setFill(Color.GREY);
-   	   dragWall(e);
-   	   pane.getChildren().add(wall);
-   	   wall.setMouseTransparent(true);
-   	   event = e;
-   	   pane.requestFocus();
-    }
+    	   wall.setFill(Color.GREY);
+    	   dragWall(e);
+    	   pane.getChildren().add(wall);
+    	   wall.setMouseTransparent(true);
+    	   event = e;
+    	   pane.requestFocus();
+}
 
     @FXML
     public void dragWall(MouseEvent e) {
@@ -127,6 +127,10 @@ static int wallRectY;
     	   ca.mcgill.ecse223.quoridor.Controller.dropWall(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
   	   isWallInHand = false;
   	}
+       if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+    	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() + "");
+       else 
+    	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size() + "");
        
        direction=Direction.Horizontal;
     }
@@ -179,11 +183,13 @@ static int wallRectY;
     		});
     	}
     	
+    	
     	wallRectX=(int)wallStock.getLayoutX();
     	wallRectY=(int)wallStock.getLayoutY();
     	wallWidth=(int)wallStock.getWidth();
     	wallHeight=(int)wallStock.getHeight();
     	pane.getChildren().remove(BlackPlayerImage);
+    	wallLabel.setText("10");
     	System.out.println("Yes");
     }
 }
