@@ -4,6 +4,7 @@ package fxml;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 
 import static java.lang.Math.sqrt;
@@ -82,21 +83,28 @@ public class PlayScreenController {
     //david works here
 
     Direction direction = Direction.Horizontal;
-    @FXML
-    Rectangle wall;
+    
+    private Rectangle wall;
 
     @FXML
     MouseEvent event = null;
 
     @FXML
     public void createWall(MouseEvent e) {
-       wall = new Rectangle(97,17);
-    	   wall.setFill(Color.GREY);
-    	   dragWall(e);
-    	   pane.getChildren().add(wall);
-    	   wall.setMouseTransparent(true);
-    	   event = e;
-    	   pane.requestFocus();
+    	boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
+    	if(wallsLeft) {
+    		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove(), e);
+    	}
+    }
+    
+    public void putInHand(MouseEvent e) {
+    	wall = new Rectangle(97,17);
+  	   wall.setFill(Color.GREY);
+  	   dragWall(e);
+  	   pane.getChildren().add(wall);
+  	   wall.setMouseTransparent(true);
+  	   event = e;
+  	   pane.requestFocus();
     }
 
     @FXML
@@ -113,7 +121,12 @@ static int wallRectY;
     public void releaseWall(MouseEvent e) {
      //  event = null;
        pane.getChildren().remove(wall);
-       ca.mcgill.ecse223.quoridor.Controller.dropWall(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
+       boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
+       if(wallsLeft) {
+    	   ca.mcgill.ecse223.quoridor.Controller.dropWall(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
+  		
+  	}
+       
        direction=Direction.Horizontal;
     }
     
