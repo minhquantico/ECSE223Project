@@ -45,11 +45,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class CucumberStepDefinitions {
-	
-
-	// might need this, see GrabWall below
-	// Wall wall;
-	
+		
 	
 	// ***********************************************
 	// Background step definitions
@@ -123,14 +119,12 @@ public class CucumberStepDefinitions {
 
 	@And("I do not have a wall in my hand")
 	public void iDoNotHaveAWallInMyHand() {
-		// GUI-related feature -- TODO for later
-	    throw new cucumber.api.PendingException();
+		assertFalse(PlayScreenController.isWallInHand);
 	}
 	
 	@And("^I have a wall in my hand over the board$")
 	public void iHaveAWallInMyHandOverTheBoard() throws Throwable {
-		// GUI-related feature -- TODO for later
-	    throw new cucumber.api.PendingException();
+		assertTrue(PlayScreenController.isWallInHand);
 	}
 	
 	@Given("^A new game is initializing$")
@@ -154,7 +148,7 @@ public class CucumberStepDefinitions {
 			 	/** @author David Budaghyan **/
 				@Given("I have more walls on stock")
 				public void i_have_more_walls_on_stock() {
-					//already done
+					System.out.println("i do");
 				    
 				}
 				
