@@ -111,8 +111,12 @@ public class SelectUsernameController {
 	    {
 	    	try (Scanner input = new Scanner(new File(getClass().getClassLoader().getResource("Usernames.txt").getFile())))
 	    	{
-				while(input.hasNextLine())
-					QuoridorApplication.getQuoridor().addUser(input.nextLine());
+				while(input.hasNextLine()) {
+					String string = input.nextLine();
+					System.out.println(string);
+					QuoridorApplication.getQuoridor().addUser(string);
+					
+				}
 				for (User user : QuoridorApplication.getQuoridor().getUsers())
 				{
 					comboBoxWhite.getItems().add(user.getName());

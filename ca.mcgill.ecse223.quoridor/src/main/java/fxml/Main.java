@@ -14,7 +14,7 @@ public class Main extends Application
 		MainController mainContainer = new MainController();
 	    mainContainer.loadScreen("StartGame", "resources/StartGame.fxml",  "resources/StartGame.css");
 	    mainContainer.loadScreen("thinkingScreen", "resources/Scene.fxml",  "resources/Scene.css");
-	    mainContainer.loadScreen("SelectUsername", "resources/SelectUsername.fxml",  "resources/SelectUsername.css");
+	    //mainContainer.loadScreen("SelectUsername", "resources/SelectUsername.fxml",  "resources/SelectUsername.css");
 	    mainContainer.loadScreen("PlayScreen", "resources/PlayScreen.fxml",  "resources/PlayScreen.css");
 	    mainContainer.loadScreen("WhiteSelectUsername", "resources/SelectWhitePlayerUsername.fxml", null);
 	    mainContainer.loadScreen("BlackSelectUsername", "resources/SelectBlackPlayerUsername.fxml", null);
