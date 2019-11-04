@@ -4,6 +4,7 @@ package fxml;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.WallMove;
 
@@ -89,8 +90,6 @@ public class PlayScreenController {
     @FXML
     MouseEvent event = null;
     
-    WallMove wallMove;
-
     @FXML
     public void createWall(MouseEvent e) {
        wall = new Rectangle(97,17);
@@ -100,6 +99,10 @@ public class PlayScreenController {
     	   wall.setMouseTransparent(true);
     	   event = e;
     	   pane.requestFocus();
+        QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(
+        		new WallMove(0,0,
+        				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove(),
+        				null, QuoridorApplication.getQuoridor().getCurrentGame(), Direction.Horizontal, null));
     }
 
     @FXML

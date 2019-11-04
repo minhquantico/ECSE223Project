@@ -150,7 +150,7 @@ public class Board extends Pane
 	{
 		public final Background DEFAULT = new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY));
 		public final Background SELECTED = new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY));
-		private final int x, y;
+		public final int x, y;
 		
 		// Used for Dijkstra's algorithm
 		boolean visited;
@@ -209,10 +209,10 @@ public class Board extends Pane
 	
 	class Wall extends Pane
 	{
-		private Background DEFAULT = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
-		private Background SET = new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY));
+		public Background DEFAULT = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
+		public Background SET = new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY));
 		private int x, y; 
-		private boolean vertical, set = false;
+		public boolean vertical, set = false;
 		
 		public int getX() { return this.x; }
 		public int getY() { return this.y; }
