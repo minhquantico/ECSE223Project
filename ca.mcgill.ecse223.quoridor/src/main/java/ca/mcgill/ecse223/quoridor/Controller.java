@@ -115,26 +115,24 @@ public class Controller {
 	 *         completes his move") end the Move of the current player and get the
 	 *         next player to move
 	 */
-	public static void endMove() {
-		if (PlayScreenController.instance.board.activePlayer == 0) {
-			endMoveModel(0);
+	public static void endMoveGUI()
+	{
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+		{
+			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.BlackPlayerImage);
+			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.WhitePlayerImage);
+		}
+		else
+		{
 			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.WhitePlayerImage);
 			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.BlackPlayerImage);
-			
-		} else {
-			
-			endMoveModel(1);
-			}
+		}
 	}
 	
-	public static void endMoveModel(int player) {
-		if (player == 0) {
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
-		}else {
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-			.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
-		}
+	public static void endMove()
+	{
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -617,11 +615,16 @@ public class Controller {
 	 */
 	public static void dropWall(int x, int y) {
 		Tile target = getAppropriateWallMove(x, y);
-		Direction direction = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection();
-		setWallMoveCandidate(target.getColumn(), target.getRow(), direction);
+		if (target != null)
+		{
+			Direction direction = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection();
+			setWallMoveCandidate(target.getColumn(), target.getRow(), direction);
 		
-		if (initPosValidation())
-			doWallMove(true);
+			if (initPosValidation())
+				doWallMove(true);
+			else
+				cancelCandidate();
+		}
 		else
 			cancelCandidate();
 
@@ -647,7 +650,6 @@ public class Controller {
 
 		int deltaX = 0;
 		int deltaY = 0;
-		Tile tile = null;
 
 		if (direction == direction.Horizontal) {
 			// check if drop location is close to horizontal wall location
@@ -681,7 +683,7 @@ public class Controller {
 
 						// model element
 
-						return tile = getTile(i + 1, j + 1);
+						return getTile(i + 1, j + 1);
 
 					}
 				}
@@ -716,13 +718,13 @@ public class Controller {
 					if (25 > (chosenXCoord - x) && -25 < (chosenXCoord - x) && (chosenYCoord - y) < 25
 							&& (chosenYCoord - y) > -25) {
 
-						return tile = getTile(i + 1, j + 1);
+						return getTile(i + 1, j + 1);
 
 					}
 				}
 			}
 		}
-		return tile;
+		return null;
 	}
 
 	public static void setWallMoveCandidate(int i, int j, Direction d) {
@@ -787,11 +789,11 @@ public class Controller {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
 		}
-		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
-				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
+		
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(null);
 		
+		endMove();
 	}
 	
 	public static void doPawnMove(int i, int j, boolean notify)
@@ -814,9 +816,8 @@ public class Controller {
 		else
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setBlackPosition(new PlayerPosition(aPlayer, aTargetTile));
 		
-		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
-				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
+		endMove();
 		
 
 		PlayScreenController.instance.board.loadFromModel();

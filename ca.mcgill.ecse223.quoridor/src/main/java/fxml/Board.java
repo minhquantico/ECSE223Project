@@ -44,7 +44,7 @@ public class Board extends Pane
 				players[activePlayer].takeTurn();
 				Platform.runLater(() ->
 				{
-					Controller.endMove();
+					Controller.endMoveGUI();
 					if (++activePlayer == players.length)
 						activePlayer = 0;
 					synchronized (Board.this) { Board.this.notify(); }
