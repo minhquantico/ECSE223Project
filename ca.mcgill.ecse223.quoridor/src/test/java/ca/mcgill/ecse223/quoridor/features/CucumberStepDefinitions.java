@@ -205,14 +205,13 @@ public class CucumberStepDefinitions {
 				/** @author David Budaghyan **/
 				@Then("I shall be notified that I have no more walls")
 				public void i_shall_be_notified_that_I_have_no_more_walls() {
-					// GUI-related feature -- TODO for later
-				    throw new cucumber.api.PendingException();
+					assertTrue(PlayScreenController.noMoreWalls);
 				}
 				
 				/** @author David Budaghyan **/
 				@Then("I shall have no walls in my hand")
 				public void i_shall_have_no_walls_in_my_hand() {
-					assertTrue(PlayScreenController.isWallInHand);
+					assertFalse(PlayScreenController.isWallInHand);
 				}
 
 				

@@ -101,6 +101,7 @@ public class PlayScreenController {
     public Rectangle wall;
     
     public static boolean isWallInHand = false;
+    public static boolean noMoreWalls = false;
 
     @FXML
     MouseEvent event = null;
@@ -114,6 +115,7 @@ public class PlayScreenController {
     	}else {
     		wallLabel.setText("You have no walls left!");
     		wallLabel.setTextFill(Color.RED);
+    		noMoreWalls = true;
     	}
     	wall = new Rectangle(97,17);
     	   wall.setFill(Color.GREY);
