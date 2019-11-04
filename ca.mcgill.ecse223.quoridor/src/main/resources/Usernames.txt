@@ -1,6 +1,2 @@
-Traian
-Minh Quan
-Gohan
-Lenoy
-Jake
-David
+hello
+hi
