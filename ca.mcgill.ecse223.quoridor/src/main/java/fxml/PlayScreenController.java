@@ -82,7 +82,7 @@ public class PlayScreenController {
 
     Direction direction = Direction.Horizontal;
     
-    private Rectangle wall;
+    public Rectangle wall;
     
     public static boolean isWallInHand = false;
 
