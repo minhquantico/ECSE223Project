@@ -57,52 +57,39 @@ public class SelectUsernameController {
 	    	
 	    	ArrayList<User> list = new ArrayList<User>(QuoridorApplication.getQuoridor().getUsers());
 	    	
-	    	for(User u: list) {
-	    		if(u.getName().equals(whiteUsername)) {
+	    	for(User u: list)
+	    	{
+	    		if(u.getName().equals(whiteUsername))
 	    			isListedWhite = true;
-	    		}
-	    		
-	    		if(u.getName().equals(blackUsername)) {
+	    		if(u.getName().equals(blackUsername))
 	    			isListedBlack = true;
-	    		}
 	    	}
 	    	
-	    	if(!isListedWhite) {
+	    	if(!isListedWhite)
 	    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(whiteUsername);
-	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-
-				try (PrintStream stream = new PrintStream(new FileOutputStream(file, true))) {
-					stream.println(whiteUsername);
-				} catch (IOException e) {
-					e.printStackTrace();
-					}
-	    		
-	    		}
 	    	
-	    	if(!isListedBlack && whiteUsername != blackUsername) {
+	    	if(!isListedBlack && whiteUsername != blackUsername)
 	    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(blackUsername);
-	    		
-	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-
-				try (PrintStream stream = new PrintStream(new FileOutputStream(file, true))) {
+	    	
+	    	File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
+			try (PrintStream stream = new PrintStream(new FileOutputStream(file, true)))
+			{
+				System.out.println("huwhite: " + whiteUsername + ", bleck: " + blackUsername);
+				if (!isListedWhite)
+					stream.println(whiteUsername);
+				if (!isListedBlack && !whiteUsername.equals(blackUsername))
 					stream.println(blackUsername);
-				} catch (IOException e) {
-					e.printStackTrace();
-					}
-	    		
-	    		}
-
-	    	
-	    	
-	    	
-	    	
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+    		}
 	    	
 	    	
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
 
 	    	MainController.instance.setScreen("thinkingScreen");
-
 	    }
 	    
     
@@ -113,7 +100,7 @@ public class SelectUsernameController {
 	    	{
 				while(input.hasNextLine()) {
 					String string = input.nextLine();
-					System.out.println(string);
+					System.out.println("Username: " + (string == null ? "Yes, is null" : string));
 					QuoridorApplication.getQuoridor().addUser(string);
 					
 				}
@@ -122,6 +109,9 @@ public class SelectUsernameController {
 					comboBoxWhite.getItems().add(user.getName());
 					comboBoxBlack.getItems().add(user.getName());
 				}
+				
+				comboBoxWhite.getSelectionModel().select(0);
+				comboBoxBlack.getSelectionModel().select(1);
 			}
 	    	catch (FileNotFoundException e)
 	    	{

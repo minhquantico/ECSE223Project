@@ -96,7 +96,7 @@ public class PlayScreenController {
 //---------------------------------------------------------------------------------------------------------
     //david works here
 
-    Direction direction = Direction.Horizontal;
+    //Direction direction = Direction.Horizontal;
     
     public Rectangle wall;
     
@@ -142,28 +142,22 @@ static int wallRectY;
        pane.getChildren().remove(wall);
        boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
        if(wallsLeft) {
-    	   ca.mcgill.ecse223.quoridor.Controller.dropWall(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
+    	   ca.mcgill.ecse223.quoridor.Controller.dropWall((int)e.getX()+wallRectX, (int)e.getY()+wallRectY);
   	   isWallInHand = false;
   	}
        if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
     	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() + "");
        else 
     	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size() + "");
-       
-       direction=Direction.Horizontal;
     }
     
     @FXML
     public void onRotation(KeyEvent event){
-        if(event.getCode().equals(KeyCode.R)) {
+    	if (!pane.getChildren().contains(wall))
+    		return;
+    	
+        if(event.getCode().equals(KeyCode.R))
             ca.mcgill.ecse223.quoridor.Controller.flipWall(wall);
-        }
-        
-        if(direction==Direction.Horizontal){
-        	direction=Direction.Vertical;
-        }else {
-        	direction=Direction.Horizontal;
-        }
     }
     
     static int boardPaneX=0;

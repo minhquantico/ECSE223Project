@@ -35,7 +35,7 @@ public class Board extends Pane
 	public Wall[][] vWall = new Wall[COLS-1][ROWS-1];		// vWall[0][y]=null && vWall[x][ROWS-1]=null
 	public Wall[][] hWall = new Wall[COLS-1][ROWS-1];		// hWall[x][0]=null && hWall[COLS-1][y]=null
 	
-	public static Board board;
+	//public static Board board;
 	
 	private Thread game = new Thread(() -> {
 		do
@@ -55,33 +55,10 @@ public class Board extends Pane
 			catch (Exception ex) { ex.printStackTrace(); }
 		while (!players[activePlayer].hasWon());
 	});
-	public int getWallX(int i,int j,char d) {
-		if(d=='h') {
-			return (int) hWall[i][j].getLayoutX();
-		} else {
-			return (int) vWall[i][j].getLayoutX();
-		}
-	} 
-	
-	public int getWallY(int i,int j,char d) {
-		if(d=='h') {
-			return (int) hWall[i][j].getLayoutY();
-		} else {
-			return (int) vWall[i][j].getLayoutY();
-		}
-	} 
-	
-	public void setVisible(int i, int j,char d) {
-		if(d=='h') {
-			hWall[i][j].set();
-		}else {
-			vWall[i][j].set();
-		}
-	}
 	
 	public Board(boolean... isPlayerComputer)
 	{
-		board=this;
+		//board=this;
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		for (int i = 0; i < COLS; i++)
@@ -111,7 +88,7 @@ public class Board extends Pane
 	public void loadFromModel()
 	{
 		GamePosition curr = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
-		System.out.println(curr.getWhiteWallsOnBoard()+ ", " + curr.getBlackWallsOnBoard());
+		//System.out.println(curr.getWhiteWallsOnBoard()+ ", " + curr.getBlackWallsOnBoard());
 		players[0].moveTo(cells[curr.getWhitePosition().getTile().getColumn()-1][curr.getWhitePosition().getTile().getRow()-1]);
 		players[1].moveTo(cells[curr.getBlackPosition().getTile().getColumn()-1][curr.getBlackPosition().getTile().getRow()-1]);
 		
@@ -170,7 +147,11 @@ public class Board extends Pane
 		public void setSelected(boolean selected)
 		{
 			this.setBackground(selected ? SELECTED : DEFAULT);
-			this.setOnMouseClicked(selected ? e -> Board.this.players[activePlayer].moveTo(this) : null);
+			this.setOnMouseClicked(selected ? e ->
+			{
+				Controller.doPawnMove(this.x+1, this.y+1, true);
+				synchronized (Board.this) { Board.this.notify(); }
+			} : null);
 		}
 		
 		public boolean hasPlayer()
@@ -206,7 +187,7 @@ public class Board extends Pane
 		}
 	}
 	
-	class Wall extends Pane
+	public class Wall extends Pane
 	{
 		public Background DEFAULT = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
 		public Background SET = new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY));
@@ -288,8 +269,8 @@ public class Board extends Pane
 			this.setBackground(SET);
 			
 			//Board.this.players[activePlayer].walls--;
-			if (game.isAlive())
-				synchronized (Board.this) { Board.this.notify(); }
+//			if (game.isAlive())
+//				synchronized (Board.this) { Board.this.notify(); }
 		}
 		
 		public void unset()
@@ -402,17 +383,23 @@ public class Board extends Pane
 			
 			synchronized (Board.this)
 			{
+				this.startClock();
+				
 				if (isComputer)
 				{
 					Thread.sleep(1000);
-					System.out.println("comuter turn");
+					//System.out.println("comuter turn");
 					Platform.runLater(() -> doBestMove());
 				}
 				else
+				{
+					//System.out.println("non comuter ture");
 					getPossibleMoves().forEach(c -> c.setSelected(true));
+				}
 				
 				Board.this.wait();
 				System.out.println("Done: " + activePlayer);
+				this.stopClock();
 				forEachCell(c -> c.setSelected(false));
 			}
 		}
@@ -485,9 +472,19 @@ public class Board extends Pane
 				}
 			
 			if (bestWalls.isEmpty() || minCellCost < minWallCost + (int)(Math.random() * 2))
-				moveTo(bestCells.get((int)(Math.random()*bestCells.size())));
+			{
+				Cell pmove = bestCells.get((int)(Math.random()*bestCells.size()));
+				Controller.doPawnMove(pmove.x+1, pmove.y+1, true);
+				System.out.println("Computer did pawn move");
+			}
 			else
-				bestWalls.get((int)(Math.random()*bestWalls.size())).set();
+			{
+				Wall wmove = bestWalls.get((int)(Math.random()*bestWalls.size()));
+				Controller.setWallMoveCandidate(wmove.x+1, wmove.y+1, wmove.vertical ? Direction.Vertical : Direction.Horizontal);
+				Controller.doWallMove(true);
+				this.walls--;
+				System.out.println("Computer does wall move:");
+			}
 			
 			
 		}
@@ -501,8 +498,8 @@ public class Board extends Pane
 			position.getChildren().clear();
 			(position = dest).getChildren().add(this);
 			
-			if (game.isAlive())
-				synchronized (Board.this) { Board.this.notify(); }
+//			if (game.isAlive())
+//				synchronized (Board.this) { Board.this.notify(); }
 		}
 		
 		private boolean isWinner(Cell c)
@@ -523,7 +520,7 @@ public class Board extends Pane
 		private long remainingTime;
 		public void startClock(long remainingTime)
 		{
-			this.remainingTime = remainingTime;
+			this.remainingTime = remainingTime * 100;
 			startClock();
 		}
 		
@@ -531,14 +528,17 @@ public class Board extends Pane
 		public void startClock()
 		{
 			clock = new Thread(()->{
+				//System.out.println("Entering thread: " + clock.getId());
 				while (!Thread.currentThread().isInterrupted() && remainingTime > 0)
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(10);
 						remainingTime--;
 						if (onRemainingTimeChanged != null)
 							Platform.runLater(() -> onRemainingTimeChanged.accept(remainingTime));
-					} catch (InterruptedException e) {e.printStackTrace();}
-		});
+					} catch (InterruptedException e) { break; }
+				
+				//System.out.println("Exiting thread: " + clock.getId());
+			});
 			
 			clock.start();
 		}
@@ -549,7 +549,7 @@ public class Board extends Pane
 			else return false; 
 		}
 		
-		public long getRemainingTime() { return this.remainingTime; }
+		public long getRemainingTime() { return this.remainingTime / 100; }
 		public void setOnRemainingTimeChange(Consumer<Long> action) { this.onRemainingTimeChanged = action; }
 	}
 }

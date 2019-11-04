@@ -2,6 +2,8 @@ package fxml;
 
 import java.io.IOException;
 
+import javax.jws.soap.InitParam;
+
 import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
@@ -58,5 +60,10 @@ public class ThinkingScreenController
 	        }
 	}
 	
-
+	@FXML
+	public void initialize()
+	{
+		fieldMinute.setText("3");
+		fieldSecond.setText("0");
+	}
 }
