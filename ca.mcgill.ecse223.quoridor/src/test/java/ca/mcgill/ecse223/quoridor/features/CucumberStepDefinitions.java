@@ -898,8 +898,8 @@ public class CucumberStepDefinitions {
 					/** @author Minh Quan Hoang **/
 					//Start running the game and initialize board (create and start game method)
 					@When("I start the clock")
-					public void i_start_the_clock() {
-					    Controller.StartClock();
+					public void i_start_the_clock(long time) {
+					    Controller.StartClock(time);
 					}
 					/** @author Minh Quan Hoang **/
 					//Checks if the game status is set to running

@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.HashSet;
+import java.util.List;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -298,6 +299,100 @@ public class Controller {
 	
 //--------------------------------------------------------------------------------------------------------------------------
 	
+	public static Tile getTile(int x, int y) { return QuoridorApplication.getQuoridor().getBoard().getTile((x-1)*9+(y-1)); }
+	public static boolean isWallSet(int x, int y, Direction d)
+	{
+		List<Wall> wallsOnBoard = new ArrayList<>(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsOnBoard());
+		wallsOnBoard.addAll(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsOnBoard());
+		
+		for (Wall wall : wallsOnBoard)
+			if (wall.getMove().getTargetTile() == getTile(x,y)) 
+				if(wall.getMove().getWallDirection() == d)
+					return true;
+		
+		return false;
+	}
+	
+	public static Tile direction(Tile tile, int d)
+	{
+		switch ((d + 4) % 4)
+		{
+		case 0: return tile.getRow() != 1 ? getTile(tile.getColumn(), tile.getRow()-1) : null;
+		case 1: return tile.getColumn() != 9 ? getTile(tile.getColumn()+1,tile.getRow()) : null;
+		case 2: return tile.getRow() != 9 ? getTile(tile.getColumn(), tile.getRow()+1) : null;
+		case 3: return tile.getColumn() != 1 ? getTile(tile.getColumn()-1, tile.getRow()) : null;
+		default: return null;
+		}
+	}
+	
+	public static boolean isBlockedDirection(Tile tile, int d)
+	{
+		switch ((d + 4) % 4)
+		{
+		case 0:
+			return
+					tile.getRow() == 1 ||
+					tile.getColumn() != 1 && isWallSet(tile.getColumn()-1, tile.getRow()-1, Direction.Horizontal) ||
+					tile.getColumn() != 9 && isWallSet(tile.getColumn(), tile.getRow()-1, Direction.Horizontal);
+		case 1: 
+			return 
+					tile.getColumn() == 9 ||
+					tile.getRow() != 1 && isWallSet(tile.getColumn(), tile.getRow()-1, Direction.Vertical) ||
+					tile.getRow() != 9 && isWallSet(tile.getColumn(), tile.getRow(), Direction.Vertical);
+		case 2: 
+			return 
+					tile.getRow() == 9 ||
+					tile.getColumn() != 1 && isWallSet(tile.getColumn()-1, tile.getRow(), Direction.Horizontal) ||
+					tile.getColumn() != 9 && isWallSet(tile.getColumn(), tile.getRow(), Direction.Horizontal);
+		case 3: 
+			return 
+					tile.getRow() == 1 ||
+					tile.getRow() != 1 && isWallSet(tile.getColumn()-1, tile.getRow()-1, Direction.Vertical) || 
+					tile.getRow() != 9 && isWallSet(tile.getColumn()-1, tile.getRow(), Direction.Vertical);
+		default: return false;
+		}
+	}
+	
+	public static boolean hasPlayer(Tile tile) {
+		return (
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() == tile ||
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile() == tile);
+
+	}
+	public static Set<Tile> getPossibleStepMoves()
+	{
+		Tile tile;
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+			tile = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile();
+		else
+			tile = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		
+		Set<Tile> moves = new HashSet<>();
+		for (int d = 0; d < 4; d++)
+		{
+			if (isBlockedDirection(tile, d))
+				continue;
+			if (!hasPlayer(direction(tile, d)))
+				moves.add(direction(tile, d));
+			else
+				if (!isBlockedDirection(direction(tile,d), d) && !hasPlayer(direction(direction(tile, d), d)))
+					moves.add(direction(direction(tile, d), d));
+				else
+				{
+					if (!isBlockedDirection(direction(tile, d), d-1) &&
+							!hasPlayer(direction(direction(tile, d), d-1)))
+						moves.add(direction(direction(tile, d), d-1));
+					if (!isBlockedDirection(direction(tile, d), d+1) &&
+							!hasPlayer(direction(direction(tile, d), d+1)))
+						moves.add(direction(direction(tile, d), d+1));
+				}
+		}	
+		return moves;
+	}
+	
+	
+	
+	
 	/**
 	 * @author Gohar Saqib Fazal
 	 * This controller method valdidates the postion of the pawn in the game
@@ -307,26 +402,81 @@ public class Controller {
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
 	public static Boolean initPosValidation (Tile aTargetTile) {
-		throw new java.lang.UnsupportedOperationException();
-//		Quoridor model = null;
-//		try {
-//			model = new Quoridor();
-//		} catch(Exception e) {
-//			System.out.println(e.getMessage());
-//		}
-//		if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().equals(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) && QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().equals(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer())) {
-//			return true;
-//		}
-//		else {
-//			return false;
-//		}
-//		return true;
-		//assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().equals(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
-	
-		// = PlayScreenController.instance.board.players[PlayScreenController.instance.board.activePlayer].getPossibleMoves();
-		
+		for(Tile aTarget: getPossibleStepMoves()) {
+			if(aTarget ==aTargetTile)
+				return true;
+		}
+		return false;
 				
 	}
+	
+//	public void Wall(int x, int y, boolean vertical)
+//	{
+//		this.x = x;
+//		this.y = y;
+//		this.vertical = vertical;
+//		
+//		if (vertical)
+//		{
+//			this.layoutXProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply((x+1) - Board.this.WALLSIZE/2));
+//			this.layoutYProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(y + Board.this.WALLSIZE/2));			
+//			this.prefWidthProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(Board.this.WALLSIZE));
+//			this.prefHeightProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(2 - Board.this.WALLSIZE));
+//		}
+//		else
+//		{
+//			this.layoutXProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(x + Board.this.WALLSIZE/2));
+//			this.layoutYProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply((y+1) - Board.this.WALLSIZE/2));			
+//			this.prefWidthProperty().bind(Board.this.widthProperty().divide(Board.this.COLS).multiply(2 - Board.this.WALLSIZE));
+//			this.prefHeightProperty().bind(Board.this.heightProperty().divide(Board.this.ROWS).multiply(Board.this.WALLSIZE));
+//		}
+//		
+//		this.setBackground(DEFAULT);
+//	}
+	
+	
+	
+//		if (isWallSet(tile.getColumn(),tile.getRow(),Direction dir))
+//			return false;
+//		if (PlayScreenController.instance.board.players[PlayScreenController.instance.board.activePlayer].walls == 0)
+//			return false;
+//
+//		if (QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection() == Direction.Vertical)
+//		{
+//			if (tile.getRow() > 1 && isWallSet(tile.getColumn(), tile.getRow()-1,Direction.Vertical))
+//				return false;
+//			if (tile.getRow() < 9-2 && isWallSet(tile.getColumn(), tile.getRow()+1, Direction.Vertical))
+//				return false;
+//			if (isWallSet(tile.getColumn(),tile.getRow(), Direction.Horizontal))
+//				return false;
+//		}
+//		else
+//		{
+//			if (tile.getColumn() > 1 && isWallSet(tile.getColumn()-1, tile.getRow(), Direction.Horizontal))
+//				return false;
+//			if (tile.getColumn() < 9-2 && isWallSet(tile.getColumn()+1, tile.getRow(),Direction.Horizontal))
+//				return false;
+//			if (isWallSet(tile.getColumn(),tile.getRow(),Direction.Vertical))
+//				return false;
+//		}
+		
+//		this.set = true;		// Temporarily set wall
+//		for (Player p : players)
+//			if (p.getShortestPathLength() == -1)
+//				{ this.set = false; break; }
+		
+//		if (!this.set)
+//			return false;
+//		else
+//		{
+//			this.set = false;
+//			return true;
+//		}
+	
+	
+	
+	
+	
 
 
 	/**
@@ -340,9 +490,35 @@ public class Controller {
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
 	public static Boolean initPosValidation (Tile aTargetTile, Direction dir) { 
-		throw new java.lang.UnsupportedOperationException();
+		if (isWallSet(aTargetTile.getColumn(),aTargetTile.getRow(), dir))
+			return false;
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
+					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
+					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
+			return false;
+
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection() == Direction.Vertical)
+		{
+			if (aTargetTile.getRow() > 1 && isWallSet(aTargetTile.getColumn(), aTargetTile.getRow()-1,Direction.Vertical))
+				return false;
+			if (aTargetTile.getRow() < 9-2 && isWallSet(aTargetTile.getColumn(), aTargetTile.getRow()+1, Direction.Vertical))
+				return false;
+			if (isWallSet(aTargetTile.getColumn(),aTargetTile.getRow(), Direction.Horizontal))
+				return false;
+		}
+		else
+		{
+			if (aTargetTile.getColumn() > 1 && isWallSet(aTargetTile.getColumn()-1, aTargetTile.getRow(), Direction.Horizontal))
+				return false;
+			if (aTargetTile.getColumn() < 9-2 && isWallSet(aTargetTile.getColumn()+1, aTargetTile.getRow(),Direction.Horizontal))
+				return false;
+			if (isWallSet(aTargetTile.getColumn(), aTargetTile.getRow(),Direction.Vertical))
+				return false;
+		}
+		return true;
+		
+		
 	}
-	
 	
 		
 	/**
@@ -417,6 +593,9 @@ public class Controller {
 	 * Starts the clock **/
 	public static void StartClock(long seconds) {
 		PlayScreenController.instance.board.players[0].startClock(seconds);
+		PlayScreenController.instance.board.players[1].startClock(seconds);
+		PlayScreenController.instance.board.players[1].stopClock();
+		
 	}
 
 	/** @author Minh Quan Hoang 

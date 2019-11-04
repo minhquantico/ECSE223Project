@@ -87,10 +87,9 @@ public class PlayScreenController {
     @FXML
     MouseEvent event = null;
     
-    WallMove wallMove;
-
     @FXML
     public void createWall(MouseEvent e) {
+
     	boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
     	if(wallsLeft) {
     		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove(), e);
@@ -105,6 +104,9 @@ public class PlayScreenController {
   	   wall.setMouseTransparent(true);
   	   event = e;
   	   pane.requestFocus();
+    
+      
+      
     }
 
     @FXML
