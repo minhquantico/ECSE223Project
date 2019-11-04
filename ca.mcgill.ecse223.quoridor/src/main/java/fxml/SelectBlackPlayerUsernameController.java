@@ -102,6 +102,7 @@
 				{
 					comboBoxBlack.getItems().add(user.getName());
 				}
+				comboBoxBlack.getSelectionModel().select(1);
 			//}
 	    	//catch (FileNotFoundException e)
 	    	//{

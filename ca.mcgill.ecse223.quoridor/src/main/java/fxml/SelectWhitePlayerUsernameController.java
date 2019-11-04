@@ -90,15 +90,14 @@
 	    try (Scanner input = new Scanner(new File(getClass().getClassLoader().getResource("Usernames.txt").getFile())))
     	{
 			while(input.hasNextLine()) {
-				String string = input.nextLine();
-				System.out.println(string);
-				QuoridorApplication.getQuoridor().addUser(string);
+				QuoridorApplication.getQuoridor().addUser(input.nextLine());
 				
 			}
 			for (User user : QuoridorApplication.getQuoridor().getUsers())
 			{
 				comboBoxWhite.getItems().add(user.getName());
 			}
+			comboBoxWhite.getSelectionModel().clearAndSelect(0);
 		}
     	catch (FileNotFoundException e)
     	{

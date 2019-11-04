@@ -46,7 +46,7 @@ public class SGController {
     void buttonClicked(ActionEvent event) {
 
     	System.out.println("it's in!!!");
-		MainController.instance.setScreen("SelectUsername");
+		MainController.instance.setScreen("WhiteSelectUsername");
 		
 
     }
