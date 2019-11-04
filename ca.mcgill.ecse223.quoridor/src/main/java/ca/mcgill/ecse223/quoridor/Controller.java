@@ -252,6 +252,11 @@ public class Controller {
 		catch (InputMismatchException ex) { clearGame(); throw new InvalidPositionException(ex.getMessage()); }
 	}
 	
+	/**
+	 * @author Traian Coza
+	 * @param pos
+	 * @return Game Position which is the cloned game position of the position passed into the method
+	 */
 	private static GamePosition cloneGamePosition(GamePosition pos)
 	{
 		GamePosition cloned = new GamePosition(pos.getId()+1, new PlayerPosition(pos.getWhitePosition().getPlayer(), pos.getWhitePosition().getTile()), new PlayerPosition(pos.getBlackPosition().getPlayer(), pos.getBlackPosition().getTile()), pos.getPlayerToMove(), pos.getGame());
@@ -268,6 +273,10 @@ public class Controller {
 		return cloned;
 	}
 	
+	/**
+	 * @author Traian Coza
+	 * Clears the game
+	 */
 	private static void clearGame()
 	{
 		
@@ -332,8 +341,21 @@ public class Controller {
 	
 //--------------------------------------------------------------------------------------------------------------------------
 
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param x
+	 * @param y
+	 * @return Tile object at the specified coordinates
+	 */
 	public static Tile getTile(int x, int y) { return QuoridorApplication.getQuoridor().getBoard().getTile((x-1)+(y-1)*9); }
 
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param x
+	 * @param y
+	 * @param d
+	 * @return true or false depending on whether the wall at given coordinates were set
+	 */
 	public static boolean isWallSet(int x, int y, Direction d)
 	{
 		List<Wall> wallsOnBoard = new ArrayList<>(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsOnBoard());
