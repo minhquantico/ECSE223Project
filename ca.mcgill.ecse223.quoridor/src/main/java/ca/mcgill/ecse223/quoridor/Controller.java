@@ -506,7 +506,7 @@ public class Controller {
 	 * @param wallMove: Wall Move object that contains information 
 	 * such as which wall is being flipped and the direction of set wall
 	 */
-	public static void flip_wall(Rectangle wall) {
+	public static void flipWall(Rectangle wall) {
 		switch ((int)wall.getRotate())
 		{
 		case 0: wall.setRotate(90); QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Vertical); break;

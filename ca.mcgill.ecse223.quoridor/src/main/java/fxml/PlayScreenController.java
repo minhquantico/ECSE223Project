@@ -138,7 +138,7 @@ static int wallRectY;
     @FXML
     public void onRotation(KeyEvent event){
         if(event.getCode().equals(KeyCode.R)) {
-            ca.mcgill.ecse223.quoridor.Controller.flip_wall(wall);
+            ca.mcgill.ecse223.quoridor.Controller.flipWall(wall);
         }
         
         if(direction==Direction.Horizontal){
