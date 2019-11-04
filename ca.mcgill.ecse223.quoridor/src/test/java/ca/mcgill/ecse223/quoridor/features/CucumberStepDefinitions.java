@@ -119,12 +119,12 @@ public class CucumberStepDefinitions {
 
 	@And("I do not have a wall in my hand")
 	public void iDoNotHaveAWallInMyHand() {
-		assertFalse(PlayScreenController.isWallInHand);
+		assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate()==null);
 	}
 	
 	@And("^I have a wall in my hand over the board$")
 	public void iHaveAWallInMyHandOverTheBoard() throws Throwable {
-		assertTrue(PlayScreenController.isWallInHand);
+		assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate()!=null);
 	}
 	
 	@Given("^A new game is initializing$")
