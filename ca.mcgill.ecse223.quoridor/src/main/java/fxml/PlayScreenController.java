@@ -94,6 +94,7 @@ public class PlayScreenController {
     	if(wallsLeft) {
     		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove(), e);
     	}
+    	
     }
     
     public void putInHand(MouseEvent e) {
@@ -128,6 +129,10 @@ static int wallRectY;
     	   ca.mcgill.ecse223.quoridor.Controller.dropWall(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
   		
   	}
+       if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+    	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() + "");
+       else 
+    	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size() + "");
        
        direction=Direction.Horizontal;
     }
@@ -180,11 +185,13 @@ static int wallRectY;
     		});
     	}
     	
+    	
     	wallRectX=(int)wallStock.getLayoutX();
     	wallRectY=(int)wallStock.getLayoutY();
     	wallWidth=(int)wallStock.getWidth();
     	wallHeight=(int)wallStock.getHeight();
     	pane.getChildren().remove(BlackPlayerImage);
+    	wallLabel.setText("10");
     	System.out.println("Yes");
     }
 }
