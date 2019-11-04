@@ -47,7 +47,9 @@ public class Board extends Pane
 					Controller.endMove();
 					if (++activePlayer == players.length)
 						activePlayer = 0;
+					synchronized (Board.this) { Board.this.notify(); }
 				});
+				synchronized (Board.this) { Board.this.wait(); }
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
 			catch (Exception ex) { ex.printStackTrace(); }
@@ -402,12 +404,14 @@ public class Board extends Pane
 				if (isComputer)
 				{
 					Thread.sleep(1000);
+					System.out.println("comuter turn");
 					Platform.runLater(() -> doBestMove());
 				}
 				else
 					getPossibleMoves().forEach(c -> c.setSelected(true));
 				
 				Board.this.wait();
+				System.out.println("Done: " + activePlayer);
 				forEachCell(c -> c.setSelected(false));
 			}
 		}
