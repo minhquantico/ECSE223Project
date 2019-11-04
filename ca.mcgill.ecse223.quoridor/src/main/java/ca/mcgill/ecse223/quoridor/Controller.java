@@ -46,7 +46,7 @@ public class Controller {
 	public static void grabWallFromStock(Player aPlayer, MouseEvent e) {
 		int aMoveNumber=QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()+1;
 		int aRoundNumber=(int)Math.ceil(aMoveNumber/2);
-		Tile aTargetTile=QuoridorApplication.getQuoridor().getBoard().getTile(24);
+		Tile aTargetTile=QuoridorApplication.getQuoridor().getBoard().getTile(1);
 		Game aGame=QuoridorApplication.getQuoridor().getCurrentGame();
 		Wall aWallPlaced;
 		if(aPlayer.hasGameAsWhite()) {
