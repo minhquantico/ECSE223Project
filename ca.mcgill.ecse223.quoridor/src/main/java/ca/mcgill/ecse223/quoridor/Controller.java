@@ -760,6 +760,13 @@ public class Controller {
 	}
 
 	public static void doWallMove(boolean notify) {
+		dropWallMoveM();
+		PlayScreenController.instance.board.loadFromModel();
+		if (notify)
+			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
+	}
+	
+	public static void dropWallMoveM() {
 		WallMove wallMoveCandidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
 				cloneGamePosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()));
@@ -772,6 +779,8 @@ public class Controller {
 					.removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
+		
+			
 		} else {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
@@ -783,10 +792,6 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(null);
 		
-		
-		PlayScreenController.instance.board.loadFromModel();
-		if (notify)
-			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
 	}
 	
 	public static void doPawnMove(int i, int j, boolean notify)
