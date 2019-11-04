@@ -111,18 +111,19 @@ public class Board extends Pane
 	public void loadFromModel()
 	{
 		GamePosition curr = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
-		players[0].moveTo(cells[curr.getWhitePosition().getTile().getRow()-1][curr.getWhitePosition().getTile().getColumn()-1]);
-		players[1].moveTo(cells[curr.getBlackPosition().getTile().getRow()-1][curr.getBlackPosition().getTile().getColumn()-1]);
+		System.out.println(curr.getWhiteWallsOnBoard()+ ", " + curr.getBlackWallsOnBoard());
+		players[0].moveTo(cells[curr.getWhitePosition().getTile().getColumn()-1][curr.getWhitePosition().getTile().getRow()-1]);
+		players[1].moveTo(cells[curr.getBlackPosition().getTile().getColumn()-1][curr.getBlackPosition().getTile().getRow()-1]);
 		
 		forEachWall(w -> w.unset());
 		for (ca.mcgill.ecse223.quoridor.model.Wall wall : curr.getWhiteWallsOnBoard())
 			(wall.getMove().getWallDirection().equals(Direction.Horizontal) ? hWall : vWall)
-					[wall.getMove().getTargetTile().getRow()-1][wall.getMove().getTargetTile().getColumn()-1]
+					[wall.getMove().getTargetTile().getColumn()-1][wall.getMove().getTargetTile().getRow()-1]
 					.set();
 		
 		for (ca.mcgill.ecse223.quoridor.model.Wall wall : curr.getBlackWallsOnBoard())
 			(wall.getMove().getWallDirection().equals(Direction.Horizontal) ? hWall : vWall)
-					[wall.getMove().getTargetTile().getRow()-1][wall.getMove().getTargetTile().getColumn()-1]
+					[wall.getMove().getTargetTile().getColumn()-1][wall.getMove().getTargetTile().getRow()-1]
 					.set();
 	}
 	

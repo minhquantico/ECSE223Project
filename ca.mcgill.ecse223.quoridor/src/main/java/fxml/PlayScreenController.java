@@ -4,6 +4,7 @@ package fxml;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.WallMove;
@@ -11,7 +12,8 @@ import fxml.Board.Player;
 
 import static java.lang.Math.sqrt;
 
-
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javafx.event.ActionEvent;
@@ -28,6 +30,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
@@ -70,8 +73,21 @@ public class PlayScreenController {
    
     @FXML
     void buttonClickedSaveGame(ActionEvent event) {
+    	FileChooser chooser = new FileChooser();
+    	File f = chooser.showSaveDialog(MainController.instance);
+    	if (f != null)
+			try {
+				Controller.saveGame(f);
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+//    		catch (FileNotFoundException | Controller.InvalidPositionException ex)
+//    		{
+//    			System.err.println("Load Error: " + ex.getMessage());
+//    		}
 
-    }    
+    } 
     
     public static PlayScreenController instance;
     
@@ -82,7 +98,10 @@ public class PlayScreenController {
 
     Direction direction = Direction.Horizontal;
     
-    private Rectangle wall;
+    public Rectangle wall;
+    
+    public static boolean isWallInHand = false;
+    public static boolean noMoreWalls = false;
 
     @FXML
     MouseEvent event = null;
@@ -92,28 +111,25 @@ public class PlayScreenController {
 
     	boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
     	if(wallsLeft) {
-    		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove(), e);
+    		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
+    	}else {
+    		wallLabel.setText("You have no walls left!");
+    		wallLabel.setTextFill(Color.RED);
+    		noMoreWalls = true;
     	}
-    	
-    }
-    
-    public void putInHand(MouseEvent e) {
     	wall = new Rectangle(97,17);
-  	   wall.setFill(Color.GREY);
-  	   dragWall(e);
-  	   pane.getChildren().add(wall);
-  	   wall.setMouseTransparent(true);
-  	   event = e;
-  	   pane.requestFocus();
-    
-      
-      
-    }
+    	   wall.setFill(Color.GREY);
+    	   dragWall(e);
+    	   pane.getChildren().add(wall);
+    	   wall.setMouseTransparent(true);
+    	   event = e;
+    	   pane.requestFocus();
+}
 
     @FXML
     public void dragWall(MouseEvent e) {
        wall.setLayoutX(e.getSceneX() - wall.getWidth()/2); 
-    	   wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
+       wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
     }
     
 static int wallRectX;
@@ -127,7 +143,7 @@ static int wallRectY;
        boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
        if(wallsLeft) {
     	   ca.mcgill.ecse223.quoridor.Controller.dropWall(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
-  		
+  	   isWallInHand = false;
   	}
        if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
     	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() + "");
@@ -140,7 +156,7 @@ static int wallRectY;
     @FXML
     public void onRotation(KeyEvent event){
         if(event.getCode().equals(KeyCode.R)) {
-            ca.mcgill.ecse223.quoridor.Controller.flip_wall(wall);
+            ca.mcgill.ecse223.quoridor.Controller.flipWall(wall);
         }
         
         if(direction==Direction.Horizontal){

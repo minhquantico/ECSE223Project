@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.HashSet;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.sql.Time;
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class Controller {
 	 *  @param aPlayer
 	*/
 	//alternative: public static void grabWallFromStock(Player aPlayer, Wall aWall)
-	public static void grabWallFromStock(Player aPlayer, MouseEvent e) {
+	public static void grabWallFromStock(Player aPlayer) {
 		int aMoveNumber=QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()+1;
 		int aRoundNumber=(int)Math.ceil(aMoveNumber/2);
 		Tile aTargetTile=QuoridorApplication.getQuoridor().getBoard().getTile(1);
@@ -66,7 +67,6 @@ public class Controller {
 			{ System.err.println("Wall placed is null!"); return; }
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(new WallMove(aMoveNumber,aRoundNumber, aPlayer, aTargetTile, aGame, Direction.Horizontal, aWallPlaced));
 
-		PlayScreenController.instance.putInHand(e);
 	}
 	
 	/**
@@ -132,12 +132,16 @@ public class Controller {
 	 */
 	public static void initQuoridorAndBoard() {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
-		Board board = new Board(quoridor);
-		// Creating tiles by rows, i.e., the column index changes with every tile
-		// creation
-		for (int i = 1; i <= 9; i++) { // rows
-			for (int j = 1; j <= 9; j++) { // columns
-				board.addTile(i, j);
+		
+		if (!quoridor.hasBoard())
+		{
+			Board board = new Board(quoridor);
+			// Creating tiles by rows, i.e., the column index changes with every tile
+			// creation
+			for (int i = 1; i <= 9; i++) { // rows
+				for (int j = 1; j <= 9; j++) { // columns
+					board.addTile(i, j);
+				}
 			}
 		}
 	}
@@ -173,8 +177,6 @@ public class Controller {
 	 */
 	public static void loadGame(File file) throws FileNotFoundException, InvalidPositionException
 	{
-		initQuoridorAndBoard();
-		InitializeNewGame();
 		
 		
 		try (Scanner input = new Scanner(file))
@@ -183,8 +185,10 @@ public class Controller {
 			GamePosition current = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 			while (input.hasNext())
 			{
-				input.next((no/2+1) + "\\.");
+				if (no % 2 == 0)
+					input.next((no/2+1) + "\\.");
 				String token = input.next("[a-i][1-9][hv]?");
+				System.out.println("token: " + token);
 				int col = token.charAt(0) - 'a';
 				int row = token.charAt(1) - '1';
 				char or = token.length() == 2 ? '-' : token.charAt(2);
@@ -199,7 +203,7 @@ public class Controller {
 				if (or == '-')	// Step move
 				{
 					if (!initPosValidation(target))
-						throw new InvalidPositionException();
+						throw new InvalidPositionException("Invalid pawn move: " + token);
 					
 					move = new StepMove(no, no/2+1, player, target, QuoridorApplication.getQuoridor().getCurrentGame());
 
@@ -211,7 +215,7 @@ public class Controller {
 				else		// Wall move
 				{
 					if (!initPosValidation(target, or == 'h' ? Direction.Horizontal : Direction.Vertical))
-						throw new InvalidPositionException();
+						throw new InvalidPositionException("InvalidWallMove: " + token);
 					
 					Wall w;
 					if (player.hasGameAsWhite())
@@ -231,6 +235,9 @@ public class Controller {
 							QuoridorApplication.getQuoridor().getCurrentGame(),
 							or == 'h' ? Direction.Horizontal : Direction.Vertical,
 							w);
+					
+					System.out.println("Added wall move");
+					
 				}
 				
 				QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
@@ -239,13 +246,21 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(player.getNextPlayer());
 				no++;
 			}
+			
+			PlayScreenController.instance.board.loadFromModel();
 		}
+		catch (InputMismatchException ex) { clearGame(); throw new InvalidPositionException(ex.getMessage()); }
 	}
 	
+	/**
+	 * @author Traian Coza
+	 * @param pos
+	 * @return Game Position which is the cloned game position of the position passed into the method
+	 */
 	private static GamePosition cloneGamePosition(GamePosition pos)
 	{
-		GamePosition cloned = new GamePosition(pos.getId()+1, pos.getWhitePosition(), pos.getBlackPosition(), pos.getPlayerToMove(), pos.getGame());
-
+		GamePosition cloned = new GamePosition(pos.getId()+1, new PlayerPosition(pos.getWhitePosition().getPlayer(), pos.getWhitePosition().getTile()), new PlayerPosition(pos.getBlackPosition().getPlayer(), pos.getBlackPosition().getTile()), pos.getPlayerToMove(), pos.getGame());
+		
 		for (Wall w : pos.getWhiteWallsInStock())
 			cloned.addWhiteWallsInStock(w);
 		for (Wall w : pos.getBlackWallsInStock())
@@ -256,6 +271,21 @@ public class Controller {
 			cloned.addBlackWallsOnBoard(w);
 		
 		return cloned;
+	}
+	
+	/**
+	 * @author Traian Coza
+	 * Clears the game
+	 */
+	private static void clearGame()
+	{
+		
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(QuoridorApplication.getQuoridor().getCurrentGame().getPosition(0));
+		for (GamePosition pos : QuoridorApplication.getQuoridor().getCurrentGame().getPositions())
+			QuoridorApplication.getQuoridor().getCurrentGame().removePosition(pos);
+		QuoridorApplication.getQuoridor().getCurrentGame().addPosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition());
+		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
+			QuoridorApplication.getQuoridor().getCurrentGame().removeMove(m);
 	}
 
 	/**
@@ -310,13 +340,15 @@ public class Controller {
 	
 	
 //--------------------------------------------------------------------------------------------------------------------------
+
 	/**
 	 * @author Gohar Saqib Fazal
 	 * @param x
 	 * @param y
 	 * @return Tile object at the specified coordinates
 	 */
-	public static Tile getTile(int x, int y) { return QuoridorApplication.getQuoridor().getBoard().getTile((x-1)*9+(y-1)); }
+	public static Tile getTile(int x, int y) { return QuoridorApplication.getQuoridor().getBoard().getTile((x-1)+(y-1)*9); }
+
 	/**
 	 * @author Gohar Saqib Fazal
 	 * @param x
@@ -408,10 +440,20 @@ public class Controller {
 	public static Set<Tile> getPossibleStepMoves()
 	{
 		Tile tile;
+		System.out.println("Player to move: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
+		System.out.println("Next Player to move: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
+		
+		
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
 			tile = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile();
 		else
 			tile = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		
+//		System.out.println(tile);
+//		System.out.println("Up:" + direction(tile, 0));
+//		System.out.println("Right: " + direction(tile, 1));
+//		System.out.println("Down: " + direction(tile, 2));
+//		System.out.println("Left: " + direction(tile, 3));
 		
 		Set<Tile> moves = new HashSet<>();
 		for (int d = 0; d < 4; d++)
@@ -448,8 +490,11 @@ public class Controller {
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
 	public static Boolean initPosValidation (Tile aTargetTile) {
+		System.out.println("x: " + aTargetTile.getColumn() + ", y: " + aTargetTile.getRow());
 		for(Tile aTarget: getPossibleStepMoves()) {
-			if(aTarget ==aTargetTile)
+			
+			
+			if(aTarget == aTargetTile)
 				return true;
 		}
 		return false;
@@ -470,12 +515,15 @@ public class Controller {
 	public static Boolean initPosValidation (Tile aTargetTile, Direction dir) { 
 		if (isWallSet(aTargetTile.getColumn(),aTargetTile.getRow(), dir))
 			return false;
+		System.out.println("inst set");
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
+					!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
+					!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
 			return false;
+		
+		
 
-		if (QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection() == Direction.Vertical)
+		if (dir == Direction.Vertical)
 		{
 			if (aTargetTile.getRow() > 1 && isWallSet(aTargetTile.getColumn(), aTargetTile.getRow()-1,Direction.Vertical))
 				return false;
@@ -507,7 +555,7 @@ public class Controller {
 	 * @param wallMove: Wall Move object that contains information 
 	 * such as which wall is being flipped and the direction of set wall
 	 */
-	public static void flip_wall(Rectangle wall) {
+	public static void flipWall(Rectangle wall) {
 		switch ((int)wall.getRotate())
 		{
 		case 0: wall.setRotate(90); QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setWallDirection(Direction.Vertical); break;
@@ -636,7 +684,39 @@ public static Tile getTile()
  * For the model, it will register the wall move and complete the move when it is in fact valid, change whose turn it is, etc.
  * @param Tile t: This is a parameter of type Tile and will be used by the method to know where to perform the wall drop.
  */
-public static void dropWall(fxml.Board board, int x, int y, Direction direction) {
+public static void dropWall(fxml.Board board, int x, int y, Direction direction) 
+{
+	Player aPlayer=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
+	WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+	wallMoveCandidate.setTargetTile(getAppropriateWallMove(board, x, y, direction));
+	if (!initPosValidation(wallMoveCandidate.getTargetTile(), direction))
+		cancelCandidate();
+	else
+	{
+		if(aPlayer.hasGameAsWhite()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
+		}else {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
+		}
+		
+		System.out.println(wallMoveCandidate.getTargetTile());
+		if(direction==Direction.Horizontal) {
+			
+			board.setVisible(wallMoveCandidate.getTargetTile().getColumn()-1,wallMoveCandidate.getTargetTile().getRow()-1,'h');
+		}else {
+			board.setVisible(wallMoveCandidate.getTargetTile().getColumn()-1,wallMoveCandidate.getTargetTile().getRow()-1,'v');
+		}
+	
+	}
+
+}
+
+
+
+public static Tile getAppropriateWallMove(fxml.Board board, int x, int y, Direction direction)
+{
 	
 	//validate the wallMoveCandidate from the model prior to placing it on the board 
 //	if(validateWallMoveCandidatePosition()==true) {
@@ -656,6 +736,7 @@ public static void dropWall(fxml.Board board, int x, int y, Direction direction)
 			
 			int deltaX=0;
 			int deltaY=0;
+			Tile tile=null;
 		
 		if(direction==direction.Horizontal) {
 			//check if drop location is close to horizontal wall location
@@ -688,20 +769,10 @@ public static void dropWall(fxml.Board board, int x, int y, Direction direction)
 					}
 					
 					if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
-						board.setVisible(i,j,'h');
-						//model element
-						Player aPlayer=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
-						WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
-						if(aPlayer.hasGameAsWhite()) {
-						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
-						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
 						
-						}else {
-							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
-							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
-							
-						}
-						return;
+						//model element
+						
+						return tile=getTile(j+1, i+1);
 					
 					}
 				}
@@ -736,27 +807,15 @@ public static void dropWall(fxml.Board board, int x, int y, Direction direction)
 					}
 					
 					if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
-						board.setVisible(i, j,'v');
 						
-						Player aPlayer=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
-						WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
-						if(aPlayer.hasGameAsWhite()) {
-						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
-						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
 						
-						}else {
-							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
-							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
-							
-						}
-						return;
+						return tile=getTile(j+1,i+1);
 					
 				}
 			}
 		}
 		}
-	//}
-		cancelCandidate();
+		return tile;
 }
 
 
@@ -799,7 +858,7 @@ public static void setThinkingTime(int minutes, int seconds)
 //--------------------------------------------------------------------------------------------------------------------------
 	
 
-static class InvalidPositionException extends Exception
+public static class InvalidPositionException extends Exception
 {
 	public InvalidPositionException() {}
 	public InvalidPositionException(String message) { super(message); }
@@ -831,6 +890,8 @@ public static ArrayList<Player> createUsersAndPlayers(String userName1, String u
 	//@formatter:on
 	Player player1 = new Player(new Time(thinkingTime), user1, 9, Direction.Horizontal);
 	Player player2 = new Player(new Time(thinkingTime), user2, 1, Direction.Horizontal);
+	player1.setNextPlayer(player2);
+	player2.setNextPlayer(player1);
 
 	Player[] players = { player1, player2 };
 

@@ -154,25 +154,15 @@ public class CucumberStepDefinitions {
 			 	/** @author David Budaghyan **/
 				@Given("I have more walls on stock")
 				public void i_have_more_walls_on_stock() {
-					// Note the walls in both player's stocks are already initialized - No need to do it again
-					// What we can do is get a wall from the player's stock i.e. query method.
-					// I have commented out a wall field on top of this page.
-					// The Grabwall and MoveWall features are implemented assuming we don't have this wall, 
-					// But I have mentioned an alternative implementation using this wall throughout the steps of both these features
-					// as for this step, we can either leave it empty, or (probably) do the following:
-					//wall = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock(0);
+					//already done
 				    
 				}
 				
 				/** @author David Budaghyan **/
 				@When("I try to grab a wall from my stock")
 				public void i_try_to_grab_a_wall_from_my_stock() {
-					
 					Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
 				    Controller.grabWallFromStock(currentPlayer);
-				    
-				    // alternative:
-				    // wall = Controller.grabWallFromStock(currentPlayer, aWall);
 				}
 				
 				/** @author David Budaghyan **/
@@ -182,9 +172,6 @@ public class CucumberStepDefinitions {
 					// then the following assertion is sufficient
 					assertEquals(0, QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced().getId());
 					
-					//again, the alternative to the above would be the following:
-					// assertEquals(wall.getId(), QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced().getId());
-					
 					//We will set the initial position of all Moves to be 1,1  --- doesn't matter what it is..
 					assertEquals(1, QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getTargetTile().getColumn());
 					assertEquals(1, QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getTargetTile().getRow());
@@ -193,8 +180,7 @@ public class CucumberStepDefinitions {
 				/** @author David Budaghyan **/
 				@And("I shall have a wall in my hand over the board")
 				public void i_shall_have_a_wall_in_my_hand_over_the_board() {
-					// GUI-related feature -- TODO for later
-					throw new cucumber.api.PendingException();
+					assertTrue(PlayScreenController.isWallInHand);
 				}
 				
 				/** @author David Budaghyan **/
@@ -202,8 +188,6 @@ public class CucumberStepDefinitions {
 				public void the_wall_in_my_hand_shall_disappear_from_my_stock() {
 				
 					assertEquals(9, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfWhiteWallsInStock());
-					//alternative:
-					//assertFalse(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().contains(wall));
 				}
 				
 
@@ -214,24 +198,20 @@ public class CucumberStepDefinitions {
 				/** @author David Budaghyan **/
 				@Given("I have no more walls on stock")
 				public void i_have_no_more_walls_on_stock() {
-					//Note that "I" is the white player.
-					//We get the stock and initialize it to a new Array of size 0
-				    List<Wall> whiteWallsInStock = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock();
-				    whiteWallsInStock = new ArrayList<Wall>();
+				    QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().clear();
+				    QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().clear();
 				}
 				
 				/** @author David Budaghyan **/
 				@Then("I shall be notified that I have no more walls")
 				public void i_shall_be_notified_that_I_have_no_more_walls() {
-					// GUI-related feature -- TODO for later
-				    throw new cucumber.api.PendingException();
+					assertTrue(PlayScreenController.noMoreWalls);
 				}
 				
 				/** @author David Budaghyan **/
 				@Then("I shall have no walls in my hand")
 				public void i_shall_have_no_walls_in_my_hand() {
-					// GUI-related feature -- TODO for later
-				    throw new cucumber.api.PendingException();
+					assertFalse(PlayScreenController.isWallInHand);
 				}
 
 				
@@ -740,7 +720,7 @@ public class CucumberStepDefinitions {
 				 */
 				@When("I try to flip the wall")
 				public void i_try_to_flip_the_wall() {
-					Controller.flip_wall(PlayScreenController.instance.wall);
+					Controller.flipWall(PlayScreenController.instance.wall);
 				}
 
 				/**
