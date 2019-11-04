@@ -342,7 +342,7 @@ public class CucumberStepDefinitions {
 				@Then("It shall be white player to move")
 				public void it_shall_be_white_player_to_move() {
                    
-				   assert (QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()) % 2 == 0 : "ERROR: NOT WHITE PLAYER'S TURN";
+				   assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0);
 				}
 
 				/**
@@ -351,9 +351,8 @@ public class CucumberStepDefinitions {
 				@Then("White's pawn shall be in its initial position")
 				public void white_s_pawn_shall_be_in_its_initial_position() {
 				    
-					assert ((QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn() == 5) 
-							&& (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow() == 9))
-							: "ERROR: WHITE PLAYER NOT IN CORRECT POS"; 
+					assertTrue((QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn() == 5) 
+							&& (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow() == 9));
 				}
 				
 				/**
@@ -362,9 +361,8 @@ public class CucumberStepDefinitions {
 				@Then("Black's pawn shall be in its initial position")
 				public void black_s_pawn_shall_be_in_its_initial_position() {
 				   
-					assert ((QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn() == 5) 
-							&& (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow() == 1)) 
-							: "ERROR: Black PLAYER NOT IN CORRECT POS";    
+					assertTrue((QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn() == 5) 
+							&& (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow() == 1));    
 				}
 
 				/**
@@ -372,7 +370,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("All of White's walls shall be in stock")
 				public void all_of_White_s_walls_shall_be_in_stock() {
-					assert QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() == 10 : "Error: White Player does not have 10 walls."; 	    
+					assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() == 10); 	    
 				}
 
 				/**
@@ -380,7 +378,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("All of Black's walls shall be in stock")
 				public void all_of_Black_s_walls_shall_be_in_stock() {
-					assert QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() == 10 : "Error: Black Player does not have 10 walls.";
+					assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() == 10);
 				}
 
 				/**
@@ -396,7 +394,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("It shall be shown that this is White's turn")
 				public void it_shall_be_shown_that_this_is_White_s_turn() {
-					assert(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage)) : "ERROR: GUI NOT SHOWING WHITE PLAYER TURN";
+					assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage));
 	
 				}	
 	
@@ -459,9 +457,9 @@ public class CucumberStepDefinitions {
 				@Then("The user interface shall be showing it is {string} turn")
 				public void the_user_interface_shall_be_showing_it_is_turn(String string) {
 					if(isWhiteTurn()) {
-						assert(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage)) : "ERROR: GUI NOT SHOWING WHITE PLAYER TURN";
+						assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage));
 					}
-					else assert(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.BlackPlayerImage)) : "ERROR: GUI NOT SHOWING WHITE PLAYER TURN";
+					else assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.BlackPlayerImage));
 				}
 				
 				/**
@@ -471,9 +469,9 @@ public class CucumberStepDefinitions {
 				@Then("The clock of {string} shall be stopped")
 				public void the_clock_of_shall_be_stopped(String string) {
 					if (isWhiteTurn()) {
-						assert(PlayScreenController.instance.board.players[0].isClockStopped()); 
+						assertTrue(PlayScreenController.instance.board.players[0].isClockStopped()); 
 					}
-					else assert (PlayScreenController.instance.board.players[0].isClockStopped()); 
+					else assertTrue(PlayScreenController.instance.board.players[0].isClockStopped()); 
 				}
 				
 				/**
@@ -495,9 +493,9 @@ public class CucumberStepDefinitions {
 				@Then("The next player to move shall be {string}")
 				public void the_next_player_to_move_shall_be(String string) {
 					if (isWhiteTurn()) {
-						assert nextPlayer().equals(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
+						assertTrue(nextPlayer().equals(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
 					}
-					else assert nextPlayer().equals(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
+					else assertTrue(nextPlayer().equals(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
 				    
 				}
 				
