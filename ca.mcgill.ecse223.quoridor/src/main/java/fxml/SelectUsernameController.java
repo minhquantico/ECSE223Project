@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.PrintWriter;
 
 import ca.mcgill.ecse223.quoridor.model.*;
@@ -46,6 +47,8 @@ public class SelectUsernameController {
 
 	    @FXML
 	    void nextClicked(MouseEvent event) {
+	    	
+	    	
 	    	boolean isListedWhite = false;
 	    	boolean isListedBlack = false;
 	    	
@@ -55,53 +58,46 @@ public class SelectUsernameController {
 	    	ArrayList<User> list = new ArrayList<User>(QuoridorApplication.getQuoridor().getUsers());
 	    	
 	    	for(User u: list) {
-	    		if(u.getName() == whiteUsername) {
+	    		if(u.getName().equals(whiteUsername)) {
 	    			isListedWhite = true;
 	    		}
 	    		
-	    		if(u.getName() == blackUsername) {
+	    		if(u.getName().equals(blackUsername)) {
 	    			isListedBlack = true;
 	    		}
 	    	}
 	    	
-	    	try (Scanner input = new Scanner(new File(getClass().getClassLoader().getResource("Usernames.txt").getFile())))
-	    	{
 	    	if(!isListedWhite) {
 	    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(whiteUsername);
 	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-	    		FileWriter fileWriter;
-				try {
-					fileWriter = new FileWriter(file);
-					PrintWriter printWriter = new PrintWriter(fileWriter);
-		    		printWriter.print(whiteUsername);
-		    		printWriter.close();
+
+				try (PrintStream stream = new PrintStream(new FileOutputStream(file, true))) {
+					stream.println(whiteUsername);
 				} catch (IOException e) {
 					e.printStackTrace();
 					}
 	    		
 	    		}
 	    	
-	    	if(!isListedBlack) {
+	    	if(!isListedBlack && whiteUsername != blackUsername) {
 	    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(blackUsername);
 	    		
 	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-	    		FileWriter fileWriter;
-				try {
-					fileWriter = new FileWriter(file);
-					PrintWriter printWriter = new PrintWriter(fileWriter);
-		    		printWriter.print(blackUsername);
-		    		printWriter.close();
+
+				try (PrintStream stream = new PrintStream(new FileOutputStream(file, true))) {
+					stream.println(blackUsername);
 				} catch (IOException e) {
 					e.printStackTrace();
 					}
 	    		
 	    		}
-	    	}
+
 	    	
-	    	catch (FileNotFoundException e)
-	    	{
-				e.printStackTrace();
-			}
+	    	
+	    	
+	    	
+	    	
+	    	
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
 
