@@ -2,6 +2,7 @@ package fxml;
 
 import java.io.IOException;
 
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import javafx.event.ActionEvent;
@@ -44,8 +45,8 @@ public class ThinkingScreenController
 	            second = Integer.parseInt(fieldSecond.getText().toString());
 	            if(minute!=0||second!=0) {
 	            	 ca.mcgill.ecse223.quoridor.Controller.setTotalThinkingTime(minute, second);
-	            	
-	            	 //ca.mcgill.ecse223.quoridor.Controller.startClock();
+	            	 long totalSeconds = (minute * 60) + second;
+	            	 ca.mcgill.ecse223.quoridor.Controller.StartClock(totalSeconds);
 	            	 QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
 	            	 MainController.instance.setScreen("PlayScreen");
 	            	 PlayScreenController.instance.board.startGame();

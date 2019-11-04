@@ -518,15 +518,21 @@ public class Board extends Pane
 
 		private Thread clock;
 		private long remainingTime;
+		public void startClock(long remainingTime)
+		{
+			this.remainingTime = remainingTime;
+			startClock();
+		}
+		
 		public void startClock()
 		{
-			clock = new Thread(()-> {
+			clock = new Thread(()->{
 				while (!Thread.currentThread().isInterrupted() && remainingTime > 0)
 					try {
 						Thread.sleep(1000);
 						remainingTime--;
 					} catch (InterruptedException e) {e.printStackTrace();}
-			});
+		});
 			
 			
 		}
@@ -538,6 +544,8 @@ public class Board extends Pane
 			if(clock == null || !clock.isAlive()) return true;
 			else return false; 
 		}
+		
+		public long getRemainingTime() { return this.remainingTime; }
 		
 	}
 }

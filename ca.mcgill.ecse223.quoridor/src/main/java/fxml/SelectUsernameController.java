@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 
 import java.io.File;
@@ -41,6 +42,8 @@ public class SelectUsernameController {
 
 	    @FXML
 	    void nextClicked(MouseEvent event) {
+	    	boolean isListedWhite = false;
+	    	boolean isListedBlack = false;
 	    	
 	    	String whiteUsername = comboBoxWhite.getSelectionModel().getSelectedItem();
 	    	String blackUsername = comboBoxBlack.getSelectionModel().getSelectedItem(); 
@@ -49,18 +52,21 @@ public class SelectUsernameController {
 	    	
 	    	for(User u: list) {
 	    		if(u.getName() == whiteUsername) {
-	    			
+	    			isListedWhite = true;
+	    		}
+	    		
+	    		if(u.getName() == blackUsername) {
+	    			isListedBlack = true;
 	    		}
 	    	}
+	    	if(!isListedWhite)
+	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(whiteUsername);
+	    	if(!isListedBlack)
+	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(blackUsername);
 	    	
-	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
-	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
-	    	//for()//comboBoxWhite.get is not in the list or null or already in list) {
-	    		
-	    	
-	    	
-	    	
-	    	
+	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
+	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
+
 	    	MainController.instance.setScreen("thinkingScreen");
 
 	    }
