@@ -769,7 +769,8 @@ public class CucumberStepDefinitions {
 					/** @author Minh Quan Hoang **/
 					//Link the player with his username
 					@When("The player selects existing {string}")
-					public void the_player_selects_existing(Player player, String string) {
+					public void the_player_selects_existing(String string) {
+						Player player = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
 					    Controller.SelectExistingUsername(player, string);
 					}
 					/** @author Minh Quan Hoang **/
@@ -841,14 +842,14 @@ public class CucumberStepDefinitions {
 					/** @author Minh Quan Hoang **/
 					//Get username for white player from player class
 					@When("White player chooses a username")
-					public void white_player_chooses_a_username(String username) {
-					    Controller.setWhitePlayerUsername(username);
+					public void white_player_chooses_a_username() {
+					    Controller.setWhitePlayerUsername("default");
 					}
 					/** @author Minh Quan Hoang **/
 					//Get username for black player from player class
 					@When("Black player chooses a username")
-					public void black_player_chooses_a_username(String username) {
-					    Controller.setBlackPlayerUsername(username);
+					public void black_player_chooses_a_username() {
+					    Controller.setBlackPlayerUsername("default");
 					}
 					/** @author Minh Quan Hoang **/
 					//Sets the total thinking time
@@ -930,7 +931,7 @@ public class CucumberStepDefinitions {
 					public void both_players_shall_have_remaining_time_left(Integer int1, Integer int2) {
 						Time time = new Time(0, int1, int2);
 						//assert that given Time corresponds to initial remaining time of both players
-						assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getRemainingTime().toString().equals(time.toString()) && QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer().getRemainingTime().toString().equals(time.toString()));
+						assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getRemainingTime().toString().equals(time.toString()) && QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getRemainingTime().toString().equals(time.toString()));
 
 					}
 					
