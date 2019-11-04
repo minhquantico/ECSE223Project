@@ -15,6 +15,6 @@
          </image>
       </ImageView>
       <Button fx:id="sgButton" layoutX="382.0" layoutY="299.0" mnemonicParsing="false" onAction="#buttonClicked" text="Start Game" />
-      <Button fx:id="sgButton1" layoutX="382.0" layoutY="371.0" mnemonicParsing="false" text="Load Game" />
+      <Button fx:id="lgButton" layoutX="382.0" layoutY="371.0" mnemonicParsing="false" onAction="#loadGame" text="Load Game" />
    </children>
 </Pane>
