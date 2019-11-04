@@ -117,15 +117,23 @@ public class Controller {
 	 */
 	public static void endMove() {
 		if (PlayScreenController.instance.board.activePlayer == 0) {
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
+			endMoveModel(0);
 			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.WhitePlayerImage);
 			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.BlackPlayerImage);
+			
 		} else {
+			
+			endMoveModel(1);
+			}
+	}
+	
+	public static void endMoveModel(int player) {
+		if (player == 0) {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
-			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.BlackPlayerImage);
-			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.WhitePlayerImage);
+					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
+		}else {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+			.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
 		}
 	}
 
