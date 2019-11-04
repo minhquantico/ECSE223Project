@@ -17,7 +17,7 @@ public class Main extends Application
 	   mainContainer.loadScreen("SelectUsername", "resources/SelectUsername.fxml",  "resources/SelectUsername.css");
 	   mainContainer.loadScreen("PlayScreen", "resources/PlayScreen.fxml",  "resources/PlayScreen.css");
 	  
-	     
+	    mainContainer.instance.setOnHidden(e -> System.exit(0));
 	    mainContainer.setScreen("StartGame");
 		mainContainer.show();
 		//this is true --> System.out.println(MainController.instance==mainContainer);

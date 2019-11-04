@@ -20,6 +20,7 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Rectangle;
 import fxml.PlayScreenController;
+import javafx.scene.input.MouseEvent;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Move;
 import ca.mcgill.ecse223.quoridor.model.Player;
@@ -44,11 +45,53 @@ public class Controller {
 	 *  @param aPlayer
 	*/
 	//alternative: public static void grabWallFromStock(Player aPlayer, Wall aWall)
-	public static void grabWallFromStock(Player aPlayer) {
-		// alternative: grabWallFromStock(Player aPlayer, Wall aWall)
-		throw new java.lang.UnsupportedOperationException();
+	public static void grabWallFromStock(Player aPlayer, MouseEvent e) {
+		int aMoveNumber=QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()+1;
+		int aRoundNumber=(int)Math.ceil(aMoveNumber/2);
+		Tile aTargetTile=QuoridorApplication.getQuoridor().getBoard().getTile(1);
+		Game aGame=QuoridorApplication.getQuoridor().getCurrentGame();
+		Wall aWallPlaced;
+		if(aPlayer.hasGameAsWhite()) {
+			//System.out.println("White walls in stock: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock());
+			aWallPlaced=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().get(0);
 		
-		//if we do change to alternative, then we can also return the aWall parameter.
+		}else {
+			//System.out.println("Black walls in stock: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock());
+			
+			aWallPlaced=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().get(0);
+		}
+		System.out.println("Wall placed: " + aWallPlaced);
+		if (aWallPlaced == null)
+			{ System.err.println("Wall placed is null!"); return; }
+		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(new WallMove(aMoveNumber,aRoundNumber, aPlayer, aTargetTile, aGame, Direction.Horizontal, aWallPlaced));
+
+		PlayScreenController.instance.putInHand(e);
+	}
+	
+	public static void cancelCandidate() {
+		System.err.println("mother fucker");
+		//System.out.println("Candidate: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
+		//System.out.println("Candidate wall: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
+		
+		
+		
+		QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().delete();
+	//	System.out.println("Candidate wall: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
+		
+		
+	}
+	
+	public static boolean checkCurrentPlayerStock() {
+		if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite()) {
+    		if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock()) {
+     	   return true;
+    		}
+    		}else {
+    			if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock()) {
+    		     	   return true;
+    			}
+    	}
+		return false;
 	}
 	
 	
@@ -438,98 +481,145 @@ public static Tile getTile()
  */
 public static void dropWall(fxml.Board board, int x, int y, Direction direction) {
 	
-	int boardPaneX=229;
-	int boardPaneY=110;
-	int wallWidth=106;
-	int wallHeight=29;
-	
-	int walli=0;
-	int wallj=0;
-	Double minDist;
-	Double dist;
-	
-	int chosenXCoord=0;
-	int chosenYCoord=0;
-	
-	int deltaX=0;
-	int deltaY=0;
-	
-	if(direction==direction.Horizontal) {
-		//check if drop location is close to horizontal wall location
-		dist=(double)1000;
-		minDist=(double)1100;
-		for(int i=0; i<8;i++) {
-			for(int j=0; j<8; j++) {
-				
-				
-				
-				int xcoord =(int)(boardPaneX+board.getWallX(i,j,'h')+wallWidth/2);
-				int ycoord=(int)(boardPaneY+board.getWallY(i,j,'h')+wallHeight/2);
+	//validate the wallMoveCandidate from the model prior to placing it on the board 
+//	if(validateWallMoveCandidatePosition()==true) {
 		
-				
-				deltaX=xcoord-x;
-				deltaY=ycoord-y;
-				
-				//calculate distance from mmouse click to wall position
-				dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
-				
-				if(Double.compare(dist,minDist)<0) { 
-					minDist=dist;
-					walli=i;
-					wallj=j;
-					
-					//xCoord of shortest distance wall
-					
-					chosenXCoord=xcoord;
-					chosenYCoord=ycoord;
-				}
-				
-				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
-					board.setVisible(i,j,'h');
+			int boardPaneX=229;
+			int boardPaneY=110;
+			int wallWidth=106;
+			int wallHeight=29;
 			
-					return;
-				
+			int walli=0;
+			int wallj=0;
+			Double minDist;
+			Double dist;
+			
+			int chosenXCoord=0;
+			int chosenYCoord=0;
+			
+			int deltaX=0;
+			int deltaY=0;
+		
+		if(direction==direction.Horizontal) {
+			//check if drop location is close to horizontal wall location
+			dist=(double)1000;
+			minDist=(double)1100;
+			for(int i=0; i<8;i++) {
+				for(int j=0; j<8; j++) {
+					
+					
+					
+					int xcoord =(int)(boardPaneX+board.getWallX(i,j,'h')+wallWidth/2);
+					int ycoord=(int)(boardPaneY+board.getWallY(i,j,'h')+wallHeight/2);
+			
+					
+					deltaX=xcoord-x;
+					deltaY=ycoord-y;
+					
+					//calculate distance from mmouse click to wall position
+					dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
+					
+					if(Double.compare(dist,minDist)<0) { 
+						minDist=dist;
+						walli=i;
+						wallj=j;
+						
+						//xCoord of shortest distance wall
+						
+						chosenXCoord=xcoord;
+						chosenYCoord=ycoord;
+					}
+					
+					if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
+						board.setVisible(i,j,'h');
+						//model element
+						Player aPlayer=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
+						WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+						if(aPlayer.hasGameAsWhite()) {
+						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
+						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
+						
+						}else {
+							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
+							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
+							
+						}
+						return;
+					
+					}
+				}
+			}
+		}else {
+			//check if drop location is close to horizontal wall location
+			dist=(double)1000;
+			minDist=(double)1100;
+			for(int i=0; i<8;i++) {
+				for(int j=0; j<8; j++) {
+					
+					
+					
+					int xcoord =(int)(boardPaneX+board.getWallX(i,j,'v')+wallHeight/2);
+					int ycoord=(int)(boardPaneY+board.getWallY(i,j,'v')+wallWidth/2);
+					
+					deltaX=xcoord-x;
+					deltaY=ycoord-y;
+					
+					//calculate distance from mmouse click to wall position
+					dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
+					
+					if(Double.compare(dist,minDist)<0) { 
+						minDist=dist;
+						walli=i;
+						wallj=j;
+						
+						//xCoord of shortest distance wall
+						
+						chosenXCoord=xcoord;
+						chosenYCoord=ycoord;
+					}
+					
+					if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
+						board.setVisible(i, j,'v');
+						
+						Player aPlayer=QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
+						WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+						if(aPlayer.hasGameAsWhite()) {
+						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
+						QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
+						
+						}else {
+							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
+							QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
+							
+						}
+						return;
+					
 				}
 			}
 		}
-	}else {
-		//check if drop location is close to horizontal wall location
-		dist=(double)1000;
-		minDist=(double)1100;
-		for(int i=0; i<8;i++) {
-			for(int j=0; j<8; j++) {
-				
-				
-				
-				int xcoord =(int)(boardPaneX+board.getWallX(i,j,'v')+wallHeight/2);
-				int ycoord=(int)(boardPaneY+board.getWallY(i,j,'v')+wallWidth/2);
-				
-				deltaX=xcoord-x;
-				deltaY=ycoord-y;
-				
-				//calculate distance from mmouse click to wall position
-				dist=Math.sqrt(deltaX*deltaX+deltaY*deltaY);
-				
-				if(Double.compare(dist,minDist)<0) { 
-					minDist=dist;
-					walli=i;
-					wallj=j;
-					
-					//xCoord of shortest distance wall
-					
-					chosenXCoord=xcoord;
-					chosenYCoord=ycoord;
-				}
-				
-				if(25>(chosenXCoord - x) && -25<(chosenXCoord-x) && (chosenYCoord-y)<25 && (chosenYCoord-y)>-25) {
-					board.setVisible(i, j,'v');
-					return;
-				
-				}
-			}
-		}}
+		}
+	//}
+		cancelCandidate();
 }
 
+
+//public static boolean validateWallMoveCandidatePosition() {
+//	WallMove wallMoveCandidate=QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+//	if(wallMoveCandidate==null) {
+//		return false;
+//	}
+//	else {
+//		return validateWallPosition(wallMoveCandidate);
+//	}
+//}
+//
+//
+//public static boolean validateWallPosition(WallMove wallMove) {
+//	
+//	
+//	
+//	return false;
+//}
 /**
  * @author Jake Pogharian
  * Feature: setThinkingTime
@@ -618,11 +708,11 @@ public static void createAndInitializeGame(ArrayList<Player> players) {
 	GamePosition gamePosition = new GamePosition(0, player1Position, player2Position, players.get(0), game);
 
 	// Add the walls as in stock for the players
-	for (int j = 0; j < 10; j++) {
+	for (int j = 1; j <= 10; j++) {
 		Wall wall = Wall.getWithId(j);
 		gamePosition.addWhiteWallsInStock(wall);
 	}
-	for (int j = 0; j < 10; j++) {
+	for (int j = 1; j <= 10; j++) {
 		Wall wall = Wall.getWithId(j + 10);
 		gamePosition.addBlackWallsInStock(wall);
 	}
