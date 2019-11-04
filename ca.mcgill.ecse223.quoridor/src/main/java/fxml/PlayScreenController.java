@@ -71,7 +71,7 @@ public class PlayScreenController {
     @FXML
     void buttonClickedSaveGame(ActionEvent event) {
 
-    }    
+    } 
     
     public static PlayScreenController instance;
     
@@ -83,6 +83,8 @@ public class PlayScreenController {
     Direction direction = Direction.Horizontal;
     
     private Rectangle wall;
+    
+    public static boolean isWallInHand = false;
 
     @FXML
     MouseEvent event = null;
@@ -92,27 +94,24 @@ public class PlayScreenController {
 
     	boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
     	if(wallsLeft) {
-    		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove(), e);
+    		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
+    	}else {
+    		wallLabel.setText("You have no walls left!");
+    		wallLabel.setTextFill(Color.RED);
     	}
-    }
-    
-    public void putInHand(MouseEvent e) {
     	wall = new Rectangle(97,17);
-  	   wall.setFill(Color.GREY);
-  	   dragWall(e);
-  	   pane.getChildren().add(wall);
-  	   wall.setMouseTransparent(true);
-  	   event = e;
-  	   pane.requestFocus();
-    
-      
-      
+   	   wall.setFill(Color.GREY);
+   	   dragWall(e);
+   	   pane.getChildren().add(wall);
+   	   wall.setMouseTransparent(true);
+   	   event = e;
+   	   pane.requestFocus();
     }
 
     @FXML
     public void dragWall(MouseEvent e) {
        wall.setLayoutX(e.getSceneX() - wall.getWidth()/2); 
-    	   wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
+       wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
     }
     
 static int wallRectX;
@@ -126,7 +125,7 @@ static int wallRectY;
        boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
        if(wallsLeft) {
     	   ca.mcgill.ecse223.quoridor.Controller.dropWall(Board.board,(int)e.getX()+wallRectX, (int)e.getY()+wallRectY, direction);
-  		
+  	   isWallInHand = false;
   	}
        
        direction=Direction.Horizontal;

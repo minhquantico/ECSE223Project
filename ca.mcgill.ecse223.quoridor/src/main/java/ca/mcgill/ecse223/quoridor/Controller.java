@@ -46,7 +46,7 @@ public class Controller {
 	 *  @param aPlayer
 	*/
 	//alternative: public static void grabWallFromStock(Player aPlayer, Wall aWall)
-	public static void grabWallFromStock(Player aPlayer, MouseEvent e) {
+	public static void grabWallFromStock(Player aPlayer) {
 		int aMoveNumber=QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()+1;
 		int aRoundNumber=(int)Math.ceil(aMoveNumber/2);
 		Tile aTargetTile=QuoridorApplication.getQuoridor().getBoard().getTile(1);
@@ -66,7 +66,6 @@ public class Controller {
 			{ System.err.println("Wall placed is null!"); return; }
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(new WallMove(aMoveNumber,aRoundNumber, aPlayer, aTargetTile, aGame, Direction.Horizontal, aWallPlaced));
 
-		PlayScreenController.instance.putInHand(e);
 	}
 	
 	public static void cancelCandidate() {
