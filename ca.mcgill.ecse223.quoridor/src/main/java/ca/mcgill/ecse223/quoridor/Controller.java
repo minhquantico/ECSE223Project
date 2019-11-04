@@ -374,6 +374,9 @@ public class Controller {
 	 * Starts the clock **/
 	public static void StartClock(long seconds) {
 		PlayScreenController.instance.board.players[0].startClock(seconds);
+		PlayScreenController.instance.board.players[1].startClock(seconds);
+		PlayScreenController.instance.board.players[1].stopClock();
+		
 	}
 
 	/** @author Minh Quan Hoang 
