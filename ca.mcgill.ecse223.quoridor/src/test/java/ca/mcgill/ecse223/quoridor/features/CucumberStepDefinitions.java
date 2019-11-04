@@ -981,50 +981,52 @@ public class CucumberStepDefinitions {
 	@Given("The wall move candidate with {string} at position \\({int}, {int}) is valid")
 	public void the_wall_move_candidate_with_at_position_is_valid(String string, Integer int1, Integer int2) {
 
-		String dir = string;
-		if (string.equals("horizontal"))
-			dir = "Horizontal";
-		if (string.equals("vertical"))
-			dir = "Vertical";
-		// transform Row and Column to Tile Index
-		int row = int1;
-		int column = int2;
-		int index = ((row - 1) * 9) + column;
-
-		Direction aWallDirection = Direction.valueOf(dir);
-		int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() + 1;
-		int aRoundNumber = aMoveNumber / 2 + 1;
-		Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
-		Tile aTargetTile = QuoridorApplication.getQuoridor().getBoard().getTile(index);
-		Game aGame = QuoridorApplication.getQuoridor().getCurrentGame();
-		Wall aWallPlaced;
-
-		// get index of top-most wall in stock for given player
-
-		// select top most wall in stock for currentPlayer
-		// depending on whether or not player is white or black proceed
-		Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-				.getPlayerToMove();
-		// validate according to which player turn it is currently
-		if (currentPlayer.hasGameAsWhite()) {
-			// get index of the last wall in stock for given player
-			int lastWallIndex = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.getWhiteWallsInStock().size() - 1;
-			// get the last wall in stock
-			aWallPlaced = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.getWhiteWallsInStock(lastWallIndex);
-		} else {
-			int lastWallIndex = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.getBlackWallsInStock().size() - 1;
-			aWallPlaced = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.getBlackWallsInStock(lastWallIndex);
-		}
-
-		// create wall move
-		WallMove candidateWallMove = new WallMove(aMoveNumber, aRoundNumber, aPlayer, aTargetTile, aGame,
-				aWallDirection, aWallPlaced);
-		// set it as the candidate wall move
-		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(candidateWallMove);
+		Controller.setWallMoveCandidate(int1, int2, string.equals("horizontal") ? Direction.Horizontal : Direction.Vertical);
+		
+//		String dir = string;
+//		if (string.equals("horizontal"))
+//			dir = "Horizontal";
+//		if (string.equals("vertical"))
+//			dir = "Vertical";
+//		// transform Row and Column to Tile Index
+//		int row = int1;
+//		int column = int2;
+//		int index = ((row - 1) * 9) + column;
+//
+//		Direction aWallDirection = Direction.valueOf(dir);
+//		int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() + 1;
+//		int aRoundNumber = aMoveNumber / 2 + 1;
+//		Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
+//		Tile aTargetTile = QuoridorApplication.getQuoridor().getBoard().getTile(index);
+//		Game aGame = QuoridorApplication.getQuoridor().getCurrentGame();
+//		Wall aWallPlaced;
+//
+//		// get index of top-most wall in stock for given player
+//
+//		// select top most wall in stock for currentPlayer
+//		// depending on whether or not player is white or black proceed
+//		Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//				.getPlayerToMove();
+//		// validate according to which player turn it is currently
+//		if (currentPlayer.hasGameAsWhite()) {
+//			// get index of the last wall in stock for given player
+//			int lastWallIndex = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.getWhiteWallsInStock().size() - 1;
+//			// get the last wall in stock
+//			aWallPlaced = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.getWhiteWallsInStock(lastWallIndex);
+//		} else {
+//			int lastWallIndex = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.getBlackWallsInStock().size() - 1;
+//			aWallPlaced = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.getBlackWallsInStock(lastWallIndex);
+//		}
+//
+//		// create wall move
+//		WallMove candidateWallMove = new WallMove(aMoveNumber, aRoundNumber, aPlayer, aTargetTile, aGame,
+//				aWallDirection, aWallPlaced);
+//		// set it as the candidate wall move
+//		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(candidateWallMove);
 
 	}
 
@@ -1050,38 +1052,41 @@ public class CucumberStepDefinitions {
 	@Then("A wall move shall be registered with {string} at position \\({int}, {int})")
 	public void a_wall_move_shall_be_registered_with_at_position(String string, Integer int1, Integer int2) {
 
-		String aWallDirection = string;
-		if (aWallDirection.equals("horizontal"))
-			aWallDirection = "Horizontal";
-		if (aWallDirection.equals("vertical"))
-			aWallDirection = "Vertical";
-		Direction dir = Direction.valueOf(aWallDirection);
-
-		int numberOfWalls;
-		WallMove lastWallMove;
-		Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-				.getPlayerToMove();
-
-		if (currentPlayer.hasGameAsWhite()) {
-			// get index in wallsOnBoard list of last wall on board
-			numberOfWalls = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.numberOfWhiteWallsOnBoard();
-			// get last wall on board
-			lastWallMove = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.getWhiteWallsOnBoard().get(numberOfWalls - 1).getMove();
-		} else {
-			numberOfWalls = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.numberOfBlackWallsOnBoard();
-			lastWallMove = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.getBlackWallsOnBoard().get(numberOfWalls - 1).getMove();
-
-		}
-
-		// check that the last wall placed on the board, was placed during this turn and
-		// that it corresponds to those coordinates and direction
-		assertTrue(lastWallMove.getWallDirection().toString().equals(aWallDirection));
-		assertTrue(lastWallMove.getTargetTile().getRow() == int1 && lastWallMove.getTargetTile().getColumn() == int2
-				&& lastWallMove.getNextMove() == null);
+		assertTrue(Controller.isWallSet(int1, int2, string.equals("horizontal") ? Direction.Horizontal : Direction.Vertical));
+//
+//		
+//		String aWallDirection = string;
+//		if (aWallDirection.equals("horizontal"))
+//			aWallDirection = "Horizontal";
+//		if (aWallDirection.equals("vertical"))
+//			aWallDirection = "Vertical";
+//		Direction dir = Direction.valueOf(aWallDirection);
+//		
+//		int numberOfWalls;
+//		WallMove lastWallMove;
+//		Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//				.getPlayerToMove();
+//
+//		if (currentPlayer.hasGameAsWhite()) {
+//			// get index in wallsOnBoard list of last wall on board
+//			numberOfWalls = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.numberOfWhiteWallsOnBoard();
+//			// get last wall on board
+//			lastWallMove = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.getWhiteWallsOnBoard().get(numberOfWalls - 1).getMove();
+//		} else {
+//			numberOfWalls = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.numberOfBlackWallsOnBoard();
+//			lastWallMove = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.getBlackWallsOnBoard().get(numberOfWalls - 1).getMove();
+//
+//		}
+//
+//		// check that the last wall placed on the board, was placed during this turn and
+//		// that it corresponds to those coordinates and direction
+//		assertTrue(lastWallMove.getWallDirection().toString().equals(aWallDirection));
+//		assertTrue(lastWallMove.getTargetTile().getRow() == int1 && lastWallMove.getTargetTile().getColumn() == int2
+//				&& lastWallMove.getNextMove() == null);
 
 	}
 
