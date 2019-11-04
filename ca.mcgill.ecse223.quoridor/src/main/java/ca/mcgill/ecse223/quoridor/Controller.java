@@ -9,6 +9,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -339,7 +340,7 @@ public class Controller {
 					|| tile.getColumn() != 1 && isWallSet(tile.getColumn() - 1, tile.getRow(), Direction.Horizontal)
 					|| tile.getColumn() != 9 && isWallSet(tile.getColumn(), tile.getRow(), Direction.Horizontal);
 		case 3:
-			return tile.getRow() == 1
+			return tile.getColumn() == 1
 					|| tile.getRow() != 1 && isWallSet(tile.getColumn() - 1, tile.getRow() - 1, Direction.Vertical)
 					|| tile.getRow() != 9 && isWallSet(tile.getColumn() - 1, tile.getRow(), Direction.Vertical);
 		default:
@@ -365,18 +366,11 @@ public class Controller {
 	 * @author Gohar Saqib Fazal
 	 * @return a set of Tiles that the player can move to
 	 */
-	public static Set<Tile> getPossibleStepMoves() {
-		Tile tile;
-		// System.out.println("Player to move: " +
-		// QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
-		// System.out.println("Next Player to move: " +
-		// QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
-
-		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
-			tile = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile();
-		else
-			tile = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
-
+	public static Set<Tile> getPossibleStepMoves(Player player) {
+		Tile tile = player.hasGameAsWhite() ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		
 //		System.out.println(tile);
 //		System.out.println("Up:" + direction(tile, 0));
 //		System.out.println("Right: " + direction(tile, 1));
@@ -398,9 +392,63 @@ public class Controller {
 					moves.add(direction(direction(tile, d), d + 1));
 			}
 		}
+		
+//		System.out.println("This: " + tile.getColumn() + "," + tile.getRow());
+//		for (Tile t : moves)
+//			System.out.println("Move: " + ((t == null) ? "null" : (t.getColumn() + "," + t.getRow())));
+		
 		return moves;
 	}
-
+	
+	public static boolean isWinner(Player player, Tile tile)
+	{
+		return (player.getDestination().getDirection().equals(Direction.Horizontal) ?
+				tile.getColumn() :
+				tile.getRow()) == player.getDestination().getTargetNumber();
+	}
+	
+	public static int getShortestPathLength(Player player)
+	{
+		GamePosition current = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		Tile playerPosition = (player.hasGameAsWhite() ? current.getWhitePosition() : current.getBlackPosition()).getTile();
+		
+		if (isWinner(player, playerPosition))
+			return 0;
+		
+		class Dijkstra { int distance = -1; boolean visited = false; }
+		final HashMap<Tile, Dijkstra> tilesMap = new HashMap<>();
+		
+		for (Tile tile : QuoridorApplication.getQuoridor().getBoard().getTiles())
+			tilesMap.put(tile, new Dijkstra());
+		
+		Set<Tile> toVisit = getPossibleStepMoves(player);
+		toVisit.forEach(t -> tilesMap.get(t).distance = 1);
+		tilesMap.get(playerPosition).distance = 0;
+		tilesMap.get(playerPosition).visited = true;
+		
+		while (!toVisit.isEmpty())
+		{
+			Tile min = toVisit.iterator().next();
+			for (Tile t : toVisit)
+				if (tilesMap.get(t).distance < tilesMap.get(min).distance)
+					min = t;
+			toVisit.remove(min);
+			tilesMap.get(min).visited = true;
+			
+			if (isWinner(player, min))
+				return tilesMap.get(min).distance;
+			
+			for (int i = 0; i < 4; i++)
+				if (!isBlockedDirection(min, i) && !tilesMap.get(direction(min, i)).visited)
+					if (tilesMap.get(direction(min, i)).distance == -1 || tilesMap.get(min).distance + 1 < tilesMap.get(direction(min, i)).distance)
+					{
+						tilesMap.get(direction(min, i)).distance = tilesMap.get(min).distance + 1;
+						toVisit.add(direction(min, i));
+					}
+		}
+		return -1;
+	}
+	
 	/**
 	 * @author Gohar Saqib Fazal This controller method valdidates the postion of
 	 *         the pawn in the game Used in @When("Validation of the position is
@@ -413,15 +461,14 @@ public class Controller {
 	public static Boolean initPosValidation(Tile aTargetTile) {
 		// System.out.println("x: " + aTargetTile.getColumn() + ", y: " +
 		// aTargetTile.getRow());
-		for (Tile aTarget : getPossibleStepMoves()) {
-
+		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
 			if (aTarget == aTargetTile)
 				return true;
-		}
+		
 		return false;
 
 	}
-
+	
 	/**
 	 * @author Gohar Saqib Fazal This controller method validates the position of
 	 *         the wall in the game Used in @When("Validation of the position is
@@ -443,9 +490,9 @@ public class Controller {
 		if (isWallSet(aTargetTile.getColumn(), aTargetTile.getRow(), dir))
 			return false;
 		// System.out.println("inst set");
-		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite()
-				? !QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock()
-				: !QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
+				!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
+				!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
 			return false;
 
 		if (dir == Direction.Vertical) {
@@ -467,7 +514,25 @@ public class Controller {
 			if (isWallSet(aTargetTile.getColumn(), aTargetTile.getRow(), Direction.Vertical))
 				return false;
 		}
-		return true;
+		
+		// Temporarily set wall
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(
+				QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
+		
+		boolean blocked = true;
+		int path;
+		if ((path = getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer())) == -1)
+			blocked = false;
+		System.out.println("huwhite path: " + path);
+		
+		if ((path = getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer())) == -1)
+			blocked = false;
+		System.out.println("bleck path: " + path);
+		
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsOnBoard(
+				QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
+		
+		return blocked;
 
 	}
 
