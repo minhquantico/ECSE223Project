@@ -396,11 +396,11 @@ public class CucumberStepDefinitions {
 				@Given("The clock of {string} is running")
 				public void the_clock_of_is_running(String string) {
 				   if (isWhiteTurn()) { 
-					   PlayScreenController.instance.board.players[0].startClock();
+					  // PlayScreenController.instance.board.players[0].startClock();
 				   }
-				   else PlayScreenController.instance.board.players[1].startClock();
-				    
+				    //PlayScreenController.instance.board.players[1].startClock();
 				}
+				
 				
 				/**
 				 * @author Lenoy Christy
