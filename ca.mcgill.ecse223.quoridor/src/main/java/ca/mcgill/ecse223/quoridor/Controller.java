@@ -233,7 +233,9 @@ public class Controller {
 	 *         the game with name {string}") Save current game to provided file.
 	 * @param file
 	 */
-	public static void saveGame(File file) throws FileNotFoundException {
+	public static boolean saveGame(File file, boolean overwrite) throws FileNotFoundException {
+		if (!overwrite && file.exists())
+			return false;
 		try (PrintStream output = new PrintStream(file)) {
 			int no = 0;
 			for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves()) {
@@ -248,6 +250,8 @@ public class Controller {
 					output.println();
 			}
 		}
+		
+		return true;
 	}
 
 	/**

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
@@ -24,6 +25,7 @@ import java.util.Map;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.Controller;
+import ca.mcgill.ecse223.quoridor.Controller.InvalidPositionException;
 import ca.mcgill.ecse223.quoridor.model.Board;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.Game;
@@ -422,11 +424,7 @@ public class CucumberStepDefinitions {
 				 */
 				@When("Player {string} completes his move")
 				public void player_completes_his_move(String string) {
-					if(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()==QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()) {
-					Controller.endMoveModel(0);
-					} else {
-						Controller.endMoveModel(1);
-					}
+					Controller.endMove();
 				}
 				
 				/**
@@ -488,22 +486,34 @@ public class CucumberStepDefinitions {
 				
 			//1st scenario
 				
+				boolean valid;
+				Exception error;
+				File file;
+				
 				/* Traian Coza */
 				@When("I initiate to load a saved game {string}")
-				public void i_initiate_to_load_a_saved_game(String string) {
-				    Controller.loadGame(new File(string));
+				public void i_initiate_to_load_a_saved_game(String string) throws FileNotFoundException {
+				    try { Controller.loadGame(new File(string)); }
+				    catch (InvalidPositionException ex)
+				    {
+				    	valid = false;
+				    	error = ex;
+				    	return;
+				    }
+				    valid = true;
+				    error = null;
 				}
 
 				/* Traian Coza */
 				@When("The position to load is valid")
 				public void the_position_to_load_is_valid() {
-					assertTrue(Controller.positionIsValid());
+					assertTrue(valid);
 				}
 
 				/* Traian Coza */
 				@Then("It shall be {string}'s turn")
 				public void it_shall_be_s_turn(String string) {
-					assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0, string.equals("white"));
+					assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ? "white" : "black", string);
 				}
 
 				/* Traian Coza */
@@ -551,8 +561,8 @@ public class CucumberStepDefinitions {
 				/* Traian Coza */
 				@Then("Both players shall have {int} in their stacks")
 				public void both_players_shall_have_in_their_stacks(Integer int1) {
-					assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() == int1);
-					assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size() == int1);
+					assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size(), int1);
+					assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size(), int1);
 				}
 				
 				
@@ -561,13 +571,13 @@ public class CucumberStepDefinitions {
 				/* Traian Coza */
 				@When("The position to load is invalid")
 				public void the_position_to_load_is_invalid() {
-				    assertFalse(Controller.positionIsValid());
+				    assertFalse(valid);
 				}
 
 				/* Traian Coza */
 				@Then("The load shall return an error")
 				public void the_load_shall_return_an_error() {
-				    assertTrue(false);
+				    assertNotNull(error);
 				}
 	
 
@@ -587,8 +597,8 @@ public class CucumberStepDefinitions {
 
 				/* Traian Coza */
 				@When("The user initiates to save the game with name {string}")
-				public void the_user_initiates_to_save_the_game_with_name(String string) {
-				    Controller.saveGame(new File(string));
+				public void the_user_initiates_to_save_the_game_with_name(String string) throws FileNotFoundException {
+				    Controller.saveGame(file = new File(string), false);
 				}
 
 				/* Traian Coza */
@@ -607,8 +617,8 @@ public class CucumberStepDefinitions {
 
 				/* Traian Coza */
 				@When("The user confirms to overwrite existing file")
-				public void the_user_confirms_to_overwrite_existing_file() {
-				    Controller.setOverwrite(true);
+				public void the_user_confirms_to_overwrite_existing_file() throws FileNotFoundException {
+					Controller.saveGame(file, true);
 				}
 
 				/* Traian Coza */
@@ -622,8 +632,8 @@ public class CucumberStepDefinitions {
 
 				/* Traian Coza */
 				@When("The user cancels to overwrite existing file")
-				public void the_user_cancels_to_overwrite_existing_file() {
-				    Controller.setOverwrite(false);
+				public void the_user_cancels_to_overwrite_existing_file() throws FileNotFoundException {
+				    Controller.saveGame(file, false);
 				}
 
 				/* Traian Coza */
