@@ -651,7 +651,7 @@ public class CucumberStepDefinitions {
 				@When("Validation of the position is initiated")
 				public void validation_of_the_position_is_initiated() {
 					if(QuoridorApplication.getQuoridor().getCurrentGame().hasWallMoveCandidate()) {
-						Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame().getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile(), QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection());
+						Controller.initPosValidation();
 					}
 					else {
 						Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame().getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile());
@@ -695,7 +695,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("The position shall be valid")
 				public void the_position_shall_be_valid() {
-					assert Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame().getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile(), QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection()):"ERROR: The position is invalid";
+					assert Controller.initPosValidation():"ERROR: The position is invalid";
 				}
 
 				/**
@@ -703,7 +703,7 @@ public class CucumberStepDefinitions {
 				 */
 				@Then("The position shall be invalid")
 				public void the_position_shall_be_invalid() {
-					assert (! Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame().getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile(), QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection()));
+					assert (! Controller.initPosValidation());
 				}
 			
 				
