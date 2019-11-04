@@ -5,11 +5,16 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Scanner;
 
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
+
 import ca.mcgill.ecse223.quoridor.model.*;
 
 import javafx.event.ActionEvent;
@@ -41,6 +46,8 @@ public class SelectUsernameController {
 
 	    @FXML
 	    void nextClicked(MouseEvent event) {
+	    	boolean isListedWhite = false;
+	    	boolean isListedBlack = false;
 	    	
 	    	String whiteUsername = comboBoxWhite.getSelectionModel().getSelectedItem();
 	    	String blackUsername = comboBoxBlack.getSelectionModel().getSelectedItem(); 
@@ -49,18 +56,55 @@ public class SelectUsernameController {
 	    	
 	    	for(User u: list) {
 	    		if(u.getName() == whiteUsername) {
-	    			
+	    			isListedWhite = true;
+	    		}
+	    		
+	    		if(u.getName() == blackUsername) {
+	    			isListedBlack = true;
 	    		}
 	    	}
 	    	
-	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
-	    	ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
-	    	//for()//comboBoxWhite.get is not in the list or null or already in list) {
+	    	try (Scanner input = new Scanner(new File(getClass().getClassLoader().getResource("Usernames.txt").getFile())))
+	    	{
+	    	if(!isListedWhite) {
+	    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(whiteUsername);
+	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
+	    		FileWriter fileWriter;
+				try {
+					fileWriter = new FileWriter(file);
+					PrintWriter printWriter = new PrintWriter(fileWriter);
+		    		printWriter.print(whiteUsername);
+		    		printWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					}
 	    		
+	    		}
 	    	
+	    	if(!isListedBlack) {
+	    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(blackUsername);
+	    		
+	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
+	    		FileWriter fileWriter;
+				try {
+					fileWriter = new FileWriter(file);
+					PrintWriter printWriter = new PrintWriter(fileWriter);
+		    		printWriter.print(blackUsername);
+		    		printWriter.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+					}
+	    		
+	    		}
+	    	}
 	    	
-	    	
-	    	
+	    	catch (FileNotFoundException e)
+	    	{
+				e.printStackTrace();
+			}
+	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
+	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
+
 	    	MainController.instance.setScreen("thinkingScreen");
 
 	    }

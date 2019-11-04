@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.*;
 import javafx.application.Platform;
@@ -40,24 +41,19 @@ public class Board extends Pane
 		do
 			try
 			{
-				if (activePlayer == players.length)
-					activePlayer = 0;
-				long elapsed = System.currentTimeMillis();
 				players[activePlayer].takeTurn();
-				elapsed = System.currentTimeMillis() - elapsed;
-				Time rem = activePlayer == 0 ?
-						QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getRemainingTime() :
-						QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getRemainingTime();
-				rem = new Time(rem.getTime() - elapsed);
-				if (activePlayer == 0)
-					QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(rem);
-				else
-					QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(rem);
+				Platform.runLater(() ->
+				{
+					Controller.endMove();
+					if (++activePlayer == players.length)
+						activePlayer = 0;
+					synchronized (Board.this) { Board.this.notify(); }
+				});
+				synchronized (Board.this) { Board.this.wait(); }
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
 			catch (Exception ex) { ex.printStackTrace(); }
-		while (!players[activePlayer++].hasWon());
-		activePlayer--;
+		while (!players[activePlayer].hasWon());
 	});
 	public int getWallX(int i,int j,char d) {
 		if(d=='h') {
@@ -129,6 +125,8 @@ public class Board extends Pane
 					[wall.getMove().getTargetTile().getRow()-1][wall.getMove().getTargetTile().getColumn()-1]
 					.set();
 	}
+	
+	public Player getActivePlayer() { return this.players[activePlayer]; }
 	
 	public void startGame() { if (players.length > 0) this.game.start(); }
 	public void setGameLoop(Runnable r) { game = new Thread(r); }
@@ -240,14 +238,6 @@ public class Board extends Pane
 			
 			this.setBackground(DEFAULT);
 		}
-		
-		//jake works here
-//---------------------------------------------------------------------------------------------------------------------------------------
-	
-		
-		//david works here 
-		
-		
 		
 		
 		public boolean isSet() { return set; }
@@ -412,11 +402,16 @@ public class Board extends Pane
 			synchronized (Board.this)
 			{
 				if (isComputer)
+				{
+					Thread.sleep(1000);
+					System.out.println("comuter turn");
 					Platform.runLater(() -> doBestMove());
+				}
 				else
 					getPossibleMoves().forEach(c -> c.setSelected(true));
 				
 				Board.this.wait();
+				System.out.println("Done: " + activePlayer);
 				forEachCell(c -> c.setSelected(false));
 			}
 		}
@@ -525,26 +520,35 @@ public class Board extends Pane
 
 		private Thread clock;
 		private long remainingTime;
+		public void startClock(long remainingTime)
+		{
+			this.remainingTime = remainingTime;
+			startClock();
+		}
+		
+		private Consumer<Long> onRemainingTimeChanged;
 		public void startClock()
 		{
-			clock = new Thread(()-> {
+			clock = new Thread(()->{
 				while (!Thread.currentThread().isInterrupted() && remainingTime > 0)
 					try {
 						Thread.sleep(1000);
 						remainingTime--;
+						if (onRemainingTimeChanged != null)
+							Platform.runLater(() -> onRemainingTimeChanged.accept(remainingTime));
 					} catch (InterruptedException e) {e.printStackTrace();}
-			});
+		});
 			
-			
+			clock.start();
 		}
-		public void stopClock() {
-			clock.interrupt();
-		}
+		public void stopClock() { clock.interrupt(); }
 		
 		public boolean isClockStopped() {
 			if(clock == null || !clock.isAlive()) return true;
 			else return false; 
 		}
 		
+		public long getRemainingTime() { return this.remainingTime; }
+		public void setOnRemainingTimeChange(Consumer<Long> action) { this.onRemainingTimeChanged = action; }
 	}
 }

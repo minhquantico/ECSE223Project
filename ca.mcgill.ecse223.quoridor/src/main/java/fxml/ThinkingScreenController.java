@@ -2,6 +2,9 @@ package fxml;
 
 import java.io.IOException;
 
+import ca.mcgill.ecse223.quoridor.Controller;
+import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -39,12 +42,15 @@ public class ThinkingScreenController
 		
 		 try {
 	            minute = Integer.parseInt(fieldMinute.getText().toString());
-	            second =Integer.parseInt(fieldSecond.getText().toString());
+	            second = Integer.parseInt(fieldSecond.getText().toString());
 	            if(minute!=0||second!=0) {
-	            	ca.mcgill.ecse223.quoridor.Controller.setThinkingTime(minute, second);
-	            	//ca.mcgill.ecse223.quoridor.Controller.startClock();
+	            	 ca.mcgill.ecse223.quoridor.Controller.setTotalThinkingTime(minute, second);
+	            	 long totalSeconds = (minute * 60) + second;
+	            	 ca.mcgill.ecse223.quoridor.Controller.StartClock(totalSeconds);
+	            	 QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
 	            	 MainController.instance.setScreen("PlayScreen");
 	            	 PlayScreenController.instance.board.startGame();
+	            	 QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
 	            }
 	           
 	        } catch (NumberFormatException e1) {

@@ -3,6 +3,10 @@ package fxml;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Scanner;
+
+import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;

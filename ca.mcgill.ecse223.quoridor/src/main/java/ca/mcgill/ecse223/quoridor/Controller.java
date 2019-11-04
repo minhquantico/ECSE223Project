@@ -74,8 +74,7 @@ public class Controller {
 	/**
 	 *  @author Lenoy Christy
 	 * Feature: Initialize board
-	 * step: ("The initialization of the board is initiated")
-	 * @return Board - a Board object that is ready to be set up. 
+	 * step: ("The initialization of the board is initiated") 
 	 */
 	public static void initQuoridorAndBoard() {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
@@ -92,15 +91,19 @@ public class Controller {
 	/**
 	 * @author Lenoy Christy
 	 * Feature: SwitchCurrentPlayer
-	 * step: ("Player {string} completes his move")
-	 * @param player - The player whose move it currently is.
-	 * @return GamePosition - a GamePosition object with updated information on the player positions and the next player to move. 
+	 * step: ("Player {string} completes his move") 
 	 */
 	public static void endMove() {
-		if ( (QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()) % 2 == 0) 
-			PlayScreenController.instance.board.activePlayer = 1; 
-		else PlayScreenController.instance.board.activePlayer = 0;
-		
+		if (PlayScreenController.instance.board.activePlayer == 0) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
+			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.WhitePlayerImage);
+			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.BlackPlayerImage);
+		}	
+		else {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
+			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.BlackPlayerImage);
+			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.WhitePlayerImage);
+		}
 	}
 	
 	
@@ -504,13 +507,21 @@ public class Controller {
 	 * Feature: ProvideSelectUserName
 	 * Step: @When("The player selects existing {string}")
 	 * @param string: Username selected by player.
+	 * @param player: player to set user.
 	 * This method selects an existing username from the list of users already created.
 	 * It takes an input string that represents the username and searches the list of users to find it.
 	 * If there is a match, the user with that username is linked to the player. If there is no match,
 	 * the method does not link the user with the player and notifies the player that there exists no
 	 * user with that username. **/
-	public static void SelectExistingUsername(String string) {
-		//QuoridorApplication.
+
+	public static void SelectExistingUsername(Player player, String username) {
+		if(player.hasGameAsWhite()) {
+		Controller.setWhitePlayerUsername(username);
+		}
+		else {
+		Controller.setBlackPlayerUsername(username);
+		}
+
 	}
 
 	/** @author Minh Quan Hoang 
@@ -519,14 +530,8 @@ public class Controller {
 	 * @param string: Username to be created.
 	 * This method creates a new username by creating a new user
 	 * and adding it to the list of users **/
-	public static void CreateNewUsername(Player player, String username) {
-		// TODO Auto-generated method stub
-		if(player.hasGameAsWhite()) {
-		QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getUser().setName(username);
-		} else {
-		QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser().setName(username);
-		}
-		
+	public static void CreateNewUsername(String username) {
+		QuoridorApplication.getQuoridor().addUser(username);
 	}
 	
 	/** @author Minh Quan Hoang 
@@ -534,14 +539,8 @@ public class Controller {
 	 * Step: @When("A new game is being initialized")
 	 * Initializes a new game and changes the status of the game to initializing **/
 	public static void InitializeNewGame() {
-		//tie it to UI
-			Quoridor quoridor = QuoridorApplication.getQuoridor();
-			
-			// Creating tiles by rows, i.e., the column index changes with every tile
-			// creation
-			//initQuoridorAndBoard();
-			ArrayList<Player> createUsersAndPlayers=createUsersAndPlayers("user1","user2");
-		    createAndStartGame(createUsersAndPlayers);
+		ArrayList<Player> createUsersAndPlayers = createUsersAndPlayers("user1","user2"); //helper method in controller
+		createAndInitializeGame(createUsersAndPlayers); //helper method in controller
 	}
 
 
@@ -549,39 +548,38 @@ public class Controller {
 	 * Feature: StartNewGame
 	 * Step: @When("I start the clock")
 	 * Starts the clock **/
-	public static void StartClock() {
-		// TODO Auto-generated method stub
-		throw new java.lang.UnsupportedOperationException();
+	public static void StartClock(long seconds) {
+		PlayScreenController.instance.board.players[0].startClock(seconds);
 	}
 
 	/** @author Minh Quan Hoang 
 	 * Feature: StartNewGame
 	 * Step: @When("Total thinking time is set")
 	 * Sets the total thinking time after the game is initialized **/
-	public static void setTotalThinkingTime() {
-		// TODO Auto-generated method stub
-		throw new java.lang.UnsupportedOperationException();
+	public static void setTotalThinkingTime(int minutes, int seconds) {
+		setThinkingTime(minutes, seconds); //overlaps with Jake's controller method
 	}
 
 	/** @author Minh Quan Hoang 
 	 * Feature: StartNewGame
 	 * Step: @When("Black player chooses a username")
 	 * Selects the username for the black player **/
-	public static void setBlackPlayerUsername() {
+	public static void setBlackPlayerUsername(String username) {
 		/* The player selects a username from the list of users from the GUI or inputs a new one. 
 		If he inputs a new one, then this method calls the CreateNewUserName controller method to create
 		a new user with the username. Then the method calls the SelectExistingUsername controller method
 		and sets the username for the black player. */ 
-		throw new java.lang.UnsupportedOperationException();
+		QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().setUser(User.getWithName(username));
+		
 	}
 
 	/** @author Minh Quan Hoang 
 	 * Feature: StartNewGame 
 	 * Step: @When("White player chooses a username")
 	 * Selects the username for the white player **/
-	public static void setWhitePlayerUsername() {
+	public static void setWhitePlayerUsername(String username) {
 		//This method does the same as the method above but for the white player
-		throw new java.lang.UnsupportedOperationException();
+		QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setUser(User.getWithName(username));
 	}
 
 	
@@ -780,7 +778,7 @@ public static ArrayList<Player> createUsersAndPlayers(String userName1, String u
 	return playersList;
 }
 
-public static void createAndStartGame(ArrayList<Player> players) {
+public static void createAndInitializeGame(ArrayList<Player> players) {
 	Quoridor quoridor = QuoridorApplication.getQuoridor();
 	// There are total 36 tiles in the first four rows and
 	// indexing starts from 0 -> tiles with indices 36 and 36+8=44 are the starting
@@ -788,7 +786,7 @@ public static void createAndStartGame(ArrayList<Player> players) {
 	Tile player1StartPos = quoridor.getBoard().getTile(36);
 	Tile player2StartPos = quoridor.getBoard().getTile(44);
 	
-	Game game = new Game(GameStatus.Running, MoveMode.PlayerMove, players.get(0), players.get(1), quoridor);
+	Game game = new Game(GameStatus.Initializing, MoveMode.PlayerMove, players.get(0), players.get(1), quoridor);
 
 	PlayerPosition player1Position = new PlayerPosition(quoridor.getCurrentGame().getWhitePlayer(), player1StartPos);
 	PlayerPosition player2Position = new PlayerPosition(quoridor.getCurrentGame().getBlackPlayer(), player2StartPos);
