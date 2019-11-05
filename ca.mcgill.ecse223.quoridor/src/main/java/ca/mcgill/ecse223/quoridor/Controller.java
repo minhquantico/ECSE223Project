@@ -535,7 +535,11 @@ public class Controller {
 				tile.getColumn() :
 				tile.getRow()) == player.getDestination().getTargetNumber();
 	}
-	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @return int : refers to the length of  the given path
+	 * @param  Player: player refers to the player concerned
+	 */
 	public static int getShortestPathLength(Player player)
 	{
 		GamePosition current = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
