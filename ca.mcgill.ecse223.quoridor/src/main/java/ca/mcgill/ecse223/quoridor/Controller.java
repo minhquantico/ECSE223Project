@@ -9,6 +9,7 @@ import java.util.InputMismatchException;
 import java.util.List;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
@@ -258,6 +259,110 @@ public class Controller {
 		}
 		
 		return true;
+	}
+	
+	public static void loadGamePosition(File file) throws FileNotFoundException, InvalidPositionException {
+		initQuoridorAndBoard();
+		Controller.InitializeNewGame();
+		
+		GamePosition curpos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		boolean whiteToMove = true;
+		Scanner whiteScan;
+		Scanner blackScan;
+		try (Scanner fileScan = new Scanner(file))
+		{
+			whiteScan = new Scanner(fileScan.nextLine());
+			blackScan = new Scanner(fileScan.nextLine());
+		}
+		
+		int no = 0;
+		try
+		{
+			if (whiteScan.next("[WB]:").equals("B:"))
+			{
+				whiteToMove = false;
+				Scanner temp = whiteScan;
+				whiteScan = blackScan;
+				blackScan = temp;
+				whiteScan.next("W:");
+			}
+			else
+				blackScan.next("B:");
+
+			// huwhite
+			String[] tokens = whiteScan.nextLine().substring(1).split(", *");
+			
+			Player player = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
+			char or = '\0';
+			int col = tokens[0].charAt(0) - 'a' + 1;
+			int row = tokens[0].charAt(1) - '1' + 1;
+			
+			if (col < 1 || col > 9 || row < 1 || row > 9)
+				throw new InvalidPositionException();
+			
+			curpos.setWhitePosition(new PlayerPosition(player, getTile(col, row)));
+			
+			for (int i = 1; i < tokens.length; i++)
+			{
+				col = tokens[i].charAt(0) - 'a' + 1;
+				row = tokens[i].charAt(1) - '1' + 1;
+				or = tokens[i].charAt(2);
+				
+				Wall w = curpos.getWhiteWallsInStock(0);
+				new WallMove(no, no/2, player, getTile(col, row), QuoridorApplication.getQuoridor().getCurrentGame(),
+						or == 'h' ? Direction.Horizontal : Direction.Vertical, w);
+				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(w.getMove());
+				if (!initPosValidation())
+					throw new InvalidPositionException();
+				
+				curpos.addWhiteWallsOnBoard(w);
+				curpos.removeWhiteWallsInStock(w);
+				
+				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(null);
+			}
+			
+			// Bleck
+			tokens = blackScan.nextLine().substring(1).split(", *");
+			
+			player = QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
+			or = '\0';
+			col = tokens[0].charAt(0) - 'a' + 1;
+			row = tokens[0].charAt(1) - '1' + 1;
+			
+			if (col < 1 || col > 9 || row < 1 || row > 9)
+				throw new InvalidPositionException();
+			
+			curpos.setBlackPosition(new PlayerPosition(player, getTile(col, row)));
+			if (curpos.getWhitePosition().getTile() == curpos.getBlackPosition().getTile())
+				throw new InvalidPositionException();
+			
+			for (int i = 1; i < tokens.length; i++)
+			{
+				col = tokens[i].charAt(0) - 'a' + 1;
+				row = tokens[i].charAt(1) - '1' + 1;
+				or = tokens[i].charAt(2);
+				
+				Wall w = curpos.getBlackWallsInStock(0);
+				new WallMove(no, no/2, player, getTile(col, row), QuoridorApplication.getQuoridor().getCurrentGame(),
+						or == 'h' ? Direction.Horizontal : Direction.Vertical, w);
+				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(w.getMove());
+				if (!initPosValidation())
+					throw new InvalidPositionException();
+				
+				curpos.addBlackWallsOnBoard(w);
+				curpos.removeBlackWallsInStock(w);
+				
+				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(null);
+			}
+			
+			// Set to move
+			curpos.setPlayerToMove(whiteToMove ? player.getNextPlayer() : player);
+		}
+		catch (ArrayIndexOutOfBoundsException | InputMismatchException ex)
+			{ throw new InvalidPositionException("!!"); }
+		
+		whiteScan.close();
+		blackScan.close();
 	}
 
 	/**
@@ -610,6 +715,7 @@ public class Controller {
 	 *         the game to initializing
 	 **/
 	public static void InitializeNewGame() {
+		
 		ArrayList<Player> createUsersAndPlayers = createUsersAndPlayers("user1", "user2"); // helper method in
 																							// controller
 		createAndInitializeGame(createUsersAndPlayers); // helper method in controller
@@ -635,6 +741,7 @@ public class Controller {
 	 **/
 	public static void setTotalThinkingTime(int minutes, int seconds) {
 		setThinkingTime(minutes, seconds); // overlaps with Jake's controller method
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
 	}
 
 	/**
@@ -955,8 +1062,8 @@ public class Controller {
 
 	public static ArrayList<Player> createUsersAndPlayers(String userName1, String userName2) {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
-		User user1 = quoridor.addUser(userName1);
-		User user2 = quoridor.addUser(userName2);
+		User user1 = User.hasWithName(userName1) ? User.getWithName(userName1) : quoridor.addUser(userName1);
+		User user2 = User.hasWithName(userName2) ? User.getWithName(userName2) : quoridor.addUser(userName2);
 
 		int thinkingTime = 180;
 

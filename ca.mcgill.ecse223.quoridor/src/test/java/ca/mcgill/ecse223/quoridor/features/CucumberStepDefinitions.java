@@ -48,7 +48,7 @@ public class CucumberStepDefinitions {
 	@Given("^The game is not running$")
 	public void theGameIsNotRunning() {
 		initQuoridorAndBoard();
-		createUsersAndPlayers("user1", "user2");
+		//createUsersAndPlayers("user1", "user2");
 	}
 
 	@Given("^The game is running$")
@@ -549,7 +549,7 @@ public class CucumberStepDefinitions {
 	@When("I initiate to load a saved game {string}")
 	public void i_initiate_to_load_a_saved_game(String string) throws FileNotFoundException {
 		try {
-			Controller.loadGame(new File(string));
+			Controller.loadGamePosition(new File(string));
 		} catch (InvalidPositionException ex) {
 			valid = false;
 			error = ex;
@@ -935,8 +935,8 @@ public class CucumberStepDefinitions {
 	/** @author Minh Quan Hoang **/
 	// Sets the total thinking time
 	@When("Total thinking time is set")
-	public void total_thinking_time_is_set(int minutes, int seconds) {
-		Controller.setTotalThinkingTime(minutes, seconds);
+	public void total_thinking_time_is_set() {
+		Controller.setTotalThinkingTime(3, 0);
 	}
 
 	/** @author Minh Quan Hoang **/
