@@ -520,6 +520,13 @@ public class Controller {
 		return moves;
 	}
 	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @return boolean : identifies if player has won
+	 * @param  Tile tile: is the tile at which player finds himself
+	 * @param  Player for which we are validating win
+	 */
+	
 	public static boolean isWinner(Player player, Tile tile)
 	{
 		return (player.getDestination().getDirection().equals(Direction.Horizontal) ?
@@ -990,7 +997,9 @@ public class Controller {
 		if (notify)
 			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
 	}
-	
+	/**
+	 * @author Jake Pogharian This method is used to do a dropWall and to make necessary changes to model. It does both GUI and model changes
+	 */
 	public static void dropWallMoveM() {
 		WallMove wallMoveCandidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
