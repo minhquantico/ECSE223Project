@@ -1022,8 +1022,8 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
 		endMove();
 		
-
-		PlayScreenController.instance.board.loadFromModel();
+		if (PlayScreenController.instance != null)
+			PlayScreenController.instance.board.loadFromModel();
 		
 		if (notify)
 			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }

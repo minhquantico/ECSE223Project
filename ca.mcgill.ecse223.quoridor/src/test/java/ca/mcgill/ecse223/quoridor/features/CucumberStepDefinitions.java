@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +28,11 @@ import ca.mcgill.ecse223.quoridor.model.Game.MoveMode;
 import fxml.MainController;
 import fxml.PlayScreenController;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
+import ca.mcgill.ecse223.quoridor.model.Move;
 import ca.mcgill.ecse223.quoridor.model.Player;
 import ca.mcgill.ecse223.quoridor.model.PlayerPosition;
 import ca.mcgill.ecse223.quoridor.model.Quoridor;
+import ca.mcgill.ecse223.quoridor.model.StepMove;
 import ca.mcgill.ecse223.quoridor.model.Tile;
 import ca.mcgill.ecse223.quoridor.model.User;
 import ca.mcgill.ecse223.quoridor.model.Wall;
@@ -720,9 +723,9 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("A game position is supplied with pawn coordinate {int}:{int}")
 	public void a_game_position_is_supplied_with_pawn_coordinate(Integer int1, Integer int2) {
-		Tile tile = new Tile(int1, int2, QuoridorApplication.getQuoridor().getBoard());
-		QuoridorApplication.getQuoridor().getCurrentGame()
-				.getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).setTargetTile(tile);
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setWhitePosition(
+				new PlayerPosition(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(),
+				Controller.getTile(int2, int1)));
 	}
 
 	/**
@@ -730,11 +733,21 @@ public class CucumberStepDefinitions {
 	 */
 	@When("Validation of the position is initiated")
 	public void validation_of_the_position_is_initiated() {
-		if (QuoridorApplication.getQuoridor().getCurrentGame().hasWallMoveCandidate()) {
-			Controller.initPosValidation();
-		} else {
-			Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame()
-					.getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile());
+		Iterator<Move> moveIt = QuoridorApplication.getQuoridor().getCurrentGame().getMoves().iterator();
+		valid = true;
+		for (GamePosition pos : QuoridorApplication.getQuoridor().getCurrentGame().getPositions())
+		{
+			QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(pos);
+			if (!moveIt.hasNext())
+				break;
+			Move m = moveIt.next();
+			if (m instanceof StepMove)
+				valid &= Controller.initPosValidation(((StepMove)m).getTargetTile());
+			else
+			{
+				Controller.setWallMoveCandidate(m.getTargetTile().getColumn(), m.getTargetTile().getRow(), ((WallMove)m).getWallDirection());
+				valid &= Controller.initPosValidation();
+			}
 		}
 	}
 
@@ -744,17 +757,19 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("The position shall be {string}")
 	public void the_position_shall_be(String string) {
-		if (Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame()
-				.getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size())
-				.getTargetTile()) == true) {
-			assert posValidationResult(Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame()
-					.getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile()))
-							.equals("ok");
-		} else {
-			assert posValidationResult(Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame()
-					.getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile()))
-							.equals("error");
-		}
+		assertEquals(string.equals("ok"), valid);
+		
+//		if (Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame()
+//				.getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size())
+//				.getTargetTile()) == true) {
+//			assert posValidationResult(Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame()
+//					.getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile()))
+//							.equals("ok");
+//		} else {
+//			assert posValidationResult(Controller.initPosValidation(QuoridorApplication.getQuoridor().getCurrentGame()
+//					.getMove(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()).getTargetTile()))
+//							.equals("error");
+//		}
 	}
 
 	/**
@@ -765,15 +780,8 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("A game position is supplied with wall coordinate {int}:{int}-{string}")
 	public void a_game_position_is_supplied_with_wall_coordinate(Integer int1, Integer int2, String string) {
-		Tile tile = new Tile(int1, int2, QuoridorApplication.getQuoridor().getBoard());
-		QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().setTargetTile(tile);
-		if (string.equalsIgnoreCase("Vertical")) {
-			QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate()
-					.setWallDirection(Direction.Vertical);
-		} else {
-			QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate()
-					.setWallDirection(Direction.Horizontal);
-		}
+		Controller.setWallMoveCandidate(int2, int1, string.equals("horizontal") ? Direction.Horizontal : Direction.Vertical);
+		Controller.dropWallMoveM();
 	}
 
 	/**
@@ -781,7 +789,7 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("The position shall be valid")
 	public void the_position_shall_be_valid() {
-		assert Controller.initPosValidation() : "ERROR: The position is invalid";
+		assertTrue(valid);
 	}
 
 	/**
