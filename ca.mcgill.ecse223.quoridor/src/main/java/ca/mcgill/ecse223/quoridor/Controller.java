@@ -55,7 +55,7 @@ public class Controller {
 	 * 
 	 */
 	public static void cancelCandidate() {
-		System.err.println("mother fucker");
+		
 //		 System.out.println("Candidate wall: " +
 //		 QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
 //		 System.out.println("Candidate wall: " +
@@ -260,7 +260,11 @@ public class Controller {
 		
 		return true;
 	}
-	
+	/**
+	 * @author Traian Coza Feature: LoadGamePosition. This loads the 
+	 * game Position from a file inputted by the user.It reads in values line by line corresponding to respective player.
+	 * @param file
+	 */
 	public static void loadGamePosition(File file) throws FileNotFoundException, InvalidPositionException {
 		initQuoridorAndBoard();
 		Controller.InitializeNewGame();
@@ -773,16 +777,7 @@ public class Controller {
 
 	// Jake's controller methods//
 
-	/**
-	 * @author Jake Pogharian Feature: Drop Wall step: when "I release the wall in
-	 *         my hand" This method is used to get the location over which wall is
-	 *         hovering from the GUI and then to return the Tile object bearing the
-	 *         coordinates of that area
-	 * @return Tile this returns the specific tile at that location.
-	 */
-	public static Tile getTile() {
-		throw new java.lang.UnsupportedOperationException();
-	}
+	
 
 	/**
 	 * @author Jake Pogharian Feature: Drop Wall step: when "I release the wall in
@@ -792,8 +787,10 @@ public class Controller {
 	 *         invalid attempted move, etc. For the model, it will register the wall
 	 *         move and complete the move when it is in fact valid, change whose
 	 *         turn it is, etc.
-	 * @param Tile t: This is a parameter of type Tile and will be used by the
+	 * @param int x: This is a parameter of type Tile and will be used by the
 	 *             method to know where to perform the wall drop.
+	 *             
+	 * @param int y: this the Y coordinate of the wall to be dropped
 	 */
 	public static void dropWall(int x, int y) {
 		Tile target = getAppropriateWallMove(x, y);
@@ -811,6 +808,13 @@ public class Controller {
 			cancelCandidate();
 
 	}
+	/**
+	 * @author Jake Pogharian Feature: Drop Wall step: when "I release the wall in
+	 *         my hand" This method is used to perform the act of dropping a wall.
+	 *         it will get the corresponding tile for the wallMove
+	 * @param int x:This is the X coordinate of the desired wall move
+	 *        int y: This is the Y coordinate of the desired Wall move
+	 */
 
 	public static Tile getAppropriateWallMove(int x, int y) {
 
@@ -908,7 +912,12 @@ public class Controller {
 		}
 		return null;
 	}
-
+	/**
+	 * @author Jake Pogharian Feature: Drop Wall step: when "I release the wall in
+	 *         my hand" This method is used to set the wallMove candidate.
+	 * @param int i:This is the i (column) coordinate of the desired wall move
+	 * @param int j: This is the j (row) coordinate of the desired Wall move
+	 */
 	public static boolean setWallMoveCandidate(int i, int j, Direction d) {
 		if (i < 1 || i > 9-1 || j < 1 || j > 9-1)
 			return false;
@@ -963,7 +972,12 @@ public class Controller {
 		//System.out.println("Now: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		return true;
 	}
-
+	/**
+	 * @author Jake Pogharian Feature: Drop Wall step: when "I release the wall in
+	 *         my hand" This method is used to execute the wall move drop. Does approprate changes
+	 * @param boolean notify:This is used to either allow or not allow the GUI elements to be initiated (useful for gherkin)
+	 * 
+	 */
 	public static void doWallMove(boolean notify) {
 		dropWallMoveM();
 		PlayScreenController.instance.board.loadFromModel();
@@ -998,7 +1012,12 @@ public class Controller {
 		
 		endMove();
 	}
-	
+	/**
+	 * @author Jake Pogharian This method is used to do a pawnMove. It does both GUI and model changes
+	 * @param int i:This is the i (column) coordinate of the desired wall move
+	 * @param int j: This is the j (row) coordinate of the desired Wall move
+	 * @param boolean notify: This is used to either permit or disallow changes to the GUI 
+	 */
 	public static void doPawnMove(int i, int j, boolean notify)
 	{
 		Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
