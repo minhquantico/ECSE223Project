@@ -141,6 +141,7 @@ public class Controller {
 	{
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
+		PlayScreenController.instance.updateWallCount();
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------

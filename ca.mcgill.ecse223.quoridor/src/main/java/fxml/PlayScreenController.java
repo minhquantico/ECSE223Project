@@ -108,7 +108,7 @@ public class PlayScreenController {
     
     @FXML
     public void createWall(MouseEvent e) {
-
+    	
     	boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
     	if(wallsLeft) {
     		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
@@ -124,6 +124,8 @@ public class PlayScreenController {
     	   wall.setMouseTransparent(true);
     	   event = e;
     	   pane.requestFocus();
+    	
+    	   updateWallCount();
 }
 
     @FXML
@@ -143,12 +145,9 @@ static int wallRectY;
        boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
        if(wallsLeft) {
     	   ca.mcgill.ecse223.quoridor.Controller.dropWall((int)e.getX()+wallRectX, (int)e.getY()+wallRectY);
-  	   isWallInHand = false;
-  	}
-       if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
-    	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() + "");
-       else 
-    	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size() + "");
+    	   isWallInHand = false;
+       }
+       updateWallCount();
     }
     
     @FXML
@@ -166,6 +165,13 @@ static int wallRectY;
     static int wallWidth;
     static int wallHeight;
     
+    public void updateWallCount()
+    {
+    	if(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+     	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() + "");
+        else 
+     	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size() + "");
+    }
  
     
     @FXML
