@@ -1,7 +1,6 @@
 
-package fxml;
+package ca.mcgill.ecse223.quoridor.gui;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -10,7 +9,8 @@ import java.util.function.Consumer;
 
 import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
-import ca.mcgill.ecse223.quoridor.model.*;
+import ca.mcgill.ecse223.quoridor.model.Direction;
+import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -32,8 +32,8 @@ public class Board extends Pane
 	public int activePlayer;
 	
 	private Cell[][] cells = new Cell[COLS][ROWS];
-	public Wall[][] vWall = new Wall[COLS-1][ROWS-1];		// vWall[0][y]=null && vWall[x][ROWS-1]=null
-	public Wall[][] hWall = new Wall[COLS-1][ROWS-1];		// hWall[x][0]=null && hWall[COLS-1][y]=null
+	public Wall[][] vWall = new Wall[COLS-1][ROWS-1];
+	public Wall[][] hWall = new Wall[COLS-1][ROWS-1];
 	
 	//public static Board board;
 	
@@ -41,19 +41,20 @@ public class Board extends Pane
 		do
 			try
 			{
+				if (activePlayer == players.length)
+					activePlayer = 0;
+				
 				players[activePlayer].takeTurn();
 				Platform.runLater(() ->
 				{
 					Controller.endMoveGUI();
-					if (++activePlayer == players.length)
-						activePlayer = 0;
 					synchronized (Board.this) { Board.this.notify(); }
 				});
 				synchronized (Board.this) { Board.this.wait(); }
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
 			catch (Exception ex) { ex.printStackTrace(); }
-		while (!players[activePlayer].hasWon());
+		while (!players[activePlayer++].hasWon());
 	});
 	
 	public Board(boolean... isPlayerComputer)
@@ -227,7 +228,7 @@ public class Board extends Pane
 		{
 			if (this.isSet())
 				return false;
-			if (Board.this.players[activePlayer].walls == 0)
+			if (!Board.this.players[activePlayer].hasWalls())
 				return false;
 
 			if (vertical)
@@ -282,9 +283,9 @@ public class Board extends Pane
 	
 	public class Player extends Circle
 	{
-		public final int TOTALWALLS = 20;
+		//public final int TOTALWALLS = 20;
 		
-		public int walls;
+		//public int walls;
 		
 		private Cell position;
 		private final double SIZE = 0.75;
@@ -298,7 +299,7 @@ public class Board extends Pane
 			this.centerXProperty().bind(Board.this.cells[0][0].widthProperty().divide(2));
 			this.centerYProperty().bind(Board.this.cells[0][0].heightProperty().divide(2));
 			this.radiusProperty().bind(Board.this.cells[0][0].widthProperty().multiply(SIZE/2));
-			this.walls = TOTALWALLS / Board.this.players.length;
+			//this.walls = TOTALWALLS / Board.this.players.length;
 			this.start = start;
 			this.isComputer = isComputer;
 			
@@ -398,7 +399,6 @@ public class Board extends Pane
 				}
 				
 				Board.this.wait();
-				System.out.println("Done: " + activePlayer);
 				this.stopClock();
 				forEachCell(c -> c.setSelected(false));
 			}
@@ -482,7 +482,6 @@ public class Board extends Pane
 				Wall wmove = bestWalls.get((int)(Math.random()*bestWalls.size()));
 				Controller.setWallMoveCandidate(wmove.x+1, wmove.y+1, wmove.vertical ? Direction.Vertical : Direction.Horizontal);
 				Controller.doWallMove(true);
-				this.walls--;
 				System.out.println("Computer does wall move:");
 			}
 			
@@ -522,6 +521,18 @@ public class Board extends Pane
 		{
 			this.remainingTime = remainingTime * 100;
 			startClock();
+		}
+		
+		public boolean hasWalls()
+		{
+			switch (start)
+			{
+			case 0: return false;
+			case 1: return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock();
+			case 2: return false;
+			case 3: return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock();
+			default: return false;
+			}
 		}
 		
 		private Consumer<Long> onRemainingTimeChanged;

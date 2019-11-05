@@ -2,7 +2,6 @@
 /*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
-import java.util.*;
 
 // line 96 "../../../../../../../../ump/tmp596100/model.ump"
 // line 171 "../../../../../../../../ump/tmp596100/model.ump"

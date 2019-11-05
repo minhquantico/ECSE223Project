@@ -1,28 +1,16 @@
-package fxml;
+package ca.mcgill.ecse223.quoridor.gui;
 
-
-import java.net.URL;
-import java.util.ResourceBundle;
-
-import ca.mcgill.ecse223.quoridor.Controller;
-import ca.mcgill.ecse223.quoridor.QuoridorApplication;
-import ca.mcgill.ecse223.quoridor.model.Direction;
-import ca.mcgill.ecse223.quoridor.model.WallMove;
-import fxml.Board.Player;
-
-import static java.lang.Math.sqrt;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
+import ca.mcgill.ecse223.quoridor.Controller;
+import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.gui.Board.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -31,72 +19,34 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.scene.control.Button;
 
 
 
 public class PlayScreenController {
 
-    @FXML
-    private Button EndTurnLabel;
-
-    @FXML
-    private Label wallLabel;
-
-    @FXML
-    public ImageView WhitePlayerImage;
-
-    @FXML
-    public Pane pane;
-
-    @FXML
-    private Label timeLabel;
-
-    @FXML
-    private Button SaveGameLabel;
-
-    @FXML
-    public ImageView BlackPlayerImage;
-    
-    @FXML
-    private Label abcd;
-    
-    @FXML
-    public Rectangle wallStock;
-
-    @FXML
-    private Pane boardPane;
+    @FXML private Button EndTurnLabel;
+    @FXML private Label wallLabel;
+    @FXML public ImageView WhitePlayerImage;
+    @FXML public Pane pane;
+    @FXML private Label timeLabel;
+    @FXML private Button SaveGameLabel;
+    @FXML public ImageView BlackPlayerImage;
+    @FXML private Label abcd;
+    @FXML public Rectangle wallStock;
+    @FXML private Pane boardPane;
     
     public Board board;
 
-   
     @FXML
-    void buttonClickedSaveGame(ActionEvent event) {
+    void buttonClickedSaveGame(ActionEvent event) throws FileNotFoundException
+    {
     	FileChooser chooser = new FileChooser();
-    	File f = chooser.showSaveDialog(MainController.instance);
+    	File f = chooser.showSaveDialog(QuoridorApplication.getPrimaryStage());
     	if (f != null)
-			try {
-				Controller.saveGame(f, true);
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-//    		catch (FileNotFoundException | Controller.InvalidPositionException ex)
-//    		{
-//    			System.err.println("Load Error: " + ex.getMessage());
-//    		}
-
+			Controller.saveGame(f, true);
     } 
     
     public static PlayScreenController instance;
-    
-    //gohar works here
-    
-//---------------------------------------------------------------------------------------------------------
-    //david works here
-
-    //Direction direction = Direction.Horizontal;
     
     public Rectangle wall;
     

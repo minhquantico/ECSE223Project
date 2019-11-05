@@ -4,27 +4,21 @@ package ca.mcgill.ecse223.quoridor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.sql.Time;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.InputMismatchException;
 import java.util.List;
-import java.sql.Time;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 import java.util.Set;
 
+import ca.mcgill.ecse223.quoridor.gui.PlayScreenController;
 import ca.mcgill.ecse223.quoridor.model.Board;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.Game;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import ca.mcgill.ecse223.quoridor.model.Game.MoveMode;
-import fxml.Board.Cell;
-import javafx.scene.Node;
-import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Rectangle;
-import fxml.PlayScreenController;
-import javafx.scene.input.MouseEvent;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Move;
 import ca.mcgill.ecse223.quoridor.model.Player;
@@ -35,6 +29,7 @@ import ca.mcgill.ecse223.quoridor.model.Tile;
 import ca.mcgill.ecse223.quoridor.model.User;
 import ca.mcgill.ecse223.quoridor.model.Wall;
 import ca.mcgill.ecse223.quoridor.model.WallMove;
+import javafx.scene.shape.Rectangle;
 
 public class Controller {
 
@@ -438,7 +433,7 @@ public class Controller {
 			return null;
 		}
 	}
-
+	
 	/**
 	 * @author Gohar Saqib Fazal
 	 * @param tile
@@ -597,11 +592,8 @@ public class Controller {
 		System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
 		
 		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
-		{
-			System.out.println("Possible move: " + aTarget.getColumn() + ", " + aTarget.getRow());
 			if (aTarget == aTargetTile)
 				return true;
-		}
 		
 		return false;
 
@@ -627,11 +619,11 @@ public class Controller {
 		
 		if (isWallSet(aTargetTile.getColumn(), aTargetTile.getRow(), dir))
 			return false;
-
-		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
-				!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
-				!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
-			return false;
+		
+//		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
+//				!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
+//				!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
+//			return false;
 
 		if (dir == Direction.Vertical) {
 			if (aTargetTile.getRow() > 1
@@ -837,7 +829,7 @@ public class Controller {
 
 	public static Tile getAppropriateWallMove(int x, int y) {
 
-		fxml.Board board = PlayScreenController.instance.board;
+		ca.mcgill.ecse223.quoridor.gui.Board board = PlayScreenController.instance.board;
 		Direction direction = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection();
 
 		int boardPaneX = 229;
@@ -845,8 +837,6 @@ public class Controller {
 		int wallWidth = 106;
 		int wallHeight = 29;
 
-		int walli = 0;
-		int wallj = 0;
 		Double minDist;
 		Double dist;
 
@@ -856,7 +846,7 @@ public class Controller {
 		int deltaX = 0;
 		int deltaY = 0;
 
-		if (direction == direction.Horizontal) {
+		if (direction == Direction.Horizontal) {
 			// check if drop location is close to horizontal wall location
 			dist = (double) 1000;
 			minDist = (double) 1100;
@@ -874,8 +864,6 @@ public class Controller {
 
 					if (Double.compare(dist, minDist) < 0) {
 						minDist = dist;
-						walli = i;
-						wallj = j;
 
 						// xCoord of shortest distance wall
 
@@ -911,8 +899,6 @@ public class Controller {
 
 					if (Double.compare(dist, minDist) < 0) {
 						minDist = dist;
-						walli = i;
-						wallj = j;
 
 						// xCoord of shortest distance wall
 
@@ -1090,14 +1076,10 @@ public class Controller {
 
 //--------------------------------------------------------------------------------------------------------------------------
 
-	public static class InvalidPositionException extends Exception {
-		public InvalidPositionException() {
-		}
-
-		public InvalidPositionException(String message) {
-			super(message);
-		}
-
+	public static class InvalidPositionException extends Exception
+	{
+		public InvalidPositionException() {}
+		public InvalidPositionException(String message) { super(message); }
 	}
 
 	public static ArrayList<Player> createUsersAndPlayers(String userName1, String userName2) {
