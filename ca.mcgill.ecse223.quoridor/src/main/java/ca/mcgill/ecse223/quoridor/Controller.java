@@ -135,13 +135,13 @@ public class Controller {
 			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.WhitePlayerImage);
 			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.BlackPlayerImage);
 		}
+		PlayScreenController.instance.updateWallCount();
 	}
 	
 	public static void endMove()
 	{
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
-		PlayScreenController.instance.updateWallCount();
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
