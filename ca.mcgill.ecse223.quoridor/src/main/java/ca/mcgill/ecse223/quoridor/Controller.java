@@ -800,19 +800,23 @@ public class Controller {
 		return null;
 	}
 
-	public static void setWallMoveCandidate(int i, int j, Direction d) {
+	public static boolean setWallMoveCandidate(int i, int j, Direction d) {
+		if (i < 1 || i > 9-1 || j < 1 || j > 9-1)
+			return false;
+		
 		WallMove wallMoveCandidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+		Tile aTargetTile = getTile(i,j);
 		
 		if (wallMoveCandidate == null)
 		{
 			if (!checkCurrentPlayerStock())
-				return;
+				return false;
 			
 			Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
 			int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() + 1;
 			int aRoundNumber = (int) Math.ceil(aMoveNumber / 2);
 			Game aGame = QuoridorApplication.getQuoridor().getCurrentGame();
-			Tile aTargetTile = getTile(i,j);
+			
 			Wall aWallPlaced;
 			if (aPlayer.hasGameAsWhite())
 			{
@@ -838,7 +842,7 @@ public class Controller {
 		else
 		{
 			//throw new AssertionError("Shouldn't be here!");
-			wallMoveCandidate.setTargetTile(getTile(i,j));
+			wallMoveCandidate.setTargetTile(aTargetTile);
 			wallMoveCandidate.setWallDirection(d);
 //			System.out.println("UPDATED");
 		}
@@ -848,7 +852,7 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(wallMoveCandidate);
 		
 		//System.out.println("Now: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
-		
+		return true;
 	}
 
 	public static void doWallMove(boolean notify) {
