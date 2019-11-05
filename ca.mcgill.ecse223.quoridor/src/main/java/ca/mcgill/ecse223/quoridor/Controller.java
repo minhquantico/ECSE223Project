@@ -137,7 +137,9 @@ public class Controller {
 		}
 		PlayScreenController.instance.updateWallCount();
 	}
-	
+	/**
+	 * @author Lenoy Christy This will end the move of a player and make necessary changes to the model
+	 */
 	public static void endMove()
 	{
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
