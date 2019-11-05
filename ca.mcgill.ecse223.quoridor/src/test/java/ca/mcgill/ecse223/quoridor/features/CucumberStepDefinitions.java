@@ -421,7 +421,7 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("White's clock shall be counting down")
 	public void white_s_clock_shall_be_counting_down() {
-		assertFalse(1 == 0);
+		assertFalse(PlayScreenController.instance.board.getActivePlayer().isClockStopped());
 	}
 
 	/**
@@ -429,7 +429,7 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("It shall be shown that this is White's turn")
 	public void it_shall_be_shown_that_this_is_White_s_turn() {
-		assertTrue(1 == 1);
+		assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage));
 
 	}
 
@@ -457,9 +457,9 @@ public class CucumberStepDefinitions {
 	@Given("The clock of {string} is running")
 	public void the_clock_of_is_running(String string) {
 		if (isWhiteTurn()) {
-			// PlayScreenController.instance.board.players[0].startClock();
+			PlayScreenController.instance.board.players[0].startClock();
 		}
-		// PlayScreenController.instance.board.players[1].startClock();
+		else PlayScreenController.instance.board.players[1].startClock();
 	}
 
 	/**
@@ -469,9 +469,9 @@ public class CucumberStepDefinitions {
 	@Given("The clock of {string} is stopped")
 	public void the_clock_of_is_stopped(String string) {
 		if (isWhiteTurn()) {
-			// PlayScreenController.instance.board.players[0].stopClock();
+			PlayScreenController.instance.board.players[0].stopClock();
 		}
-		// PlayScreenController.instance.board.players[1].stopClock();
+		else PlayScreenController.instance.board.players[1].stopClock();
 
 	}
 
@@ -491,9 +491,9 @@ public class CucumberStepDefinitions {
 	@Then("The user interface shall be showing it is {string} turn")
 	public void the_user_interface_shall_be_showing_it_is_turn(String string) {
 		if (isWhiteTurn()) {
-			assertTrue(1 == 1);
+			assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage));
 		} else
-			assertTrue(1 == 1);
+			assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.BlackPlayerImage));
 	}
 
 	/**
@@ -503,9 +503,9 @@ public class CucumberStepDefinitions {
 	@Then("The clock of {string} shall be stopped")
 	public void the_clock_of_shall_be_stopped(String string) {
 		if (isWhiteTurn()) {
-			assertTrue(1 == 1);
+			assertTrue(PlayScreenController.instance.board.players[0].isClockStopped());
 		} else
-			assertTrue(1 == 1);
+			assertTrue(PlayScreenController.instance.board.players[1].isClockStopped());
 	}
 
 	/**
@@ -515,9 +515,9 @@ public class CucumberStepDefinitions {
 	@Then("The clock of {string} shall be running")
 	public void the_clock_of_shall_be_running(String string) {
 		if (isWhiteTurn())
-			assertFalse(0 == 1);
+			assertFalse(PlayScreenController.instance.board.players[0].isClockStopped());
 		else
-			assertFalse(0 == 1);
+			assertFalse(PlayScreenController.instance.board.players[1].isClockStopped());
 
 	}
 
