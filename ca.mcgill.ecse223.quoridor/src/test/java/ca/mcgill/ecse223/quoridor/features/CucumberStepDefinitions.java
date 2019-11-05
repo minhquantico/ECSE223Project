@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -784,7 +785,7 @@ public class CucumberStepDefinitions {
 	 */
 	@When("I try to flip the wall")
 	public void i_try_to_flip_the_wall() {
-		Controller.flipWall(PlayScreenController.instance.wall);
+		Controller.flipWall(null);
 	}
 
 	/**
@@ -872,25 +873,22 @@ public class CucumberStepDefinitions {
 		}
 	}
 
+	Throwable thrown;
+	
 	/** @author Minh Quan Hoang **/
 	// Creates a new username with the string as username
 	@When("The player provides new user name: {string}")
 	public void the_player_provides_new_user_name(String string) {
-		Controller.CreateNewUsername(string);
+		thrown = null;
+		try { Controller.CreateNewUsername(string); }
+		catch (Throwable t) { thrown = t; }
 	}
 
 	/** @author Minh Quan Hoang **/
 	// Checks whether the username string already exists
 	@Then("The player shall be warned that {string} already exists")
 	public void the_player_shall_be_warned_that_already_exists(String string) {
-		List<User> list = QuoridorApplication.getQuoridor().getUsers();
-
-		boolean exists = false;
-		for (User u : list) {
-			exists = exists | u.getName().equals(string);
-
-		}
-		assertTrue(exists);
+		assertNotNull(thrown);
 	}
 
 	/** @author Minh Quan Hoang **/

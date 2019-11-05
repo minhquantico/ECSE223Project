@@ -553,16 +553,18 @@ public class Controller {
 	 *                  wall is being flipped and the direction of set wall
 	 */
 	public static void flipWall(Rectangle wall) {
-		switch ((int) wall.getRotate()) {
-		case 0:
-			wall.setRotate(90);
+		switch (QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection()) {
+		case Horizontal:
 			QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate()
 					.setWallDirection(Direction.Vertical);
+			if (wall != null)
+				wall.setRotate(90);
 			break;
-		case 90:
-			wall.setRotate(0);
+		case Vertical:
 			QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate()
 					.setWallDirection(Direction.Horizontal);
+			if (wall != null)
+				wall.setRotate(0);
 			break;
 		}
 	}
