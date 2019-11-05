@@ -77,7 +77,7 @@ public class PlayScreenController {
     	File f = chooser.showSaveDialog(MainController.instance);
     	if (f != null)
 			try {
-				Controller.saveGame(f);
+				Controller.saveGame(f, true);
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

@@ -158,8 +158,8 @@ public class Controller {
 				if (no % 2 == 0)
 					input.next((no / 2 + 1) + "\\.");
 				String token = input.next("[a-i][1-9][hv]?");
-				int col = token.charAt(0) - 'a';
-				int row = token.charAt(1) - '1';
+				int col = token.charAt(0) - 'a' + 1;
+				int row = token.charAt(1) - '1' + 1;
 				char or = token.length() == 2 ? '-' : token.charAt(2);
 
 				if (or == '-') // Step move
@@ -580,9 +580,14 @@ public class Controller {
 	public static Boolean initPosValidation(Tile aTargetTile) {
 		// System.out.println("x: " + aTargetTile.getColumn() + ", y: " +
 		// aTargetTile.getRow());
+		System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
+		
 		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
+		{
+			System.out.println("Possible move: " + aTarget.getColumn() + ", " + aTarget.getRow());
 			if (aTarget == aTargetTile)
 				return true;
+		}
 		
 		return false;
 
