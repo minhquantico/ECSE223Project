@@ -692,7 +692,7 @@ public class CucumberStepDefinitions {
 	/* Traian Coza */
 	@Then("File {string} shall not be changed in the filesystem")
 	public void file_shall_not_be_changed_in_the_filesystem(String string) {
-		assertNotEquals(new File(string).lastModified() / 1000, System.currentTimeMillis() / 1000);
+		assertNotEquals(new File(string).lastModified() / 100, System.currentTimeMillis() / 100);
 	}
 
 //-------------------------------------------------------------------------------------------------------------------------
