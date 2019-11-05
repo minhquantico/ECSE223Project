@@ -290,7 +290,7 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsOnBoard());
 		wallsOnBoard
 				.addAll(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsOnBoard());
-		//System.out.println("Walls on board: " + wallsOnBoard);
+		//System.err.println("Walls on board: " + wallsOnBoard.size());
 
 		for (Wall wall : wallsOnBoard)
 			if (wall.getMove().getTargetTile() == getTile(x, y))
@@ -493,7 +493,7 @@ public class Controller {
 		
 		if (isWallSet(aTargetTile.getColumn(), aTargetTile.getRow(), dir))
 			return false;
-		// System.out.println("inst set");
+
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
 				!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock() :
 				!QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock())
@@ -527,11 +527,9 @@ public class Controller {
 		int path;
 		if ((path = getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer())) == -1)
 			blocked = false;
-		System.out.println("huwhite path: " + path);
 		
 		if ((path = getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer())) == -1)
 			blocked = false;
-		System.out.println("bleck path: " + path);
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsOnBoard(
 				QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
@@ -827,7 +825,11 @@ public class Controller {
 //			System.out.println("UPDATED");
 		}
 		
+//		System.out.println("sat wall move candidate");
+//		System.out.println("Current cand: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(wallMoveCandidate);
+		//System.out.println("Now: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
+		
 	}
 
 	public static void doWallMove(boolean notify) {
