@@ -60,7 +60,13 @@ public class Controller {
 //		 System.out.println("Candidate wall: " +
 //		 QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
 
-		QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().delete();
+		WallMove candidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsInStock(candidate.getWallPlaced());
+		else
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addBlackWallsInStock(candidate.getWallPlaced());
+
+		candidate.delete();
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(null);
 		//System.err.println(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 	}
@@ -799,14 +805,25 @@ public class Controller {
 		
 		if (wallMoveCandidate == null)
 		{
+			if (!checkCurrentPlayerStock())
+				return;
+			
 			Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
 			int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() + 1;
 			int aRoundNumber = (int) Math.ceil(aMoveNumber / 2);
 			Game aGame = QuoridorApplication.getQuoridor().getCurrentGame();
 			Tile aTargetTile = getTile(i,j);
-			Wall aWallPlaced = aPlayer.hasGameAsWhite() ?
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().get(0) :
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().get(0);
+			Wall aWallPlaced;
+			if (aPlayer.hasGameAsWhite())
+			{
+				aWallPlaced = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().get(0);
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(aWallPlaced);
+			}
+			else
+			{
+				aWallPlaced = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().get(0);
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(aWallPlaced);
+			}
 			
 //			for (Wall w : QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock())
 //				System.out.print(w == null ? "null," : "not null,");
@@ -820,6 +837,7 @@ public class Controller {
 		}
 		else
 		{
+			//throw new AssertionError("Shouldn't be here!");
 			wallMoveCandidate.setTargetTile(getTile(i,j));
 			wallMoveCandidate.setWallDirection(d);
 //			System.out.println("UPDATED");
@@ -828,6 +846,7 @@ public class Controller {
 //		System.out.println("sat wall move candidate");
 //		System.out.println("Current cand: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(wallMoveCandidate);
+		
 		//System.out.println("Now: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		
 	}
@@ -848,15 +867,15 @@ public class Controller {
 
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()
 				.hasGameAsWhite()) {
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
+//			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());		// Now done in setCnadidate
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
 		
 			
 		} else {
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
+//			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+//					.removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
 		}
