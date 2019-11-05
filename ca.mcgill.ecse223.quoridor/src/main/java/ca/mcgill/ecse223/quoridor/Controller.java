@@ -250,11 +250,11 @@ public class Controller {
 				if (no % 2 == 0)
 					output.print(no / 2 + 1 + ".");
 				output.print(' ');
-				output.print('a' + m.getTargetTile().getColumn() - 1);
-				output.print('1' + m.getTargetTile().getRow() - 1);
+				output.print((char)('a' + m.getTargetTile().getColumn() - 1));
+				output.print((char)('1' + m.getTargetTile().getRow() - 1));
 				if (m instanceof WallMove)
 					output.print(((WallMove) m).getWallDirection() == Direction.Horizontal ? 'h' : 'v');
-				if (no % 2 == 1)
+				if (no++ % 2 == 1)
 					output.println();
 			}
 		}
