@@ -56,21 +56,27 @@ public class PlayScreenController {
     @FXML
     public void createWall(MouseEvent e)
     {
-    	if(Controller.checkCurrentPlayerStock())
+    	if (board.getActivePlayer().isComputer())
     	{
-    		Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
-    		wall.setRotate(0);
-    		pane.getChildren().add(wall);
-			pane.requestFocus();
-			
-			dragWall(e);
-			updateWallCount();
-    	}
-    	else
-    	{
-    		wallLabel.setText("You have no walls left!");
+    		wallLabel.setText("Wait for computer!");
     		wallLabel.setTextFill(Color.RED);
+    		return;
     	}
+    	
+    	if (!Controller.checkCurrentPlayerStock())
+    	{
+    		wallLabel.setText("Empty stock!");
+    		wallLabel.setTextFill(Color.RED);
+    		return;
+    	}
+    	
+		Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
+		wall.setRotate(0);
+		pane.getChildren().add(wall);
+		pane.requestFocus();
+		
+		dragWall(e);
+		updateWallCount();
     }
 
     @FXML
@@ -151,6 +157,7 @@ public class PlayScreenController {
      	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size() + "");
         else 
      	   wallLabel.setText(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size() + "");
+    	wallLabel.setTextFill(Color.BLACK);
     }
  
     
