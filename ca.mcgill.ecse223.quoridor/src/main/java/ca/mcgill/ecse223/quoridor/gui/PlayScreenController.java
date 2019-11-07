@@ -59,10 +59,11 @@ public class PlayScreenController {
     	if(Controller.checkCurrentPlayerStock())
     	{
     		Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
-			pane.getChildren().add(wall);
-			//wall.setMouseTransparent(true);
+    		wall.setRotate(0);
+    		pane.getChildren().add(wall);
 			pane.requestFocus();
 			
+			dragWall(e);
 			updateWallCount();
     	}
     	else
