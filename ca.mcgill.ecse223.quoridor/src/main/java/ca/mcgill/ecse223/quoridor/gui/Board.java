@@ -46,6 +46,7 @@ public class Board extends Pane
 				Platform.runLater(() ->
 				{
 					Controller.endMoveGUI();
+					this.loadFromModel();
 					synchronized (Board.this) { Board.this.notify(); }
 				});
 				synchronized (Board.this) { Board.this.wait(); }
@@ -105,16 +106,16 @@ public class Board extends Pane
 	
 	public Player getActivePlayer() { return this.players[activePlayer]; }
 	
-	public void startGame() { if (players.length > 0) this.game.start(); }
+	public void startGame() { loadFromModel(); if (players.length > 0) this.game.start(); }
 	public void setGameLoop(Runnable r) { game = new Thread(r); }
 	
-	private void forEachCell(Consumer<? super Cell> action)
+	void forEachCell(Consumer<? super Cell> action)
 	{
 		for (int i = 0; i < ROWS * COLS; i++)
 			action.accept(cells[i/ROWS][i%ROWS]);
 	}
 	
-	private void forEachWall(Consumer<? super Wall> action)
+	void forEachWall(Consumer<? super Wall> action)
 	{
 		boolean vertical = false;
 		for (int i = 0; i < (ROWS-1) * (COLS-1); i += vertical ? 1 : 0, vertical = !vertical)
@@ -190,6 +191,9 @@ public class Board extends Pane
 	{
 		public Background DEFAULT = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
 		public Background SET = new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY));
+		public Background POSSIBLE = new Background(new BackgroundFill(Color.rgb(0x80, 0x80, 0x80, 0.5), CornerRadii.EMPTY, Insets.EMPTY));
+		public Background ILLEGAL = new Background(new BackgroundFill(Color.rgb(0xFF, 0x00, 0x00, 0.5), CornerRadii.EMPTY, Insets.EMPTY));
+		
 		private int x, y; 
 		public boolean vertical, set = false;
 		
@@ -266,16 +270,23 @@ public class Board extends Pane
 		{
 			this.set = true;
 			this.setBackground(SET);
-			
-			//Board.this.players[activePlayer].walls--;
-//			if (game.isAlive())
-//				synchronized (Board.this) { Board.this.notify(); }
 		}
 		
 		public void unset()
 		{
 			this.set = false;
 			this.setBackground(DEFAULT);
+		}
+		
+		public void setIllegal()
+		{
+			this.toFront();
+			this.setBackground(ILLEGAL);
+		}
+		public void setPossible()
+		{
+			this.toFront();
+			this.setBackground(POSSIBLE);
 		}
 	}
 	

@@ -42,7 +42,7 @@ public class Controller {
 	 */
 	// alternative: public static void grabWallFromStock(Player aPlayer, Wall aWall)
 	public static void grabWallFromStock(Player aPlayer) {
-		setWallMoveCandidate(1, 1, Direction.Horizontal);
+		setWallMoveCandidate(null, Direction.Horizontal);
 	}
 
 	/**
@@ -176,9 +176,9 @@ public class Controller {
 				
 				no++;
 			}
-
-			//PlayScreenController.instance.board.loadFromModel();
-		} catch (InputMismatchException ex) {
+		}
+		catch (InputMismatchException ex)
+		{
 			clearGame();
 			throw new InvalidPositionException(ex.getMessage());
 		}
@@ -672,21 +672,13 @@ public class Controller {
 	 * @param wallMove: Wall Move object that contains information such as which
 	 *                  wall is being flipped and the direction of set wall
 	 */
-	public static void flipWall(Rectangle wall) {
-		switch (QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection()) {
-		case Horizontal:
-			QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate()
-					.setWallDirection(Direction.Vertical);
-			if (wall != null)
-				wall.setRotate(90);
-			break;
-		case Vertical:
-			QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate()
-					.setWallDirection(Direction.Horizontal);
-			if (wall != null)
-				wall.setRotate(0);
-			break;
-		}
+	public static void flipWall()
+	{
+		setWallMoveCandidate(null,
+				QuoridorApplication.getQuoridor().
+				getCurrentGame().getWallMoveCandidate().
+				getWallDirection() == Direction.Horizontal ?
+				Direction.Vertical : Direction.Horizontal);
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -803,22 +795,14 @@ public class Controller {
 	 *             
 	 * @param int y: this the Y coordinate of the wall to be dropped
 	 */
-	public static void dropWall(int x, int y) {
-		Tile target = getAppropriateWallMove(x, y);
-		if (target != null)
-		{
-			Direction direction = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection();
-			setWallMoveCandidate(target.getColumn(), target.getRow(), direction);
-		
-			if (initPosValidation())
-				doWallMove(true);
-			else
-				cancelCandidate();
-		}
+	public static void dropWall(boolean gui)
+	{
+		if (initPosValidation())
+			doWallMove(gui);
 		else
 			cancelCandidate();
-
 	}
+	
 	/**
 	 * @author Jake Pogharian Feature: Drop Wall step: when "I release the wall in
 	 *         my hand" This method is used to perform the act of dropping a wall.
@@ -827,108 +811,24 @@ public class Controller {
 	 *        int y: This is the Y coordinate of the desired Wall move
 	 */
 
-	public static Tile getAppropriateWallMove(int x, int y) {
-
-		ca.mcgill.ecse223.quoridor.gui.Board board = PlayScreenController.instance.board;
-		Direction direction = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection();
-
-		int boardPaneX = 229;
-		int boardPaneY = 110;
-		int wallWidth = 106;
-		int wallHeight = 29;
-
-		Double minDist;
-		Double dist;
-
-		int chosenXCoord = 0;
-		int chosenYCoord = 0;
-
-		int deltaX = 0;
-		int deltaY = 0;
-
-		if (direction == Direction.Horizontal) {
-			// check if drop location is close to horizontal wall location
-			dist = (double) 1000;
-			minDist = (double) 1100;
-			for (int i = 0; i < 8; i++) {
-				for (int j = 0; j < 8; j++) {
-
-					int xcoord = (int) (boardPaneX + board.hWall[i][j].getLayoutX() + wallWidth / 2);
-					int ycoord = (int) (boardPaneY + board.hWall[i][j].getLayoutY() + wallHeight / 2);
-
-					deltaX = xcoord - x;
-					deltaY = ycoord - y;
-
-					// calculate distance from mmouse click to wall position
-					dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-					if (Double.compare(dist, minDist) < 0) {
-						minDist = dist;
-
-						// xCoord of shortest distance wall
-
-						chosenXCoord = xcoord;
-						chosenYCoord = ycoord;
-					}
-
-					if (25 > (chosenXCoord - x) && -25 < (chosenXCoord - x) && (chosenYCoord - y) < 25
-							&& (chosenYCoord - y) > -25) {
-
-						// model element
-
-						return getTile(i + 1, j + 1);
-
-					}
-				}
-			}
-		} else {
-			// check if drop location is close to horizontal wall location
-			dist = (double) 1000;
-			minDist = (double) 1100;
-			for (int i = 0; i < 8; i++) {
-				for (int j = 0; j < 8; j++) {
-
-					int xcoord = (int) (boardPaneX + board.vWall[i][j].getLayoutX() + wallHeight / 2);
-					int ycoord = (int) (boardPaneY + board.vWall[i][j].getLayoutY() + wallWidth / 2);
-
-					deltaX = xcoord - x;
-					deltaY = ycoord - y;
-
-					// calculate distance from mmouse click to wall position
-					dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-					if (Double.compare(dist, minDist) < 0) {
-						minDist = dist;
-
-						// xCoord of shortest distance wall
-
-						chosenXCoord = xcoord;
-						chosenYCoord = ycoord;
-					}
-
-					if (25 > (chosenXCoord - x) && -25 < (chosenXCoord - x) && (chosenYCoord - y) < 25
-							&& (chosenYCoord - y) > -25) {
-
-						return getTile(i + 1, j + 1);
-
-					}
-				}
-			}
-		}
-		return null;
+	
+	
+	public static boolean setWallMoveCandidate(int i, int j, Direction d)
+	{
+		if (i < 1 || i > 9-1 || j < 1 || j > 9-1)
+			return false;
+		return setWallMoveCandidate(getTile(i, j), d);
 	}
+	
 	/**
 	 * @author Jake Pogharian Feature: Drop Wall step: when "I release the wall in
 	 *         my hand" This method is used to set the wallMove candidate.
 	 * @param int i:This is the i (column) coordinate of the desired wall move
 	 * @param int j: This is the j (row) coordinate of the desired Wall move
 	 */
-	public static boolean setWallMoveCandidate(int i, int j, Direction d) {
-		if (i < 1 || i > 9-1 || j < 1 || j > 9-1)
-			return false;
-		
+	public static boolean setWallMoveCandidate(Tile tile, Direction d)
+	{
 		WallMove wallMoveCandidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
-		Tile aTargetTile = getTile(i,j);
 		
 		if (wallMoveCandidate == null)
 		{
@@ -939,6 +839,9 @@ public class Controller {
 			int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() + 1;
 			int aRoundNumber = (int) Math.ceil(aMoveNumber / 2);
 			Game aGame = QuoridorApplication.getQuoridor().getCurrentGame();
+			
+			if (tile == null) tile = getTile(1, 1);
+			if (d == null) d = Direction.Horizontal;
 			
 			Wall aWallPlaced;
 			if (aPlayer.hasGameAsWhite())
@@ -952,31 +855,21 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(aWallPlaced);
 			}
 			
-//			for (Wall w : QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock())
-//				System.out.print(w == null ? "null," : "not null,");
-//			System.out.println();
-//			for (Wall w : QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock())
-//				System.out.print(w == null ? "null," : "not null,");
-//			System.out.println();
-			
-//			System.out.println("Wall placed: " + aWallPlaced);
-			wallMoveCandidate = new WallMove(aMoveNumber, aRoundNumber, aPlayer, aTargetTile, aGame, d, aWallPlaced);
+			wallMoveCandidate = new WallMove(aMoveNumber, aRoundNumber, aPlayer, tile, aGame, d, aWallPlaced);
 		}
 		else
 		{
-			//throw new AssertionError("Shouldn't be here!");
-			wallMoveCandidate.setTargetTile(aTargetTile);
-			wallMoveCandidate.setWallDirection(d);
-//			System.out.println("UPDATED");
+			if (tile != null)
+				wallMoveCandidate.setTargetTile(tile);
+			if (d != null)
+				wallMoveCandidate.setWallDirection(d);
 		}
 		
-//		System.out.println("sat wall move candidate");
-//		System.out.println("Current cand: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(wallMoveCandidate);
 		
-		//System.out.println("Now: " + QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		return true;
 	}
+	
 	/**
 	 * @author Jake Pogharian Feature: Drop Wall step: when "I release the wall in
 	 *         my hand" This method is used to execute the wall move drop. Does approprate changes
@@ -984,15 +877,6 @@ public class Controller {
 	 * 
 	 */
 	public static void doWallMove(boolean notify) {
-		dropWallMoveM();
-		PlayScreenController.instance.board.loadFromModel();
-		if (notify)
-			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
-	}
-	/**
-	 * @author Jake Pogharian This method is used to do a dropWall and to make necessary changes to model. It does both GUI and model changes
-	 */
-	public static void dropWallMoveM() {
 		WallMove wallMoveCandidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
 				cloneGamePosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()));
@@ -1000,25 +884,22 @@ public class Controller {
 				.addPosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition());
 
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()
-				.hasGameAsWhite()) {
-//			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-//					.removeWhiteWallsInStock(wallMoveCandidate.getWallPlaced());		// Now done in setCnadidate
+				.hasGameAsWhite())
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
-		
-			
-		} else {
-//			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-//					.removeBlackWallsInStock(wallMoveCandidate.getWallPlaced());
+		else
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
-		}
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(null);
 		
 		endMove();
+		
+		if (notify)
+			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
 	}
+	
 	/**
 	 * @author Jake Pogharian This method is used to do a pawnMove. It does both GUI and model changes
 	 * @param int i:This is the i (column) coordinate of the desired wall move
@@ -1047,9 +928,6 @@ public class Controller {
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
 		endMove();
-		
-		if (PlayScreenController.instance != null)
-			PlayScreenController.instance.board.loadFromModel();
 		
 		if (notify)
 			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }

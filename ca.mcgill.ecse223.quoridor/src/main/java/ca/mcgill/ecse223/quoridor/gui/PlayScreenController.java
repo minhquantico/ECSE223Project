@@ -7,6 +7,9 @@ import java.io.FileNotFoundException;
 import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.gui.Board.Player;
+import ca.mcgill.ecse223.quoridor.gui.Board.Wall;
+import ca.mcgill.ecse223.quoridor.model.Direction;
+import ca.mcgill.ecse223.quoridor.model.Tile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -58,7 +61,7 @@ public class PlayScreenController {
     {
     	if(Controller.checkCurrentPlayerStock())
     	{
-    		ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
+    		Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
 			wall = new Rectangle(97,17);
 			wall.setFill(Color.GREY);
 			dragWall(e);
@@ -74,13 +77,43 @@ public class PlayScreenController {
     		wallLabel.setText("You have no walls left!");
     		wallLabel.setTextFill(Color.RED);
     	}
-}
+    }
 
     @FXML
     public void dragWall(MouseEvent e)
     {
        wall.setLayoutX(e.getSceneX() - wall.getWidth()/2); 
        wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
+       
+       int[] coord = getWallMoveTile((int)e.getX()+wallRectX, (int)e.getY()+wallRectY);
+       if (coord != null)
+       {
+    	   Controller.setWallMoveCandidate(coord[0], coord[1], null);
+    	   updateWallMoveVisualFeedback(true);
+       }
+       else
+    	   updateWallMoveVisualFeedback(false);
+    }
+    
+    public void updateWallMoveVisualFeedback(boolean onBoard)
+    {
+    	board.forEachWall(w ->
+    	{
+    		if (w.isSet()) w.set();
+    		else w.unset();
+    	});
+    	
+    	if (!onBoard)
+    		return;
+    	
+    	int x = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getTargetTile().getColumn()-1;
+    	int y = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getTargetTile().getRow()-1;
+    	boolean vertical = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection().equals(Direction.Vertical);
+    	
+    	if (Controller.initPosValidation())
+    		(vertical ? board.vWall : board.hWall)[x][y].setPossible();
+    	else
+    		(vertical ? board.vWall : board.hWall)[x][y].setIllegal();
     }
     
     private int wallRectX;
@@ -89,10 +122,14 @@ public class PlayScreenController {
     @FXML
     public void releaseWall(MouseEvent e)
     {
-       pane.getChildren().remove(wall);
-       if(Controller.checkCurrentPlayerStock())
-    	   ca.mcgill.ecse223.quoridor.Controller.dropWall((int)e.getX()+wallRectX, (int)e.getY()+wallRectY);
-       updateWallCount();
+    	pane.getChildren().remove(wall);
+    	if (getWallMoveTile((int)e.getX()+wallRectX, (int)e.getY()+wallRectY) != null)
+    		Controller.dropWall(true);
+    	else
+    		Controller.cancelCandidate();
+    	
+    	updateWallMoveVisualFeedback(false);
+    	updateWallCount();
     }
     
     @FXML
@@ -100,9 +137,12 @@ public class PlayScreenController {
     {
     	if (!pane.getChildren().contains(wall))
     		return;
-    	
-        if(event.getCode().equals(KeyCode.R))
-            ca.mcgill.ecse223.quoridor.Controller.flipWall(wall);
+        if(!event.getCode().equals(KeyCode.R))
+        	return;
+        
+        ca.mcgill.ecse223.quoridor.Controller.flipWall();
+        wall.setRotate(wall.getRotate() == 0 ? 90 : 0);
+        //if (); TODO
     }
     
     public void updateWallCount()
@@ -142,4 +182,87 @@ public class PlayScreenController {
     	pane.getChildren().remove(BlackPlayerImage);
     	wallLabel.setText("10");
     }
+    
+    
+    public int[] getWallMoveTile(int x, int y)
+    {
+		ca.mcgill.ecse223.quoridor.gui.Board board = PlayScreenController.instance.board;
+		Direction direction = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection();
+
+		int boardPaneX = 229;
+		int boardPaneY = 110;
+		int wallWidth = 106;
+		int wallHeight = 29;
+
+		Double minDist;
+		Double dist;
+
+		int chosenXCoord = 0;
+		int chosenYCoord = 0;
+
+		int deltaX = 0;
+		int deltaY = 0;
+
+		if (direction == Direction.Horizontal) {
+			// check if drop location is close to horizontal wall location
+			dist = (double) 1000;
+			minDist = (double) 1100;
+			for (int i = 0; i < 8; i++) {
+				for (int j = 0; j < 8; j++) {
+
+					int xcoord = (int) (boardPaneX + board.hWall[i][j].getLayoutX() + wallWidth / 2);
+					int ycoord = (int) (boardPaneY + board.hWall[i][j].getLayoutY() + wallHeight / 2);
+
+					deltaX = xcoord - x;
+					deltaY = ycoord - y;
+
+					// calculate distance from mmouse click to wall position
+					dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+					if (Double.compare(dist, minDist) < 0) {
+						minDist = dist;
+
+						// xCoord of shortest distance wall
+
+						chosenXCoord = xcoord;
+						chosenYCoord = ycoord;
+					}
+
+					if (Math.abs(chosenXCoord - x) < 25 && Math.abs(chosenYCoord - y) < 25)
+						return new int[] {i+1, j+1};
+				}
+			}
+		} else {
+			// check if drop location is close to horizontal wall location
+			dist = (double) 1000;
+			minDist = (double) 1100;
+			for (int i = 0; i < 8; i++) {
+				for (int j = 0; j < 8; j++) {
+
+					int xcoord = (int) (boardPaneX + board.vWall[i][j].getLayoutX() + wallHeight / 2);
+					int ycoord = (int) (boardPaneY + board.vWall[i][j].getLayoutY() + wallWidth / 2);
+
+					deltaX = xcoord - x;
+					deltaY = ycoord - y;
+
+					// calculate distance from mmouse click to wall position
+					dist = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+					if (Double.compare(dist, minDist) < 0) {
+						minDist = dist;
+
+						// xCoord of shortest distance wall
+
+						chosenXCoord = xcoord;
+						chosenYCoord = ycoord;
+					}
+
+					if (Math.abs(chosenXCoord - x) < 25 && Math.abs(chosenYCoord - y) < 25)
+						return new int[] {i+1, j+1};
+				}
+			}
+		}
+
+		return null;
+	}
 }
