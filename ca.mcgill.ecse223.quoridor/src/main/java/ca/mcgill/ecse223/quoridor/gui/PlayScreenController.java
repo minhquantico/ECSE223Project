@@ -51,10 +51,7 @@ public class PlayScreenController {
     
     public static PlayScreenController instance;
     
-    public Rectangle wall;
-
-    @FXML
-    MouseEvent event = null;
+    public Pane wall;
     
     @FXML
     public void createWall(MouseEvent e)
@@ -62,12 +59,8 @@ public class PlayScreenController {
     	if(Controller.checkCurrentPlayerStock())
     	{
     		Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
-			wall = new Rectangle(97,17);
-			wall.setFill(Color.GREY);
-			dragWall(e);
 			pane.getChildren().add(wall);
-			wall.setMouseTransparent(true);
-			event = e;
+			//wall.setMouseTransparent(true);
 			pane.requestFocus();
 			
 			updateWallCount();
@@ -182,6 +175,11 @@ public class PlayScreenController {
     			else
     				timeLabel.setText(minutes + " : 0" + seconds);
     		});
+    	
+    	wall = new Pane();
+    	wall.prefWidthProperty().bind(board.hWall[0][0].prefWidthProperty());
+    	wall.prefHeightProperty().bind(board.hWall[0][0].prefHeightProperty());
+    	wall.setBackground(board.hWall[0][0].SET);
     	
     	wallRectX=(int)wallStock.getLayoutX();
     	wallRectY=(int)wallStock.getLayoutY();
