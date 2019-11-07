@@ -82,6 +82,9 @@ public class PlayScreenController {
     @FXML
     public void dragWall(MouseEvent e)
     {
+    	if (!pane.getChildren().contains(wall))
+    		return;
+    	
        wall.setLayoutX(e.getSceneX() - wall.getWidth()/2); 
        wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
        
@@ -122,6 +125,9 @@ public class PlayScreenController {
     @FXML
     public void releaseWall(MouseEvent e)
     {
+    	if (!pane.getChildren().contains(wall))
+    		return;
+    	
     	pane.getChildren().remove(wall);
     	if (getWallMoveTile((int)e.getX()+wallRectX, (int)e.getY()+wallRectY) != null)
     		Controller.dropWall(true);
@@ -181,6 +187,8 @@ public class PlayScreenController {
     	wallRectY=(int)wallStock.getLayoutY();
     	pane.getChildren().remove(BlackPlayerImage);
     	wallLabel.setText("10");
+    	wallLabel.setWrapText(true);
+    	wallLabel.setMaxWidth(80);		// TODO
     }
     
     
