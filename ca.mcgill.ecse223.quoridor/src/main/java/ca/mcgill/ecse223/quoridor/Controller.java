@@ -1144,6 +1144,5 @@ public class Controller {
 		}
 
 		game.setCurrentPosition(gamePosition);
-		}
 	}
-
+}

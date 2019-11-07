@@ -33,27 +33,31 @@ public class QuoridorApplication extends Application {
 				ex = ex.getCause();
 			
 			System.err.println(ex);		// Message
+			boolean printedTrace = false;
 			for (StackTraceElement e : ex.getStackTrace())
-				if (e.toString().contains("ca.mcgill.ecse223.quoridor"))	// Stack trace only in package
-					System.err.println("\t" + e);
+				if (e.toString().contains("ca.mcgill.ecse223.quoridor") && (printedTrace = true))
+					System.err.println("\t" + e);		// Stack trace only in package
+			if (!printedTrace)
+				ex.printStackTrace();
 		});
 		
-	    loadScreen("StartGame", "StartGame.fxml",  "StartGame.css");
-	    loadScreen("WhiteSelectUsername", "SelectWhitePlayerUsername.fxml", null);
-	    loadScreen("BlackSelectUsername", "SelectBlackPlayerUsername.fxml", null);
-	    loadScreen("ThinkingScreen", "Scene.fxml",  "Scene.css");
-	    loadScreen("PlayScreen", "PlayScreen.fxml",  "PlayScreen.css");
-	    
+	    loadScreen("StartGame", "StartGame.fxml", "All.css", "StartGame.css");
+	    loadScreen("WhiteSelectUsername", "SelectWhitePlayerUsername.fxml", "All.css", "SelectWhitePlayerUsername.css");
+	    loadScreen("BlackSelectUsername", "SelectBlackPlayerUsername.fxml", "All.css", "SelectBlackPlayerUsername.css");
+	    loadScreen("ThinkingScreen", "ThinkingTime.fxml", "All.css", "ThinkingTime.css");
+	    loadScreen("PlayScreen", "PlayScreen.fxml", "PlayScreen.css");
 	    setScene("StartGame");
+	    
 	    primaryStage.setOnHidden(e -> System.exit(0));
+	    primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 	
-	public boolean loadScreen(String name, String resource, String resourceCSS) throws IOException
-    { 	
-        Scene scene = new Scene(FXMLLoader.load(QuoridorApplication.class.getClassLoader().getResource(resource)));
-		if(resourceCSS != null)
-			scene.getStylesheets().add(QuoridorApplication.class.getClassLoader().getResource(resourceCSS).toExternalForm());
+	public boolean loadScreen(String name, String fxml, String... css) throws IOException
+    {
+        Scene scene = new Scene(FXMLLoader.load(QuoridorApplication.class.getClassLoader().getResource(fxml)));
+        for (String style : css)
+        	scene.getStylesheets().add(QuoridorApplication.class.getClassLoader().getResource(style).toExternalForm());
         scenes.put(name,scene);
         return true;
     }

@@ -7,19 +7,11 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.SelectBlackPlayerUsernameController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.SelectBlackPlayerUsernameController">
    <children>
-      <ImageView fitHeight="631.0" fitWidth="946.0">
-         <image>
-            <Image url="@BlackPlayerSelectScreen.png" />
-         </image>
-      </ImageView>
-      <ComboBox fx:id="comboBoxBlack" editable="true" layoutX="473.0" layoutY="332.0" prefHeight="39.0" prefWidth="263.0" />
-      <Button fx:id="Next" layoutX="806.0" layoutY="542.0" mnemonicParsing="false" onMouseClicked="#nextClicked" text="Next" />
-      <Label layoutX="198.0" layoutY="338.0" prefHeight="30.0" prefWidth="255.0" text="Select or create a username:" textFill="WHITE">
-         <font>
-            <Font size="20.0" />
-         </font>
+      <ComboBox fx:id="comboBoxBlack" editable="true" layoutX="606.0" layoutY="274.0" prefHeight="39.0" prefWidth="250.0" />
+      <Button fx:id="next" layoutX="736.0" layoutY="511.0" mnemonicParsing="false" onAction="#nextClicked" prefHeight="40.0" prefWidth="120.0" text="Next" />
+      <Label layoutX="220.0" layoutY="279.0" prefHeight="30.0" prefWidth="350.0" text="Select or create a username:">
       </Label>
    </children>
 </Pane>

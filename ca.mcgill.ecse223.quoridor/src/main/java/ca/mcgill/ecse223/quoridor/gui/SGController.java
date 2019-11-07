@@ -2,8 +2,6 @@ package ca.mcgill.ecse223.quoridor.gui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
 import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
@@ -16,13 +14,11 @@ import javafx.stage.FileChooser;
 public class SGController {
 
 	@FXML private Pane pane;
-    @FXML private ResourceBundle resources;
-    @FXML private URL location;
     @FXML private Button sgButton;
     @FXML private Button lgButton;
 
     @FXML
-    void buttonClicked(ActionEvent event)
+    void startGame(ActionEvent event)
     {
     	QuoridorApplication.setScene("WhiteSelectUsername");
     }

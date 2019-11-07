@@ -35,8 +35,6 @@ public class Board extends Pane
 	public Wall[][] vWall = new Wall[COLS-1][ROWS-1];
 	public Wall[][] hWall = new Wall[COLS-1][ROWS-1];
 	
-	//public static Board board;
-	
 	private Thread game = new Thread(() -> {
 		do
 			try
@@ -57,7 +55,7 @@ public class Board extends Pane
 		while (!players[activePlayer++].hasWon());
 	});
 	
-	public Board(boolean... isPlayerComputer)
+	public Board(int numberOfPlayers)
 	{
 		//board=this;
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
@@ -73,15 +71,15 @@ public class Board extends Pane
 				}
 			}
 		
-		this.players = new Player[isPlayerComputer.length];		// 2 Players
+		this.players = new Player[numberOfPlayers];
 		if (players.length >= 1)
-			this.players[0] = new Player(3, Color.GREEN, isPlayerComputer[0]);
+			this.players[0] = new Player(3, Color.GREEN);
 		if (players.length >= 2)
-			this.players[1] = new Player(1, Color.RED, isPlayerComputer[1]);
+			this.players[1] = new Player(1, Color.RED);
 		if (players.length >= 3)
-			this.players[2] = new Player(2, Color.ORANGE, isPlayerComputer[2]);
+			this.players[2] = new Player(2, Color.ORANGE);
 		if (players.length >= 4)
-			this.players[3] = new Player(0, Color.PURPLE, isPlayerComputer[3]);
+			this.players[3] = new Player(0, Color.PURPLE);
 		
 		this.activePlayer = 0;
 	}
@@ -291,9 +289,9 @@ public class Board extends Pane
 		private final double SIZE = 0.75;
 		private final int start;
 		
-		public final boolean isComputer;
+		public boolean computer = false;
 		
-		public Player(int start, Color color, boolean isComputer)
+		public Player(int start, Color color)
 		{
 			this.setFill(color);
 			this.centerXProperty().bind(Board.this.cells[0][0].widthProperty().divide(2));
@@ -301,7 +299,6 @@ public class Board extends Pane
 			this.radiusProperty().bind(Board.this.cells[0][0].widthProperty().multiply(SIZE/2));
 			//this.walls = TOTALWALLS / Board.this.players.length;
 			this.start = start;
-			this.isComputer = isComputer;
 			
 			switch (start)
 			{
@@ -386,17 +383,10 @@ public class Board extends Pane
 			{
 				this.startClock();
 				
-				if (isComputer)
-				{
-					Thread.sleep(1000);
-					//System.out.println("comuter turn");
+				if (isComputer())
 					Platform.runLater(() -> doBestMove());
-				}
 				else
-				{
-					//System.out.println("non comuter ture");
 					getPossibleMoves().forEach(c -> c.setSelected(true));
-				}
 				
 				Board.this.wait();
 				this.stopClock();
@@ -410,10 +400,10 @@ public class Board extends Pane
 			{
 				boolean isAllComputer = true;
 				for (Player p : players)
-					if (!p.isComputer)
+					if (!p.isComputer())
 						isAllComputer = false;
 				if (isAllComputer)
-					try { Thread.sleep(5); }
+					try { Thread.sleep(100); }
 					catch (InterruptedException ex) {}
 			}
 			
@@ -562,5 +552,8 @@ public class Board extends Pane
 		
 		public long getRemainingTime() { return this.remainingTime / 100; }
 		public void setOnRemainingTimeChange(Consumer<Long> action) { this.onRemainingTimeChanged = action; }
+		
+		public void setComputer(boolean computer) { this.computer = computer; }
+		public boolean isComputer() { return this.computer; }
 	}
 }

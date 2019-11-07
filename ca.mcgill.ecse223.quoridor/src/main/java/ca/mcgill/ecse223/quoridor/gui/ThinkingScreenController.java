@@ -21,35 +21,42 @@ public class ThinkingScreenController
 	@FXML
 	public void buttonClicked(ActionEvent e)
 	{
-		int minute;
-		int second;
+		int minute = Integer.parseInt(fieldMinute.getText());
+		int second = Integer.parseInt(fieldSecond.getText());
 		
-		
+		if(minute != 0 || second != 0)
+		{
+			ca.mcgill.ecse223.quoridor.Controller.setTotalThinkingTime(minute, second);
+			long totalSeconds = (minute * 60) + second;
+			ca.mcgill.ecse223.quoridor.Controller.StartClock(totalSeconds);
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
+			QuoridorApplication.setScene("PlayScreen");
+			PlayScreenController.instance.board.startGame();
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+		}
+	}
+	
+	public void checkTime()
+	{
 		try
 		{
-			minute = Integer.parseInt(fieldMinute.getText().toString());
-			second = Integer.parseInt(fieldSecond.getText().toString());
-			if(minute!=0||second!=0)
-			{
-				ca.mcgill.ecse223.quoridor.Controller.setTotalThinkingTime(minute, second);
-				long totalSeconds = (minute * 60) + second;
-				ca.mcgill.ecse223.quoridor.Controller.StartClock(totalSeconds);
-				QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
-				QuoridorApplication.setScene("PlayScreen");
-				PlayScreenController.instance.board.startGame();
-				QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
-			}
-	    }
-		catch (NumberFormatException e1)
+			Integer.parseInt(fieldMinute.getText());
+			Integer.parseInt(fieldSecond.getText());
+			
+			warning.setVisible(false);
+			button.setDisable(false);
+		}
+		catch (NumberFormatException ex)
 		{
-	        warning.setVisible(true);
+			warning.setVisible(true);
+			button.setDisable(true);
 		}
 	}
 	
 	@FXML
 	public void initialize()
 	{
-		fieldMinute.setText("3");
-		fieldSecond.setText("0");
+		fieldMinute.textProperty().addListener(e -> checkTime());
+		fieldSecond.textProperty().addListener(e -> checkTime());
 	}
 }

@@ -7,14 +7,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.SGController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.SGController">
    <children>
-      <ImageView fitHeight="631.0" fitWidth="940.0">
-         <image>
-            <Image url="@startGame_image.png" />
-         </image>
-      </ImageView>
-      <Button fx:id="sgButton" layoutX="382.0" layoutY="299.0" mnemonicParsing="false" onAction="#buttonClicked" text="Start Game" />
-      <Button fx:id="lgButton" layoutX="382.0" layoutY="371.0" mnemonicParsing="false" onAction="#loadGame" text="Load Game" />
+      <Button fx:id="sgButton" layoutX="390.0" layoutY="260.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="120.0" text="Start Game" />
+      <Button fx:id="lgButton" layoutX="390.0" layoutY="317.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="40.0" prefWidth="120.0" text="Load Game" />
    </children>
 </Pane>

@@ -10,20 +10,20 @@ import java.util.Scanner;
 import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.User;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 	public class SelectWhitePlayerUsernameController {
 
 	    @FXML private ComboBox<String> comboBoxWhite;
-	    @FXML private Button Next;
+	    @FXML private Button next;
 	    @FXML private Pane pane;
 	    
 	    @FXML
-	    void nextClicked(MouseEvent event) throws FileNotFoundException
+	    void nextClicked(ActionEvent event) throws FileNotFoundException
 	    {
 	    	boolean isListedWhite = false;
 	    	
@@ -46,8 +46,10 @@ import javafx.scene.layout.Pane;
 				}
 	    	}
 	    	
-	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
+	    	if (whiteUsername.equals("Computer"))
+	    		PlayScreenController.instance.board.players[0].setComputer(true);
 	    	
+	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
 	    	QuoridorApplication.setScene("BlackSelectUsername");
 	    }
 	    
@@ -56,13 +58,13 @@ import javafx.scene.layout.Pane;
 	    {
 			try (Scanner input = new Scanner(new File(getClass().getClassLoader().getResource("Usernames.txt").getFile())))
 			{
+				QuoridorApplication.getQuoridor().addUser("Computer");
 				while(input.hasNextLine())
 					QuoridorApplication.getQuoridor().addUser(input.nextLine());
-
-				for (User user : QuoridorApplication.getQuoridor().getUsers())
-					comboBoxWhite.getItems().add(user.getName());
-
-				comboBoxWhite.getSelectionModel().clearAndSelect(0);
 			}
+			
+			for (User user : QuoridorApplication.getQuoridor().getUsers())
+				comboBoxWhite.getItems().add(user.getName());
+			comboBoxWhite.getSelectionModel().clearAndSelect(0);
 	    }
 	}

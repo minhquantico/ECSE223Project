@@ -38,4 +38,4 @@ Feature: Drop Wall
       | horizontal |   1 |   2 |
   	  | horizontal |   7 |   4 |
       | vertical 	 |   6 |   6 |
-  	
+      

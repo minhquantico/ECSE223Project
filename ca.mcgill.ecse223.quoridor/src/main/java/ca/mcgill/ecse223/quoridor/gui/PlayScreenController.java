@@ -49,71 +49,61 @@ public class PlayScreenController {
     public static PlayScreenController instance;
     
     public Rectangle wall;
-    
-    public static boolean isWallInHand = false;
-    public static boolean noMoreWalls = false;
 
     @FXML
     MouseEvent event = null;
     
     @FXML
-    public void createWall(MouseEvent e) {
-    	
-    	boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
-    	if(wallsLeft) {
-    		 ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
-    	}else {
+    public void createWall(MouseEvent e)
+    {
+    	if(Controller.checkCurrentPlayerStock())
+    	{
+    		ca.mcgill.ecse223.quoridor.Controller.grabWallFromStock(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
+			wall = new Rectangle(97,17);
+			wall.setFill(Color.GREY);
+			dragWall(e);
+			pane.getChildren().add(wall);
+			wall.setMouseTransparent(true);
+			event = e;
+			pane.requestFocus();
+			
+			updateWallCount();
+    	}
+    	else
+    	{
     		wallLabel.setText("You have no walls left!");
     		wallLabel.setTextFill(Color.RED);
-    		noMoreWalls = true;
     	}
-    	wall = new Rectangle(97,17);
-    	   wall.setFill(Color.GREY);
-    	   dragWall(e);
-    	   pane.getChildren().add(wall);
-    	   wall.setMouseTransparent(true);
-    	   event = e;
-    	   pane.requestFocus();
-    	
-    	   updateWallCount();
 }
 
     @FXML
-    public void dragWall(MouseEvent e) {
+    public void dragWall(MouseEvent e)
+    {
        wall.setLayoutX(e.getSceneX() - wall.getWidth()/2); 
        wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
     }
     
-static int wallRectX;
-static int wallRectY;
-
+    private int wallRectX;
+    private int wallRectY;
 
     @FXML
-    public void releaseWall(MouseEvent e) {
-     //  event = null;
+    public void releaseWall(MouseEvent e)
+    {
        pane.getChildren().remove(wall);
-       boolean wallsLeft=ca.mcgill.ecse223.quoridor.Controller.checkCurrentPlayerStock();
-       if(wallsLeft) {
+       if(Controller.checkCurrentPlayerStock())
     	   ca.mcgill.ecse223.quoridor.Controller.dropWall((int)e.getX()+wallRectX, (int)e.getY()+wallRectY);
-    	   isWallInHand = false;
-       }
        updateWallCount();
     }
     
     @FXML
-    public void onRotation(KeyEvent event){
+    public void onRotation(KeyEvent event)
+    {
     	if (!pane.getChildren().contains(wall))
     		return;
     	
         if(event.getCode().equals(KeyCode.R))
             ca.mcgill.ecse223.quoridor.Controller.flipWall(wall);
     }
-    
-    static int boardPaneX=0;
-    static int boardPaneY=0;
-    
-    static int wallWidth;
-    static int wallHeight;
     
     public void updateWallCount()
     {
@@ -129,35 +119,27 @@ static int wallRectY;
     {
     	instance = this;
     	
-    	board = new Board(false, true);
+    	board = new Board(2);
     	board.prefWidthProperty().bind(boardPane.widthProperty());
     	board.prefHeightProperty().bind(boardPane.heightProperty());
     	
     	boardPane.getChildren().add(board);
     	
-    	boardPaneX=(int)boardPane.getLayoutX();
-    	boardPaneY=(int)boardPane.getLayoutY();
-    	
-    	for (Player player : board.players) {
+    	for (Player player : board.players)
     		player.setOnRemainingTimeChange(t ->
     		{
     			long minutes = (board.getActivePlayer().getRemainingTime()) / 60;
     			long seconds = (board.getActivePlayer().getRemainingTime()) % 60;
     			
     			if(seconds > 9)
-    			timeLabel.setText(minutes + " : " + seconds);
+    				timeLabel.setText(minutes + " : " + seconds);
     			else
-    			timeLabel.setText(minutes + " : 0" + seconds);
+    				timeLabel.setText(minutes + " : 0" + seconds);
     		});
-    	}
-    	
     	
     	wallRectX=(int)wallStock.getLayoutX();
     	wallRectY=(int)wallStock.getLayoutY();
-    	wallWidth=(int)wallStock.getWidth();
-    	wallHeight=(int)wallStock.getHeight();
     	pane.getChildren().remove(BlackPlayerImage);
     	wallLabel.setText("10");
-    	System.out.println("Yes");
     }
 }
