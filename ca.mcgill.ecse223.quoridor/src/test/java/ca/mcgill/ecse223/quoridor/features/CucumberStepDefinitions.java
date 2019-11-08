@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 package ca.mcgill.ecse223.quoridor.features;
 
 import static org.junit.Assert.assertNotEquals;
