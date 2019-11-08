@@ -69,5 +69,4 @@ public class QuoridorApplication extends Application {
 	{
 		launch(args);
 	}
-
 }
