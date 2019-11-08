@@ -88,7 +88,7 @@ public class PlayScreenController {
        wall.setLayoutX(e.getSceneX() - wall.getWidth()/2); 
        wall.setLayoutY(e.getSceneY() - wall.getHeight()/2);
        
-       int[] coord = getWallMoveTile((int)e.getX()+wallRectX, (int)e.getY()+wallRectY);
+       int[] coord = getWallMoveTile((int)e.getSceneX(), (int)e.getSceneY());
        if (coord != null)
        {
     	   Controller.setWallMoveCandidate(coord[0], coord[1], null);
@@ -118,9 +118,6 @@ public class PlayScreenController {
     	else
     		(vertical ? board.vWall : board.hWall)[x][y].setIllegal();
     }
-    
-    private int wallRectX;
-    private int wallRectY;
 
     @FXML
     public void releaseWall(MouseEvent e)
@@ -129,7 +126,10 @@ public class PlayScreenController {
     		return;
     	
     	pane.getChildren().remove(wall);
-    	if (getWallMoveTile((int)e.getX()+wallRectX, (int)e.getY()+wallRectY) != null)
+    	System.out.println("getX(): " + e.getX());
+    	System.out.println("getY(): " + e.getY());
+    	
+    	if (getWallMoveTile((int)e.getSceneX(), (int)e.getSceneY()) != null)
     		Controller.dropWall(true);
     	else
     		Controller.cancelCandidate();
@@ -189,8 +189,11 @@ public class PlayScreenController {
     	wall.prefHeightProperty().bind(board.hWall[0][0].prefHeightProperty());
     	wall.setBackground(board.hWall[0][0].SET);
     	
-    	wallRectX=(int)wallStock.getLayoutX();
-    	wallRectY=(int)wallStock.getLayoutY();
+//    	
+//    	wallRectX=(int)wallStock.getLayoutX();
+//    	System.out.println("WallRectX: " + wallRectX);
+//    	wallRectY=(int)wallStock.getLayoutY();
+//    	System.out.println("WallRectY: " + wallRectY);
     	pane.getChildren().remove(BlackPlayerImage);
     	wallLabel.setText("10");
     	wallLabel.setWrapText(true);
