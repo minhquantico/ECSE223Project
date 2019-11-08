@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onRotation" prefHeight="625.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.PlayScreenController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragWall" onMouseReleased="#releaseWall" onKeyPressed="#onRotation" prefHeight="625.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.PlayScreenController">
    <children>
       <ImageView fitHeight="631.0" fitWidth="940.0">
          <image>
@@ -15,7 +15,7 @@
          </image>
       </ImageView>
       <Label fx:id="timeLabel" layoutX="157.0" layoutY="134.0" text="_____" />
-      <Pane id="boardPane" fx:id="boardPane" layoutX="229.0" layoutY="110.0" onMouseDragged="#dragWall" onMouseReleased="#releaseWall" prefHeight="486.0" prefWidth="502.0" style="-fx-background-color: white;" styleClass="theme" stylesheets="@PlayScreen.css" />
+      <Pane fx:id="boardPane" layoutX="229.0" layoutY="110.0" prefHeight="486.0" prefWidth="502.0" style="-fx-background-color: white;" styleClass="theme" stylesheets="@PlayScreen.css" />
       <Button fx:id="SaveGameLabel" layoutX="62.0" layoutY="521.0" mnemonicParsing="false" onAction="#buttonClickedSaveGame" text="Save Game" />
       <Label fx:id="wallLabel" layoutX="840.0" layoutY="164.0" scaleX="2.0" scaleY="2.0" text="Label" />
       <ImageView fx:id="WhitePlayerImage" fitHeight="67.0" fitWidth="239.0" layoutX="409.0" layoutY="15.0">
