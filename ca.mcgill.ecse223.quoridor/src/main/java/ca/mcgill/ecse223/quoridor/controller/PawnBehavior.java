@@ -5,9 +5,15 @@ package ca.mcgill.ecse223.quoridor.controller;
 import java.util.*;
 import ca.mcgill.ecse223.quoridor.model.*;
 
-// line 5 "../../../../../PawnStateMachine.ump"
+// line 6 "../../../../../PawnStateMachine.ump"
 public class PawnBehavior
 {
+
+  //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum MoveDirection { East, South, West, North }
 
   //------------------------
   // MEMBER VARIABLES
@@ -112,7 +118,7 @@ public class PawnBehavior
     return wasEventProcessed;
   }
 
-  private boolean __autotransition2__()
+  private boolean __autotransition6__()
   {
     boolean wasEventProcessed = false;
     
@@ -131,7 +137,7 @@ public class PawnBehavior
     return wasEventProcessed;
   }
 
-  private boolean __autotransition1__()
+  private boolean __autotransition5__()
   {
     boolean wasEventProcessed = false;
     
@@ -168,7 +174,7 @@ public class PawnBehavior
         if (!(isLegalStepMove()))
         {
           exitPawnSMGameActiveUnmoved();
-        // line 25 "../../../../../PawnStateMachine.ump"
+        // line 28 "../../../../../PawnStateMachine.ump"
           illegalMove();
           setPawnSMGameActiveUnmoved(PawnSMGameActiveUnmoved.checked);
           wasEventProcessed = true;
@@ -200,7 +206,7 @@ public class PawnBehavior
         if (!(isLegalJumpMove()))
         {
           exitPawnSMGameActiveUnmoved();
-        // line 26 "../../../../../PawnStateMachine.ump"
+        // line 29 "../../../../../PawnStateMachine.ump"
           illegalMove();
           setPawnSMGameActiveUnmoved(PawnSMGameActiveUnmoved.checked);
           wasEventProcessed = true;
@@ -247,7 +253,7 @@ public class PawnBehavior
         break;
       case moving:
         exitPawnSMGameActiveMoving();
-        // line 39 "../../../../../PawnStateMachine.ump"
+        // line 42 "../../../../../PawnStateMachine.ump"
         completeTurn();
         setPawnSMGameActive(PawnSMGameActive.Null);
         break;
@@ -267,7 +273,7 @@ public class PawnBehavior
         break;
       case moving:
         if (pawnSMGameActiveMoving == PawnSMGameActiveMoving.Null) { setPawnSMGameActiveMoving(PawnSMGameActiveMoving.stepMove); }
-        __autotransition2__();
+        __autotransition6__();
         break;
     }
   }
@@ -294,9 +300,9 @@ public class PawnBehavior
     switch(pawnSMGameActiveUnmoved)
     {
       case unchecked:
-        // line 17 "../../../../../PawnStateMachine.ump"
+        // line 20 "../../../../../PawnStateMachine.ump"
         getPossibleMoves();
-        __autotransition1__();
+        __autotransition5__();
         break;
     }
   }

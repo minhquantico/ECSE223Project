@@ -2,7 +2,10 @@ namespace ca.mcgill.ecse223.quoridor.controller;
 
 use QuoridorGame.ump;
 
+
 class PawnBehavior {
+
+enum MoveDirection { East, South, West, North }
 
     0..1 -> 0..1 Game currentGame;
     0..1 -> 0..1 Player player;
