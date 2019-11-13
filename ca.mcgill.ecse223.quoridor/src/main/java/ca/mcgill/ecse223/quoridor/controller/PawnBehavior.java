@@ -118,7 +118,7 @@ public class PawnBehavior
     return wasEventProcessed;
   }
 
-  private boolean __autotransition6__()
+  private boolean __autotransition14__()
   {
     boolean wasEventProcessed = false;
     
@@ -137,7 +137,7 @@ public class PawnBehavior
     return wasEventProcessed;
   }
 
-  private boolean __autotransition5__()
+  private boolean __autotransition13__()
   {
     boolean wasEventProcessed = false;
     
@@ -164,14 +164,14 @@ public class PawnBehavior
     switch (aPawnSMGameActiveUnmoved)
     {
       case checked:
-        if (isLegalStepMove())
+        if (isLegalStep(direction))
         {
           exitPawnSMGameActive();
           setPawnSMGameActiveMoving(PawnSMGameActiveMoving.stepMove);
           wasEventProcessed = true;
           break;
         }
-        if (!(isLegalStepMove()))
+        if (!(isLegalStep(direction)))
         {
           exitPawnSMGameActiveUnmoved();
         // line 28 "../../../../../PawnStateMachine.ump"
@@ -196,14 +196,14 @@ public class PawnBehavior
     switch (aPawnSMGameActiveUnmoved)
     {
       case checked:
-        if (isLegalJumpMove())
+        if (isLegalJump(direction,direction2))
         {
           exitPawnSMGameActive();
           setPawnSMGameActiveMoving(PawnSMGameActiveMoving.jumpMove);
           wasEventProcessed = true;
           break;
         }
-        if (!(isLegalJumpMove()))
+        if (!(isLegalJump(direction,direction2)))
         {
           exitPawnSMGameActiveUnmoved();
         // line 29 "../../../../../PawnStateMachine.ump"
@@ -273,7 +273,7 @@ public class PawnBehavior
         break;
       case moving:
         if (pawnSMGameActiveMoving == PawnSMGameActiveMoving.Null) { setPawnSMGameActiveMoving(PawnSMGameActiveMoving.stepMove); }
-        __autotransition6__();
+        __autotransition14__();
         break;
     }
   }
@@ -302,7 +302,7 @@ public class PawnBehavior
       case unchecked:
         // line 20 "../../../../../PawnStateMachine.ump"
         getPossibleMoves();
-        __autotransition5__();
+        __autotransition13__();
         break;
     }
   }
