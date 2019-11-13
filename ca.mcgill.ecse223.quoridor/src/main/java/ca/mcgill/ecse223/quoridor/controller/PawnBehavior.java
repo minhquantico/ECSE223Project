@@ -3,6 +3,8 @@
 
 package ca.mcgill.ecse223.quoridor.controller;
 import java.util.*;
+
+import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.*;
 
 // line 6 "../../../../../PawnStateMachine.ump"
@@ -457,5 +459,170 @@ public class PawnBehavior
     player = null;
     PossibleMoves.clear();
   }
+  
+  private void generatePossibleMoves()
+  {
+	  this.PossibleMoves.clear();
+	  for (Tile t : getPossiblePawnMoves(getCurrentGame().getCurrentPosition().getPlayerToMove()))
+		  this.PossibleMoves.add(t);
+  }
 
+  private boolean isLegalStep(MoveDirection d)
+  {
+	  
+  }
+  
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @return a set of Tiles that the player can move to
+	 */
+	public Set<Tile> getPossiblePawnMoves(Player player) {
+		Tile tile = player.hasGameAsWhite() ?
+				getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
+				getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		
+		Set<Tile> moves = new HashSet<>();
+		for (int d = 0; d < 4; d++) {
+			if (isBlockedDirection(tile, d))
+				continue;
+			if (!hasPlayer(direction(tile, d)))
+				moves.add(direction(tile, d));
+			else if (!isBlockedDirection(direction(tile, d), d) && !hasPlayer(direction(direction(tile, d), d)))
+				moves.add(direction(direction(tile, d), d));
+			else {
+				if (!isBlockedDirection(direction(tile, d), d - 1) && !hasPlayer(direction(direction(tile, d), d - 1)))
+					moves.add(direction(direction(tile, d), d - 1));
+				if (!isBlockedDirection(direction(tile, d), d + 1) && !hasPlayer(direction(direction(tile, d), d + 1)))
+					moves.add(direction(direction(tile, d), d + 1));
+			}
+		}
+		
+		return moves;
+	}
+	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param tile
+	 * @param d
+	 * @return the possible moves (tiles) that the player can move to
+	 */
+	public Tile direction(Tile tile, int d) {
+		switch ((d + 4) % 4) {
+		case 0:
+			return tile.getRow() != 1 ? Controller.getTile(tile.getColumn(), tile.getRow() - 1) : null;
+		case 1:
+			return tile.getColumn() != 9 ? Controller.getTile(tile.getColumn() + 1, tile.getRow()) : null;
+		case 2:
+			return tile.getRow() != 9 ? Controller.getTile(tile.getColumn(), tile.getRow() + 1) : null;
+		case 3:
+			return tile.getColumn() != 1 ? Controller.getTile(tile.getColumn() - 1, tile.getRow()) : null;
+		default:
+			return null;
+		}
+	}
+	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param tile
+	 * @param d
+	 * @return true or false depending on whether the user's intended tile and
+	 *         direction are blocked
+	 */
+
+	public boolean isBlockedDirection(Tile tile, int d) {
+		switch ((d + 4) % 4) {
+		case 0:
+			return tile.getRow() == 1
+					|| tile.getColumn() != 1 && Controller.isWallSet(tile.getColumn() - 1, tile.getRow() - 1, Direction.Horizontal)
+					|| tile.getColumn() != 9 && Controller.isWallSet(tile.getColumn(), tile.getRow() - 1, Direction.Horizontal);
+		case 1:
+			return tile.getColumn() == 9
+					|| tile.getRow() != 1 && Controller.isWallSet(tile.getColumn(), tile.getRow() - 1, Direction.Vertical)
+					|| tile.getRow() != 9 && Controller.isWallSet(tile.getColumn(), tile.getRow(), Direction.Vertical);
+		case 2:
+			return tile.getRow() == 9
+					|| tile.getColumn() != 1 && Controller.isWallSet(tile.getColumn() - 1, tile.getRow(), Direction.Horizontal)
+					|| tile.getColumn() != 9 && Controller.isWallSet(tile.getColumn(), tile.getRow(), Direction.Horizontal);
+		case 3:
+			return tile.getColumn() == 1
+					|| tile.getRow() != 1 && Controller.isWallSet(tile.getColumn() - 1, tile.getRow() - 1, Direction.Vertical)
+					|| tile.getRow() != 9 && Controller.isWallSet(tile.getColumn() - 1, tile.getRow(), Direction.Vertical);
+		default:
+			return false;
+		}
+	}
+
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @param tile
+	 * @return true or false depending on whether or not there is a player on the
+	 *         given tile
+	 */
+	public boolean hasPlayer(Tile tile) {
+		return (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition()
+				.getTile() == tile
+				|| QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition()
+						.getTile() == tile);
+
+	}
+	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @return boolean : identifies if player has won
+	 * @param  Tile tile: is the tile at which player finds himself
+	 * @param  Player for which we are validating win
+	 */
+	
+	public boolean isWinner(Player player, Tile tile)
+	{
+		return (player.getDestination().getDirection().equals(Direction.Horizontal) ?
+				tile.getColumn() :
+				tile.getRow()) == player.getDestination().getTargetNumber();
+	}
+	/**
+	 * @author Gohar Saqib Fazal
+	 * @return int : refers to the length of  the given path
+	 * @param  Player: player refers to the player concerned
+	 */
+	public int getShortestPathLength(Player player)
+	{
+		GamePosition current = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		Tile playerPosition = (player.hasGameAsWhite() ? current.getWhitePosition() : current.getBlackPosition()).getTile();
+		
+		if (isWinner(player, playerPosition))
+			return 0;
+		
+		class Dijkstra { int distance = -1; boolean visited = false; }
+		final HashMap<Tile, Dijkstra> tilesMap = new HashMap<>();
+		
+		for (Tile tile : QuoridorApplication.getQuoridor().getBoard().getTiles())
+			tilesMap.put(tile, new Dijkstra());
+		
+		Set<Tile> toVisit = QuoridorApplication.psm.getPossiblePawnMoves(player);
+		toVisit.forEach(t -> tilesMap.get(t).distance = 1);
+		tilesMap.get(playerPosition).distance = 0;
+		tilesMap.get(playerPosition).visited = true;
+		
+		while (!toVisit.isEmpty())
+		{
+			Tile min = toVisit.iterator().next();
+			for (Tile t : toVisit)
+				if (tilesMap.get(t).distance < tilesMap.get(min).distance)
+					min = t;
+			toVisit.remove(min);
+			tilesMap.get(min).visited = true;
+			
+			if (isWinner(player, min))
+				return tilesMap.get(min).distance;
+			
+			for (int i = 0; i < 4; i++)
+				if (!isBlockedDirection(min, i) && !tilesMap.get(direction(min, i)).visited)
+					if (tilesMap.get(direction(min, i)).distance == -1 || tilesMap.get(min).distance + 1 < tilesMap.get(direction(min, i)).distance)
+					{
+						tilesMap.get(direction(min, i)).distance = tilesMap.get(min).distance + 1;
+						toVisit.add(direction(min, i));
+					}
+		}
+		return -1;
+	}
 }
