@@ -17,7 +17,7 @@ enum MoveDirection { East, South, West, North }
         unmoved{
         
           unchecked{
-            entry/{getPossibleMoves();}
+            entry/{generatePossibleMoves();}
          ->checked;
           }
           

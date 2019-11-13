@@ -118,7 +118,7 @@ public class PawnBehavior
     return wasEventProcessed;
   }
 
-  private boolean __autotransition14__()
+  private boolean __autotransition16__()
   {
     boolean wasEventProcessed = false;
     
@@ -137,7 +137,7 @@ public class PawnBehavior
     return wasEventProcessed;
   }
 
-  private boolean __autotransition13__()
+  private boolean __autotransition15__()
   {
     boolean wasEventProcessed = false;
     
@@ -273,7 +273,7 @@ public class PawnBehavior
         break;
       case moving:
         if (pawnSMGameActiveMoving == PawnSMGameActiveMoving.Null) { setPawnSMGameActiveMoving(PawnSMGameActiveMoving.stepMove); }
-        __autotransition14__();
+        __autotransition16__();
         break;
     }
   }
@@ -301,8 +301,8 @@ public class PawnBehavior
     {
       case unchecked:
         // line 20 "../../../../../PawnStateMachine.ump"
-        getPossibleMoves();
-        __autotransition13__();
+        generatePossibleMoves();
+        __autotransition15__();
         break;
     }
   }
