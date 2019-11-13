@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 import java.util.*;
 
-// line 31 "../../../../../../../../ump/tmp596100/model.ump"
-// line 125 "../../../../../../../../ump/tmp596100/model.ump"
+// line 30 "../../../../../QuoridorGame.ump"
 public class Wall
 {
 
@@ -34,12 +33,12 @@ public class Wall
   {
     if (!setId(aId))
     {
-      throw new RuntimeException("Cannot create due to duplicate id. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+      throw new RuntimeException("Cannot create due to duplicate id");
     }
     boolean didAddOwner = setOwner(aOwner);
     if (!didAddOwner)
     {
-      throw new RuntimeException("Unable to create wall due to owner. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create wall due to owner");
     }
   }
 
@@ -51,9 +50,6 @@ public class Wall
   {
     boolean wasSet = false;
     Integer anOldId = getId();
-    if (anOldId != null && anOldId.equals(aId)) {
-      return true;
-    }
     if (hasWithId(aId)) {
       return wasSet;
     }

@@ -1,10 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 
-// line 73 "../../../../../../../../ump/tmp596100/model.ump"
-// line 151 "../../../../../../../../ump/tmp596100/model.ump"
+// line 72 "../../../../../QuoridorGame.ump"
 public abstract class Move
 {
 
@@ -33,16 +32,16 @@ public abstract class Move
     roundNumber = aRoundNumber;
     if (!setPlayer(aPlayer))
     {
-      throw new RuntimeException("Unable to create Move due to aPlayer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Move due to aPlayer");
     }
     if (!setTargetTile(aTargetTile))
     {
-      throw new RuntimeException("Unable to create Move due to aTargetTile. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Move due to aTargetTile");
     }
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
-      throw new RuntimeException("Unable to create move due to game. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create move due to game");
     }
   }
 

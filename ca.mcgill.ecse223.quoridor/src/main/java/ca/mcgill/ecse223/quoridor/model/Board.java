@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 import java.util.*;
 
-// line 16 "../../../../../../../../ump/tmp596100/model.ump"
-// line 110 "../../../../../../../../ump/tmp596100/model.ump"
+// line 15 "../../../../../QuoridorGame.ump"
 public class Board
 {
 
@@ -27,7 +26,7 @@ public class Board
     boolean didAddQuoridor = setQuoridor(aQuoridor);
     if (!didAddQuoridor)
     {
-      throw new RuntimeException("Unable to create board due to quoridor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create board due to quoridor");
     }
   }
 

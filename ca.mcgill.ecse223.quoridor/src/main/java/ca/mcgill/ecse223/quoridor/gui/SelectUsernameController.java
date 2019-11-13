@@ -7,8 +7,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.controller.Controller;
 import ca.mcgill.ecse223.quoridor.model.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -43,10 +43,10 @@ public class SelectUsernameController {
     	}
     	
     	if(!isListedWhite)
-    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(whiteUsername);
+    		ca.mcgill.ecse223.quoridor.controller.Controller.CreateNewUsername(whiteUsername);
     	
     	if(!isListedBlack && whiteUsername != blackUsername)
-    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(blackUsername);
+    		ca.mcgill.ecse223.quoridor.controller.Controller.CreateNewUsername(blackUsername);
     	
     	File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
 		try (PrintStream stream = new PrintStream(new FileOutputStream(file, true)))

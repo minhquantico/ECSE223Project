@@ -26,9 +26,9 @@ public class ThinkingScreenController
 		
 		if(minute != 0 || second != 0)
 		{
-			ca.mcgill.ecse223.quoridor.Controller.setTotalThinkingTime(minute, second);
+			ca.mcgill.ecse223.quoridor.controller.Controller.setTotalThinkingTime(minute, second);
 			long totalSeconds = (minute * 60) + second;
-			ca.mcgill.ecse223.quoridor.Controller.StartClock(totalSeconds);
+			ca.mcgill.ecse223.quoridor.controller.Controller.StartClock(totalSeconds);
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
 			QuoridorApplication.setScene("PlayScreen");
 			PlayScreenController.instance.board.startGame();

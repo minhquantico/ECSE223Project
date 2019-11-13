@@ -1,10 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 
-// line 86 "../../../../../../../../ump/tmp596100/model.ump"
-// line 161 "../../../../../../../../ump/tmp596100/model.ump"
+// line 85 "../../../../../QuoridorGame.ump"
 public class JumpMove extends Move
 {
 

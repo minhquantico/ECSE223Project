@@ -3,8 +3,8 @@ package ca.mcgill.ecse223.quoridor.gui;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.controller.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,8 +39,8 @@ public class SGController {
     @FXML
     void initialize()
     {
-    	ca.mcgill.ecse223.quoridor.Controller.initQuoridorAndBoard();
-    	ca.mcgill.ecse223.quoridor.Controller.InitializeNewGame();
+    	ca.mcgill.ecse223.quoridor.controller.Controller.initQuoridorAndBoard();
+    	ca.mcgill.ecse223.quoridor.controller.Controller.InitializeNewGame();
     }
 }
 

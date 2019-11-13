@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
 
-import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.controller.Controller;
 import ca.mcgill.ecse223.quoridor.model.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +35,7 @@ public class SelectBlackPlayerUsernameController {
     	
     	if(!isListedBlack)
     	{
-    		ca.mcgill.ecse223.quoridor.Controller.CreateNewUsername(blackUsername);
+    		ca.mcgill.ecse223.quoridor.controller.Controller.CreateNewUsername(blackUsername);
     		
     		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
 

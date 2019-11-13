@@ -17,9 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import ca.mcgill.ecse223.quoridor.Controller;
-import ca.mcgill.ecse223.quoridor.Controller.InvalidPositionException;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.controller.Controller;
+import ca.mcgill.ecse223.quoridor.controller.Controller.InvalidPositionException;
 import ca.mcgill.ecse223.quoridor.gui.PlayScreenController;
 import ca.mcgill.ecse223.quoridor.model.Board;
 import ca.mcgill.ecse223.quoridor.model.Direction;
@@ -140,8 +140,10 @@ public class CucumberStepDefinitions {
 	public void aNewGameIsInitializing() throws Throwable {
 		Controller.initQuoridorAndBoard();
 		ArrayList<Player> players = createUsersAndPlayers("user1", "user2");
-		new Game(GameStatus.Initializing, MoveMode.PlayerMove, players.get(0), players.get(1),
-				QuoridorApplication.getQuoridor());
+		Game game = new Game(GameStatus.Initializing, MoveMode.PlayerMove, QuoridorApplication.getQuoridor());
+		game.setWhitePlayer(players.get(0));
+		game.setBlackPlayer(players.get(1));
+				
 	}
 
 	// ***********************************************
@@ -1509,7 +1511,11 @@ public class CucumberStepDefinitions {
 		Tile player1StartPos = quoridor.getBoard().getTile(36);
 		Tile player2StartPos = quoridor.getBoard().getTile(44);
 
-		Game game = new Game(GameStatus.Running, MoveMode.PlayerMove, players.get(0), players.get(1), quoridor);
+		Game game = new Game(GameStatus.Running, MoveMode.PlayerMove, quoridor);
+		game.setWhitePlayer(players.get(0));
+		game.setBlackPlayer(players.get(1));
+		
+		
 
 		PlayerPosition player1Position = new PlayerPosition(quoridor.getCurrentGame().getWhitePlayer(),
 				player1StartPos);

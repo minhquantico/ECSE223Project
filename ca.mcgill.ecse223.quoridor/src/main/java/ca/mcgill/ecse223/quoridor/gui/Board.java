@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.controller.Controller;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import javafx.application.Platform;

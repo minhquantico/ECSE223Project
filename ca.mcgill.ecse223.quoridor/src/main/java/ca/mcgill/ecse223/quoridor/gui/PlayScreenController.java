@@ -4,8 +4,8 @@ package ca.mcgill.ecse223.quoridor.gui;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import ca.mcgill.ecse223.quoridor.Controller;
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.controller.Controller;
 import ca.mcgill.ecse223.quoridor.gui.Board.Player;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import javafx.event.ActionEvent;
@@ -141,7 +141,7 @@ public class PlayScreenController {
         if(!event.getCode().equals(KeyCode.R))
         	return;
         
-        ca.mcgill.ecse223.quoridor.Controller.flipWall();
+        ca.mcgill.ecse223.quoridor.controller.Controller.flipWall();
         wall.setRotate(wall.getRotate() == 0 ? 90 : 0);
         
         if (getWallMoveTile() != null)
