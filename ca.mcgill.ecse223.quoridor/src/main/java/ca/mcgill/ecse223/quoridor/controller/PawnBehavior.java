@@ -34,7 +34,7 @@ public class PawnBehavior
   //PawnBehavior Associations
   private Game currentGame;
   private Player player;
-  private List<Tile> PossibleMoves;
+  private List<Tile> possibleMoves;
 
   //------------------------
   // CONSTRUCTOR
@@ -42,7 +42,7 @@ public class PawnBehavior
 
   public PawnBehavior()
   {
-    PossibleMoves = new ArrayList<Tile>();
+    possibleMoves = new ArrayList<Tile>();
     setPawnSMGameActive(PawnSMGameActive.Null);
     setPawnSMGameActiveUnmoved(PawnSMGameActiveUnmoved.Null);
     setPawnSMGameActiveMoving(PawnSMGameActiveMoving.Null);
@@ -352,31 +352,31 @@ public class PawnBehavior
   /* Code from template association_GetMany */
   public Tile getPossibleMove(int index)
   {
-    Tile aPossibleMove = PossibleMoves.get(index);
+    Tile aPossibleMove = possibleMoves.get(index);
     return aPossibleMove;
   }
 
   public List<Tile> getPossibleMoves()
   {
-    List<Tile> newPossibleMoves = Collections.unmodifiableList(PossibleMoves);
+    List<Tile> newPossibleMoves = Collections.unmodifiableList(possibleMoves);
     return newPossibleMoves;
   }
 
   public int numberOfPossibleMoves()
   {
-    int number = PossibleMoves.size();
+    int number = possibleMoves.size();
     return number;
   }
 
   public boolean hasPossibleMoves()
   {
-    boolean has = PossibleMoves.size() > 0;
+    boolean has = possibleMoves.size() > 0;
     return has;
   }
 
   public int indexOfPossibleMove(Tile aPossibleMove)
   {
-    int index = PossibleMoves.indexOf(aPossibleMove);
+    int index = possibleMoves.indexOf(aPossibleMove);
     return index;
   }
   /* Code from template association_SetUnidirectionalOptionalOne */
@@ -404,8 +404,8 @@ public class PawnBehavior
   public boolean addPossibleMove(Tile aPossibleMove)
   {
     boolean wasAdded = false;
-    if (PossibleMoves.contains(aPossibleMove)) { return false; }
-    PossibleMoves.add(aPossibleMove);
+    if (possibleMoves.contains(aPossibleMove)) { return false; }
+    possibleMoves.add(aPossibleMove);
     wasAdded = true;
     return wasAdded;
   }
@@ -413,9 +413,9 @@ public class PawnBehavior
   public boolean removePossibleMove(Tile aPossibleMove)
   {
     boolean wasRemoved = false;
-    if (PossibleMoves.contains(aPossibleMove))
+    if (possibleMoves.contains(aPossibleMove))
     {
-      PossibleMoves.remove(aPossibleMove);
+      possibleMoves.remove(aPossibleMove);
       wasRemoved = true;
     }
     return wasRemoved;
@@ -428,8 +428,8 @@ public class PawnBehavior
     {
       if(index < 0 ) { index = 0; }
       if(index > numberOfPossibleMoves()) { index = numberOfPossibleMoves() - 1; }
-      PossibleMoves.remove(aPossibleMove);
-      PossibleMoves.add(index, aPossibleMove);
+      possibleMoves.remove(aPossibleMove);
+      possibleMoves.add(index, aPossibleMove);
       wasAdded = true;
     }
     return wasAdded;
@@ -438,12 +438,12 @@ public class PawnBehavior
   public boolean addOrMovePossibleMoveAt(Tile aPossibleMove, int index)
   {
     boolean wasAdded = false;
-    if(PossibleMoves.contains(aPossibleMove))
+    if(possibleMoves.contains(aPossibleMove))
     {
       if(index < 0 ) { index = 0; }
       if(index > numberOfPossibleMoves()) { index = numberOfPossibleMoves() - 1; }
-      PossibleMoves.remove(aPossibleMove);
-      PossibleMoves.add(index, aPossibleMove);
+      possibleMoves.remove(aPossibleMove);
+      possibleMoves.add(index, aPossibleMove);
       wasAdded = true;
     } 
     else 
@@ -457,19 +457,53 @@ public class PawnBehavior
   {
     currentGame = null;
     player = null;
-    PossibleMoves.clear();
+    possibleMoves.clear();
   }
   
   private void generatePossibleMoves()
   {
-	  this.PossibleMoves.clear();
+	  this.possibleMoves.clear();
 	  for (Tile t : getPossiblePawnMoves(getCurrentGame().getCurrentPosition().getPlayerToMove()))
-		  this.PossibleMoves.add(t);
+		  this.possibleMoves.add(t);
   }
 
   private boolean isLegalStep(MoveDirection d)
   {
-	  
+	  return possibleMoves.contains(direction(getCurrentPlayerPosition(), toInt(d)));
+  }
+  
+  private boolean isLegalJump(MoveDirection d, MoveDirection d2)
+  {
+	  Tile dir1 = direction(getCurrentPlayerPosition(), toInt(d));
+	  if (dir1 == null)
+		  return false;
+	  return possibleMoves.contains(direction(dir1, toInt(d2)));
+  }
+  
+  private void illegalMove()
+  {
+	  System.err.println("Illegal move");
+  }
+  
+  private void completeTurn()
+  {
+	  return false;
+  }
+  
+  int getCurrentPawnRow() { return getCurrentPlayerPosition().getRow(); }
+  int getCurrentPawnColumn() { return getCurrentPlayerPosition().getColumn(); }
+  public Tile getCurrentPlayerPosition() { return (player.hasGameAsWhite() ? getCurrentGame().getCurrentPosition().getWhitePosition() : getCurrentGame().getCurrentPosition().getBlackPosition()).getTile(); }
+  
+  private int toInt(MoveDirection d)
+  {
+	  switch (d)
+	  {
+	  case North: return 0;
+	  case West: return 1;
+	  case South: return 2;
+	  case East: return 3;
+	  default: return -1;
+	  }
   }
   
 	/**

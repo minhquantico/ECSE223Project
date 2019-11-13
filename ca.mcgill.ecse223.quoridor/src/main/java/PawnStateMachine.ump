@@ -9,7 +9,7 @@ enum MoveDirection { East, South, West, North }
 
     0..1 -> 0..1 Game currentGame;
     0..1 -> 0..1 Player player;
-    0..1->* Tile PossibleMoves;
+    0..1->* Tile possibleMoves;
 
     pawnSM {
       gameActive{
