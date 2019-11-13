@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 import java.util.*;
 
-// line 57 "../../../../../../../../ump/tmp596100/model.ump"
-// line 141 "../../../../../../../../ump/tmp596100/model.ump"
+// line 56 "../../../../../QuoridorGame.ump"
 public class GamePosition
 {
 
@@ -21,7 +20,7 @@ public class GamePosition
 
   //GamePosition Attributes
   private int id;
-  
+
   //GamePosition Associations
   private PlayerPosition whitePosition;
   private PlayerPosition blackPosition;
@@ -40,21 +39,21 @@ public class GamePosition
   {
     if (!setId(aId))
     {
-      throw new RuntimeException("Cannot create due to duplicate id. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+      throw new RuntimeException("Cannot create due to duplicate id");
     }
     boolean didAddWhitePosition = setWhitePosition(aWhitePosition);
     if (!didAddWhitePosition)
     {
-      throw new RuntimeException("Unable to create whiteInGame due to whitePosition. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create whiteInGame due to whitePosition");
     }
     boolean didAddBlackPosition = setBlackPosition(aBlackPosition);
     if (!didAddBlackPosition)
     {
-      throw new RuntimeException("Unable to create blackInGame due to blackPosition. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create blackInGame due to blackPosition");
     }
     if (!setPlayerToMove(aPlayerToMove))
     {
-      throw new RuntimeException("Unable to create GamePosition due to aPlayerToMove. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create GamePosition due to aPlayerToMove");
     }
     whiteWallsOnBoard = new ArrayList<Wall>();
     blackWallsOnBoard = new ArrayList<Wall>();
@@ -63,7 +62,7 @@ public class GamePosition
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
-      throw new RuntimeException("Unable to create position due to game. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create position due to game");
     }
   }
 
@@ -75,9 +74,6 @@ public class GamePosition
   {
     boolean wasSet = false;
     Integer anOldId = getId();
-    if (anOldId != null && anOldId.equals(aId)) {
-      return true;
-    }
     if (hasWithId(aId)) {
       return wasSet;
     }

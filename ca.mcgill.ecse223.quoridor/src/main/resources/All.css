@@ -1,0 +1,13 @@
+.root {
+	-fx-background-size: stretch;
+}
+
+Label {
+	-fx-font-size: 24px;
+}
+
+TextField {
+	-fx-font-size: 24px;
+}
+
+

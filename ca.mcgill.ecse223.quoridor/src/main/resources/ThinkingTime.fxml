@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="899.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.ThinkingScreenController">
+   <children>
+      <Button fx:id="button" layoutX="710.0" layoutY="502.0" mnemonicParsing="false" onAction="#buttonClicked" prefHeight="50.0" prefWidth="150.0" text="Set Thinking Time" />
+      <TextField fx:id="fieldSecond" alignment="CENTER_RIGHT" layoutX="467.0" layoutY="255.0" prefHeight="45.0" prefWidth="80.0" text="00" />
+      <TextField fx:id="fieldMinute" alignment="CENTER_RIGHT" layoutX="353.0" layoutY="255.0" prefHeight="45.0" prefWidth="80.0" text="3" />
+      <Label fx:id="warning" alignment="CENTER" layoutX="577.0" layoutY="263.0" prefHeight="29.0" prefWidth="283.0" text="Invalid thinking time!" textFill="RED" visible="false" />
+      <Label layoutX="446.0" layoutY="263.0" text=":" />
+      <Label layoutX="165.0" layoutY="263.0" text="Thinking time:" />
+   </children>
+</Pane>

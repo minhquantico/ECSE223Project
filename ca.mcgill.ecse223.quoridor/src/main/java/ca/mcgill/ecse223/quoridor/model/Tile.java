@@ -1,10 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 
-// line 20 "../../../../../../../../ump/tmp596100/model.ump"
-// line 115 "../../../../../../../../ump/tmp596100/model.ump"
+// line 19 "../../../../../QuoridorGame.ump"
 public class Tile
 {
 
@@ -30,7 +29,7 @@ public class Tile
     boolean didAddBoard = setBoard(aBoard);
     if (!didAddBoard)
     {
-      throw new RuntimeException("Unable to create tile due to board. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create tile due to board");
     }
     if (aRow<1||aRow>9)
     {

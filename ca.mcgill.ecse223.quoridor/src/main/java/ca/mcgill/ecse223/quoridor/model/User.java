@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 import java.util.*;
 
-// line 27 "../../../../../../../../ump/tmp596100/model.ump"
-// line 120 "../../../../../../../../ump/tmp596100/model.ump"
+// line 26 "../../../../../QuoridorGame.ump"
 public class User
 {
 
@@ -33,12 +32,12 @@ public class User
   {
     if (!setName(aName))
     {
-      throw new RuntimeException("Cannot create due to duplicate name. See http://manual.umple.org?RE003ViolationofUniqueness.html");
+      throw new RuntimeException("Cannot create due to duplicate name");
     }
     boolean didAddQuoridor = setQuoridor(aQuoridor);
     if (!didAddQuoridor)
     {
-      throw new RuntimeException("Unable to create user due to quoridor. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create user due to quoridor");
     }
   }
 
@@ -50,9 +49,6 @@ public class User
   {
     boolean wasSet = false;
     String anOldName = getName();
-    if (anOldName != null && anOldName.equals(aName)) {
-      return true;
-    }
     if (hasWithName(aName)) {
       return wasSet;
     }

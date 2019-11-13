@@ -7,7 +7,7 @@ import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-		plugin = "pretty", 
+		plugin = "pretty",
 		features = "src/test/resources/",
 		glue = "ca.mcgill.ecse223.quoridor.features",
 		monochrome = true)

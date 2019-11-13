@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 import java.sql.Time;
 
-// line 68 "../../../../../../../../ump/tmp596100/model.ump"
-// line 146 "../../../../../../../../ump/tmp596100/model.ump"
+// line 67 "../../../../../QuoridorGame.ump"
 public class Destination
 {
 
@@ -30,7 +29,7 @@ public class Destination
     direction = aDirection;
     if (aPlayer == null || aPlayer.getDestination() != null)
     {
-      throw new RuntimeException("Unable to create Destination due to aPlayer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create Destination due to aPlayer");
     }
     player = aPlayer;
   }

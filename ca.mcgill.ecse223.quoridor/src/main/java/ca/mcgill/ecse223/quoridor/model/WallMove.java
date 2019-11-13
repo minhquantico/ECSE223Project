@@ -1,10 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 
-// line 90 "../../../../../../../../ump/tmp596100/model.ump"
-// line 166 "../../../../../../../../ump/tmp596100/model.ump"
+// line 89 "../../../../../QuoridorGame.ump"
 public class WallMove extends Move
 {
 
@@ -30,7 +29,7 @@ public class WallMove extends Move
     boolean didAddWallPlaced = setWallPlaced(aWallPlaced);
     if (!didAddWallPlaced)
     {
-      throw new RuntimeException("Unable to create move due to wallPlaced. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create move due to wallPlaced");
     }
   }
 

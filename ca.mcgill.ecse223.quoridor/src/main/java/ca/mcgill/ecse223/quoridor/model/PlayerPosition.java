@@ -1,11 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4681.c61467288 modeling language!*/
+/*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.quoridor.model;
 import java.util.*;
 
-// line 96 "../../../../../../../../ump/tmp596100/model.ump"
-// line 171 "../../../../../../../../ump/tmp596100/model.ump"
+// line 95 "../../../../../QuoridorGame.ump"
 public class PlayerPosition
 {
 
@@ -27,11 +26,11 @@ public class PlayerPosition
   {
     if (!setPlayer(aPlayer))
     {
-      throw new RuntimeException("Unable to cre ate PlayerPosition due to aPlayer. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create PlayerPosition due to aPlayer");
     }
     if (!setTile(aTile))
     {
-      throw new RuntimeException("Unable to create PlayerPosition due to aTile. See http://manual.umple.org?RE002ViolationofAssociationMultiplicity.html");
+      throw new RuntimeException("Unable to create PlayerPosition due to aTile");
     }
   }
 
