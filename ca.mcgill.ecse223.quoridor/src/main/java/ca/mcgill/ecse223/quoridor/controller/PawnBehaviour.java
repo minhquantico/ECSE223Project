@@ -1197,14 +1197,42 @@ public class PawnBehaviour
   }
   
   private boolean stepNearBorder(MoveDirection dir)
+  
   {
-	  if(dir == MoveDirection.North ) {
-		  Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),0)
-	  }
+	  
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(M)).getRow() == 2) return true;
+		  
+	 
+		  else if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.East)).getColumn() == 8) return true;
+	    
+		  else if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.South)).getRow() == 8) return true;
+		  
+		  else if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.West)).getRow() == 2) return true;
+		
+	  
+		  else return false;
+  }
   
   // ??
   private boolean stepOnBorder(MoveDirection dir)
   {
+	  switch(dir) {
+	  
+	  case North:
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.North)).getRow() == 1) return true;
+		  break;
+	  case East:
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.East)).getColumn() == 9) return true;
+	      break;
+	  case South: 
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.South)).getRow() == 9) return true;
+		  break;
+	  case West: 
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.West)).getRow() == 1) return true;
+		  break;
+	  }
+	  return false;
+	  
 	  
   }
   
@@ -1247,5 +1275,10 @@ public class PawnBehaviour
 	  	case West: return 3;
 	  }
 	  return -1;
+  }
+  
+  private boolean isNearBorder(Tile tile) {
+	  if(tile.getRow() == 2 || tile.getRow() == 8 || tile.getColumn() == 2 || tile.getColumn() == 8 ) return true;
+	  else return false; 
   }
 }
