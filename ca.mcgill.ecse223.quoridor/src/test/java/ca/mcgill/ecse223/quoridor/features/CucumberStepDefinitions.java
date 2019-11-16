@@ -212,6 +212,21 @@ public class CucumberStepDefinitions {
 	//all methods for scenario 3 and 4 are foudn in the above
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 	
+// MovePawn: Team
+	
+	@Given("There are no {string} walls {string} from the player")
+	public void there_are_no_walls_from_the_player(String string, String string2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The opponent is not {string} from the player")
+	public void the_opponent_is_not_from_the_player(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+	
+	
 	
 	
 	
