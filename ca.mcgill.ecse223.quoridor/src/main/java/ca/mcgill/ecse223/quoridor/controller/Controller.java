@@ -34,14 +34,33 @@ import javafx.scene.shape.Rectangle;
 
 public class Controller {
 
-//-----------------------------------------------------------------------------------------------------------
+	
+	
+	
+//----------------------------------------------------------------------------------------------------------------------------------------------------------	
+	
+	/**
+	 * @author Team
+	 * Feature: MovePawn AND JumpPawn - step:("When Player "<player>" initiates to move "<side>")
+	 * @param ??
+	 */
+	
+
+	
+//----------------------------------------------------------------------------------------------------------------------------------------------------------	
+	
+	
+	
+	
+	
+	
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 	/**
-	 * @author David Budaghyan Feature: GrabWall step:("I try to grab a wall from my
-	 *         stock")
+	 * @author David Budaghyan Feature: GrabWall 
+	 * step:("I try to grab a wall from my stock")
 	 * @param aPlayer
 	 */
-	// alternative: public static void grabWallFromStock(Player aPlayer, Wall aWall)
 	public static void grabWallFromStock(Player aPlayer) {
 		setWallMoveCandidate(null, Direction.Horizontal);
 	}
@@ -79,18 +98,6 @@ public class Controller {
 			return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock();
 		else
 			return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock();
-	}
-
-	/**
-	 * @author David Budaghyan Feature: MoveWall step:("I try to move the wall
-	 *         {string}")
-	 * @param direction
-	 */
-	// might need a wall parameter - depends on later decisions
-	// or maybe some type of pointer to the users mouse
-	// note that in that case we would return the wall aswell
-	public static void moveWall(String direction) {
-		throw new java.lang.UnsupportedOperationException();
 	}
 
 //---------------------------------------------------------------------------------------------------------------------------
