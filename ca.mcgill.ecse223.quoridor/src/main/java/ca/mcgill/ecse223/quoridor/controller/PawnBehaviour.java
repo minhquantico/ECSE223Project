@@ -1283,4 +1283,10 @@ public class PawnBehaviour
 	  if(tile.getRow() == 2 || tile.getRow() == 8 || tile.getColumn() == 2 || tile.getColumn() == 8 ) return true;
 	  else return false; 
   }
+  
+  private boolean isOnBorder(Tile tile) {
+	  if(tile.getRow() == 1 || tile.getRow() == 9 || tile.getColumn() == 1 || tile.getColumn() == 9 ) return true;
+	  else return false; 
+	  
+  }
 }
