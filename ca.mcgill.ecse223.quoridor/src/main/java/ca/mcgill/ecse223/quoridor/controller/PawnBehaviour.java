@@ -1199,7 +1199,7 @@ public class PawnBehaviour
   private boolean stepNearBorder(MoveDirection dir)
   {
 	  if(dir == MoveDirection.North ) {
-		  
+		  Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),0)
 	  }
   
   // ??
@@ -1237,5 +1237,15 @@ public class PawnBehaviour
   private boolean testVictory()
   {
 	  
+  }
+  
+  private int dirToInt(MoveDirection dir) {
+	  switch(dir) {
+	  	case North: return 0;
+	  	case East: return 1; 
+	  	case South: return 2; 
+	  	case West: return 3;
+	  }
+	  return -1;
   }
 }
