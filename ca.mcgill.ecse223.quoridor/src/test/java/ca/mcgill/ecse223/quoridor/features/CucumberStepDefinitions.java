@@ -80,7 +80,7 @@ public class CucumberStepDefinitions {
 			String dir = map.get("wdir");
 			
 			Controller.setWallMoveCandidate(wcol, wrow, dir.equals("horizontal") ? Direction.Horizontal : Direction.Vertical);
-			Controller.dropWall(false);   // Assume valid
+			Controller.dropWall();   // Assume valid
 		}
 //		Quoridor quoridor = QuoridorApplication.getQuoridor();
 //		List<Map<String, String>> valueMaps = dataTable.asMaps();
@@ -866,7 +866,7 @@ public class CucumberStepDefinitions {
 	@Given("A game position is supplied with wall coordinate {int}:{int}-{string}")
 	public void a_game_position_is_supplied_with_wall_coordinate(Integer int1, Integer int2, String string) {
 		Controller.setWallMoveCandidate(int2, int1, string.equals("horizontal") ? Direction.Horizontal : Direction.Vertical);
-		Controller.dropWall(false);
+		Controller.dropWall();
 	}
 
 	/**
@@ -1207,7 +1207,7 @@ public class CucumberStepDefinitions {
 		wallsOnBoard();
 		System.out.println("Valid: " + valid);
 		if (valid)
-			Controller.dropWall(false);
+			Controller.dropWall();
 		else
 			Controller.cancelCandidate();
 		wallsOnBoard();
