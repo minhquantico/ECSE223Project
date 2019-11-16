@@ -4,7 +4,6 @@
 package ca.mcgill.ecse223.quoridor.model;
 import java.sql.Time;
 import java.util.*;
-import ca.mcgill.ecse223.quoridor.controller.*;
 
 // line 34 "../../../../../QuoridorGame.ump"
 public class Player
@@ -24,7 +23,6 @@ public class Player
   private Player nextPlayer;
   private Game gameAsWhite;
   private Game gameAsBlack;
-  private PawnBehaviour pawnBehaviour;
 
   //------------------------
   // CONSTRUCTOR
@@ -144,17 +142,6 @@ public class Player
   public boolean hasGameAsBlack()
   {
     boolean has = gameAsBlack != null;
-    return has;
-  }
-  /* Code from template association_GetOne */
-  public PawnBehaviour getPawnBehaviour()
-  {
-    return pawnBehaviour;
-  }
-
-  public boolean hasPawnBehaviour()
-  {
-    boolean has = pawnBehaviour != null;
     return has;
   }
   /* Code from template association_SetUnidirectionalOne */
@@ -331,39 +318,6 @@ public class Player
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOptionalOneToOptionalOne */
-  public boolean setPawnBehaviour(PawnBehaviour aNewPawnBehaviour)
-  {
-    boolean wasSet = false;
-    if (aNewPawnBehaviour == null)
-    {
-      PawnBehaviour existingPawnBehaviour = pawnBehaviour;
-      pawnBehaviour = null;
-      
-      if (existingPawnBehaviour != null && existingPawnBehaviour.getPlayer() != null)
-      {
-        existingPawnBehaviour.setPlayer(null);
-      }
-      wasSet = true;
-      return wasSet;
-    }
-
-    PawnBehaviour currentPawnBehaviour = getPawnBehaviour();
-    if (currentPawnBehaviour != null && !currentPawnBehaviour.equals(aNewPawnBehaviour))
-    {
-      currentPawnBehaviour.setPlayer(null);
-    }
-
-    pawnBehaviour = aNewPawnBehaviour;
-    Player existingPlayer = aNewPawnBehaviour.getPlayer();
-
-    if (!equals(existingPlayer))
-    {
-      aNewPawnBehaviour.setPlayer(this);
-    }
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
@@ -390,10 +344,6 @@ public class Player
     {
       gameAsBlack.setBlackPlayer(null);
     }
-    if (pawnBehaviour != null)
-    {
-      pawnBehaviour.setPlayer(null);
-    }
   }
 
 
@@ -404,7 +354,6 @@ public class Player
             "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "destination = "+(getDestination()!=null?Integer.toHexString(System.identityHashCode(getDestination())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "gameAsWhite = "+(getGameAsWhite()!=null?Integer.toHexString(System.identityHashCode(getGameAsWhite())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "gameAsBlack = "+(getGameAsBlack()!=null?Integer.toHexString(System.identityHashCode(getGameAsBlack())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "pawnBehaviour = "+(getPawnBehaviour()!=null?Integer.toHexString(System.identityHashCode(getPawnBehaviour())):"null");
+            "  " + "gameAsBlack = "+(getGameAsBlack()!=null?Integer.toHexString(System.identityHashCode(getGameAsBlack())):"null");
   }
 }
