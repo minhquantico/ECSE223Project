@@ -1210,13 +1210,25 @@ public class PawnBehaviour
   
   private boolean jumpNearBorder(MoveDirection dir, MoveDirection dir2, int border)
   {
-	  
+	  return isNearBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
+  }
+  
+  private Tile getJumpMoveTile(MoveDirection dir, MoveDirection dir2) {
+	  Tile jumpMoveTile = Controller.getTile(getCurrentColumn(), getCurrentRow());
+	  if(dir == null) {
+			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
+	  }
+	  else {
+			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir));
+			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
+		  }
+	  return jumpMoveTile;
   }
   
   // ??
   private boolean jumpOnBorder(MoveDirection dir, MoveDirection dir2, int border)
   {
-	  
+	  return isOnBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
   }
   
   private boolean isLegalStep(MoveDirection dir)
