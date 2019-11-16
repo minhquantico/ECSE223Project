@@ -1266,6 +1266,25 @@ public class PawnBehaviour
   
   private boolean testVictory()
   {
+	  Tile tile = Controller.getTile(getCurrentColumn(), getCurrentRow());
+	  if(player.hasGameAsWhite()) {
+		   if(tile.getColumn() == 9) {
+		   return true;
+		   }
+		   else {
+		   return false;
+		   }
+	  }
+	  
+	  else if(player.hasGameAsBlack()) {
+		  if(tile.getColumn() == 1) {
+		  return true;
+		  }
+		  else {
+		  return false;
+		  }
+	  }
+	  else return false;
 	  
   }
   
