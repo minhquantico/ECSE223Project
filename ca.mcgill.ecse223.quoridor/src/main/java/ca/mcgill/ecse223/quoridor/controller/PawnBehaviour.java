@@ -4,6 +4,8 @@
 package ca.mcgill.ecse223.quoridor.controller;
 import java.util.List;
 import java.util.ArrayList;
+
+import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.*;
 
 // line 7 "../../../../../PawnStateMachine.ump"
@@ -1181,18 +1183,24 @@ public class PawnBehaviour
 
   private int getCurrentRow()
   {
+	  if(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0)
+		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow();
+	  else return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
 	  
   }
   
   private int getCurrentColumn()
   {
-	  
+	  if(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0)
+		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn();
+	  else return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
   }
   
   private boolean stepNearBorder(MoveDirection dir)
   {
-	  
-  }
+	  if(dir == MoveDirection.North ) {
+		  
+	  }
   
   // ??
   private boolean stepOnBorder(MoveDirection dir)
