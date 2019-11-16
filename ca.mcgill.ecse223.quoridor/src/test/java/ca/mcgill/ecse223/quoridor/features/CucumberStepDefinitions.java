@@ -159,14 +159,12 @@ public class CucumberStepDefinitions {
 	
 	@Given("The player is located at {int}:{int}")
 	public void the_player_is_located_at(Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		Controller.doPawnMove(int2, int1);
 	}
 
 	@Given("The opponent is located at {int}:{int}")
 	public void the_opponent_is_located_at(Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		Controller.doPawnMove(int2, int1);
 	}
 
 	@Given("There are no {string} walls {string} from the player nearby")
@@ -1541,7 +1539,8 @@ public class CucumberStepDefinitions {
 		}
 		return result;
 	}
-
+	
+	//helpers
 	private void initQuoridorAndBoard() {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		Board board = new Board(quoridor);
