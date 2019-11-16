@@ -1183,70 +1183,54 @@ public class PawnBehaviour
 
   private int getCurrentRow()
   {
-	  if(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0)
+	  if(player.hasGameAsWhite())
 		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow();
-	  else return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
+	  else
+		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
 	  
   }
   
   private int getCurrentColumn()
   {
-	  if(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0)
+	  if(player.hasGameAsWhite())
 		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn();
-	  else return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
+	  else
+		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
   }
   
   private boolean stepNearBorder(MoveDirection dir)
   {
-	  switch(dir) {
-	  case North:
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.North)).getRow() == 2) return true;
-		  break;
-	  case East:
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.East)).getColumn() == 8) return true;
-	      break;
-	  case South: 
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.South)).getRow() == 8) return true;
-		  break;
-	  case West: 
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.West)).getRow() == 2) return true;
-		  break;
-	  }
-	  return false;
+	  return isNearBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), null);
   }
   
   // ??
   private boolean stepOnBorder(MoveDirection dir)
   {
-	  switch(dir) {
-	  
-	  case North:
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.North)).getRow() == 1) return true;
-		  break;
-	  case East:
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.East)).getColumn() == 9) return true;
-	      break;
-	  case South: 
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.South)).getRow() == 9) return true;
-		  break;
-	  case West: 
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.West)).getRow() == 1) return true;
-		  break;
-	  }
-	  return false;
-	  
+	  return isOnBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), null);
 	  
   }
   
   private boolean jumpNearBorder(MoveDirection dir, MoveDirection dir2, int border)
   {
-	  
+	  return isNearBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
+  }
+  
+  private Tile getJumpMoveTile(MoveDirection dir, MoveDirection dir2) {
+	  Tile jumpMoveTile = Controller.getTile(getCurrentColumn(), getCurrentRow());
+	  if(dir == null) {
+			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
+	  }
+	  else {
+			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir));
+			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
+		  }
+	  return jumpMoveTile;
   }
   
   // ??
   private boolean jumpOnBorder(MoveDirection dir, MoveDirection dir2, int border)
   {
-	  
+	  return isOnBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
   }
   
   private boolean isLegalStep(MoveDirection dir)
