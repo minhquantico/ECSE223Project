@@ -3,7 +3,6 @@ package ca.mcgill.ecse223.quoridor;
 import java.io.IOException;
 import java.util.HashMap;
 
-import ca.mcgill.ecse223.quoridor.controller.PawnBehavior;
 import ca.mcgill.ecse223.quoridor.model.Quoridor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +12,6 @@ import javafx.stage.Stage;
 public class QuoridorApplication extends Application {
 
 	private static Quoridor quoridor;
-	public static PawnBehavior psm;
 	
 	private static Stage primaryStage;
 	private static HashMap<String, Scene> scenes = new HashMap<>();

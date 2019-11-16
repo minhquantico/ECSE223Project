@@ -1215,12 +1215,12 @@ public class PawnBehaviour
   
   private boolean isLegalJump(MoveDirection dir, MoveDirection dir2)
   {
-	  
+	  Tile t = getJumpMoveTile(dir, dir2);
   }
   
   private void move(int row, int col)
   {
-	  
+	  Controller.doPawnMove(col, row);
   }
   
   private boolean testVictory()

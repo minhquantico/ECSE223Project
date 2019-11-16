@@ -125,7 +125,7 @@ public class PlayScreenController {
     	pane.getChildren().remove(wall);
     	
     	if (getWallMoveTile() != null)
-    		Controller.dropWall(true);
+    		Controller.dropWall();
     	else
     		Controller.cancelCandidate();
     	
