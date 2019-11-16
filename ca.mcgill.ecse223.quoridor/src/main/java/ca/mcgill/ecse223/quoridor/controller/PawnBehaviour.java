@@ -1209,19 +1209,24 @@ public class PawnBehaviour
   private boolean jumpOnBorder(MoveDirection dir, MoveDirection dir2, int border)
   {
 	  return isOnBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
-  }jumpOnBorder
+  }
   
   private boolean isLegalStep(MoveDirection dir)
   {
-	  return Controller.initPosValidation(
-			 Controller.direction(
-			 Controller.getTile(getCurrentColumn(), getCurrentRow()),
-			 dirToInt(dir)));
+	  try
+	  {
+		  return Controller.initPosValidation(
+				  Controller.direction(
+				  Controller.getTile(getCurrentColumn(), getCurrentRow()),
+				  dirToInt(dir)));
+	  }
+	  catch (NullPointerException ex) { return false; }
   }
   
   private boolean isLegalJump(MoveDirection dir, MoveDirection dir2)
   {
-	  return Controller.initPosValidation(getJumpMoveTile(dir, dir2));
+	  try { return Controller.initPosValidation(getJumpMoveTile(dir, dir2)); }
+	  catch (NullPointerException ex) { return false; }
   }
   
   private void move(int row, int col)
@@ -1243,10 +1248,10 @@ public class PawnBehaviour
 	  
 	  else if(player.hasGameAsBlack()) {
 		  if(tile.getColumn() == 1) {
-		  return true;
+			  return true;
 		  }
 		  else {
-		  return false;
+			  return false;
 		  }
 	  }
 	  else return false;
