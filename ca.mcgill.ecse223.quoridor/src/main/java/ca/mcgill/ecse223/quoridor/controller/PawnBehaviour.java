@@ -1192,13 +1192,16 @@ public class PawnBehaviour
   
   private Tile getJumpMoveTile(MoveDirection dir, MoveDirection dir2) {
 	  Tile jumpMoveTile = Controller.getTile(getCurrentColumn(), getCurrentRow());
-	  if(dir == null) {
-			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
+	  if(dir == null)
+	  {
+		  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
+		  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
 	  }
-	  else {
-			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir));
-			  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
-		  }
+	  else
+	  {
+		  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir));
+		  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2 == null ? dir : dir2));
+	  }
 	  return jumpMoveTile;
   }
   
@@ -1206,16 +1209,19 @@ public class PawnBehaviour
   private boolean jumpOnBorder(MoveDirection dir, MoveDirection dir2, int border)
   {
 	  return isOnBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
-  }
+  }jumpOnBorder
   
   private boolean isLegalStep(MoveDirection dir)
   {
-	  
+	  return Controller.initPosValidation(
+			 Controller.direction(
+			 Controller.getTile(getCurrentColumn(), getCurrentRow()),
+			 dirToInt(dir)));
   }
   
   private boolean isLegalJump(MoveDirection dir, MoveDirection dir2)
   {
-	  Tile t = getJumpMoveTile(dir, dir2);
+	  return Controller.initPosValidation(getJumpMoveTile(dir, dir2));
   }
   
   private void move(int row, int col)
