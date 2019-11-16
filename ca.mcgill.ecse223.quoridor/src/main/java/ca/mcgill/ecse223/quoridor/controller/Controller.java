@@ -388,7 +388,11 @@ public class Controller {
 	 * @return Tile object at the specified coordinates
 	 */
 	public static Tile getTile(int x, int y) {
-		return QuoridorApplication.getQuoridor().getBoard().getTile((x - 1) + (y - 1) * 9);
+		int index = (x - 1) + (y - 1) * 9;
+		if (index < QuoridorApplication.getQuoridor().getBoard().numberOfTiles())
+			return QuoridorApplication.getQuoridor().getBoard().getTile(index);
+		else
+			return null;
 	}
 
 	/**
