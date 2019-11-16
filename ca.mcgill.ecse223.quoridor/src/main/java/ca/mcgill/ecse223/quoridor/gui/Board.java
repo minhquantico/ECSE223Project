@@ -35,6 +35,8 @@ public class Board extends Pane
 	public Wall[][] vWall = new Wall[COLS-1][ROWS-1];
 	public Wall[][] hWall = new Wall[COLS-1][ROWS-1];
 	
+	private volatile boolean waitingForMove = false;
+	
 	private Thread game = new Thread(() -> {
 		do
 			try
@@ -84,6 +86,8 @@ public class Board extends Pane
 		
 		this.activePlayer = 0;
 	}
+	
+	public boolean isWaitingForMove() { return waitingForMove; }
 	
 	public void loadFromModel()
 	{
@@ -148,10 +152,7 @@ public class Board extends Pane
 		{
 			this.setBackground(selected ? SELECTED : DEFAULT);
 			this.setOnMouseClicked(selected ? e ->
-			{
-				Controller.doPawnMove(this.x+1, this.y+1, true);
-				synchronized (Board.this) { Board.this.notify(); }
-			} : null);
+				Controller.doPawnMove(this.x+1, this.y+1) : null);
 		}
 		
 		public boolean hasPlayer()
@@ -399,7 +400,9 @@ public class Board extends Pane
 				else
 					getPossibleMoves().forEach(c -> c.setSelected(true));
 				
+				Board.this.waitingForMove = true;
 				Board.this.wait();
+				Board.this.waitingForMove = false;
 				this.stopClock();
 				forEachCell(c -> c.setSelected(false));
 			}
@@ -475,14 +478,14 @@ public class Board extends Pane
 			if (bestWalls.isEmpty() || minCellCost < minWallCost + (int)(Math.random() * 2))
 			{
 				Cell pmove = bestCells.get((int)(Math.random()*bestCells.size()));
-				Controller.doPawnMove(pmove.x+1, pmove.y+1, true);
+				Controller.doPawnMove(pmove.x+1, pmove.y+1);
 				System.out.println("Computer did pawn move");
 			}
 			else
 			{
 				Wall wmove = bestWalls.get((int)(Math.random()*bestWalls.size()));
 				Controller.setWallMoveCandidate(wmove.x+1, wmove.y+1, wmove.vertical ? Direction.Vertical : Direction.Horizontal);
-				Controller.doWallMove(true);
+				Controller.doWallMove();
 				System.out.println("Computer does wall move:");
 			}
 			

@@ -163,14 +163,14 @@ public class Controller {
 
 				if (or == '-') // Step move
 					if (initPosValidation(getTile(col, row)))
-						doPawnMove(col, row, false);
+						doPawnMove(col, row);
 					else
 						throw new InvalidPositionException("Invalid pawn move: " + token);
 				else // Wall move
 				{
 					setWallMoveCandidate(col, row, or == 'h' ? Direction.Horizontal : Direction.Vertical);
 					if (initPosValidation())
-						doWallMove(false);
+						doWallMove();
 					else
 						throw new InvalidPositionException("InvalidWallMove: " + token);
 				}
@@ -796,10 +796,10 @@ public class Controller {
 	 *             
 	 * @param int y: this the Y coordinate of the wall to be dropped
 	 */
-	public static void dropWall(boolean gui)
+	public static void dropWall()
 	{
 		if (initPosValidation())
-			doWallMove(gui);
+			doWallMove();
 		else
 			cancelCandidate();
 	}
@@ -877,7 +877,7 @@ public class Controller {
 	 * @param boolean notify:This is used to either allow or not allow the GUI elements to be initiated (useful for gherkin)
 	 * 
 	 */
-	public static void doWallMove(boolean notify) {
+	public static void doWallMove() {
 		WallMove wallMoveCandidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
 				cloneGamePosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()));
@@ -897,8 +897,12 @@ public class Controller {
 		
 		endMove();
 		
-		if (notify)
-			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
+		try
+		{
+			if (PlayScreenController.instance.board.isWaitingForMove())
+				synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
+		}
+		catch (NullPointerException ex) { /* Do nothing */ }
 	}
 	
 	/**
@@ -907,7 +911,7 @@ public class Controller {
 	 * @param int j: This is the j (row) coordinate of the desired Wall move
 	 * @param boolean notify: This is used to either permit or disallow changes to the GUI 
 	 */
-	public static void doPawnMove(int i, int j, boolean notify)
+	public static void doPawnMove(int i, int j)
 	{
 		Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
 		int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() + 1;
@@ -930,8 +934,12 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
 		endMove();
 		
-		if (notify)
-			synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
+		try
+		{
+			if (PlayScreenController.instance.board.isWaitingForMove())
+				synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
+		}
+		catch (NullPointerException ex) { /* Do nothing */ }
 	}
 
 	/**
