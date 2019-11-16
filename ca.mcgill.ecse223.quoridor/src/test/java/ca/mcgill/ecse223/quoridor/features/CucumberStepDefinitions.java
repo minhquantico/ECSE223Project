@@ -150,7 +150,78 @@ public class CucumberStepDefinitions {
 	// Scenario and scenario outline step definitions
 	// ***********************************************
 
-//-------------------------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------------------------
+
+	
+//JumpPawn: Team
+	
+	//1st scenario: Jump over opponent
+	
+	@Given("The player is located at {int}:{int}")
+	public void the_player_is_located_at(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The opponent is located at {int}:{int}")
+	public void the_opponent_is_located_at(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("There are no {string} walls {string} from the player nearby")
+	public void there_are_no_walls_from_the_player_nearby(String string, String string2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Player {string} initiates to move {string}")
+	public void player_initiates_to_move(String string, String string2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The move {string} shall be {string}")
+	public void the_move_shall_be(String string, String string2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Player's new position shall be {int}:{int}")
+	public void player_s_new_position_shall_be(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The next player to move shall become {string}")
+	public void the_next_player_to_move_shall_become(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+	
+	
+	
+	// 2nd scenario: Jump of player blocked by wall
+	
+	@Given("There is a {string} wall at {int}:{int}")
+	public void there_is_a_wall_at(String string, Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+	
+	//all methods for scenario 3 and 4 are foudn in the above
+//-----------------------------------------------------------------------------------------------------------------------------------------------
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//--------------------------------------------------------------------------------------------------------------------------------------------------
 
 //GrabWall: David Budaghyan
 
