@@ -1173,7 +1173,7 @@ public class PawnBehaviour
   }
 
   public void delete()
-  {
+  
     currentGame = null;
     if (player != null)
     {
@@ -1183,17 +1183,17 @@ public class PawnBehaviour
 
   private int getCurrentRow()
   {
-	  if(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0)
+	  if(player.hasGameAsWhite())
 		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow();
-	  else return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
+	  else if(player.hasGameAsBlack()) return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
 	  
   }
   
   private int getCurrentColumn()
   {
-	  if(QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size() % 2 == 0)
+	  if(player.hasGameAsWhite())
 		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn();
-	  else return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
+	  else if(player.hasGameAsBlack()) return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
   }
   
   private boolean stepNearBorder(MoveDirection dir)
