@@ -14,6 +14,8 @@ public class PawnBehaviour
   // MEMBER VARIABLES
   //------------------------
 
+	enum MoveDirection { North, South, East, West };
+	
   //PawnBehaviour State Machines
   public enum PawnSM { gameActive, gameComplete }
   public enum PawnSMGameActiveLongitudinal { Null, Longitudinal }
@@ -163,7 +165,7 @@ public class PawnBehaviour
           wasEventProcessed = true;
           break;
         }
-        if (isLegalStep(dir)&&dir.equals(MoveDirection.North)&&!(stepNearBorder(dir))&&!(isStepOnBorder(dir)))
+        if (isLegalStep(dir)&&dir.equals(MoveDirection.North)&&!(stepNearBorder(dir))&&!(stepOnBorder(dir)))
         {
           exitPawnSMGameActiveLongitudinalLongitudinal();
         // line 30 "../../../../../PawnStateMachine.ump"
@@ -281,7 +283,7 @@ public class PawnBehaviour
           wasEventProcessed = true;
           break;
         }
-        if (isLegalStep(dir)&&dir.equals(MoveDirection.West)&&!(stepNearBorder(dir))&&!(isStepOnBorder(dir)))
+        if (isLegalStep(dir)&&dir.equals(MoveDirection.West)&&!(stepNearBorder(dir))&&!(stepOnBorder(dir)))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
         // line 244 "../../../../../PawnStateMachine.ump"
@@ -428,7 +430,7 @@ public class PawnBehaviour
           wasEventProcessed = true;
           break;
         }
-        if (dir.equals(MoveDirection.South)&&(dir2.equals(MoveDirection.West)||dir2.equals(MoveDirection.East))&&isLegalJump(dir1,dir2)&&!(jumpNearBorder(dir1,dir2,1))&&!(jumpOnBorder(dir1,dir2)))
+        if (dir1.equals(MoveDirection.South)&&(dir2.equals(MoveDirection.West)||dir2.equals(MoveDirection.East))&&isLegalJump(dir1,dir2)&&!(jumpNearBorder(dir1,dir2,1))&&!(jumpOnBorder(dir1,dir2)))
         {
           exitPawnSMGameActiveLongitudinalLongitudinal();
           setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.Between);
@@ -804,7 +806,7 @@ public class PawnBehaviour
     switch (aPawnSMGameActiveLatitudinal)
     {
       case Latitudinal:
-        if (hasGameAsWhite())
+        if (player.hasGameAsWhite())
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
           setPawnSMGameActiveLatitudinalLatitudinalWestBorder(PawnSMGameActiveLatitudinalLatitudinalWestBorder.OnBorder);
@@ -827,7 +829,7 @@ public class PawnBehaviour
     switch (aPawnSMGameActiveLatitudinal)
     {
       case Latitudinal:
-        if (hasGameAsBlack())
+        if (player.hasGameAsBlack())
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
           setPawnSMGameActiveLatitudinalLatitudinalEastBorder(PawnSMGameActiveLatitudinalLatitudinalEastBorder.OnBorder);
@@ -1177,4 +1179,55 @@ public class PawnBehaviour
     }
   }
 
+  private int getCurrentRow()
+  {
+	  
+  }
+  
+  private int getCurrentColumn()
+  {
+	  
+  }
+  
+  private boolean stepNearBorder(MoveDirection dir)
+  {
+	  
+  }
+  
+  // ??
+  private boolean stepOnBorder(MoveDirection dir)
+  {
+	  
+  }
+  
+  private boolean jumpNearBorder(MoveDirection dir, MoveDirection dir2, int border)
+  {
+	  
+  }
+  
+  // ??
+  private boolean jumpOnBorder(MoveDirection dir, MoveDirection dir2, int border)
+  {
+	  
+  }
+  
+  private boolean isLegalStep(MoveDirection dir)
+  {
+	  
+  }
+  
+  private boolean isLegalJump(MoveDirection dir, MoveDirection dir2)
+  {
+	  
+  }
+  
+  private void move(int row, int col)
+  {
+	  
+  }
+  
+  private boolean testVictory()
+  {
+	  
+  }
 }
