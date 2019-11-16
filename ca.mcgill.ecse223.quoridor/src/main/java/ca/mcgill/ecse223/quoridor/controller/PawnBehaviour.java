@@ -1279,14 +1279,39 @@ public class PawnBehaviour
 	  return -1;
   }
   
-  private boolean isNearBorder(Tile tile) {
-	  if(tile.getRow() == 2 || tile.getRow() == 8 || tile.getColumn() == 2 || tile.getColumn() == 8 ) return true;
-	  else return false; 
+  private boolean isNearBorder(Tile tile, MoveDirection d) {
+	  if (d == null)
+		  if(tile.getRow() == 2 || tile.getRow() == 8 || tile.getColumn() == 2 || tile.getColumn() == 8 ) return true;
+	  else 
+		  switch(d) {
+		  	case North: 
+		  		return(tile.getRow() == 2);
+		  	case East: 
+		  		return(tile.getColumn() == 8);
+		  	case South: 
+		  		return(tile.getRow() == 8);
+		  	case West: 
+		  		return(tile.getColumn() == 2);
+		  }
+	  return false;
+	  
   }
   
-  private boolean isOnBorder(Tile tile) {
-	  if(tile.getRow() == 1 || tile.getRow() == 9 || tile.getColumn() == 1 || tile.getColumn() == 9 ) return true;
-	  else return false; 
+  private boolean isOnBorder(Tile tile, MoveDirection d) {
+	  if (d == null)
+		  if(tile.getRow() == 1 || tile.getRow() == 9 || tile.getColumn() == 1 || tile.getColumn() == 9 ) return true;
+	  else 
+		  switch(d) {
+		  	case North: 
+		  		return(tile.getRow() == 1);
+		  	case East: 
+		  		return(tile.getColumn() == 9);
+		  	case South: 
+		  		return(tile.getRow() == 9);
+		  	case West: 
+		  		return(tile.getColumn() == 1);
+		  }
+	  return false;
 	  
   }
 }
