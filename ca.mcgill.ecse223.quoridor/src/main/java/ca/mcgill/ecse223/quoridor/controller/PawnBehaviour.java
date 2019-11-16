@@ -1192,16 +1192,8 @@ public class PawnBehaviour
   
   private Tile getJumpMoveTile(MoveDirection dir, MoveDirection dir2) {
 	  Tile jumpMoveTile = Controller.getTile(getCurrentColumn(), getCurrentRow());
-	  if(dir == null)
-	  {
-		  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
-		  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2));
-	  }
-	  else
-	  {
-		  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir));
-		  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2 == null ? dir : dir2));
-	  }
+	  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir == null ? dir2 : dir));
+	  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir2 == null ? dir : dir2));
 	  return jumpMoveTile;
   }
   
@@ -1234,6 +1226,9 @@ public class PawnBehaviour
 	  Controller.doPawnMove(col, row);
   }
   
+  private boolean hasGameAsWhite() { return player.hasGameAsWhite(); }
+  private boolean hasGameAsBlack() { return player.hasGameAsBlack(); }
+  
   private boolean testVictory()
   {
 	  Tile tile = Controller.getTile(getCurrentColumn(), getCurrentRow());
@@ -1256,6 +1251,11 @@ public class PawnBehaviour
 	  }
 	  else return false;
 	  
+  }
+  
+  private void displayResults()
+  {
+	  throw new UnsupportedOperationException("Implement me!");
   }
   
   private int dirToInt(MoveDirection dir) {
