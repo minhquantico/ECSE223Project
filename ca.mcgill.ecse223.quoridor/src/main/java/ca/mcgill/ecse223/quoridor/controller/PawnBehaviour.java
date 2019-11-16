@@ -1197,20 +1197,22 @@ public class PawnBehaviour
   }
   
   private boolean stepNearBorder(MoveDirection dir)
-  
   {
-	  
-		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(M)).getRow() == 2) return true;
-		  
-	 
-		  else if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.East)).getColumn() == 8) return true;
-	    
-		  else if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.South)).getRow() == 8) return true;
-		  
-		  else if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.West)).getRow() == 2) return true;
-		
-	  
-		  else return false;
+	  switch(dir) {
+	  case North:
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.North)).getRow() == 2) return true;
+		  break;
+	  case East:
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.East)).getColumn() == 8) return true;
+	      break;
+	  case South: 
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.South)).getRow() == 8) return true;
+		  break;
+	  case West: 
+		  if(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(MoveDirection.West)).getRow() == 2) return true;
+		  break;
+	  }
+	  return false;
   }
   
   // ??
