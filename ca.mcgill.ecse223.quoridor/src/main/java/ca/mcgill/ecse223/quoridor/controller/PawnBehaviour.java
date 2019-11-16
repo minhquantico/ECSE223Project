@@ -804,7 +804,7 @@ public class PawnBehaviour
     return wasEventProcessed;
   }
 
-  private boolean __autotransition31__()
+  private boolean __autotransition37__()
   {
     boolean wasEventProcessed = false;
     
@@ -827,7 +827,7 @@ public class PawnBehaviour
     return wasEventProcessed;
   }
 
-  private boolean __autotransition32__()
+  private boolean __autotransition38__()
   {
     boolean wasEventProcessed = false;
     
@@ -1016,8 +1016,8 @@ public class PawnBehaviour
     {
       case Latitudinal:
         if (pawnSMGameActiveLatitudinalLatitudinal == PawnSMGameActiveLatitudinalLatitudinal.Null) { setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBorder); }
-        __autotransition31__();
-        __autotransition32__();
+        __autotransition37__();
+        __autotransition38__();
         break;
     }
   }
@@ -1142,11 +1142,36 @@ public class PawnBehaviour
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetUnidirectionalOptionalOne */
+  /* Code from template association_SetOptionalOneToOptionalOne */
   public boolean setPlayer(Player aNewPlayer)
   {
     boolean wasSet = false;
+    if (aNewPlayer == null)
+    {
+      Player existingPlayer = player;
+      player = null;
+      
+      if (existingPlayer != null && existingPlayer.getPawnBehaviour() != null)
+      {
+        existingPlayer.setPawnBehaviour(null);
+      }
+      wasSet = true;
+      return wasSet;
+    }
+
+    Player currentPlayer = getPlayer();
+    if (currentPlayer != null && !currentPlayer.equals(aNewPlayer))
+    {
+      currentPlayer.setPawnBehaviour(null);
+    }
+
     player = aNewPlayer;
+    PawnBehaviour existingPawnBehaviour = aNewPlayer.getPawnBehaviour();
+
+    if (!equals(existingPawnBehaviour))
+    {
+      aNewPlayer.setPawnBehaviour(this);
+    }
     wasSet = true;
     return wasSet;
   }
@@ -1154,7 +1179,10 @@ public class PawnBehaviour
   public void delete()
   {
     currentGame = null;
-    player = null;
+    if (player != null)
+    {
+      player.setPawnBehaviour(null);
+    }
   }
   private int getCurrentRow()
   {
@@ -1302,6 +1330,6 @@ public class PawnBehaviour
 		  }
 	  return false;
 	  
-  }
+  } 
 
 }
