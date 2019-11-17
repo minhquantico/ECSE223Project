@@ -342,27 +342,8 @@ public class CucumberStepDefinitions {
 	@Given("A wall move candidate exists with {string} at position \\({int}, {int})")
 	public void a_wall_move_candidate_exists_with_at_position(String dir, Integer aRow, Integer aCol) {
 		Controller.setWallMoveCandidate(aCol, aRow, dir.equals("horizontal") ? Direction.Horizontal : Direction.Vertical);
-		
-//		// create everything needed to create the wallMoveCandidate
-//		Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
-//		Tile targetTile = new Tile(aRow, aCol, QuoridorApplication.getQuoridor().getBoard());
-//		Wall wallCandidate = new Wall(0, currentPlayer);
-//		// alternative: use the wall field of this class instead of creating a new wall
-//		// (see above)
-//
-//		Game game = QuoridorApplication.getQuoridor().getCurrentGame();
-//		Direction wallDirection;
-//		if (dir.equalsIgnoreCase("vertical")) {
-//			wallDirection = Direction.Vertical;
-//		} else {
-//			wallDirection = Direction.Horizontal;
-//		}
-//
-//		// create and set the wallMoveCandidate
-//		WallMove wallMoveCandidate = new WallMove(0, 1, currentPlayer, targetTile, game, wallDirection, wallCandidate);
-//		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(wallMoveCandidate);
 	}
-
+	
 	/** @author David Budaghyan **/
 	@Given("The wall candidate is not at the {string} edge of the board")
 	public void the_wall_candidate_is_not_at_the_edge_of_the_board(String side) {
@@ -1247,9 +1228,7 @@ public class CucumberStepDefinitions {
 		wallsOnBoard();
 	}
 	
-	public void wallsOnBoard() {
-		System.err.println("walls on board: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfWhiteWallsOnBoard() + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfBlackWallsOnBoard()));
-	}
+	
 
 	/**
 	 * @author Jake Pogharian Feature: Drop Wall Step: ("Then A wall move shall be
@@ -1539,7 +1518,13 @@ public class CucumberStepDefinitions {
 		return playerPosition;
 	}
 
-	
+	/**
+	 * @author Jake Pogharian 
+	 * helper for Move/drop wall
+	 */
+	public void wallsOnBoard() {
+		System.err.println("walls on board: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfWhiteWallsOnBoard() + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfBlackWallsOnBoard()));
+	}
 	
 	/**
 	 * @author Lenoy Christy
