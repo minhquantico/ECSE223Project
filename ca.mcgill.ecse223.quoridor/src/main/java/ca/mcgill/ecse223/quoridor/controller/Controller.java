@@ -966,10 +966,20 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
 		
-		if (pos.getColumn() == x)
-			sm.stepMove(y > pos.getRow() ? MoveDirection.South : MoveDirection.North);
-		else
-			sm.stepMove(x > pos.getColumn() ? MoveDirection.East : MoveDirection.West);
+		int dx = x - pos.getColumn();
+		int dy = y - pos.getRow();
+		
+		System.out.println("dx: " + dx + ", dy:" + dy);
+
+		if (Math.abs(dx + dy) == 1)	// Step move
+			if (dx == 0)
+				sm.stepMove(dy > 0 ? MoveDirection.South : MoveDirection.North);
+			else
+				sm.stepMove(dx > 0 ? MoveDirection.East : MoveDirection.West);
+		else				// Jump move
+			sm.jumpMove(
+					dy > 0 ? MoveDirection.South : dy < 0 ? MoveDirection.North : MoveDirection.Null,
+					dx > 0 ? MoveDirection.East : dx < 0 ? MoveDirection.West : MoveDirection.Null);
 	}
 
 	/**
@@ -1063,5 +1073,8 @@ public class Controller {
 		}
 
 		game.setCurrentPosition(gamePosition);
+		
+		game.getWhitePlayer().getPawnBehaviour().initialize();
+		game.getBlackPlayer().getPawnBehaviour().initialize();
 	}
 }
