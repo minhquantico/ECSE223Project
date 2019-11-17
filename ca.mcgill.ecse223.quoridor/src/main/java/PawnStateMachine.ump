@@ -9,7 +9,7 @@ class PawnBehaviour
     depend java.util.List;
     depend java.util.ArrayList;
 
-    0. .1 - > 0. .1 Game currentGame;
+    0. .1 -> 0. .1 Game currentGame;
     1--1 Player player;
 
     enum MoveDirection
@@ -23,10 +23,8 @@ class PawnBehaviour
 
     pawnSM
     {
-
         gameActive
         {
-
             Longitudinal
             {
                 Between
@@ -40,12 +38,12 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.South && !stepNearBorder(dir) && !stepOnBorder(dir)] /
                     {
                         move(getCurrentRow() + 1, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.North && !stepNearBorder(dir) && !stepOnBorder(dir)] /
                     {
                         move(getCurrentRow() - 1, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
 
                     //self referential jumpMoves
@@ -54,18 +52,18 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 1) && !jumpOnBorder(dir1, dir2, 1)] /
                     {
                         move(getCurrentRow() - 2, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 1) && !jumpOnBorder(dir1, dir2, 1)] /
                     {
                         move(getCurrentRow() + 2, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
 
                     //with Double Direction
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 1) && !jumpOnBorder(dir1, dir2, 1)] - > Longitudinal.Between;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 1) && !jumpOnBorder(dir1, dir2, 1)] -> Longitudinal.Between;
 
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 1) && !jumpOnBorder(dir1, dir2, 1)] - > Longitudinal.Between;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 1) && !jumpOnBorder(dir1, dir2, 1)] -> Longitudinal.Between;
 
 
 
@@ -74,12 +72,12 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.South && stepNearBorder(dir)] /
                     {
                         move(getCurrentRow() + 1, getCurrentColumn());
-                    } - > SouthBordernearBorder;
+                    } -> SouthBordernearBorder;
 
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.North && stepNearBorder(dir)] /
                     {
                         move(getCurrentRow() - 1, getCurrentColumn());
-                    } - > NorthBordernearBorder;
+                    } -> NorthBordernearBorder;
 
                     //the jump moves
 
@@ -88,27 +86,27 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 1)] /
                     {
                         move(getCurrentRow() - 2, getCurrentColumn());
-                    } - > NorthBordernearBorder;
+                    } -> NorthBordernearBorder;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 1)] /
                     {
                         move(getCurrentRow() + 2, getCurrentColumn());
-                    } - > SouthBordernearBorder;
+                    } -> SouthBordernearBorder;
                     //->onBorder
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2) && jumpOnBorder(dir1, dir2, 1)] /
                     {
                         move(getCurrentRow() - 2, getCurrentColumn());
-                    } - > NorthBorderOnBorder;
+                    } -> NorthBorderOnBorder;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2) && jumpOnBorder(dir1, dir2, 1)] /
                     {
                         move(getCurrentRow() + 2, getCurrentColumn());
-                    } - > SouthBorderOnBorder;
+                    } -> SouthBorderOnBorder;
 
                     //with Double Direction
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 1)] - > NorthBordernearBorder;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 1)] -> NorthBordernearBorder;
 
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 1)] - > SouthBordernearBorder;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 1)] -> SouthBordernearBorder;
 
                 }
 
@@ -122,12 +120,12 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.South] /
                     {
                         move(getCurrentRow() + 1, getCurrentColumn());
-                    } - > SouthBorderOnBorder;
+                    } -> SouthBorderOnBorder;
 
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.North] /
                     {
                         move(getCurrentRow() - 1, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
                     //the jump Moves
 
@@ -136,13 +134,13 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2)] /
                     {
                         move(getCurrentRow() - 2, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
                     //with double direction
 
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2)] - > Longitudinal.Between;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2)] -> Longitudinal.Between;
 
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2)] - > SouthBorderOnBorder;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2)] -> SouthBorderOnBorder;
 
 
                 }
@@ -159,7 +157,7 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.North] /
                     {
                         move(getCurrentRow() - 1, getCurrentColumn());
-                    } - > SouthBordernearBorder;
+                    } -> SouthBordernearBorder;
 
                     //the jump moves
                     //single direction
@@ -167,13 +165,13 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2)] /
                     {
                         move(getCurrentRow() - 2, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
 
 
 
                     //double direction
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2)] - > SouthBordernearBorder;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2)] -> SouthBordernearBorder;
 
                 }
 
@@ -190,12 +188,12 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.South] /
                     {
                         move(getCurrentRow() + 1, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.North] /
                     {
                         move(getCurrentRow() - 1, getCurrentColumn());
-                    } - > NorthBorderOnBorder;
+                    } -> NorthBorderOnBorder;
 
                     //the jump Moves
 
@@ -204,13 +202,13 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2)] /
                     {
                         move(getCurrentRow() + 2, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
                     //with double direction
 
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2)] - > NorthBorderOnBorder;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.North && (dir2 == MoveDirection.East || dir2 == MoveDirection.West) && isLegalJump(dir1, dir2)] -> NorthBorderOnBorder;
 
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2)] - > Longitudinal.Between;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2)] -> Longitudinal.Between;
 
 
                 }
@@ -224,7 +222,7 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.South] /
                     {
                         move(getCurrentRow() + 1, getCurrentColumn());
-                    } - > NorthBordernearBorder;
+                    } -> NorthBordernearBorder;
 
 
                     //jump move
@@ -233,12 +231,12 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && dir2 == MoveDirection.Null && isLegalJump(dir1, dir2)] /
                     {
                         move(getCurrentRow() + 2, getCurrentColumn());
-                    } - > Longitudinal.Between;
+                    } -> Longitudinal.Between;
 
 
                     //double direction
 
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2)] - > NorthBordernearBorder;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir1 == MoveDirection.South && (dir2 == MoveDirection.West || dir2 == MoveDirection.East) && isLegalJump(dir1, dir2)] -> NorthBordernearBorder;
 
 
                 }
@@ -256,8 +254,8 @@ class PawnBehaviour
             {
 
                 //to setup initial latitude state depending on who is the player
-                initialize[hasGameAsWhite()] - > WestBorderOnBorder;
-                initialize[hasGameAsBlack()] - > EastBorderOnBorder;
+                initialize[hasGameAsWhite()] -> WestBorderOnBorder;
+                initialize[hasGameAsBlack()] -> EastBorderOnBorder;
 
 
 
@@ -268,12 +266,12 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.East] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 1);
-                    } - > EastBorderOnBorder;
+                    } -> EastBorderOnBorder;
 
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.West] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 1);
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
                     //the jump Moves
 
@@ -282,7 +280,7 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.West && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 2);
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
                     //with double direction
 
@@ -297,7 +295,7 @@ class PawnBehaviour
 
                             move(getCurrentRow() - 1, getCurrentColumn() - 1);
                         }
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.East && (dir1 == MoveDirection.North || dir1 == MoveDirection.South) && isLegalJump(dir1, dir2)] /
                     {
@@ -310,7 +308,7 @@ class PawnBehaviour
 
                             move(getCurrentRow() - 1, getCurrentColumn() + 1);
                         }
-                    } - > EastBorderOnBorder;
+                    } -> EastBorderOnBorder;
 
 
                 }
@@ -327,7 +325,7 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.West] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 1);
-                    } - > EastBordernearBorder;
+                    } -> EastBordernearBorder;
 
                     //the jump moves
                     //single direction
@@ -335,7 +333,7 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.West && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2)] /
                     {
                         move(getCurrentRow() - 2, getCurrentColumn());
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
 
 
@@ -352,7 +350,7 @@ class PawnBehaviour
 
                             move(getCurrentRow() - 1, getCurrentColumn() - 1);
                         }
-                    } - > EastBordernearBorder;
+                    } -> EastBordernearBorder;
 
                 }
 
@@ -369,12 +367,12 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.East && !stepNearBorder(dir) && !stepOnBorder(dir)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 1);
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.West && !stepNearBorder(dir) && !stepOnBorder(dir)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 1);
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
 
                     //self referential jumpMoves
@@ -383,12 +381,12 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.West && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 2) && !jumpOnBorder(dir1, dir2, 2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 2);
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.East && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 2) && !jumpOnBorder(dir1, dir2, 2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 2);
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
 
                     //with Double Direction
@@ -403,7 +401,7 @@ class PawnBehaviour
 
                             move(getCurrentRow() - 1, getCurrentColumn() - 1);
                         }
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.East && (dir1 == MoveDirection.North || dir1 == MoveDirection.South) && isLegalJump(dir1, dir2) && !jumpNearBorder(dir1, dir2, 1) && !jumpOnBorder(dir1, dir2, 2)] /
                     {
@@ -416,7 +414,7 @@ class PawnBehaviour
 
                             move(getCurrentRow() - 1, getCurrentColumn() + 1);
                         }
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
 
 
@@ -425,12 +423,12 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.East && stepNearBorder(dir)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 1);
-                    } - > EastBordernearBorder;
+                    } -> EastBordernearBorder;
 
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.West && stepNearBorder(dir)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 1);
-                    } - > WestBordernearBorder;
+                    } -> WestBordernearBorder;
 
                     //the jump moves
 
@@ -439,22 +437,22 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.West && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 2);
-                    } - > WestBordernearBorder;
+                    } -> WestBordernearBorder;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.East && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 2);
-                    } - > EastBordernearBorder;
+                    } -> EastBordernearBorder;
                     //->onBorder
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.West && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2) && jumpOnBorder(dir1, dir2, 2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 2);
-                    } - > WestBorderOnBorder;
+                    } -> WestBorderOnBorder;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.East && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2) && jumpOnBorder(dir1, dir2, 2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 2);
-                    } - > EastBorderOnBorder;
+                    } -> EastBorderOnBorder;
 
                     //with Double Direction
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.West && (dir1 == MoveDirection.North || dir1 == MoveDirection.South) && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 1)] /
@@ -468,7 +466,7 @@ class PawnBehaviour
 
                             move(getCurrentRow() - 1, getCurrentColumn() - 1);
                         }
-                    } - > WestBordernearBorder;
+                    } -> WestBordernearBorder;
 
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.East && (dir1 == MoveDirection.North || dir1 == MoveDirection.South) && isLegalJump(dir1, dir2) && jumpNearBorder(dir1, dir2, 1)] /
                     {
@@ -481,7 +479,7 @@ class PawnBehaviour
 
                             move(getCurrentRow() - 1, getCurrentColumn() + 1);
                         }
-                    } - > EastBordernearBorder;
+                    } -> EastBordernearBorder;
 
 
                 }
@@ -499,12 +497,12 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.East] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 1);
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.West] /
                     {
                         move(getCurrentRow(), getCurrentColumn() - 1);
-                    } - > WestBorderOnBorder;
+                    } -> WestBorderOnBorder;
 
                     //the jump Moves
 
@@ -513,7 +511,7 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.East && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 2)
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
                     //with double direction
 
@@ -530,7 +528,7 @@ class PawnBehaviour
                             move(getCurrentRow() - 1, getCurrentColumn() - 1);
 
                         }
-                    } - > WestBorderOnBorder;
+                    } -> WestBorderOnBorder;
 
 
 
@@ -547,7 +545,7 @@ class PawnBehaviour
                             move(getCurrentRow() - 1, getCurrentColumn() + 1);
 
                         }
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
 
                 }
@@ -561,7 +559,7 @@ class PawnBehaviour
                     stepMove(MoveDirection dir)[isLegalStep(dir) && dir == MoveDirection.East] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 1);
-                    } - > WestBordernearBorder;
+                    } -> WestBordernearBorder;
 
 
                     //jump move
@@ -570,7 +568,7 @@ class PawnBehaviour
                     jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2 == MoveDirection.East && dir1 == MoveDirection.Null && isLegalJump(dir1, dir2)] /
                     {
                         move(getCurrentRow(), getCurrentColumn() + 2);
-                    } - > Latitudinal.Between;
+                    } -> Latitudinal.Between;
 
 
                     //double direction
@@ -588,7 +586,7 @@ class PawnBehaviour
                             move(getCurrentRow() - 1, getCurrentColumn() + 1);
 
                         }
-                    } - > WestBordernearBorder;
+                    } -> WestBordernearBorder;
 
 
 
@@ -597,7 +595,7 @@ class PawnBehaviour
 
 
             }
-            gameCompleted() - > gameComplete;
+            gameCompleted() -> gameComplete;
         }
 
         gameComplete
