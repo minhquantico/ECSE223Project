@@ -600,14 +600,15 @@ public class Controller {
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
 	public static Boolean initPosValidation(Tile aTargetTile) {
-		// System.out.println("x: " + aTargetTile.getColumn() + ", y: " +
-		// aTargetTile.getRow());
-		//System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
+		System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
+		System.out.println("Player to move: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ? "white" : "black"));
 		
 		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
+		{
+			System.out.println("Possible move: " + aTarget.getColumn() + ", " + aTarget.getRow());
 			if (aTarget == aTargetTile)
 				return true;
-		
+		}
 		return false;
 
 	}
@@ -966,10 +967,20 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
 		
-		if (pos.getColumn() == x)
-			sm.stepMove(y > pos.getRow() ? MoveDirection.South : MoveDirection.North);
-		else
-			sm.stepMove(x > pos.getColumn() ? MoveDirection.East : MoveDirection.West);
+		int dx = x - pos.getColumn();
+		int dy = y - pos.getRow();
+		
+		System.out.println("dx: " + dx + ", dy:" + dy);
+
+		if (Math.abs(dx + dy) == 1)	// Step move
+			if (dx == 0)
+				sm.stepMove(dy > 0 ? MoveDirection.South : MoveDirection.North);
+			else
+				sm.stepMove(dx > 0 ? MoveDirection.East : MoveDirection.West);
+		else				// Jump move
+			sm.jumpMove(
+					dy > 0 ? MoveDirection.South : dy < 0 ? MoveDirection.North : MoveDirection.Null,
+					dx > 0 ? MoveDirection.East : dx < 0 ? MoveDirection.West : MoveDirection.Null);
 	}
 
 	/**
