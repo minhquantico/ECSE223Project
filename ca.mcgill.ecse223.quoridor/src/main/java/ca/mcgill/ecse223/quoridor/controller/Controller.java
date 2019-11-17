@@ -146,10 +146,8 @@ public class Controller {
 	 */
 	public static void endMove()
 	{
-		System.out.println("Switched from: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite());
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
-		System.out.println("to: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite());
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
