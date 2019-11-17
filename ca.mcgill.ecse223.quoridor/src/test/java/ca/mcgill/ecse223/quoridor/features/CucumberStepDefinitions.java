@@ -149,7 +149,9 @@ public class CucumberStepDefinitions {
 				.getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 				.getBlackPosition().getTile();
+		System.out.println(dest);
 		dest = Controller.direction(dest, dirToInt(string2));
+		System.out.println(dest);
 		
 		legal = true;
 	    try { Controller.doPawnMoveStateMachine(dest.getColumn(), dest.getRow()); }
@@ -158,12 +160,13 @@ public class CucumberStepDefinitions {
 
 	@Then("The move {string} shall be {string}")
 	public void the_move_shall_be(String string, String string2) {
-	    assertEquals(string2.equals("success"), valid);
+	    assertEquals(string2.equals("success"), legal);
 	}
 
 	@Then("Player's new position shall be {int}:{int}")
 	public void player_s_new_position_shall_be(Integer int1, Integer int2) {
-		Tile pos = isWhiteTurn() != valid ?
+		System.out.println("White turn: " + isWhiteTurn());
+		Tile pos = isWhiteTurn() != legal ?
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 				.getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
@@ -199,7 +202,7 @@ public class CucumberStepDefinitions {
 		Tile pos = isWhiteTurn() ?
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
-	    assertFalse(Controller.isBlockedDirection(pos, dirToInt(string)));
+	    assertFalse(Controller.isBlockedDirection(pos, dirToInt(string2)));
 	}
 
 	@Given("The opponent is not {string} from the player")
