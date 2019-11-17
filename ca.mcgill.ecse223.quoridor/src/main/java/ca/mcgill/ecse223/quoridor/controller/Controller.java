@@ -14,6 +14,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
+import ca.mcgill.ecse223.quoridor.controller.PawnBehaviour.MoveDirection;
 import ca.mcgill.ecse223.quoridor.gui.PlayScreenController;
 import ca.mcgill.ecse223.quoridor.model.Board;
 import ca.mcgill.ecse223.quoridor.model.Direction;
@@ -952,6 +953,24 @@ public class Controller {
 		}
 		catch (NullPointerException ex) { /* Do nothing */ }
 	}
+	
+	public static PawnBehaviour getCurrentStateMachine()
+	{
+		return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getPawnBehaviour();
+	}
+	
+	public static void doPawnMoveStateMachine(int x, int y)
+	{
+		PawnBehaviour sm = getCurrentStateMachine();
+		Tile pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		
+		if (pos.getColumn() == x)
+			sm.stepMove(y > pos.getRow() ? MoveDirection.South : MoveDirection.North);
+		else
+			sm.stepMove(x > pos.getColumn() ? MoveDirection.East : MoveDirection.West);
+	}
 
 	/**
 	 * @author Jake Pogharian Feature: setThinkingTime step: When "{int}:{int} is
@@ -997,6 +1016,8 @@ public class Controller {
 		// @formatter:on
 		Player player1 = new Player(new Time(thinkingTime), user1, 9, Direction.Horizontal);
 		Player player2 = new Player(new Time(thinkingTime), user2, 1, Direction.Horizontal);
+		player1.setPawnBehaviour(new PawnBehaviour());
+		player2.setPawnBehaviour(new PawnBehaviour());
 		player1.setNextPlayer(player2);
 		player2.setNextPlayer(player1);
 
