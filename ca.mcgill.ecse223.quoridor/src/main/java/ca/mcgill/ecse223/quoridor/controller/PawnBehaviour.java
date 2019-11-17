@@ -815,7 +815,7 @@ public class PawnBehaviour
     return wasEventProcessed;
   }
 
-  private boolean __autotransition41__()
+  public boolean initialize()
   {
     boolean wasEventProcessed = false;
     
@@ -830,22 +830,6 @@ public class PawnBehaviour
           wasEventProcessed = true;
           break;
         }
-        break;
-      default:
-        // Other states do respond to this event
-    }
-
-    return wasEventProcessed;
-  }
-
-  private boolean __autotransition42__()
-  {
-    boolean wasEventProcessed = false;
-    
-    PawnSMGameActiveLatitudinal aPawnSMGameActiveLatitudinal = pawnSMGameActiveLatitudinal;
-    switch (aPawnSMGameActiveLatitudinal)
-    {
-      case Latitudinal:
         if (hasGameAsBlack())
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
@@ -1027,8 +1011,6 @@ public class PawnBehaviour
     {
       case Latitudinal:
         if (pawnSMGameActiveLatitudinalLatitudinal == PawnSMGameActiveLatitudinalLatitudinal.Null) { setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBorder); }
-        __autotransition41__();
-        __autotransition42__();
         break;
     }
   }

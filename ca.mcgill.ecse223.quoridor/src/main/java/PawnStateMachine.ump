@@ -186,8 +186,8 @@ class PawnBehaviour{
         Latitudinal{
       
           //to setup initial latitude state depending on who is the player
-     [hasGameAsWhite()]->WestBorder.OnBorder;
-     [hasGameAsBlack()]->EastBorder.OnBorder;
+     initialize[hasGameAsWhite()]->WestBorder.OnBorder;
+     initialize[hasGameAsBlack()]->EastBorder.OnBorder;
       
       EastBorder{
         
