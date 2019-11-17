@@ -140,6 +140,7 @@ public class PawnBehaviour
         }
         if (isLegalStep(dir)&&dir.equals(MoveDirection.North)&&!(stepNearBorder(dir))&&!(stepOnBorder(dir)))
         {
+        	System.out.println("Conditional Entered!");
           exitPawnSMGameActiveLongitudinalLongitudinal();
         // line 32 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow()-1, getCurrentColumn());
@@ -1022,13 +1023,16 @@ public class PawnBehaviour
   
   private boolean stepNearBorder(MoveDirection dir)
   {
-	  return isNearBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), MoveDirection.Null);
+	 
+	  return isNearBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), dir);
   }
   
   // ??
   private boolean stepOnBorder(MoveDirection dir)
   {
-	  return isOnBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), MoveDirection.Null);
+	  System.out.println("Step On Border is: ");
+	  System.out.println(isOnBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), MoveDirection.Null));
+	  return isOnBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), dir);
 	  
   }
   
