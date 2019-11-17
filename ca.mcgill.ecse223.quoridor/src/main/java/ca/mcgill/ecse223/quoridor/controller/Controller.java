@@ -1063,5 +1063,8 @@ public class Controller {
 		}
 
 		game.setCurrentPosition(gamePosition);
+		
+		game.getWhitePlayer().getPawnBehaviour().initialize();
+		game.getBlackPlayer().getPawnBehaviour().initialize();
 	}
 }
