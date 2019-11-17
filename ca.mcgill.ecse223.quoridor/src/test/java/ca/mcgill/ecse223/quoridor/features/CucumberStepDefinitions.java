@@ -262,7 +262,21 @@ public class CucumberStepDefinitions {
 		}
 	}
 	
-	
+	@Given("There is a {string} wall {string} from the player")
+	public void there_is_a_wall_from_the_player(String string, String string2) {
+		Tile pos = isWhiteTurn() ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		int dir = dirToInt(string2);
+		if (dir == 0 || dir == 3)
+			pos = Controller.direction(pos, dir);
+		there_is_a_wall_at(string, pos.getRow(), pos.getColumn());
+	}
+
+	@Given("My opponent is not {string} from the player")
+	public void my_opponent_is_not_from_the_player(String string) {
+	    the_opponent_is_not_from_the_player(string);
+	}
 	
 	
 	
