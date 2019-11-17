@@ -971,6 +971,7 @@ public class Controller {
 		int dy = y - pos.getRow();
 		
 		System.out.println("dx: " + dx + ", dy:" + dy);
+		sm.calledLegal = false;
 
 		if (Math.abs(dx + dy) == 1)	// Step move
 			if (dx == 0)

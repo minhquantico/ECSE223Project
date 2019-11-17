@@ -1027,11 +1027,8 @@ public class PawnBehaviour
 	  return isNearBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), dir);
   }
   
-  // ??
   private boolean stepOnBorder(MoveDirection dir)
   {
-	  System.out.println("Step On Border is: ");
-	  System.out.println(isOnBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), MoveDirection.Null));
 	  return isOnBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), dir);
 	  
   }
@@ -1054,8 +1051,14 @@ public class PawnBehaviour
 	  return isOnBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
   }
   
+  public boolean calledLegal;
+  
   private boolean isLegalStep(MoveDirection dir)
   {
+	  if (calledLegal)
+		  return true;
+	  calledLegal = true;
+	  
 	  boolean ret = false;
 	  try
 	  {
@@ -1074,6 +1077,10 @@ public class PawnBehaviour
   
   private boolean isLegalJump(MoveDirection dir, MoveDirection dir2)
   {
+	  if (calledLegal)
+		  return true;
+	  calledLegal = true;
+	  
 	  boolean ret = false;
 	  try { ret =  Controller.initPosValidation(getJumpMoveTile(dir, dir2)); }
 	  catch (NullPointerException ex) { }

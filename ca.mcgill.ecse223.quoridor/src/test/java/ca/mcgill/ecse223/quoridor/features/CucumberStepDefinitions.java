@@ -174,7 +174,9 @@ public class CucumberStepDefinitions {
 		dest = Controller.direction(dest, dirToInt(string2));
 		System.out.println(dest);
 		
-		legal = true;
+		legal = dest != null;
+		if (!legal)
+			return;
 	    try { Controller.doPawnMoveStateMachine(dest.getColumn(), dest.getRow()); }
 	    catch (IllegalMoveException ex) { legal = false; }
 	}
