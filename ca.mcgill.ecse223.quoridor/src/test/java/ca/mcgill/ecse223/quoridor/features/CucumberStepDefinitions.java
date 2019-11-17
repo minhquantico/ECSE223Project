@@ -155,46 +155,80 @@ public class CucumberStepDefinitions {
 	
 //JumpPawn: Team
 	
+	//we need these to communicate between steps
+	Player currentPlayer;
+	Player opponent;
+	
+	
 	//1st scenario: Jump over opponent
 	
+	//note that there is also another given statement written by Lenoy in switchCurrentPlayer feature: Given the player to move is {string}
+	
+	/**
+	 * @author David Budaghyan
+	 */
 	@Given("The player is located at {int}:{int}")
-	public void the_player_is_located_at(Integer int1, Integer int2) {
-		Controller.doPawnMove(int2, int1);
+	public void the_player_is_located_at(Integer aRow, Integer aCol) {
+		//using helper methods, see end of file
+		Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
+		PlayerPosition newCurrentPlayerPosition = convertTupleToPosition(currentPlayer, aRow, aCol);
+		setNewPlayerPosition(currentPlayer, newCurrentPlayerPosition);
 	}
 
+	/**
+	 * @author David Budaghyan
+	 */
 	@Given("The opponent is located at {int}:{int}")
-	public void the_opponent_is_located_at(Integer int1, Integer int2) {
-		Controller.doPawnMove(int2, int1);
+	public void the_opponent_is_located_at(Integer aRow, Integer aCol) {
+		//using helper methods, see end of file
+		Player opponent = nextPlayer();
+		PlayerPosition newOpponentPosition = convertTupleToPosition(opponent, aRow, aCol);
+		setNewPlayerPosition(opponent, newOpponentPosition);
 	}
+	
 
+	/**
+	 * @author Jake Pogharian
+	 */
 	@Given("There are no {string} walls {string} from the player nearby")
 	public void there_are_no_walls_from_the_player_nearby(String string, String string2) {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new cucumber.api.PendingException();
 	}
 
+	/**
+	 * @author Jake Pogharian
+	 */
 	@When("Player {string} initiates to move {string}")
 	public void player_initiates_to_move(String string, String string2) {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new cucumber.api.PendingException();
 	}
 
+	
 	@Then("The move {string} shall be {string}")
 	public void the_move_shall_be(String string, String string2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		
 	}
 
+	
+	/**
+	 * @author David Budaghyan
+	 */
 	@Then("Player's new position shall be {int}:{int}")
-	public void player_s_new_position_shall_be(Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	public void player_s_new_position_shall_be(Integer newRow, Integer newCol) {
+		if(currentPlayer.hasGameAsWhite()) {
+			assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow() == newRow &&
+			           QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn() == newCol);
+		}else {
+			assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow() == newRow &&
+			           QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn() == newCol);
+		}
 	}
 
 	@Then("The next player to move shall become {string}")
 	public void the_next_player_to_move_shall_become(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().equals(opponent));
 	}
 	
 	
@@ -539,7 +573,7 @@ public class CucumberStepDefinitions {
 					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
 		else
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
+					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
 
 	}
 
@@ -1477,6 +1511,36 @@ public class CucumberStepDefinitions {
 
 	// Place your extracted methods below
 
+	
+	
+	
+	/**
+	 * @author David Budaghyan
+	 * return void
+	 * feature: jumpPawn/movePawn - helper method
+	 */
+	private void setNewPlayerPosition(Player aPlayer, PlayerPosition aNewPosition){
+		if(aPlayer.hasGameAsWhite()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setWhitePosition(aNewPosition);
+		}
+		if(aPlayer.hasGameAsBlack()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setBlackPosition(aNewPosition);
+		}
+	}
+	
+	/**
+	 * @author David Budaghyan
+	 * return playerPosition
+	 * feature: jumpPawn/movePawn - helper method
+	 */
+	private PlayerPosition convertTupleToPosition(Player aPlayer, Integer aRow, Integer aCol) {
+		Tile tile = new Tile(aRow, aCol, QuoridorApplication.getQuoridor().getBoard());
+		PlayerPosition playerPosition = new PlayerPosition(aPlayer, tile);
+		return playerPosition;
+	}
+
+	
+	
 	/**
 	 * @author Lenoy Christy
 	 * @return boolean
