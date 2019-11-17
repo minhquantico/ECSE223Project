@@ -9,7 +9,7 @@ class PawnBehaviour{
 	depend java.util.ArrayList;
 
 	0..1 -> 0..1 Game currentGame;
-	0..1 -- 0..1 Player player;
+	1 -- 1 Player player;
 
 	enum MoveDirection {
 		North, South, East, West

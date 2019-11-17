@@ -30,7 +30,7 @@ public class Player
   // CONSTRUCTOR
   //------------------------
 
-  public Player(Time aRemainingTime, User aUser, Destination aDestination)
+  public Player(Time aRemainingTime, User aUser, Destination aDestination, PawnBehaviour aPawnBehaviour)
   {
     remainingTime = aRemainingTime;
     if (!setUser(aUser))
@@ -43,6 +43,11 @@ public class Player
     }
     destination = aDestination;
     walls = new ArrayList<Wall>();
+    if (aPawnBehaviour == null || aPawnBehaviour.getPlayer() != null)
+    {
+      throw new RuntimeException("Unable to create Player due to aPawnBehaviour");
+    }
+    pawnBehaviour = aPawnBehaviour;
   }
 
   public Player(Time aRemainingTime, User aUser, int aTargetNumberForDestination, Direction aDirectionForDestination)
@@ -55,6 +60,7 @@ public class Player
     }
     destination = new Destination(aTargetNumberForDestination, aDirectionForDestination, this);
     walls = new ArrayList<Wall>();
+    pawnBehaviour = new PawnBehaviour(this);
   }
 
   //------------------------
@@ -150,12 +156,6 @@ public class Player
   public PawnBehaviour getPawnBehaviour()
   {
     return pawnBehaviour;
-  }
-
-  public boolean hasPawnBehaviour()
-  {
-    boolean has = pawnBehaviour != null;
-    return has;
   }
   /* Code from template association_SetUnidirectionalOne */
   public boolean setUser(User aNewUser)
@@ -331,39 +331,6 @@ public class Player
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOptionalOneToOptionalOne */
-  public boolean setPawnBehaviour(PawnBehaviour aNewPawnBehaviour)
-  {
-    boolean wasSet = false;
-    if (aNewPawnBehaviour == null)
-    {
-      PawnBehaviour existingPawnBehaviour = pawnBehaviour;
-      pawnBehaviour = null;
-      
-      if (existingPawnBehaviour != null && existingPawnBehaviour.getPlayer() != null)
-      {
-        existingPawnBehaviour.setPlayer(null);
-      }
-      wasSet = true;
-      return wasSet;
-    }
-
-    PawnBehaviour currentPawnBehaviour = getPawnBehaviour();
-    if (currentPawnBehaviour != null && !currentPawnBehaviour.equals(aNewPawnBehaviour))
-    {
-      currentPawnBehaviour.setPlayer(null);
-    }
-
-    pawnBehaviour = aNewPawnBehaviour;
-    Player existingPlayer = aNewPawnBehaviour.getPlayer();
-
-    if (!equals(existingPlayer))
-    {
-      aNewPawnBehaviour.setPlayer(this);
-    }
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
@@ -390,9 +357,11 @@ public class Player
     {
       gameAsBlack.setBlackPlayer(null);
     }
-    if (pawnBehaviour != null)
+    PawnBehaviour existingPawnBehaviour = pawnBehaviour;
+    pawnBehaviour = null;
+    if (existingPawnBehaviour != null)
     {
-      pawnBehaviour.setPlayer(null);
+      existingPawnBehaviour.delete();
     }
   }
 

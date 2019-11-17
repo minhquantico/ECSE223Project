@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.model.*;
+import java.sql.Time;
 
 // line 7 "../../../../../PawnStateMachine.ump"
 public class PawnBehaviour
@@ -50,8 +51,13 @@ public class PawnBehaviour
   // CONSTRUCTOR
   //------------------------
 
-  public PawnBehaviour()
+  public PawnBehaviour(Player aPlayer)
   {
+    if (aPlayer == null || aPlayer.getPawnBehaviour() != null)
+    {
+      throw new RuntimeException("Unable to create PawnBehaviour due to aPlayer");
+    }
+    player = aPlayer;
     setPawnSMGameActiveLongitudinal(PawnSMGameActiveLongitudinal.Null);
     setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.Null);
     setPawnSMGameActiveLongitudinalLongitudinalSouthBorder(PawnSMGameActiveLongitudinalLongitudinalSouthBorder.Null);
@@ -61,6 +67,11 @@ public class PawnBehaviour
     setPawnSMGameActiveLatitudinalLatitudinalEastBorder(PawnSMGameActiveLatitudinalLatitudinalEastBorder.Null);
     setPawnSMGameActiveLatitudinalLatitudinalWestBorder(PawnSMGameActiveLatitudinalLatitudinalWestBorder.Null);
     setPawnSM(PawnSM.gameActive);
+  }
+
+  public PawnBehaviour(Time aRemainingTimeForPlayer, User aUserForPlayer, Destination aDestinationForPlayer)
+  {
+    player = new Player(aRemainingTimeForPlayer, aUserForPlayer, aDestinationForPlayer, this);
   }
 
   //------------------------
@@ -804,7 +815,7 @@ public class PawnBehaviour
     return wasEventProcessed;
   }
 
-  private boolean __autotransition37__()
+  private boolean __autotransition41__()
   {
     boolean wasEventProcessed = false;
     
@@ -827,7 +838,7 @@ public class PawnBehaviour
     return wasEventProcessed;
   }
 
-  private boolean __autotransition38__()
+  private boolean __autotransition42__()
   {
     boolean wasEventProcessed = false;
     
@@ -1016,8 +1027,8 @@ public class PawnBehaviour
     {
       case Latitudinal:
         if (pawnSMGameActiveLatitudinalLatitudinal == PawnSMGameActiveLatitudinalLatitudinal.Null) { setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBorder); }
-        __autotransition37__();
-        __autotransition38__();
+        __autotransition41__();
+        __autotransition42__();
         break;
     }
   }
@@ -1128,12 +1139,6 @@ public class PawnBehaviour
   {
     return player;
   }
-
-  public boolean hasPlayer()
-  {
-    boolean has = player != null;
-    return has;
-  }
   /* Code from template association_SetUnidirectionalOptionalOne */
   public boolean setCurrentGame(Game aNewCurrentGame)
   {
@@ -1142,46 +1147,15 @@ public class PawnBehaviour
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOptionalOneToOptionalOne */
-  public boolean setPlayer(Player aNewPlayer)
-  {
-    boolean wasSet = false;
-    if (aNewPlayer == null)
-    {
-      Player existingPlayer = player;
-      player = null;
-      
-      if (existingPlayer != null && existingPlayer.getPawnBehaviour() != null)
-      {
-        existingPlayer.setPawnBehaviour(null);
-      }
-      wasSet = true;
-      return wasSet;
-    }
-
-    Player currentPlayer = getPlayer();
-    if (currentPlayer != null && !currentPlayer.equals(aNewPlayer))
-    {
-      currentPlayer.setPawnBehaviour(null);
-    }
-
-    player = aNewPlayer;
-    PawnBehaviour existingPawnBehaviour = aNewPlayer.getPawnBehaviour();
-
-    if (!equals(existingPawnBehaviour))
-    {
-      aNewPlayer.setPawnBehaviour(this);
-    }
-    wasSet = true;
-    return wasSet;
-  }
 
   public void delete()
   {
     currentGame = null;
-    if (player != null)
+    Player existingPlayer = player;
+    player = null;
+    if (existingPlayer != null)
     {
-      player.setPawnBehaviour(null);
+      existingPlayer.delete();
     }
   }
   private int getCurrentRow()
@@ -1331,6 +1305,7 @@ public class PawnBehaviour
 	  return false;
 	  
   } 
+  
   public void setSMTest(int row, int column){
 	//assuming it is already in active state
 
@@ -1401,6 +1376,5 @@ public class PawnBehaviour
 
 
 	}
-
 
 }
