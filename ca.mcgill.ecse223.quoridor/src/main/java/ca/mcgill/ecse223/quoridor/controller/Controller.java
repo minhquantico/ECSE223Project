@@ -600,14 +600,15 @@ public class Controller {
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
 	public static Boolean initPosValidation(Tile aTargetTile) {
-		// System.out.println("x: " + aTargetTile.getColumn() + ", y: " +
-		// aTargetTile.getRow());
-		//System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
+		System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
+		System.out.println("Player to move: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ? "white" : "black"));
 		
 		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
+		{
+			System.out.println("Possible move: " + aTarget.getColumn() + ", " + aTarget.getRow());
 			if (aTarget == aTargetTile)
 				return true;
-		
+		}
 		return false;
 
 	}
