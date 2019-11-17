@@ -114,8 +114,18 @@ public class CucumberStepDefinitions {
 	
 //JumpPawn: Team
 	
+	//we need these to communicate between steps
+	Player currentPlayer;
+	Player opponent;
+	
+	
 	//1st scenario: Jump over opponent
 	
+	//note that there is also another given statement written by Lenoy in switchCurrentPlayer feature: Given the player to move is {string}
+	
+	/**
+	 * @author David Budaghyan
+	 */
 	@Given("The player is located at {int}:{int}")
 	public void the_player_is_located_at(Integer int1, Integer int2) {
 		if (isWhiteTurn())
@@ -126,6 +136,9 @@ public class CucumberStepDefinitions {
 					.getBlackPosition().setTile(Controller.getTile(int2, int1));
 	}
 
+	/**
+	 * @author David Budaghyan
+	 */
 	@Given("The opponent is located at {int}:{int}")
 	public void the_opponent_is_located_at(Integer int1, Integer int2) {
 		if (!isWhiteTurn())
@@ -135,13 +148,17 @@ public class CucumberStepDefinitions {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.getBlackPosition().setTile(Controller.getTile(int2, int1));
 	}
+	
 
+	/**
+	 * @author Jake Pogharian
+	 */
 	@Given("There are no {string} walls {string} from the player nearby")
 	public void there_are_no_walls_from_the_player_nearby(String string, String string2) {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new cucumber.api.PendingException();
 	}
-	
+
 	@When("Player {string} initiates to move {string}")
 	public void player_initiates_to_move(String string, String string2) {
 		Tile dest = string.equals("white") ?
@@ -158,11 +175,16 @@ public class CucumberStepDefinitions {
 	    catch (IllegalMoveException ex) { legal = false; }
 	}
 
+	
 	@Then("The move {string} shall be {string}")
 	public void the_move_shall_be(String string, String string2) {
 	    assertEquals(string2.equals("success"), legal);
 	}
 
+	
+	/**
+	 * @author David Budaghyan
+	 */
 	@Then("Player's new position shall be {int}:{int}")
 	public void player_s_new_position_shall_be(Integer int1, Integer int2) {
 		System.out.println("White turn: " + isWhiteTurn());
@@ -311,27 +333,8 @@ public class CucumberStepDefinitions {
 	@Given("A wall move candidate exists with {string} at position \\({int}, {int})")
 	public void a_wall_move_candidate_exists_with_at_position(String dir, Integer aRow, Integer aCol) {
 		Controller.setWallMoveCandidate(aCol, aRow, dir.equals("horizontal") ? Direction.Horizontal : Direction.Vertical);
-		
-//		// create everything needed to create the wallMoveCandidate
-//		Player currentPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
-//		Tile targetTile = new Tile(aRow, aCol, QuoridorApplication.getQuoridor().getBoard());
-//		Wall wallCandidate = new Wall(0, currentPlayer);
-//		// alternative: use the wall field of this class instead of creating a new wall
-//		// (see above)
-//
-//		Game game = QuoridorApplication.getQuoridor().getCurrentGame();
-//		Direction wallDirection;
-//		if (dir.equalsIgnoreCase("vertical")) {
-//			wallDirection = Direction.Vertical;
-//		} else {
-//			wallDirection = Direction.Horizontal;
-//		}
-//
-//		// create and set the wallMoveCandidate
-//		WallMove wallMoveCandidate = new WallMove(0, 1, currentPlayer, targetTile, game, wallDirection, wallCandidate);
-//		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(wallMoveCandidate);
 	}
-
+	
 	/** @author David Budaghyan **/
 	@Given("The wall candidate is not at the {string} edge of the board")
 	public void the_wall_candidate_is_not_at_the_edge_of_the_board(String side) {
@@ -1211,9 +1214,7 @@ public class CucumberStepDefinitions {
 		wallsOnBoard();
 	}
 	
-	public void wallsOnBoard() {
-		System.err.println("walls on board: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfWhiteWallsOnBoard() + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfBlackWallsOnBoard()));
-	}
+	
 
 	/**
 	 * @author Jake Pogharian Feature: Drop Wall Step: ("Then A wall move shall be
@@ -1475,6 +1476,42 @@ public class CucumberStepDefinitions {
 
 	// Place your extracted methods below
 
+	
+	
+	
+	/**
+	 * @author David Budaghyan
+	 * return void
+	 * feature: jumpPawn/movePawn - helper method
+	 */
+	private void setNewPlayerPosition(Player aPlayer, PlayerPosition aNewPosition){
+		if(aPlayer.hasGameAsWhite()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setWhitePosition(aNewPosition);
+		}
+		if(aPlayer.hasGameAsBlack()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setBlackPosition(aNewPosition);
+		}
+	}
+	
+	/**
+	 * @author David Budaghyan
+	 * return playerPosition
+	 * feature: jumpPawn/movePawn - helper method
+	 */
+	private PlayerPosition convertTupleToPosition(Player aPlayer, Integer aRow, Integer aCol) {
+		Tile tile = new Tile(aRow, aCol, QuoridorApplication.getQuoridor().getBoard());
+		PlayerPosition playerPosition = new PlayerPosition(aPlayer, tile);
+		return playerPosition;
+	}
+
+	/**
+	 * @author Jake Pogharian 
+	 * helper for Move/drop wall
+	 */
+	public void wallsOnBoard() {
+		System.err.println("walls on board: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfWhiteWallsOnBoard() + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().numberOfBlackWallsOnBoard()));
+	}
+	
 	/**
 	 * @author Lenoy Christy
 	 * @return boolean
