@@ -1272,7 +1272,7 @@ public class PawnBehaviour
   
   private boolean isNearBorder(Tile tile, MoveDirection d) {
 	  if (d == null)
-		  if(tile.getRow() == 2 || tile.getRow() == 8 || tile.getColumn() == 2 || tile.getColumn() == 8 ) return true;
+		  return (tile.getRow() == 2 || tile.getRow() == 8 || tile.getColumn() == 2 || tile.getColumn() == 8 );
 	  else 
 		  switch(d) {
 		  	case North: 
@@ -1290,7 +1290,7 @@ public class PawnBehaviour
   
   private boolean isOnBorder(Tile tile, MoveDirection d) {
 	  if (d == null)
-		  if(tile.getRow() == 1 || tile.getRow() == 9 || tile.getColumn() == 1 || tile.getColumn() == 9 ) return true;
+		  return (tile.getRow() == 1 || tile.getRow() == 9 || tile.getColumn() == 1 || tile.getColumn() == 9 );
 	  else 
 		  switch(d) {
 		  	case North: 
@@ -1314,7 +1314,7 @@ public class PawnBehaviour
 	//—> near border South
 
 	setPawnSMGameActiveLongitudinalLongitudinalSouthBorder(PawnSMGameActiveLongitudinalLongitudinalSouthBorder.nearBorder);
-
+	
 	}else if(row==2){
 
 	//—>near Border North

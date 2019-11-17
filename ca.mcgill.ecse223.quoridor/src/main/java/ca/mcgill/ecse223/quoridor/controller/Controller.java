@@ -602,7 +602,7 @@ public class Controller {
 	public static Boolean initPosValidation(Tile aTargetTile) {
 		// System.out.println("x: " + aTargetTile.getColumn() + ", y: " +
 		// aTargetTile.getRow());
-		System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
+		//System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
 		
 		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
 			if (aTarget == aTargetTile)
@@ -1016,8 +1016,6 @@ public class Controller {
 		// @formatter:on
 		Player player1 = new Player(new Time(thinkingTime), user1, 9, Direction.Horizontal);
 		Player player2 = new Player(new Time(thinkingTime), user2, 1, Direction.Horizontal);
-		player1.setPawnBehaviour(new PawnBehaviour());
-		player2.setPawnBehaviour(new PawnBehaviour());
 		player1.setNextPlayer(player2);
 		player2.setNextPlayer(player1);
 

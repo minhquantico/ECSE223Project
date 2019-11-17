@@ -152,7 +152,7 @@ public class Board extends Pane
 		{
 			this.setBackground(selected ? SELECTED : DEFAULT);
 			this.setOnMouseClicked(selected ? e ->
-				Controller.doPawnMove(this.x+1, this.y+1) : null);
+				Controller.doPawnMoveStateMachine(this.x+1, this.y+1) : null);
 		}
 		
 		public boolean hasPlayer()
