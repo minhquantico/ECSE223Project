@@ -1047,7 +1047,7 @@ public class PawnBehaviour
 	  catch (NullPointerException ex) { }
 	  
 	  if (!ret)
-		  System.err.println("Illegal! " + dir);
+		  throw new IllegalMoveException(player, dir);
 	  
 	  return ret;
   }
@@ -1058,8 +1058,7 @@ public class PawnBehaviour
 	  try { ret =  Controller.initPosValidation(getJumpMoveTile(dir, dir2)); }
 	  catch (NullPointerException ex) { }
 	  if (!ret)
-		  System.err.println("Illegal: " + dir + ", " + dir2);
-	  
+		  throw new IllegalMoveException(player, dir, dir2);
 	  return ret;
 	  
   }

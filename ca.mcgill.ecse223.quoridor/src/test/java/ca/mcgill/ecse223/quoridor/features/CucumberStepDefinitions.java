@@ -19,6 +19,7 @@ import java.util.Map;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.controller.Controller;
+import ca.mcgill.ecse223.quoridor.controller.IllegalMoveException;
 import ca.mcgill.ecse223.quoridor.controller.Controller.InvalidPositionException;
 import ca.mcgill.ecse223.quoridor.gui.PlayScreenController;
 import ca.mcgill.ecse223.quoridor.model.Board;
@@ -82,48 +83,6 @@ public class CucumberStepDefinitions {
 			Controller.setWallMoveCandidate(wcol, wrow, dir.equals("horizontal") ? Direction.Horizontal : Direction.Vertical);
 			Controller.dropWall();   // Assume valid
 		}
-//		Quoridor quoridor = QuoridorApplication.getQuoridor();
-//		List<Map<String, String>> valueMaps = dataTable.asMaps();
-//		// keys: wrow, wcol, wdir
-//		Player[] players = { quoridor.getCurrentGame().getWhitePlayer(), quoridor.getCurrentGame().getBlackPlayer() };
-//		int playerIdx = 0;
-//		int wallIdxForPlayer = 0;
-//		for (Map<String, String> map : valueMaps) {
-//			Integer wrow = Integer.decode(map.get("wrow"));
-//			Integer wcol = Integer.decode(map.get("wcol"));
-//			// Wall to place
-//			// Walls are placed on an alternating basis wrt. the owners
-//			// Wall wall = Wall.getWithId(playerIdx * 10 + wallIdxForPlayer);
-//			Wall wall = players[playerIdx].getWall(wallIdxForPlayer); // above implementation sets wall to null
-//
-//			String dir = map.get("wdir");
-//
-//			Direction direction;
-//			switch (dir) {
-//			case "horizontal":
-//				direction = Direction.Horizontal;
-//				break;
-//			case "vertical":
-//				direction = Direction.Vertical;
-//				break;
-//			default:
-//				throw new IllegalArgumentException("Unsupported wall direction was provided");
-//			}
-//			new WallMove(0, 1, players[playerIdx], quoridor.getBoard().getTile((wrow - 1) * 9 + wcol - 1),
-//					quoridor.getCurrentGame(), direction, wall);
-//			if (playerIdx == 0) {
-//				quoridor.getCurrentGame().getCurrentPosition().removeWhiteWallsInStock(wall);
-//				quoridor.getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(wall);
-//			} else {
-//				quoridor.getCurrentGame().getCurrentPosition().removeBlackWallsInStock(wall);
-//				quoridor.getCurrentGame().getCurrentPosition().addBlackWallsOnBoard(wall);
-//			}
-//			wallIdxForPlayer = wallIdxForPlayer + playerIdx;
-//			playerIdx++;
-//			playerIdx = playerIdx % 2;
-//		}
-//		System.out.println();
-
 	}
 
 	@And("I do not have a wall in my hand")
@@ -182,29 +141,40 @@ public class CucumberStepDefinitions {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new cucumber.api.PendingException();
 	}
-
+	
 	@When("Player {string} initiates to move {string}")
 	public void player_initiates_to_move(String string, String string2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		Tile dest = string.equals("white") ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+				.getWhitePosition().getTile() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+				.getBlackPosition().getTile();
+		dest = Controller.direction(dest, dirToInt(string2));
+		
+		legal = true;
+	    try { Controller.doPawnMoveStateMachine(dest.getColumn(), dest.getRow()); }
+	    catch (IllegalMoveException ex) { legal = false; }
 	}
 
 	@Then("The move {string} shall be {string}")
 	public void the_move_shall_be(String string, String string2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    assertEquals(string2.equals("success"), valid);
 	}
 
 	@Then("Player's new position shall be {int}:{int}")
 	public void player_s_new_position_shall_be(Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		Tile pos = isWhiteTurn() != valid ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+				.getWhitePosition().getTile() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+				.getBlackPosition().getTile();
+		assertEquals(pos.getRow(), int1);
+		assertEquals(pos.getColumn(), int2);
 	}
 
 	@Then("The next player to move shall become {string}")
 	public void the_next_player_to_move_shall_become(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    assertEquals(isWhiteTurn(), string.equals("white"));
 	}
 	
 	
@@ -213,8 +183,10 @@ public class CucumberStepDefinitions {
 	
 	@Given("There is a {string} wall at {int}:{int}")
 	public void there_is_a_wall_at(String string, Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    Controller.setWallMoveCandidate(int2, int1, string.equals("vertical") ? Direction.Vertical : Direction.Horizontal);
+	    Player p = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
+	    Controller.doWallMove();
+	    QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(p);
 	}
 	
 	//all methods for scenario 3 and 4 are foudn in the above
@@ -227,16 +199,7 @@ public class CucumberStepDefinitions {
 		Tile pos = isWhiteTurn() ?
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
-		int direction;
-		switch (string2)
-		{
-		case "up": direction = 0; break;
-		case "right": direction = 1; break;
-		case "down": direction = 2; break;
-		case "left": direction = 3; break;
-		default: direction = -1; break;
-		}
-	    assertFalse(Controller.isBlockedDirection(pos, direction));
+	    assertFalse(Controller.isBlockedDirection(pos, dirToInt(string)));
 	}
 
 	@Given("The opponent is not {string} from the player")
@@ -248,20 +211,20 @@ public class CucumberStepDefinitions {
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
 		
-		int direction;
-		switch (string)
-		{
-		case "up": direction = 0; break;
-		case "right": direction = 1; break;
-		case "down": direction = 2; break;
-		case "left": direction = 3; break;
-		default: direction = -1; break;
-		}
-		
-	    assertNotEquals(Controller.direction(pos, direction), oppos);
+	    assertNotEquals(Controller.direction(pos, dirToInt(string)), oppos);
 	}
 	
-	
+	int dirToInt(String dir)
+	{
+		switch (dir)
+		{
+		case "up": return 0;
+		case "down": return 2;
+		case "left": return 3;
+		case "right": return 1;
+		default: return -1;
+		}
+	}
 	
 	
 	
