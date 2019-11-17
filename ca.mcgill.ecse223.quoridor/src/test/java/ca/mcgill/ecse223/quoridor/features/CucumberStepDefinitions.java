@@ -130,7 +130,7 @@ public class CucumberStepDefinitions {
 	public void the_player_is_located_at(Integer int1, Integer int2) {
 		if (isWhiteTurn()) {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest(int1, int2);
 		}else {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
 			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
@@ -207,6 +207,7 @@ public class CucumberStepDefinitions {
 
 	@Then("The next player to move shall become {string}")
 	public void the_next_player_to_move_shall_become(String string) {
+		System.out.println("string: " + string);
 	    assertEquals(isWhiteTurn(), string.equals("white"));
 	}
 	

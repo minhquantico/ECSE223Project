@@ -140,7 +140,6 @@ public class PawnBehaviour
         }
         if (isLegalStep(dir)&&dir.equals(MoveDirection.North)&&!(stepNearBorder(dir))&&!(stepOnBorder(dir)))
         {
-        	System.out.println("Conditional Entered!");
           exitPawnSMGameActiveLongitudinalLongitudinal();
         // line 32 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow()-1, getCurrentColumn());
@@ -1093,6 +1092,7 @@ public class PawnBehaviour
   private void move(int row, int col)
   {
 	  System.out.println("Move!");
+  	System.out.println("Conditional Entered!");
 	  Controller.doPawnMove(col, row);
   }
   
