@@ -128,12 +128,14 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("The player is located at {int}:{int}")
 	public void the_player_is_located_at(Integer int1, Integer int2) {
-		if (isWhiteTurn())
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.getWhitePosition().setTile(Controller.getTile(int2, int1));
-		else
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.getBlackPosition().setTile(Controller.getTile(int2, int1));
+		if (isWhiteTurn()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().setTile(Controller.getTile(int2, int1));
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+		}else {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+			
+		}
 	}
 
 	/**
@@ -141,12 +143,15 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("The opponent is located at {int}:{int}")
 	public void the_opponent_is_located_at(Integer int1, Integer int2) {
-		if (!isWhiteTurn())
+		if (!isWhiteTurn()){
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.getWhitePosition().setTile(Controller.getTile(int2, int1));
-		else
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+		}else {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.getBlackPosition().setTile(Controller.getTile(int2, int1));
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest(int1, int2);
+		}
 	}
 	
 
@@ -155,8 +160,7 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("There are no {string} walls {string} from the player nearby")
 	public void there_are_no_walls_from_the_player_nearby(String string, String string2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    // Here do no thing -> no walls were ever set 
 	}
 
 	@When("Player {string} initiates to move {string}")
