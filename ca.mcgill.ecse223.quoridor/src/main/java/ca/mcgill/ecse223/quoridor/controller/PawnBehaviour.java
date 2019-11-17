@@ -1148,75 +1148,75 @@ public class PawnBehaviour
 	  
   } 
   
-//  public void setSMTest(int row, int column){
-//	//assuming it is already in active state
-//
-//	//longitudinal
-//	if(row==8){
-//	//—> near border South
-//
-//	setPawnSMGameActiveLongitudinalLongitudinalSouthBorder(PawnSMGameActiveLongitudinalLongitudinalSouthBorder.nearBorder);
-//	
-//	}else if(row==2){
-//
-//	//—>near Border North
-//	setPawnSMGameActiveLongitudinalLongitudinalNorthBorder(PawnSMGameActiveLongitudinalLongitudinalNorthBorder.nearBorder);
-//
-//	}else if(row==1){
-//
-//	//—> On border North
-//
-//	setPawnSMGameActiveLongitudinalLongitudinalNorthBorder(PawnSMGameActiveLongitudinalLongitudinalNorthBorder.OnBorder);
-//
-//	}else if(row==9){
-//
-//	//—> On border South
-//
-//	setPawnSMGameActiveLongitudinalLongitudinalSouthBorder(PawnSMGameActiveLongitudinalLongitudinalSouthBorder.OnBorder);
-//
-//	}else{
-//	//—>is In Longitudinal.Between;
-//
-//	setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.Between);
-//
-//	}
-//
-//
-//
-//	//latitudinal
-//
-//	if(column==8){
-//	//—> near border East
-//	setPawnSMGameActiveLatitudinalLatitudinalEastBorder(PawnSMGameActiveLatitudinalLatitudinalEastBorder.nearBorder);
-//
-//
-//	}else if(column==2){
-//
-//	//—>near Border West
-//
-//	setPawnSMGameActiveLatitudinalLatitudinalWestBorder(PawnSMGameActiveLatitudinalLatitudinalWestBorder.nearBorder);
-//
-//
-//	}else if(column==1){
-//
-//	//—> On border West
-//
-//	setPawnSMGameActiveLatitudinalLatitudinalWestBorder(PawnSMGameActiveLatitudinalLatitudinalWestBorder.OnBorder);
-//
-//	}else if(column==9){
-//
-//	//—> On border East
-//	setPawnSMGameActiveLatitudinalLatitudinalEastBorder(PawnSMGameActiveLatitudinalLatitudinalEastBorder.OnBorder);
-//
-//
-//	}else{
-//	//—>is In Latitudinal.Between;
-//
-//	setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
-//
-//	}
-//
-//
-//	}
+  public void setSMTest(int row, int column){
+	//assuming it is already in active state
+
+	//longitudinal
+	if(row==8){
+	//—> near border South
+
+	setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.SouthBordernearBorder);
+	
+	}else if(row==2){
+
+	//—>near Border North
+	setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.NorthBordernearBorder);
+
+	}else if(row==1){
+
+	//—> On border North
+
+	setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.NorthBorderOnBorder);
+
+	}else if(row==9){
+
+	//—> On border South
+
+	setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.SouthBorderOnBorder);
+
+	}else{
+	//—>is In Longitudinal.Between;
+
+	setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.Between);
+
+	}
+
+
+
+	//latitudinal
+
+	if(column==8){
+	//—> near border East
+	setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBordernearBorder);
+
+
+	}else if(column==2){
+
+	//—>near Border West
+
+	setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.WestBordernearBorder);
+
+
+	}else if(column==1){
+
+	//—> On border West
+
+	setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.WestBorderOnBorder);
+
+	}else if(column==9){
+
+	//—> On border East
+	setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBorderOnBorder);
+
+
+	}else{
+	//—>is In Latitudinal.Between;
+
+	setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
+
+	}
+
+
+	}
 
 }
