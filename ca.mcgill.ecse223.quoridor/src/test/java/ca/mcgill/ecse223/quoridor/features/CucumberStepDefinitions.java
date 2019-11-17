@@ -179,7 +179,9 @@ public class CucumberStepDefinitions {
 	    catch (IllegalMoveException ex) { legal = false; }
 	}
 
-	
+	/**
+	 * @author TRAIAN THE MAAAAANN
+	 */
 	@Then("The move {string} shall be {string}")
 	public void the_move_shall_be(String string, String string2) {
 	    assertEquals(string2.equals("success"), legal);
