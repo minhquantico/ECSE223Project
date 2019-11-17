@@ -146,11 +146,11 @@ public class CucumberStepDefinitions {
 		if (!isWhiteTurn()){
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.getWhitePosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest(int1, int2);
 		}else {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.getBlackPosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
 		}
 	}
 	
@@ -170,9 +170,25 @@ public class CucumberStepDefinitions {
 				.getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 				.getBlackPosition().getTile();
-		System.out.println(dest);
-		dest = Controller.direction(dest, dirToInt(string2));
-		System.out.println(dest);
+		
+		int dir = dirToInt(string2);
+		if (dir != -1)
+		{
+			dest = Controller.direction(dest, dirToInt(string2));
+			if (Controller.hasPlayer(dest))
+				dest = Controller.direction(dest, dirToInt(string2));	// Jump
+		}
+		else
+		{
+			if (string2.startsWith("up"))
+				dest = Controller.direction(dest, 0);
+			else
+				dest = Controller.direction(dest, 2);
+			if (string2.endsWith("right"))
+				dest = Controller.direction(dest, 1);
+			else
+				dest = Controller.direction(dest, 3);
+		}
 		
 		legal = dest != null;
 		if (!legal)
