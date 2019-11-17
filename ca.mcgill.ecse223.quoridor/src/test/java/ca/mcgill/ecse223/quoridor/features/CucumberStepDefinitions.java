@@ -159,12 +159,22 @@ public class CucumberStepDefinitions {
 	
 	@Given("The player is located at {int}:{int}")
 	public void the_player_is_located_at(Integer int1, Integer int2) {
-		Controller.doPawnMove(int2, int1);
+		if (isWhiteTurn())
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+					.getWhitePosition().setTile(Controller.getTile(int2, int1));
+		else
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+					.getBlackPosition().setTile(Controller.getTile(int2, int1));
 	}
 
 	@Given("The opponent is located at {int}:{int}")
 	public void the_opponent_is_located_at(Integer int1, Integer int2) {
-		Controller.doPawnMove(int2, int1);
+		if (!isWhiteTurn())
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+					.getWhitePosition().setTile(Controller.getTile(int2, int1));
+		else
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+					.getBlackPosition().setTile(Controller.getTile(int2, int1));
 	}
 
 	@Given("There are no {string} walls {string} from the player nearby")
@@ -214,14 +224,41 @@ public class CucumberStepDefinitions {
 	
 	@Given("There are no {string} walls {string} from the player")
 	public void there_are_no_walls_from_the_player(String string, String string2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		Tile pos = isWhiteTurn() ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		int direction;
+		switch (string2)
+		{
+		case "up": direction = 0; break;
+		case "right": direction = 1; break;
+		case "down": direction = 2; break;
+		case "left": direction = 3; break;
+		default: direction = -1; break;
+		}
+	    assertFalse(Controller.isBlockedDirection(pos, direction));
 	}
 
 	@Given("The opponent is not {string} from the player")
 	public void the_opponent_is_not_from_the_player(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		Tile pos = isWhiteTurn() ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		Tile oppos = !isWhiteTurn() ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile();
+		
+		int direction;
+		switch (string)
+		{
+		case "up": direction = 0; break;
+		case "right": direction = 1; break;
+		case "down": direction = 2; break;
+		case "left": direction = 3; break;
+		default: direction = -1; break;
+		}
+		
+	    assertNotEquals(Controller.direction(pos, direction), oppos);
 	}
 	
 	
@@ -534,13 +571,10 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("The player to move is {string}")
 	public void the_player_to_move_is(String string) {
-		if (isWhiteTurn())
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
-		else
-			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
-					.setPlayerToMove(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer());
-
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
+				.setPlayerToMove(string.equals("white") ?
+						QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer() :
+						QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
 	}
 
 	/**
@@ -549,12 +583,11 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("The clock of {string} is running")
 	public void the_clock_of_is_running(String string) {
-		if(!(PlayScreenController.instance==null)) {
-			if (isWhiteTurn()) {
-			PlayScreenController.instance.board.players[0].startClock();
-			}
-			else PlayScreenController.instance.board.players[1].startClock();
-		}
+		if(PlayScreenController.instance != null)
+			if (string.equals("white"))
+				PlayScreenController.instance.board.players[0].startClock();
+			else
+				PlayScreenController.instance.board.players[1].startClock();
 	}
 
 	/**
@@ -563,12 +596,11 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("The clock of {string} is stopped")
 	public void the_clock_of_is_stopped(String string) {
-		if(!(PlayScreenController.instance==null)) {
-		if (isWhiteTurn()) {
-			PlayScreenController.instance.board.players[0].stopClock();
-		}
-		else PlayScreenController.instance.board.players[1].stopClock();
-		}
+		if(PlayScreenController.instance != null)
+			if (string.equals("white"))
+				PlayScreenController.instance.board.players[0].stopClock();
+			else
+				PlayScreenController.instance.board.players[1].stopClock();
 	}
 
 	/**
@@ -1490,10 +1522,7 @@ public class CucumberStepDefinitions {
 	 * @return boolean
 	 */
 	private boolean isWhiteTurn() {
-		if ((QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size()) % 2 == 0)
-			return true;
-		else
-			return false;
+		return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite();
 
 	}
 
