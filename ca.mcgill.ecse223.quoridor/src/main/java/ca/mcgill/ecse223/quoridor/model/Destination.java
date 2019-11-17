@@ -4,8 +4,6 @@
 package ca.mcgill.ecse223.quoridor.model;
 import java.sql.Time;
 
-import ca.mcgill.ecse223.quoridor.controller.PawnBehaviour;
-
 // line 67 "../../../../../QuoridorGame.ump"
 public class Destination
 {

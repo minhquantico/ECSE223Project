@@ -258,7 +258,7 @@ public class PawnBehaviour
         if (isLegalStep(dir)&&dir.equals(MoveDirection.West))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 221 "../../../../../PawnStateMachine.ump"
+        // line 235 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()-1);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBordernearBorder);
           wasEventProcessed = true;
@@ -269,7 +269,7 @@ public class PawnBehaviour
         if (isLegalStep(dir)&&dir.equals(MoveDirection.East)&&!(stepNearBorder(dir))&&!(stepOnBorder(dir)))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 252 "../../../../../PawnStateMachine.ump"
+        // line 266 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+1);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
@@ -278,7 +278,7 @@ public class PawnBehaviour
         if (isLegalStep(dir)&&dir.equals(MoveDirection.West)&&!(stepNearBorder(dir))&&!(stepOnBorder(dir)))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 254 "../../../../../PawnStateMachine.ump"
+        // line 268 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()-1);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
@@ -287,7 +287,7 @@ public class PawnBehaviour
         if (isLegalStep(dir)&&dir.equals(MoveDirection.East)&&stepNearBorder(dir))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 294 "../../../../../PawnStateMachine.ump"
+        // line 308 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+1);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBordernearBorder);
           wasEventProcessed = true;
@@ -296,7 +296,7 @@ public class PawnBehaviour
         if (isLegalStep(dir)&&dir.equals(MoveDirection.West)&&stepNearBorder(dir))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 296 "../../../../../PawnStateMachine.ump"
+        // line 310 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()-1);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.WestBordernearBorder);
           wasEventProcessed = true;
@@ -307,7 +307,7 @@ public class PawnBehaviour
         if (isLegalStep(dir)&&dir.equals(MoveDirection.East))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 342 "../../../../../PawnStateMachine.ump"
+        // line 356 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+1);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
@@ -316,7 +316,7 @@ public class PawnBehaviour
         if (isLegalStep(dir)&&dir.equals(MoveDirection.West))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 344 "../../../../../PawnStateMachine.ump"
+        // line 358 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()-1);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.WestBorderOnBorder);
           wasEventProcessed = true;
@@ -327,7 +327,7 @@ public class PawnBehaviour
         if (isLegalStep(dir)&&dir.equals(MoveDirection.East))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 383 "../../../../../PawnStateMachine.ump"
+        // line 397 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+1);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.WestBordernearBorder);
           wasEventProcessed = true;
@@ -529,6 +529,8 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
+        // line 205 "../../../../../PawnStateMachine.ump"
+          move(getCurrentRow(), getCurrentColumn()-2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
           break;
@@ -536,6 +538,13 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
+        // line 209 "../../../../../PawnStateMachine.ump"
+          if(dir1==MoveDirection.South){
+                    move(getCurrentRow()+1,getCurrentColumn()-1);
+            }else{
+          
+            move(getCurrentRow()-1, getCurrentColumn()-1);    
+            }
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
           break;
@@ -543,6 +552,13 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
+        // line 218 "../../../../../PawnStateMachine.ump"
+          if(dir1==MoveDirection.South){
+                    move(getCurrentRow()+1,getCurrentColumn()+1);
+            }else{
+          
+            move(getCurrentRow()-1, getCurrentColumn()+1);    
+            }
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBorderOnBorder);
           wasEventProcessed = true;
           break;
@@ -552,7 +568,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 226 "../../../../../PawnStateMachine.ump"
+        // line 240 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow()-2, getCurrentColumn());
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
@@ -561,7 +577,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 232 "../../../../../PawnStateMachine.ump"
+        // line 246 "../../../../../PawnStateMachine.ump"
           if(dir1==MoveDirection.South){
                     move(getCurrentRow()+1,getCurrentColumn()-1);
             }else{
@@ -577,7 +593,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2)&&!(jumpNearBorder(dir1,dir2,2))&&!(jumpOnBorder(dir1,dir2,2)))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 260 "../../../../../PawnStateMachine.ump"
+        // line 274 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()-2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
@@ -586,7 +602,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2)&&!(jumpNearBorder(dir1,dir2,2))&&!(jumpOnBorder(dir1,dir2,2)))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 262 "../../../../../PawnStateMachine.ump"
+        // line 276 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
@@ -595,7 +611,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2)&&!(jumpNearBorder(dir1,dir2,1))&&!(jumpOnBorder(dir1,dir2,2)))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 266 "../../../../../PawnStateMachine.ump"
+        // line 280 "../../../../../PawnStateMachine.ump"
           if(dir1==MoveDirection.South){
                     move(getCurrentRow()+1,getCurrentColumn()-1);
             }else{
@@ -609,7 +625,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2)&&!(jumpNearBorder(dir1,dir2,1))&&!(jumpOnBorder(dir1,dir2,2)))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 275 "../../../../../PawnStateMachine.ump"
+        // line 289 "../../../../../PawnStateMachine.ump"
           if(dir1==MoveDirection.South){
                     move(getCurrentRow()+1,getCurrentColumn()+1);
             }else{
@@ -623,7 +639,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2)&&jumpNearBorder(dir1,dir2,2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 302 "../../../../../PawnStateMachine.ump"
+        // line 316 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()-2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.WestBordernearBorder);
           wasEventProcessed = true;
@@ -632,7 +648,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2)&&jumpNearBorder(dir1,dir2,2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 304 "../../../../../PawnStateMachine.ump"
+        // line 318 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBordernearBorder);
           wasEventProcessed = true;
@@ -641,7 +657,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2)&&jumpOnBorder(dir1,dir2,2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 306 "../../../../../PawnStateMachine.ump"
+        // line 320 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()-2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.WestBorderOnBorder);
           wasEventProcessed = true;
@@ -650,7 +666,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2)&&jumpOnBorder(dir1,dir2,2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 308 "../../../../../PawnStateMachine.ump"
+        // line 322 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.EastBorderOnBorder);
           wasEventProcessed = true;
@@ -659,7 +675,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2)&&jumpNearBorder(dir1,dir2,1))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 311 "../../../../../PawnStateMachine.ump"
+        // line 325 "../../../../../PawnStateMachine.ump"
           if(dir1==MoveDirection.South){
                     move(getCurrentRow()+1,getCurrentColumn()-1);
             }else{
@@ -673,7 +689,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2)&&jumpNearBorder(dir1,dir2,1))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 320 "../../../../../PawnStateMachine.ump"
+        // line 334 "../../../../../PawnStateMachine.ump"
           if(dir1==MoveDirection.South){
                     move(getCurrentRow()+1,getCurrentColumn()+1);
             }else{
@@ -689,7 +705,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 350 "../../../../../PawnStateMachine.ump"
+        // line 364 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
@@ -698,7 +714,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.West)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 354 "../../../../../PawnStateMachine.ump"
+        // line 368 "../../../../../PawnStateMachine.ump"
           if(dir1==MoveDirection.South){
                     move(getCurrentRow()+1,getCurrentColumn()-1);
             }else{
@@ -714,7 +730,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 367 "../../../../../PawnStateMachine.ump"
+        // line 381 "../../../../../PawnStateMachine.ump"
           if(dir1==MoveDirection.South){
                     move(getCurrentRow()+1,getCurrentColumn()+1);
             }else{
@@ -732,7 +748,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&dir1.equals(MoveDirection.Null)&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 389 "../../../../../PawnStateMachine.ump"
+        // line 403 "../../../../../PawnStateMachine.ump"
           move(getCurrentRow(), getCurrentColumn()+2);
           setPawnSMGameActiveLatitudinalLatitudinal(PawnSMGameActiveLatitudinalLatitudinal.Between);
           wasEventProcessed = true;
@@ -741,7 +757,7 @@ public class PawnBehaviour
         if (dir2.equals(MoveDirection.East)&&(dir1.equals(MoveDirection.North)||dir1.equals(MoveDirection.South))&&isLegalJump(dir1,dir2))
         {
           exitPawnSMGameActiveLatitudinalLatitudinal();
-        // line 394 "../../../../../PawnStateMachine.ump"
+        // line 408 "../../../../../PawnStateMachine.ump"
           if(dir1==MoveDirection.South){
                     move(getCurrentRow()+1,getCurrentColumn()+1);
             }else{
@@ -815,7 +831,7 @@ public class PawnBehaviour
         if (pawnSMGameActiveLatitudinal == PawnSMGameActiveLatitudinal.Null) { setPawnSMGameActiveLatitudinal(PawnSMGameActiveLatitudinal.Latitudinal); }
         break;
       case gameComplete:
-        // line 416 "../../../../../PawnStateMachine.ump"
+        // line 430 "../../../../../PawnStateMachine.ump"
         displayResults();
         break;
     }
@@ -943,11 +959,11 @@ public class PawnBehaviour
     switch(pawnSMGameActiveLatitudinalLatitudinal)
     {
       case EastBorderOnBorder:
-        // line 217 "../../../../../PawnStateMachine.ump"
+        // line 231 "../../../../../PawnStateMachine.ump"
         testVictory();
         break;
       case WestBorderOnBorder:
-        // line 381 "../../../../../PawnStateMachine.ump"
+        // line 395 "../../../../../PawnStateMachine.ump"
         testVictory();
         break;
     }

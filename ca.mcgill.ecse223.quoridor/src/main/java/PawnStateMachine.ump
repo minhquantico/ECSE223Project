@@ -202,13 +202,27 @@ class PawnBehaviour{
                             
                                   //with single direction
                             
-                            jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2==MoveDirection.West && dir1==MoveDirection.Null && isLegalJump(dir1,dir2)]->Latitudinal.Between;
+                            jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2==MoveDirection.West && dir1==MoveDirection.Null && isLegalJump(dir1,dir2)]/{move(getCurrentRow(), getCurrentColumn()-2);}->Latitudinal.Between;
                             
                                    //with double direction
                                         
-                            jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2==MoveDirection.West && (dir1==MoveDirection.North||dir1==MoveDirection.South)&&isLegalJump(dir1, dir2)]->Latitudinal.Between;
+                            jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2==MoveDirection.West && (dir1==MoveDirection.North||dir1==MoveDirection.South)&&isLegalJump(dir1, dir2)]/{
+            if(dir1==MoveDirection.South){
+                    move(getCurrentRow()+1,getCurrentColumn()-1);
+            }else{
+          
+            move(getCurrentRow()-1, getCurrentColumn()-1);    
+            }
+          }->Latitudinal.Between;
                 
-                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2==MoveDirection.East &&(dir1==MoveDirection.North||dir1==MoveDirection.South) && isLegalJump(dir1, dir2)]->EastBorderOnBorder;
+                    jumpMove(MoveDirection dir1, MoveDirection dir2)[dir2==MoveDirection.East &&(dir1==MoveDirection.North||dir1==MoveDirection.South) && isLegalJump(dir1, dir2)]/{
+            if(dir1==MoveDirection.South){
+                    move(getCurrentRow()+1,getCurrentColumn()+1);
+            }else{
+          
+            move(getCurrentRow()-1, getCurrentColumn()+1);    
+            }
+          }->EastBorderOnBorder;
                   
                 
             }
