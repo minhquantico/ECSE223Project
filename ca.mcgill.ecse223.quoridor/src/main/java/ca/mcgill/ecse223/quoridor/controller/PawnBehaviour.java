@@ -1004,7 +1004,7 @@ public class PawnBehaviour
     }
   }
   /**
-	 * @author Traian Coze
+	 * @author Jake Pogharian
 	 * method is used to get row of player
 	 *This method is used to get the corresponding player's current Row
 	 */
@@ -1017,7 +1017,7 @@ public class PawnBehaviour
 	  
   }
   /**
-	 * @author Traian Coze
+	 * @author Jake Pogharian
 	 * method is used to get column of player
 	 *This method is used to get the corresponding player's current Column
 	 */
@@ -1050,7 +1050,7 @@ public class PawnBehaviour
 	  
   }
   /**
-	 * @author Traian Coze
+	 * @author Jake Pogharian
 	 * Methode is used to see if the jump will end up near a given border 
 	 *@param MoveDirection dir1 which is one of the jump move's directions
 	 *@param MoveDirection dir 2is the diagonal direction of the jump move
@@ -1149,12 +1149,23 @@ public class PawnBehaviour
 	  Controller.doPawnMove(col, row);
   }
   
-  //just returns which player it is
-  private boolean hasGameAsWhite() { return player.hasGameAsWhite(); }
-  private boolean hasGameAsBlack() { return player.hasGameAsBlack(); }
   
   /**
-	 * @author Traian Coza
+	 * @author Jake Pogharian
+	 *just returns which player it is
+	 */
+  private boolean hasGameAsWhite() { return player.hasGameAsWhite(); }
+  
+  /**
+ 	 * @author Jake Pogharian
+ 	 *just returns which player it is
+ 	 */
+  private boolean hasGameAsBlack() { return player.hasGameAsBlack(); }
+  
+  
+  
+  /**
+	 * @author Jake Pogharian
 	 *method used to test if won, called at final position
 	 */
   private boolean testVictory()
@@ -1204,8 +1215,11 @@ public class PawnBehaviour
   
   /**
 	 * @author David Budaghyan
-	 *method that converts directions to integers 
-	 *@param dir refers to the move direction
+	 *method that checks if the given tile is near a border.
+	 *if move direction is null then check all cases. if we have a move direction, check the corresponding case
+	 *@param tile is the tile we want to inquire about,
+	 *@param direction is the direction of the move
+	 *used for checking move legality
 	 */
   private boolean isNearBorder(Tile tile, MoveDirection d) {
 	  if (d == MoveDirection.Null)
@@ -1224,8 +1238,14 @@ public class PawnBehaviour
 	  return false;
 	  
   }
-  
-  
+  /**
+ 	 * @author David Budaghyan
+ 	 *method that checks if the given tile is near a border.
+ 	 *if move direction is null then check all cases. if we have a move direction, check the corresponding case
+ 	 *@param tile is the tile we want to inquire about,
+ 	 *@param direction is the direction of the move
+ 	 *used for checking move legality
+ 	 */
   private boolean isOnBorder(Tile tile, MoveDirection d) {
 	  if (d == MoveDirection.Null)
 		  return (tile.getRow() == 1 || tile.getRow() == 9 || tile.getColumn() == 1 || tile.getColumn() == 9 );
