@@ -1223,6 +1223,7 @@ public class PawnBehaviour
 	 *@param tile is the tile we want to inquire about,
 	 *@param direction is the direction of the move
 	 *method is used for checking move legality
+	 *@return boolean
 	 */
   private boolean isNearBorder(Tile tile, MoveDirection d) {
 	  if (d == MoveDirection.Null)
@@ -1248,6 +1249,7 @@ public class PawnBehaviour
  	 *@param tile is the tile we want to inquire about,
  	 *@param direction is the direction of the move
  	 *method is used for checking move legality
+ 	 *@return boolean
  	 */
   private boolean isOnBorder(Tile tile, MoveDirection d) {
 	  if (d == MoveDirection.Null)
