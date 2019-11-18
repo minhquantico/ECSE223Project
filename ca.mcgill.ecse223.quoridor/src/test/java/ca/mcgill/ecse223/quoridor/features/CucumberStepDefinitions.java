@@ -161,7 +161,7 @@ public class CucumberStepDefinitions {
 
 	/**
 	 * @author Jake Pogharian
-	 * @param String: color fo player to whom wall belongs to
+	 * @param String: color to player to whom wall belongs to
 	 * @param String: direction
 	 */
 	@Given("There are no {string} walls {string} from the player nearby")
@@ -1551,8 +1551,9 @@ public class CucumberStepDefinitions {
 	
 	/**
 	 * @author David Budaghyan
-	 * thisconverts directions to integers
+	 * this converts directions to integers
 	 * helper method for jumpPawn and MovePawn steps
+	 * @param dir: the direction that we want to convert
 	 */
 	int dirToInt(String dir)
 	{
