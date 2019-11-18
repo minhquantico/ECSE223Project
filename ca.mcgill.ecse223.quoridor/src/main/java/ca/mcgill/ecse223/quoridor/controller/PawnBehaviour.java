@@ -1192,7 +1192,10 @@ public class PawnBehaviour
 	  
   }
   
-
+  /**
+ 	 * @author Jake Pogharian
+ 	 *unimplemented method that should display results
+ 	 */
   private void displayResults()
   {
 	  throw new UnsupportedOperationException("Implement me!");
@@ -1219,7 +1222,7 @@ public class PawnBehaviour
 	 *if move direction is null then check all cases. if we have a move direction, check the corresponding case
 	 *@param tile is the tile we want to inquire about,
 	 *@param direction is the direction of the move
-	 *used for checking move legality
+	 *method is used for checking move legality
 	 */
   private boolean isNearBorder(Tile tile, MoveDirection d) {
 	  if (d == MoveDirection.Null)
@@ -1244,7 +1247,7 @@ public class PawnBehaviour
  	 *if move direction is null then check all cases. if we have a move direction, check the corresponding case
  	 *@param tile is the tile we want to inquire about,
  	 *@param direction is the direction of the move
- 	 *used for checking move legality
+ 	 *method is used for checking move legality
  	 */
   private boolean isOnBorder(Tile tile, MoveDirection d) {
 	  if (d == MoveDirection.Null)
