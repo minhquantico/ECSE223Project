@@ -1156,8 +1156,6 @@ public class PawnBehaviour
   /**
 	 * @author Traian Coza
 	 *method used to test if won, called at final position
-	 *@param int col refers to the column
-	 *@param int row refers to the row
 	 */
   private boolean testVictory()
   {
@@ -1183,11 +1181,17 @@ public class PawnBehaviour
 	  
   }
   
+
   private void displayResults()
   {
 	  throw new UnsupportedOperationException("Implement me!");
   }
   
+  /**
+	 * @author David Budaghyan
+	 *method that converts directions to integers 
+	 *@param dir refers to the move direction
+	 */
   private int dirToInt(MoveDirection dir) {
 	  switch(dir) {
 	  	case North: return 0;
@@ -1198,6 +1202,11 @@ public class PawnBehaviour
 	  return -1;
   }
   
+  /**
+	 * @author David Budaghyan
+	 *method that converts directions to integers 
+	 *@param dir refers to the move direction
+	 */
   private boolean isNearBorder(Tile tile, MoveDirection d) {
 	  if (d == MoveDirection.Null)
 		  return (tile.getRow() == 2 || tile.getRow() == 8 || tile.getColumn() == 2 || tile.getColumn() == 8 );
