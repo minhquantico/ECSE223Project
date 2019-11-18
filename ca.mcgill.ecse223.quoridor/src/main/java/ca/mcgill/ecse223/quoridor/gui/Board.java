@@ -478,7 +478,7 @@ public class Board extends Pane
 			if (bestWalls.isEmpty() || minCellCost < minWallCost + (int)(Math.random() * 2))
 			{
 				Cell pmove = bestCells.get((int)(Math.random()*bestCells.size()));
-				Controller.doPawnMove(pmove.x+1, pmove.y+1);
+				Controller.doPawnMoveStateMachine(pmove.x+1, pmove.y+1);
 				System.out.println("Computer did pawn move");
 			}
 			else
