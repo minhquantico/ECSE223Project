@@ -170,7 +170,7 @@ public class CucumberStepDefinitions {
 	}
 
 	/**
-	 * @author Jake "The Cake" Pogharian
+	 * @author Traian Coza
 	 * @param string: player
 	 * @param string2: direction
 	 */
@@ -284,7 +284,7 @@ public class CucumberStepDefinitions {
 	}
 
 	/**
-	 * @author Jake Pogharian
+	 * @author Traian Coza
 	 * @param string: side
 	 */
 	@Given("The opponent is not {string} from the player")

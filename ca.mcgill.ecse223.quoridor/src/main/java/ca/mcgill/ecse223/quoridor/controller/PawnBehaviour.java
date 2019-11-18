@@ -1090,7 +1090,7 @@ public class PawnBehaviour
   
   public boolean calledLegal;
   /**
-	 * @author David Budaghyan
+	 * @author Traian Coza
 	 * Guard method used to check if is legal step
 	 *@param MoveDirection dir1 which is one of the jump move's directions
 	 *@param boolean return true if legal
@@ -1165,7 +1165,7 @@ public class PawnBehaviour
   
   
   /**
-	 * @author Jake Pogharian
+	 * @author Traian Coza
 	 *method used to test if won, called at final position
 	 */
   private boolean testVictory()
