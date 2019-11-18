@@ -239,7 +239,7 @@ public class CucumberStepDefinitions {
 	
 	/**
 	 * @author Traian Coza
-	 * @param String
+	 * @param String: nextPlayer
 	 */
 	@Then("The next player to move shall become {string}")
 	public void the_next_player_to_move_shall_become(String string) {
@@ -252,9 +252,9 @@ public class CucumberStepDefinitions {
 	// 2nd scenario: Jump of player blocked by wall
 	/**
 	 * @author Jake Pogharian
-	 * @param String
-	 * @param Integer
-	 * @param Integer
+	 * @param String: player's color
+	 * @param Integer: row
+	 * @param Integer: column
 	 */
 	@Given("There is a {string} wall at {int}:{int}")
 	public void there_is_a_wall_at(String string, Integer int1, Integer int2) {
@@ -270,6 +270,8 @@ public class CucumberStepDefinitions {
 // MovePawn: Team
 	/**
 	 * @author Jake Pogharian
+	 * @param String: player's color
+	 * @param String: side 
 	 */
 	@Given("There are no {string} walls {string} from the player")
 	public void there_are_no_walls_from_the_player(String string, String string2) {
@@ -283,6 +285,7 @@ public class CucumberStepDefinitions {
 
 	/**
 	 * @author Jake Pogharian
+	 * @param String: side
 	 */
 	@Given("The opponent is not {string} from the player")
 	public void the_opponent_is_not_from_the_player(String string) {
@@ -298,7 +301,8 @@ public class CucumberStepDefinitions {
 	
 	/**
 	 * @author Traian Coza
-	 * @param String
+	 * @param String: player's color
+	 * @param String: side
 	 */
 	@Given("There is a {string} wall {string} from the player")
 	public void there_is_a_wall_from_the_player(String string, String string2) {
@@ -314,7 +318,7 @@ public class CucumberStepDefinitions {
 	
 	/**
 	 * @author Traian Coza
-	 * @param String
+	 * @param String: side
 	 */
 	@Given("My opponent is not {string} from the player")
 	public void my_opponent_is_not_from_the_player(String string) {
