@@ -1003,6 +1003,11 @@ public class PawnBehaviour
       existingPlayer.delete();
     }
   }
+  /**
+	 * @author Traian Coze
+	 * method is used to get row of player
+	 *This method is used to get the corresponding player's current Row
+	 */
   private int getCurrentRow()
   {
 	  if(player.hasGameAsWhite())
@@ -1011,7 +1016,11 @@ public class PawnBehaviour
 		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
 	  
   }
-  
+  /**
+	 * @author Traian Coze
+	 * method is used to get column of player
+	 *This method is used to get the corresponding player's current Column
+	 */
   private int getCurrentColumn()
   {
 	  if(player.hasGameAsWhite())
@@ -1020,23 +1029,45 @@ public class PawnBehaviour
 		  return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
   }
   
+  /**
+	 * @author Traian Coze
+	 *@param MoveDirection which is the direction in which the step is taken
+	 *@param boolean which is if the step will end up near the border it returns true.
+	 */
   private boolean stepNearBorder(MoveDirection dir)
   {
 	 
 	  return isNearBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), dir);
   }
-  
+  /**
+ 	 * @author Traian Coze
+ 	 *@param MoveDirection which is the direction in which the step is taken
+ 	 *@param boolean which is if the step will end up on the border it returns true.
+ 	 */
   private boolean stepOnBorder(MoveDirection dir)
   {
 	  return isOnBorder(Controller.direction(Controller.getTile(getCurrentColumn(), getCurrentRow()),dirToInt(dir)), dir);
 	  
   }
-  
+  /**
+	 * @author Traian Coze
+	 * Methode is used to see if the jump will end up near a given border 
+	 *@param MoveDirection dir1 which is one of the jump move's directions
+	 *@param MoveDirection dir 2is the diagonal direction of the jump move
+	 *@param int border says which direction we're checking the border for, dir1 or dir2
+	 *@param boolean which is if the jump will end up near the border it returns true.
+	 */
   private boolean jumpNearBorder(MoveDirection dir, MoveDirection dir2, int border)
   {
 	  return isNearBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
   }
-  
+  /**
+ 	 * @author Traian Coze
+ 	 * method is used to get tile corresponding to a given jump move
+ 	 *@param MoveDirection dir1 which is one of the jump move's directions
+ 	 *@param MoveDirection dir2 is the diagonal direction of the jump move
+ 	 *@param Tile which is the jump move's corresponding tile
+ 	 */
   private Tile getJumpMoveTile(MoveDirection dir, MoveDirection dir2) {
 	  Tile jumpMoveTile = Controller.getTile(getCurrentColumn(), getCurrentRow());
 	  jumpMoveTile = Controller.direction(jumpMoveTile, dirToInt(dir == MoveDirection.Null ? dir2 : dir));
@@ -1044,14 +1075,26 @@ public class PawnBehaviour
 	  return jumpMoveTile;
   }
   
-  // ??
+  /**
+ 	 * @author Traian Coze
+ 	 * This method is used to check if the jump will end up on a given border
+ 	 *@param MoveDirection dir1 which is one of the jump move's directions
+ 	 *@param MoveDirection dir 2is the diagonal direction of the jump move
+ 	 *@param int border says which direction we're checking the border for, dir1 or dir2
+ 	 *@param boolean which is if the jump will end up on the border it returns true.
+ 	 */
   private boolean jumpOnBorder(MoveDirection dir, MoveDirection dir2, int border)
   {
 	  return isOnBorder(getJumpMoveTile(dir, dir2), border == 1 ? dir : dir2);
   }
   
   public boolean calledLegal;
-  
+  /**
+	 * @author David Budaghyan
+	 * Guard method used to check if is legal step
+	 *@param MoveDirection dir1 which is one of the jump move's directions
+	 *@param boolean return true if legal
+	 */
   private boolean isLegalStep(MoveDirection dir)
   {
 	  if (calledLegal)
@@ -1074,6 +1117,12 @@ public class PawnBehaviour
 	  return ret;
   }
   
+  /**
+ 	 * @author Traian Coza
+ 	 * Guard method used to check if is legal jump
+ 	 *@param MoveDirection dir1 which is one of the jump move's directions
+ 	 *@param MoveDirection dir2 which is one of the jump move's directions
+ 	 */
   private boolean isLegalJump(MoveDirection dir, MoveDirection dir2)
   {
 	  if (calledLegal)
@@ -1089,16 +1138,27 @@ public class PawnBehaviour
 	  
   }
   
+  /**
+	 * @author Jake Pogharian
+	 *method used to move the pawn 
+	 *@param int col refers to the column
+	 *@param int row refers to the row
+	 */
   private void move(int row, int col)
   {
-	  System.out.println("Move!");
-  	System.out.println("Conditional Entered!");
 	  Controller.doPawnMove(col, row);
   }
   
+  //just returns which player it is
   private boolean hasGameAsWhite() { return player.hasGameAsWhite(); }
   private boolean hasGameAsBlack() { return player.hasGameAsBlack(); }
   
+  /**
+	 * @author Traian Coza
+	 *method used to test if won, called at final position
+	 *@param int col refers to the column
+	 *@param int row refers to the row
+	 */
   private boolean testVictory()
   {
 	  Tile tile = Controller.getTile(getCurrentColumn(), getCurrentRow());
@@ -1156,6 +1216,7 @@ public class PawnBehaviour
 	  
   }
   
+  
   private boolean isOnBorder(Tile tile, MoveDirection d) {
 	  if (d == MoveDirection.Null)
 		  return (tile.getRow() == 1 || tile.getRow() == 9 || tile.getColumn() == 1 || tile.getColumn() == 9 );
@@ -1174,6 +1235,13 @@ public class PawnBehaviour
 	  
   } 
   
+  /**
+	 * @author Jake Pogharian
+	 * This method is used for the testing scenarios in the gherkin. ONLY USED FOR GHERKIN TESTS.
+	 * sets state machine to correct initial state when given player's starting coordinates
+	 *@param int row corresponding int for given row
+	 *@param int column corresponding int for given column
+	 */
   public void setSMTest(int row, int column){
 	//assuming it is already in active state
 
@@ -1206,9 +1274,6 @@ public class PawnBehaviour
 	setPawnSMGameActiveLongitudinalLongitudinal(PawnSMGameActiveLongitudinalLongitudinal.Between);
 
 	}
-
-
-
 	//latitudinal
 
 	if(column==8){
