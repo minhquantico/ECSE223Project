@@ -1719,7 +1719,6 @@ public class CucumberStepDefinitions {
 	@When("Jump to start position is initiated")
 	public void jump_to_start_position_is_initiated() {
 	    Controller.initJumpToStartPos();
-	    throw new cucumber.api.PendingException();
 	}
 	
 	@When("Jump to final position is initiated")
