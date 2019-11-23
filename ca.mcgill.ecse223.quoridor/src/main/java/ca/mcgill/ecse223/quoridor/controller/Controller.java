@@ -36,15 +36,18 @@ import javafx.scene.shape.Rectangle;
 public class Controller {
 
 	public static void detectDraw()
-	{
+	{	
 		List<Move> moves = QuoridorApplication.getQuoridor().getCurrentGame().getMoves();
+		if (moves.size() == 0)
+			return;
+		
 		Move current = moves.get(moves.size()-1);
 		int i = moves.size() - 2;
 		while (i > 0)
 		{
 			Move prev = null;
 			for (; i >= 0; i--)
-				if (moveEquals(prev, current))
+				if (moveEquals(moves.get(i), current))
 				{
 					prev = moves.get(i);
 					break;
@@ -166,8 +169,7 @@ public class Controller {
 	public static void endMove()
 	{
 		detectDraw();
-		
-		if (!QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Draw))
 			return;
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
@@ -189,23 +191,8 @@ public class Controller {
 				if (no % 2 == 0)
 					input.next((no / 2 + 1) + "\\.");
 				String token = input.next("[a-i][1-9][hv]?");
-				int col = token.charAt(0) - 'a' + 1;
-				int row = token.charAt(1) - '1' + 1;
-				char or = token.length() == 2 ? '-' : token.charAt(2);
-
-				if (or == '-') // Step move
-					if (initPosValidation(getTile(col, row)))
-						doPawnMove(col, row);
-					else
-						throw new InvalidPositionException("Invalid pawn move: " + token);
-				else // Wall move
-				{
-					setWallMoveCandidate(col, row, or == 'h' ? Direction.Horizontal : Direction.Vertical);
-					if (initPosValidation())
-						doWallMove();
-					else
-						throw new InvalidPositionException("InvalidWallMove: " + token);
-				}
+				if (!doMove(token))
+					throw new InvalidPositionException("Invalid move: " + token);
 				
 				no++;
 			}
@@ -215,6 +202,29 @@ public class Controller {
 			clearGame();
 			throw new InvalidPositionException(ex.getMessage());
 		}
+	}
+	
+	public static boolean doMove(String move)
+	{
+		int col = move.charAt(0) - 'a' + 1;
+		int row = move.charAt(1) - '1' + 1;
+		char or = move.length() == 2 ? '-' : move.charAt(2);
+
+		if (or == '-') // Step move
+			if (initPosValidation(getTile(col, row)))
+				doPawnMove(col, row);
+			else
+				return false;
+		else // Wall move
+		{
+			setWallMoveCandidate(col, row, or == 'h' ? Direction.Horizontal : Direction.Vertical);
+			if (initPosValidation())
+				doWallMove();
+			else
+				return false;
+		}
+		
+		return true;
 	}
 
 	/**
@@ -718,6 +728,19 @@ public class Controller {
 				getWallDirection() == Direction.Horizontal ?
 				Direction.Vertical : Direction.Horizontal);
 	}
+	
+	public static void resign(Player player) {
+		if(player == QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
+		}
+		else {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
+		}
+	}
+	
+	public static void notRunning() {
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Initializing);
+	}
 
 //--------------------------------------------------------------------------------------------------------------------------
 
@@ -1032,6 +1055,43 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().setRemainingTime(time);
 	}
 
+	
+	
+	public static void countdownZero(Player player) {
+		
+		//assumes player passed as parameters is the one with zero time left
+			//other player is victorious
+		if(player.hasGameAsWhite()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
+		}else {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
+		}
+		
+	}
+	
+	public static void checkGamePositionStatus() {
+		Player player = QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
+		System.out.println("WAWAWAWAWAWAWAWAWAWAW   black player");
+		System.out.println(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile()));
+		
+		System.out.println("white player");
+		System.out.println(isWinner(player.getNextPlayer(), QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile()));
+		
+		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile())) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
+			return;
+		}
+		
+		player =QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
+		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile())) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
+			return;
+		}
+		
+		
+		
+	}
+	
 //--------------------------------------------------------------------------------------------------------------------------
 
 	public static class InvalidPositionException extends Exception
