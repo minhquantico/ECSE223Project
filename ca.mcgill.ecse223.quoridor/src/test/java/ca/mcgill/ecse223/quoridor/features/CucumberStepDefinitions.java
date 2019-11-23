@@ -1516,6 +1516,294 @@ public class CucumberStepDefinitions {
 
 	}
 
+	
+	
+	////------------------------DELIVERABLE 5 Step Definitions------------------------///
+	
+	
+	
+	@Given("A {string} wall move candidate exists at position {int}:{int}")
+	public void a_wall_move_candidate_exists_at_position(String string, Integer int1, Integer int2) {
+	    //set wall move
+		there_is_a_wall_at(string, int1, int2);
+	}
+
+	@Given("The black player is located at {int}:{int}")
+	public void the_black_player_is_located_at(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The white player is located at {int}:{int}")
+	public void the_white_player_is_located_at(Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Check path existence is initiated")
+	public void check_path_existence_is_initiated() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Path is available for {string} player\\(s)")
+	public void path_is_available_for_player_s(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("I initiate replay mode")
+	public void i_initiate_replay_mode() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The game shall be in replay mode")
+	public void the_game_shall_be_in_replay_mode() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The game is replay mode")
+	public void the_game_is_replay_mode() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The following moves have been played in game:")
+	public void the_following_moves_have_been_played_in_game(io.cucumber.datatable.DataTable dataTable) {
+	    // Write code here that turns the phrase above into concrete actions
+	    // For automatic transformation, change DataTable to one of
+	    // E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
+	    // Map<K, List<V>>. E,K,V must be a String, Integer, Float,
+	    // Double, Byte, Short, Long, BigInteger or BigDecimal.
+	    //
+	    // For other transformations you can register a DataTableType.
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The game does not have a final result")
+	public void the_game_does_not_have_a_final_result() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The next move is {double}")
+	public void the_next_move_is(Double double1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("I initiate to continue game")
+	public void i_initiate_to_continue_game() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The remaining moves of the game shall be removed")
+	public void the_remaining_moves_of_the_game_shall_be_removed() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The game has a final result")
+	public void the_game_has_a_final_result() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("I shall be notified that finished games cannot be continued")
+	public void i_shall_be_notified_that_finished_games_cannot_be_continued() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The following moves were executed:")
+	public void the_following_moves_were_executed(io.cucumber.datatable.DataTable dataTable) {
+	    // Write code here that turns the phrase above into concrete actions
+	    // For automatic transformation, change DataTable to one of
+	    // E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
+	    // Map<K, List<V>>. E,K,V must be a String, Integer, Float,
+	    // Double, Byte, Short, Long, BigInteger or BigDecimal.
+	    //
+	    // For other transformations you can register a DataTableType.
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("Player {string} has just completed his move")
+	public void player_has_just_completed_his_move(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The last move of {string} is pawn move to {int}:{int}")
+	public void the_last_move_of_is_pawn_move_to(String string, Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Checking of game result is initated")
+	public void checking_of_game_result_is_initated() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Game result shall be {string}")
+	public void game_result_shall_be(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The game shall no longer be running")
+	public void the_game_shall_no_longer_be_running() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The new position of {string} is {int}:{int}")
+	public void the_new_position_of_is(String string, Integer int1, Integer int2) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The clock of {string} is more than zero")
+	public void the_clock_of_is_more_than_zero(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The clock of {string} counts down to zero")
+	public void the_clock_of_counts_down_to_zero(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The game is in replay mode")
+	public void the_game_is_in_replay_mode() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Jump to start position is initiated")
+	public void jump_to_start_position_is_initiated() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The next move shall be {double}")
+	public void the_next_move_shall_be(Double double1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("White player's position shall be \\({double})")
+	public void white_player_s_position_shall_be(Double double1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Black player's position shall be \\({double})")
+	public void black_player_s_position_shall_be(Double double1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("White has <wwallno> on stock")
+	public void white_has_wwallno_on_stock() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Black has {int} on stock")
+	public void black_has_on_stock(Integer int1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("I initiate to load a game in {string}")
+	public void i_initiate_to_load_a_game_in(String string) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Each game move is valid")
+	public void each_game_move_is_valid() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The game has no final results")
+	public void the_game_has_no_final_results() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The game has a final result")
+	public void the_game_has_a_final_result() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The game to load has an invalid move")
+	public void the_game_to_load_has_an_invalid_move() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The game shall notify the user that the game file is invalid")
+	public void the_game_shall_notify_the_user_that_the_game_file_is_invalid() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("The game is no longer running")
+	public void the_game_is_no_longer_running() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The final result shall be displayed")
+	public void the_final_result_shall_be_displayed() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("White's clock shall not be counting down")
+	public void white_s_clock_shall_not_be_counting_down() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Black's clock shall not be counting down")
+	public void black_s_clock_shall_not_be_counting_down() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("White shall be unable to move")
+	public void white_shall_be_unable_to_move() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("Black shall be unable to move")
+	public void black_shall_be_unable_to_move() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Player initates to resign")
+	public void player_initates_to_resign() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@When("Step backward is initiated")
+	public void step_backward_is_initiated() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+	
 //-------------------------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------------------------------
