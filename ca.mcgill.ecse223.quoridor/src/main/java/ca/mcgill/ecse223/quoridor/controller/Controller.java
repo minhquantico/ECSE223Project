@@ -35,28 +35,47 @@ import javafx.scene.shape.Rectangle;
 
 public class Controller {
 
+	public static void detectDraw()
+	{
+		List<Move> moves = QuoridorApplication.getQuoridor().getCurrentGame().getMoves();
+		Move current = moves.get(moves.size()-1);
+		int i = moves.size() - 2;
+		while (i > 0)
+		{
+			Move prev = null;
+			for (; i >= 0; i--)
+				if (moveEquals(moves.get(i), current))
+				{
+					prev = moves.get(i);
+					break;
+				}
+			if (prev == null)
+				break;
+			
+			int distance = moves.size()-1 - i;
+			if (distance > i)
+				break;
+			
+			for (int j = i - distance; i < moves.size()-1; i++, j++)
+				if (!moveEquals(moves.get(i), moves.get(j)))
+					continue;	// No draw
+			
+			// Draw detected!
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Draw);
+			break;
+		}
+	}
 	
+	public static boolean moveEquals(Move move1, Move move2)
+	{
+		boolean equals = move1.getTargetTile() == move2.getTargetTile();
+		equals &= move1.getClass().equals(move2.getClass());
+		if (!equals) return false;
+		if (move1 instanceof WallMove)
+			return ((WallMove)move1).getWallDirection().equals(((WallMove)move2).getWallDirection());
+		return true;
+	}
 	
-	
-//----------------------------------------------------------------------------------------------------------------------------------------------------------	
-	
-	/**
-	 * @author Team
-	 * Feature: MovePawn AND JumpPawn - step:("When Player "<player>" initiates to move "<side>")
-	 * @param ??
-	 */
-	
-
-	
-//----------------------------------------------------------------------------------------------------------------------------------------------------------	
-	
-	
-	
-	
-	
-	
-//---------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 	/**
 	 * @author David Budaghyan Feature: GrabWall 
 	 * step:("I try to grab a wall from my stock")
@@ -146,6 +165,10 @@ public class Controller {
 	 */
 	public static void endMove()
 	{
+		detectDraw();
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Draw))
+			return;
+		
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
 	}
@@ -693,6 +716,15 @@ public class Controller {
 				getCurrentGame().getWallMoveCandidate().
 				getWallDirection() == Direction.Horizontal ?
 				Direction.Vertical : Direction.Horizontal);
+	}
+	
+	public static void resign(Player player) {
+		if(player == QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
+		}
+		else {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
+		}
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------

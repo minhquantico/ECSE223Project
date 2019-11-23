@@ -1532,26 +1532,35 @@ public class CucumberStepDefinitions {
 
 	@Given("The black player is located at {int}:{int}")
 	public void the_black_player_is_located_at(Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
 	}
 
 	@Given("The white player is located at {int}:{int}")
 	public void the_white_player_is_located_at(Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().setTile(Controller.getTile(int2, int1));
 	}
 
 	@When("Check path existence is initiated")
 	public void check_path_existence_is_initiated() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    //Controller.getShortestPathLength(currentPlayer);
 	}
 
 	@Then("Path is available for {string} player\\(s)")
 	public void path_is_available_for_player_s(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    if(string.equals("both")) {
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) != -1);
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()) != -1);
+	    }
+	    else if(string.equals("white")){
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) != -1);
+	    }
+	    else if(string.equals("black")) {
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()) != -1);
+	    }
+	    else {
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) == -1);
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()) == -1);
+	    }
 	}
 
 	@When("I initiate replay mode")
@@ -1622,31 +1631,29 @@ public class CucumberStepDefinitions {
 
 	@Given("The following moves were executed:")
 	public void the_following_moves_were_executed(io.cucumber.datatable.DataTable dataTable) {
-	    // Write code here that turns the phrase above into concrete actions
-	    // For automatic transformation, change DataTable to one of
-	    // E, List<E>, List<List<E>>, List<Map<K,V>>, Map<K,V> or
-	    // Map<K, List<V>>. E,K,V must be a String, Integer, Float,
-	    // Double, Byte, Short, Long, BigInteger or BigDecimal.
-	    //
-	    // For other transformations you can register a DataTableType.
-	    throw new cucumber.api.PendingException();
+		List<Map<String, String>> valueMaps = dataTable.asMaps();
+		for (Map<String, String> map : valueMaps) {
+			Integer row = Integer.decode(map.get("row"));
+			Integer col = Integer.decode(map.get("col"));
+			
+			Controller.doPawnMove(col, row);;
+		}
 	}
 
 	@Given("Player {string} has just completed his move")
 	public void player_has_just_completed_his_move(String string) {
-	    
-	    //do nothing, player moved in next step
+	    // ??
 	}
 
 	@Given("The last move of {string} is pawn move to {int}:{int}")
 	public void the_last_move_of_is_pawn_move_to(String string, Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    Controller.doPawnMove(int2, int1);
 	}
 
 	@When("Checking of game result is initated")
 	public void checking_of_game_result_is_initated() {
 	   Controller.checkGamePositionStatus();
+	    Controller.detectDraw();
 	}
 
 	@Then("Game result shall be {string}")
@@ -1658,21 +1665,20 @@ public class CucumberStepDefinitions {
 			gameStatus=GameStatus.BlackWon;
 		}else if(string.equals("pending")){
 			gameStatus=GameStatus.Running;
+		}else if (string.equals("Drawn")) {
+			gameStatus=GameStatus.Draw;
 		}else {
 			//add proper code to this for the DRAW
 			gameStatus=GameStatus.Initializing;
 		}
 		
 		Game game = QuoridorApplication.getQuoridor().getCurrentGame();
-		System.out.println(game.getGameStatus());
-	    assertTrue(game.getGameStatus()==gameStatus);
-	    
+	    assertEquals(gameStatus, game.getGameStatus());
 	}
 
 	@Then("The game shall no longer be running")
 	public void the_game_shall_no_longer_be_running() {
-		Game game = QuoridorApplication.getQuoridor().getCurrentGame();
-	    assertTrue(game.getGameStatus()!=GameStatus.Initializing &&game.getGameStatus()!=GameStatus.Running);
+	    assertNotEquals(GameStatus.Running, QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
 	}
 
 	@Given("The new position of {string} is {int}:{int}")
@@ -1821,8 +1827,7 @@ public class CucumberStepDefinitions {
 
 	@When("Player initates to resign")
 	public void player_initates_to_resign() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    Controller.resign(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
 	}
 
 	@When("Step backward is initiated")
