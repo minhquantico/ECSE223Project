@@ -306,7 +306,7 @@ public class Controller {
 	 * game Position from a file inputted by the user.It reads in values line by line corresponding to respective player.
 	 * @param file
 	 */
-	public static void loadGamePosition(File file) throws FileNotFoundException, InvalidPositionException {
+	public static void loadPosition(File file) throws FileNotFoundException, InvalidPositionException {
 		initQuoridorAndBoard();
 		Controller.InitializeNewGame();
 		
