@@ -1,6 +1,8 @@
 
 package ca.mcgill.ecse223.quoridor.controller;
 
+import static org.junit.Assert.assertNotEquals;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -726,6 +728,10 @@ public class Controller {
 		else {
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
 		}
+	}
+	
+	public static void notRunning() {
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Initializing);
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
