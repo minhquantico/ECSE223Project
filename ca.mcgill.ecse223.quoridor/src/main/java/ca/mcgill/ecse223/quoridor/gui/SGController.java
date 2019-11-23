@@ -57,7 +57,3 @@ public class SGController {
     	ca.mcgill.ecse223.quoridor.controller.Controller.InitializeNewGame();
     }
 }
-
-
-
-
