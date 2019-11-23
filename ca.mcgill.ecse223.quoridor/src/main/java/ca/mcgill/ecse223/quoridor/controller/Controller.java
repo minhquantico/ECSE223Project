@@ -36,8 +36,11 @@ import javafx.scene.shape.Rectangle;
 public class Controller {
 
 	public static void detectDraw()
-	{
+	{	
 		List<Move> moves = QuoridorApplication.getQuoridor().getCurrentGame().getMoves();
+		if (moves.size() == 0)
+			return;
+		
 		Move current = moves.get(moves.size()-1);
 		int i = moves.size() - 2;
 		while (i > 0)
