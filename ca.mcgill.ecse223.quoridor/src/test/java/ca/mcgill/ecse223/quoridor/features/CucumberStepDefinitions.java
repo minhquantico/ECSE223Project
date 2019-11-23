@@ -1713,14 +1713,20 @@ public class CucumberStepDefinitions {
 	@Given("The game is in replay mode")
 	public void the_game_is_in_replay_mode() {
 	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 	}
 
 	@When("Jump to start position is initiated")
 	public void jump_to_start_position_is_initiated() {
-	    // Write code here that turns the phrase above into concrete actions
+	    Controller.initJumpToStartPos();
 	    throw new cucumber.api.PendingException();
 	}
+	
+	@When("Jump to final position is initiated")
+	public void jump_to_final_position_is_initiated() {
+	    Controller.initJumpToFinalPos();
+	}
+
 
 	@Then("The next move shall be {int}:{int}")
 	public void the_next_move_shall_be(int int1, int int2) {
