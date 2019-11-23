@@ -175,6 +175,21 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
 	}
+	
+	public static void initJumpToStartPos() {
+		GamePosition startPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(0);
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(startPos);
+		
+	}
+	
+	public static void initJumpToFinalPos() {
+		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions();
+		GamePosition finalPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(max);
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(finalPos);
+		
+	}
+	
+	
 
 //--------------------------------------------------------------------------------------------------------------------------
 
