@@ -7,7 +7,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseDragged="#dragWall" onMouseReleased="#releaseWall" onKeyPressed="#onRotation" prefHeight="625.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.PlayScreenController">
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyPressed="#onRotation" onMouseDragged="#dragWall" onMouseReleased="#releaseWall" prefHeight="625.0" prefWidth="940.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.PlayScreenController">
    <children>
       <ImageView fitHeight="631.0" fitWidth="940.0">
          <image>
@@ -34,5 +34,14 @@
             <Font size="13.0" />
          </font>
       </Label>
+      <Pane id="ReplayPane" fx:id="ReplayPane" layoutX="757.0" layoutY="390.0" prefHeight="170.0" prefWidth="170.0">
+         <children>
+            <Button id="StepPrevious" fx:id="StepPrevious" layoutX="85.0" layoutY="37.0" mnemonicParsing="false" onMouseClicked="#StepPreviousClick" text="Step&gt;" />
+            <Button id="JumpEnd" fx:id="JumpEnd" layoutX="87.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#JumpEndClick" text="Jump&gt;&gt;" />
+            <Button id="StepNext" fx:id="StepNext" layoutX="29.0" layoutY="37.0" mnemonicParsing="false" onMouseClicked="#StepNextClick" text="&lt;Step" />
+            <Button id="Continue" fx:id="ContinueGame" layoutX="31.0" layoutY="85.0" mnemonicParsing="false" onMouseClicked="#ContinueGameClick" text="ContinueGame" />
+            <Button id="JumpBeginning" fx:id="JumpBeginning" layoutX="12.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#JumpBeginningClick" text="&lt;&lt;Jump " />
+         </children>
+      </Pane>
    </children>
 </Pane>

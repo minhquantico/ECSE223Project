@@ -40,6 +40,48 @@ public class PlayScreenController {
     public Pane wall;
 
     @FXML
+    private Button ContinueGame;
+
+    @FXML
+    private Button StepNext;
+
+    @FXML
+    private Button JumpEnd;
+    
+    @FXML
+    private Button StepPrevious;
+
+    @FXML
+    private Button JumpBeginning;
+
+    @FXML
+    private Pane ReplayPane;
+    
+    @FXML
+    void StepPreviousClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void JumpEndClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void StepNextClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void ContinueGameClick(ActionEvent event) {
+
+    }
+
+    @FXML
+    void JumpBeginningClick(ActionEvent event) {
+
+    }
+    @FXML
     void buttonClickedSaveGame(ActionEvent event) throws FileNotFoundException
     {
     	FileChooser chooser = new FileChooser();
