@@ -1530,26 +1530,35 @@ public class CucumberStepDefinitions {
 
 	@Given("The black player is located at {int}:{int}")
 	public void the_black_player_is_located_at(Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
 	}
 
 	@Given("The white player is located at {int}:{int}")
 	public void the_white_player_is_located_at(Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().setTile(Controller.getTile(int2, int1));
 	}
 
 	@When("Check path existence is initiated")
 	public void check_path_existence_is_initiated() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    //Controller.getShortestPathLength(currentPlayer);
 	}
 
 	@Then("Path is available for {string} player\\(s)")
 	public void path_is_available_for_player_s(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    if(string.equals("both")) {
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) != -1);
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()) != -1);
+	    }
+	    else if(string.equals("white")){
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) != -1);
+	    }
+	    else if(string.equals("black")) {
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()) != -1);
+	    }
+	    else {
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) == -1);
+	    	assertTrue(Controller.getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()) == -1);
+	    }
 	}
 
 	@When("I initiate replay mode")
