@@ -125,6 +125,8 @@ public class CucumberStepDefinitions {
 	
 	/**
 	 * @author David Budaghyan
+	 * @param int1: row
+	 * @param int2: column
 	 */
 	@Given("The player is located at {int}:{int}")
 	public void the_player_is_located_at(Integer int1, Integer int2) {
@@ -140,6 +142,8 @@ public class CucumberStepDefinitions {
 
 	/**
 	 * @author David Budaghyan
+	 * @param int1: row
+	 * @param int2: column
 	 */
 	@Given("The opponent is located at {int}:{int}")
 	public void the_opponent_is_located_at(Integer int1, Integer int2) {
@@ -157,12 +161,19 @@ public class CucumberStepDefinitions {
 
 	/**
 	 * @author Jake Pogharian
+	 * @param string: color to player to whom wall belongs to
+	 * @param string2: direction
 	 */
 	@Given("There are no {string} walls {string} from the player nearby")
 	public void there_are_no_walls_from_the_player_nearby(String string, String string2) {
 	    // Here do no thing -> no walls were ever set 
 	}
 
+	/**
+	 * @author Traian Coza
+	 * @param string: player
+	 * @param string2: direction
+	 */
 	@When("Player {string} initiates to move {string}")
 	public void player_initiates_to_move(String string, String string2) {
 		Tile dest = string.equals("white") ?
@@ -198,7 +209,9 @@ public class CucumberStepDefinitions {
 	}
 
 	/**
-	 * @author TRAIAN THE MAAAAANN
+	 * @author TRAIAN "Allllllaaaaaaahhhhhh" Coza
+	 * @param string: side
+	 * @param string2: status
 	 */
 	@Then("The move {string} shall be {string}")
 	public void the_move_shall_be(String string, String string2) {
@@ -208,6 +221,8 @@ public class CucumberStepDefinitions {
 	
 	/**
 	 * @author David Budaghyan
+	 * @param int1: row
+	 * @param int2: column
 	 */
 	@Then("Player's new position shall be {int}:{int}")
 	public void player_s_new_position_shall_be(Integer int1, Integer int2) {
@@ -221,6 +236,11 @@ public class CucumberStepDefinitions {
 		assertEquals(pos.getColumn(), int2);
 	}
 
+	
+	/**
+	 * @author Traian Coza
+	 * @param string: nextPlayer
+	 */
 	@Then("The next player to move shall become {string}")
 	public void the_next_player_to_move_shall_become(String string) {
 		System.out.println("string: " + string);
@@ -230,7 +250,12 @@ public class CucumberStepDefinitions {
 	
 	
 	// 2nd scenario: Jump of player blocked by wall
-	
+	/**
+	 * @author Jake Pogharian
+	 * @param String: player's color
+	 * @param int1: row
+	 * @param int2: column
+	 */
 	@Given("There is a {string} wall at {int}:{int}")
 	public void there_is_a_wall_at(String string, Integer int1, Integer int2) {
 	    Controller.setWallMoveCandidate(int2, int1, string.equals("vertical") ? Direction.Vertical : Direction.Horizontal);
@@ -243,7 +268,11 @@ public class CucumberStepDefinitions {
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 	
 // MovePawn: Team
-	
+	/**
+	 * @author Jake Pogharian
+	 * @param string: player's color
+	 * @param string2: side 
+	 */
 	@Given("There are no {string} walls {string} from the player")
 	public void there_are_no_walls_from_the_player(String string, String string2) {
 		//No walls have been placed
@@ -254,6 +283,10 @@ public class CucumberStepDefinitions {
 //	    assertFalse(Controller.isBlockedDirection(pos, dirToInt(string2)));
 	}
 
+	/**
+	 * @author Traian Coza
+	 * @param string: side
+	 */
 	@Given("The opponent is not {string} from the player")
 	public void the_opponent_is_not_from_the_player(String string) {
 		Tile pos = isWhiteTurn() ?
@@ -266,18 +299,11 @@ public class CucumberStepDefinitions {
 	    assertNotEquals(Controller.direction(pos, dirToInt(string)), oppos);
 	}
 	
-	int dirToInt(String dir)
-	{
-		switch (dir)
-		{
-		case "up": return 0;
-		case "down": return 2;
-		case "left": return 3;
-		case "right": return 1;
-		default: return -1;
-		}
-	}
-	
+	/**
+	 * @author Traian Coza
+	 * @param string: player's color
+	 * @param string2: side
+	 */
 	@Given("There is a {string} wall {string} from the player")
 	public void there_is_a_wall_from_the_player(String string, String string2) {
 		Tile pos = isWhiteTurn() ?
@@ -289,6 +315,11 @@ public class CucumberStepDefinitions {
 		there_is_a_wall_at(string, pos.getRow(), pos.getColumn());
 	}
 
+	
+	/**
+	 * @author Traian Coza
+	 * @param string: side
+	 */
 	@Given("My opponent is not {string} from the player")
 	public void my_opponent_is_not_from_the_player(String string) {
 	    the_opponent_is_not_from_the_player(string);
@@ -1518,7 +1549,23 @@ public class CucumberStepDefinitions {
 	// Place your extracted methods below
 
 	
-	
+	/**
+	 * @author David Budaghyan
+	 * this converts directions to integers
+	 * helper method for jumpPawn and MovePawn steps
+	 * @param dir: the direction that we want to convert
+	 */
+	int dirToInt(String dir)
+	{
+		switch (dir)
+		{
+		case "up": return 0;
+		case "down": return 2;
+		case "left": return 3;
+		case "right": return 1;
+		default: return -1;
+		}
+	}
 	
 	/**
 	 * @author David Budaghyan

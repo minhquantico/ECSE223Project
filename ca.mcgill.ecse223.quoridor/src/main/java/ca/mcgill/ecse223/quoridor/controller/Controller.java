@@ -918,12 +918,7 @@ public class Controller {
 		catch (NullPointerException ex) { /* Do nothing */ }
 	}
 	
-	/**
-	 * @author Jake Pogharian This method is used to do a pawnMove. It does both GUI and model changes
-	 * @param int i:This is the i (column) coordinate of the desired wall move
-	 * @param int j: This is the j (row) coordinate of the desired Wall move
-	 * @param boolean notify: This is used to either permit or disallow changes to the GUI 
-	 */
+	
 	public static void doPawnMove(int i, int j)
 	{
 		Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
@@ -954,12 +949,22 @@ public class Controller {
 		}
 		catch (NullPointerException ex) { /* Do nothing */ }
 	}
-	
+	/**
+	 *  This method is used to get the current player's corresponding state machine.
+	 */
 	public static PawnBehaviour getCurrentStateMachine()
 	{
 		return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getPawnBehaviour();
 	}
 	
+	/**
+	 *  This method is used to do a pawnMove by calling on the corresponding state machine event. It will see if it is a jumpMove,
+	 *  if so, it will call the jumpMove(dir1, dir2) event, if it sees that it is a step move, 
+	 *  it will call the stepMove(dir1) event. It will internally convert the tile coordinates into a direction.
+	 * @param int i:This is the i (column) coordinate of the desired pawn move
+	 * @param int j: This is the j (row) coordinate of the desired pawn move
+	 *
+	 */
 	public static void doPawnMoveStateMachine(int x, int y)
 	{
 		PawnBehaviour sm = getCurrentStateMachine();
