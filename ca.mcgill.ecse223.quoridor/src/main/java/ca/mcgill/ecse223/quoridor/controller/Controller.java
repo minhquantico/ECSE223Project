@@ -168,8 +168,7 @@ public class Controller {
 	public static void endMove()
 	{
 		detectDraw();
-		
-		if (!QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Draw))
 			return;
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
