@@ -37,6 +37,7 @@ public class PlayScreenController {
     @FXML private Pane boardPane;
     
     public Board board;
+    
     public Pane wall;
 
     @FXML
