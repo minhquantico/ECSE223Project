@@ -726,7 +726,7 @@ public class CucumberStepDefinitions {
 	@When("I initiate to load a saved game {string}")
 	public void i_initiate_to_load_a_saved_game(String string) throws FileNotFoundException {
 		try {
-			Controller.loadGamePosition(new File(string));
+			Controller.loadPosition(new File(string));
 		} catch (InvalidPositionException ex) {
 			valid = false;
 			error = ex;
@@ -1575,7 +1575,8 @@ public class CucumberStepDefinitions {
 
 	@Given("The game is replay mode")
 	public void the_game_is_replay_mode() {
-		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+		theGameIsNotRunning();
+		i_initiate_replay_mode();
 	}
 
 	@Given("The following moves have been played in game:")

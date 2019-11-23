@@ -11,5 +11,6 @@
    <children>
       <Button fx:id="sgButton" layoutX="390.0" layoutY="260.0" mnemonicParsing="false" onAction="#startGame" prefHeight="40.0" prefWidth="120.0" text="Start Game" />
       <Button fx:id="lgButton" layoutX="390.0" layoutY="317.0" mnemonicParsing="false" onAction="#loadGame" prefHeight="40.0" prefWidth="120.0" text="Load Game" />
+      <Button fx:id="lpButton" layoutX="390.0" layoutY="373.0" mnemonicParsing="false" onAction="#loadPosition" prefHeight="40.0" prefWidth="120.0" text="Load Position" />
    </children>
 </Pane>
