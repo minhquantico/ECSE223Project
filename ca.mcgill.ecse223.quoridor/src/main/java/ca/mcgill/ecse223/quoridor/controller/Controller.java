@@ -44,7 +44,7 @@ public class Controller {
 		{
 			Move prev = null;
 			for (; i >= 0; i--)
-				if (moveEquals(prev, current))
+				if (moveEquals(moves.get(i), current))
 				{
 					prev = moves.get(i);
 					break;
