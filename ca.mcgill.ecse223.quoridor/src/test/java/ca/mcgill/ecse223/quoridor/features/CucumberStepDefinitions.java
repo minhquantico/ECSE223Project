@@ -1597,10 +1597,17 @@ public class CucumberStepDefinitions {
 	    throw new cucumber.api.PendingException();
 	}
 
-	@Given("The next move is {double}")
-	public void the_next_move_is(Double double1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	@Given("The next move is {int}:{int}")
+	public void the_next_move_is(int int1, int int2) {
+	    List<Move> list = QuoridorApplication.getQuoridor().getCurrentGame().getMoves();
+	    int index = 0;
+	    for(Move m: list) {
+	    	if(m.getMoveNumber() == int1 && m.getRoundNumber() == int2) {
+	    		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(index == 0 ? 0 : index-1);
+	    		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(pos);
+	    	}
+	    	index++;
+	    }
 	}
 
 	@When("I initiate to continue game")
@@ -1699,34 +1706,38 @@ public class CucumberStepDefinitions {
 	    throw new cucumber.api.PendingException();
 	}
 
-	@Then("The next move shall be {double}")
-	public void the_next_move_shall_be(Double double1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	@Then("The next move shall be {int}:{int}")
+	public void the_next_move_shall_be(int int1, int int2) {
+		int nextMove = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition());
+	    nextMove++;
+		Move move = QuoridorApplication.getQuoridor().getCurrentGame().getMove(nextMove);
+		assertTrue(move.getMoveNumber() == int1 && move.getRoundNumber() == int2);
 	}
 
-	@Then("White player's position shall be \\({double})")
-	public void white_player_s_position_shall_be(Double double1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	@Then("White player's position shall be \\({int},{int})")
+	public void white_player_s_position_shall_be(int int1, int int2) {
+	    int row = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow();
+	    int column = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn();
+	    assertTrue(row == int1 && column == int2);
 	}
 
-	@Then("Black player's position shall be \\({double})")
-	public void black_player_s_position_shall_be(Double double1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	@Then("Black player's position shall be \\({int},{int})")
+	public void black_player_s_position_shall_be(int int1, int int2) {
+		int row = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
+	    int column = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
+	    assertTrue(row == int1 && column == int2);
 	}
 
 	@Then("White has <wwallno> on stock")
-	public void white_has_wwallno_on_stock() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	public void white_has_wwallno_on_stock(int int1) {
+	    int size = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size();
+	    assertTrue(size == int1);
 	}
 
 	@Then("Black has {int} on stock")
-	public void black_has_on_stock(Integer int1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	public void black_has_bwallno_on_stock(int int1) {
+		int size = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size();
+		assertTrue(size == int1);
 	}
 
 	@When("I initiate to load a game in {string}")
@@ -1809,8 +1820,12 @@ public class CucumberStepDefinitions {
 
 	@When("Step backward is initiated")
 	public void step_backward_is_initiated() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    Controller.stepBackwards();
+	}
+	
+	@When("Step forward is initiated")
+	public void step_forward_is_initiated() {
+	    Controller.stepBackwards();
 	}
 	
 //-------------------------------------------------------------------------------------------------------------------------

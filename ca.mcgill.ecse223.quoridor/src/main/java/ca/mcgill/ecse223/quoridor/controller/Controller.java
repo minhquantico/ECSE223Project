@@ -1108,4 +1108,22 @@ public class Controller {
 		game.getWhitePlayer().getPawnBehaviour().initialize();
 		game.getBlackPlayer().getPawnBehaviour().initialize();
 	}
+
+	public static void stepBackwards() {
+		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
+		int previousIndex = currentIndex == 0 ? 0 : currentIndex - 1;
+		GamePosition newPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(previousIndex);
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(newPos);
+		
+	}
+
+	public static void stepForwards() {
+		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
+		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions();
+		int nextIndex = currentIndex == max? currentIndex : currentIndex + 1;
+		GamePosition newPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(nextIndex);
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(newPos);
+	}
 }
