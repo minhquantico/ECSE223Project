@@ -1803,8 +1803,7 @@ public class CucumberStepDefinitions {
 
 	@When("Player initates to resign")
 	public void player_initates_to_resign() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    Controller.resign(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
 	}
 
 	@When("Step backward is initiated")
