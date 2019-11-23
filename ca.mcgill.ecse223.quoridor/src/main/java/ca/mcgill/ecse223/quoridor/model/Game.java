@@ -55,8 +55,6 @@ public class Game
 
   public boolean setGameStatus(GameStatus aGameStatus)
   {
-	  System.err.println("SOMEONE IS CHANGING THE GAME STATUS");
-	  
     boolean wasSet = false;
     gameStatus = aGameStatus;
     wasSet = true;

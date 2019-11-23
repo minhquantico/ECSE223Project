@@ -17,7 +17,7 @@ As a player, I wish to review a past game in replay mode to walk through the mov
       |  3 |   1 | e3h  |
       |  3 |   2 | e8h  |		
 		And The game does not have a final result
-		And The next move is <movno>.<rndno> 
+		And The next move is <movno>:<rndno> 
 		When I initiate to continue game
 		Then The game shall be running
 		And The remaining moves of the game shall be removed
@@ -42,7 +42,7 @@ As a player, I wish to review a past game in replay mode to walk through the mov
       |  3 |   2 | e8h  |		
       |  4 |   1 | 0-1  |		
 		And The game has a final result
-		And The next move is <movno>.<rndno> 
+		And The next move is <movno>:<rndno> 
 		When I initiate to continue game
 		Then The game shall be in replay mode 
 		And I shall be notified that finished games cannot be continued 

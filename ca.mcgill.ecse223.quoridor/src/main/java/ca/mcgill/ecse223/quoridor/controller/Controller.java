@@ -1,8 +1,6 @@
 
 package ca.mcgill.ecse223.quoridor.controller;
 
-import static org.junit.Assert.assertNotEquals;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -193,23 +191,8 @@ public class Controller {
 				if (no % 2 == 0)
 					input.next((no / 2 + 1) + "\\.");
 				String token = input.next("[a-i][1-9][hv]?");
-				int col = token.charAt(0) - 'a' + 1;
-				int row = token.charAt(1) - '1' + 1;
-				char or = token.length() == 2 ? '-' : token.charAt(2);
-
-				if (or == '-') // Step move
-					if (initPosValidation(getTile(col, row)))
-						doPawnMove(col, row);
-					else
-						throw new InvalidPositionException("Invalid pawn move: " + token);
-				else // Wall move
-				{
-					setWallMoveCandidate(col, row, or == 'h' ? Direction.Horizontal : Direction.Vertical);
-					if (initPosValidation())
-						doWallMove();
-					else
-						throw new InvalidPositionException("InvalidWallMove: " + token);
-				}
+				if (!doMove(token))
+					throw new InvalidPositionException("Invalid move: " + token);
 				
 				no++;
 			}
@@ -219,6 +202,29 @@ public class Controller {
 			clearGame();
 			throw new InvalidPositionException(ex.getMessage());
 		}
+	}
+	
+	public static boolean doMove(String move)
+	{
+		int col = move.charAt(0) - 'a' + 1;
+		int row = move.charAt(1) - '1' + 1;
+		char or = move.length() == 2 ? '-' : move.charAt(2);
+
+		if (or == '-') // Step move
+			if (initPosValidation(getTile(col, row)))
+				doPawnMove(col, row);
+			else
+				return false;
+		else // Wall move
+		{
+			setWallMoveCandidate(col, row, or == 'h' ? Direction.Horizontal : Direction.Vertical);
+			if (initPosValidation())
+				doWallMove();
+			else
+				return false;
+		}
+		
+		return true;
 	}
 
 	/**
