@@ -59,6 +59,8 @@ public class CucumberStepDefinitions {
 	public void theGameIsRunning() {
 		initQuoridorAndBoard();
 		Controller.InitializeNewGame();
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+		System.out.println("GAME  STATUS");
 //		initQuoridorAndBoard();
 //		ArrayList<Player> createUsersAndPlayers = createUsersAndPlayers("user1", "user2");
 //		createAndStartGame(createUsersAndPlayers);
@@ -1525,7 +1527,7 @@ public class CucumberStepDefinitions {
 	@Given("A {string} wall move candidate exists at position {int}:{int}")
 	public void a_wall_move_candidate_exists_at_position(String string, Integer int1, Integer int2) {
 	    //set wall move
-		there_is_a_wall_at(string, int1, int2);
+		
 	}
 
 	@Given("The black player is located at {int}:{int}")
@@ -1650,12 +1652,28 @@ public class CucumberStepDefinitions {
 
 	@When("Checking of game result is initated")
 	public void checking_of_game_result_is_initated() {
+	   Controller.checkGamePositionStatus();
 	    Controller.detectDraw();
 	}
 
 	@Then("Game result shall be {string}")
 	public void game_result_shall_be(String string) {
-	    assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Draw), string.equals("Drawn"));
+		GameStatus gameStatus;
+		if(string.equals("whiteWon")) {
+			gameStatus=GameStatus.WhiteWon;
+		}else if(string.equals("blackWon")){
+			gameStatus=GameStatus.BlackWon;
+		}else if(string.equals("pending")){
+			gameStatus=GameStatus.Running;
+		}else if (string.equals("Drawn")) {
+			gameStatus=GameStatus.Draw;
+		}else {
+			//add proper code to this for the DRAW
+			gameStatus=GameStatus.Initializing;
+		}
+		
+		Game game = QuoridorApplication.getQuoridor().getCurrentGame();
+	    assertEquals(gameStatus, game.getGameStatus());
 	}
 
 	@Then("The game shall no longer be running")
@@ -1665,20 +1683,32 @@ public class CucumberStepDefinitions {
 
 	@Given("The new position of {string} is {int}:{int}")
 	public void the_new_position_of_is(String string, Integer int1, Integer int2) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		if (string.equals("white")) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().setTile(Controller.getTile(int2, int1));
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest(int1, int2);
+		}else {
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+			
+		}
 	}
 
 	@Given("The clock of {string} is more than zero")
 	public void the_clock_of_is_more_than_zero(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    Controller.setTotalThinkingTime(10,10);
+	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+	    
 	}
 
 	@When("The clock of {string} counts down to zero")
 	public void the_clock_of_counts_down_to_zero(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		Player player;
+		if(string.equals("white")) {
+			player=QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
+		} else {
+			player=QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
+		}
+	   Controller.countdownZero(player);
 	}
 
 	@Given("The game is in replay mode")
@@ -1761,38 +1791,34 @@ public class CucumberStepDefinitions {
 
 	@When("The game is no longer running")
 	public void the_game_is_no_longer_running() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		//Controller.notRunning();
 	}
 
 	@Then("The final result shall be displayed")
 	public void the_final_result_shall_be_displayed() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    // ??
 	}
 
 	@Then("White's clock shall not be counting down")
 	public void white_s_clock_shall_not_be_counting_down() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		if(!(PlayScreenController.instance==null))
+			assertTrue(PlayScreenController.instance.board.players[0].isClockStopped());
 	}
 
 	@Then("Black's clock shall not be counting down")
 	public void black_s_clock_shall_not_be_counting_down() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		if(!(PlayScreenController.instance==null))
+			assertTrue(PlayScreenController.instance.board.players[1].isClockStopped());
 	}
 
 	@Then("White shall be unable to move")
 	public void white_shall_be_unable_to_move() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    //??
 	}
 
 	@Then("Black shall be unable to move")
 	public void black_shall_be_unable_to_move() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    //??
 	}
 
 	@When("Player initates to resign")

@@ -1,6 +1,6 @@
 Feature: Identify if game won
   As a player, I want the Quoridor app to identify when a game is won by one of the players 
-  (e.g. I reached target area or opponent’s time is up), and the game should be stopped immediately.
+  (e.g. I reached target area or opponentï¿½s time is up), and the game should be stopped immediately.
 
   Background: 
     Given The game is running
@@ -29,8 +29,10 @@ Feature: Identify if game won
 
     Examples: 
       | player | row | col | result   |
-      | white  |   9 |   4 | whiteWon |
-      | black  |   1 |   3 | blackWon |
+  #    | white  |   9 |   4 | whiteWon |
+  | white  |   4 |   9 | whiteWon |
+ #     | black  |   1 |   3 | blackWon |
+ | black  |   3 |   1 | blackWon |
 
   Scenario Outline: Player's time is exceeded
     Given The player to move is "<player>"
