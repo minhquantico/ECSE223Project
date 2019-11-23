@@ -1008,6 +1008,43 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().setRemainingTime(time);
 	}
 
+	
+	
+	public static void countdownZero(Player player) {
+		
+		//assumes player passed as parameters is the one with zero time left
+			//other player is victorious
+		if(player.hasGameAsWhite()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
+		}else {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
+		}
+		
+	}
+	
+	public static void checkGamePositionStatus() {
+		Player player = QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
+		System.out.println("WAWAWAWAWAWAWAWAWAWAW   black player");
+		System.out.println(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile()));
+		
+		System.out.println("white player");
+		System.out.println(isWinner(player.getNextPlayer(), QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile()));
+		
+		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile())) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
+			return;
+		}
+		
+		player =QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
+		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile())) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
+			return;
+		}
+		
+		
+		
+	}
+	
 //--------------------------------------------------------------------------------------------------------------------------
 
 	public static class InvalidPositionException extends Exception
