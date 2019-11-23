@@ -718,6 +718,15 @@ public class Controller {
 				getWallDirection() == Direction.Horizontal ?
 				Direction.Vertical : Direction.Horizontal);
 	}
+	
+	public static void resign(Player player) {
+		if(player == QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
+		}
+		else {
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
+		}
+	}
 
 //--------------------------------------------------------------------------------------------------------------------------
 
