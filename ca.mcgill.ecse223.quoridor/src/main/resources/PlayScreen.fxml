@@ -18,7 +18,7 @@
       <Pane fx:id="boardPane" layoutX="229.0" layoutY="110.0" prefHeight="486.0" prefWidth="502.0" style="-fx-background-color: white;" styleClass="theme" stylesheets="@PlayScreen.css" />
       <Button fx:id="SaveGameLabel" layoutX="62.0" layoutY="521.0" mnemonicParsing="false" onAction="#buttonClickedSaveGame" text="Save Game" />
       <Label fx:id="wallLabel" layoutX="840.0" layoutY="164.0" scaleX="2.0" scaleY="2.0" text="Label" />
-      <ImageView fx:id="WhitePlayerImage" fitHeight="94.0" fitWidth="317.0" layoutX="312.0" layoutY="8.0">
+      <ImageView fx:id="statusImage" fitHeight="94.0" fitWidth="317.0" layoutX="312.0" layoutY="8.0">
          <image>
             <Image url="@White_Player_Image.png" />
          </image>

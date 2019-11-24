@@ -59,12 +59,19 @@ public class Controller {
 			if (distance > i)
 				break;
 			
+			boolean draw = true;
 			for (int j = i - distance; i < moves.size()-1; i++, j++)
 				if (!moveEquals(moves.get(i), moves.get(j)))
-					continue;	// No draw
+					draw = false;	// No draw
+			i = distance - moves.size() + 1;
+			if (!draw)
+				continue;
 			
 			// Draw detected!
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Draw);
+			for (Move m : moves)
+				System.out.println(m.getTargetTile().getColumn() + ", " + m.getTargetTile().getRow());
+			
 			break;
 		}
 	}
@@ -151,16 +158,25 @@ public class Controller {
 	 */
 	public static void endMoveGUI()
 	{
-		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+		switch (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus())
 		{
-			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.BlackPlayerImage);
-			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.WhitePlayerImage);
+		case Running:
+			if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+				PlayScreenController.instance.statusImage.setImage(PlayScreenController.whiteTurn);
+			else
+				PlayScreenController.instance.statusImage.setImage(PlayScreenController.blackTurn);
+			break;
+		case WhiteWon:
+			PlayScreenController.instance.statusImage.setImage(PlayScreenController.whiteWon);
+			break;
+		case BlackWon:
+			PlayScreenController.instance.statusImage.setImage(PlayScreenController.blackWon);
+			break;
+		case Draw:
+			PlayScreenController.instance.statusImage.setImage(PlayScreenController.draw);
+			break;
 		}
-		else
-		{
-			PlayScreenController.instance.pane.getChildren().remove(PlayScreenController.instance.WhitePlayerImage);
-			PlayScreenController.instance.pane.getChildren().add(PlayScreenController.instance.BlackPlayerImage);
-		}
+		
 		PlayScreenController.instance.updateWallCount();
 	}
 	/**
@@ -168,8 +184,16 @@ public class Controller {
 	 */
 	public static void endMove()
 	{
+		try
+		{
+			if (PlayScreenController.instance.board.isWaitingForMove())
+				synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); System.out.println("notify endmove"); }
+		}
+		catch (NullPointerException ex) { /* Do nothing */ }
+		
 		detectDraw();
-		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Draw))
+		checkGamePositionStatus();
+		if (!QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
 			return;
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
@@ -971,13 +995,6 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(null);
 		
 		endMove();
-		
-		try
-		{
-			if (PlayScreenController.instance.board.isWaitingForMove())
-				synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
-		}
-		catch (NullPointerException ex) { /* Do nothing */ }
 	}
 	
 	
@@ -1003,13 +1020,6 @@ public class Controller {
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(move);
 		endMove();
-		
-		try
-		{
-			if (PlayScreenController.instance.board.isWaitingForMove())
-				synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
-		}
-		catch (NullPointerException ex) { /* Do nothing */ }
 	}
 	/**
 	 *  This method is used to get the current player's corresponding state machine.
@@ -1037,6 +1047,7 @@ public class Controller {
 		int dx = x - pos.getColumn();
 		int dy = y - pos.getRow();
 		
+		System.out.println("White: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite());
 		System.out.println("dx: " + dx + ", dy:" + dy);
 		sm.calledLegal = false;
 

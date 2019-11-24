@@ -12,6 +12,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,11 +28,10 @@ public class PlayScreenController {
 
     @FXML private Button EndTurnLabel;
     @FXML private Label wallLabel;
-    @FXML public ImageView WhitePlayerImage;
+    @FXML public ImageView statusImage;
     @FXML public Pane pane;
     @FXML private Label timeLabel;
     @FXML private Button SaveGameLabel;
-    @FXML public ImageView BlackPlayerImage;
     @FXML private Label abcd;
     @FXML public Rectangle wallStock;
     @FXML private Pane boardPane;
@@ -200,6 +200,12 @@ public class PlayScreenController {
     	wallLabel.setTextFill(Color.BLACK);
     }
  
+
+    public static final Image whiteTurn = new Image(QuoridorApplication.class.getClassLoader().getResourceAsStream("White_Player_Image.png"));
+    public static final Image blackTurn = new Image(QuoridorApplication.class.getClassLoader().getResourceAsStream("Black_Player_Image.png"));
+    public static final Image whiteWon = new Image(QuoridorApplication.class.getClassLoader().getResourceAsStream("WhiteWon.png"));
+    public static final Image blackWon = new Image(QuoridorApplication.class.getClassLoader().getResourceAsStream("BlackWon.png"));
+    public static final Image draw = new Image(QuoridorApplication.class.getClassLoader().getResourceAsStream("DRAW.png"));
     
     @FXML
     public void initialize()
@@ -229,7 +235,8 @@ public class PlayScreenController {
     	wall.prefHeightProperty().bind(board.hWall[0][0].prefHeightProperty());
     	wall.setBackground(board.hWall[0][0].SET);
     	
-    	pane.getChildren().remove(BlackPlayerImage);
+    	statusImage.setImage(whiteTurn);
+    	
     	wallLabel.setText("10");
     	wallLabel.setWrapText(true);
     	wallLabel.setMaxWidth(80);		// TODO

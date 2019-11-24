@@ -602,7 +602,7 @@ public class CucumberStepDefinitions {
 	@Then("It shall be shown that this is White's turn")
 	public void it_shall_be_shown_that_this_is_White_s_turn() {
 		if(!(PlayScreenController.instance==null))
-			assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage));
+			assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.statusImage));
 
 	}
 
@@ -663,7 +663,7 @@ public class CucumberStepDefinitions {
 	public void the_user_interface_shall_be_showing_it_is_turn(String string) {
 		if(!(PlayScreenController.instance==null)) {
 			if (isWhiteTurn()) {
-				assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.WhitePlayerImage));
+				assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.statusImage));
 			} else
 				assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.BlackPlayerImage));
 			}

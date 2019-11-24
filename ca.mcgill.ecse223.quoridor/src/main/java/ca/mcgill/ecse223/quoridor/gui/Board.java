@@ -11,6 +11,7 @@ import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.controller.Controller;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
+import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Background;
@@ -41,9 +42,6 @@ public class Board extends Pane
 		do
 			try
 			{
-				if (activePlayer == players.length)
-					activePlayer = 0;
-				
 				players[activePlayer].takeTurn();
 				Platform.runLater(() ->
 				{
@@ -55,8 +53,10 @@ public class Board extends Pane
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
 			catch (Exception ex) { ex.printStackTrace(); }
-		while (!players[activePlayer++].hasWon());
+		while (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running));
 	});
+	
+	
 	
 	public Board(int numberOfPlayers)
 	{
@@ -92,7 +92,6 @@ public class Board extends Pane
 	public void loadFromModel()
 	{
 		GamePosition curr = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
-		//System.out.println(curr.getWhiteWallsOnBoard()+ ", " + curr.getBlackWallsOnBoard());
 		players[0].moveTo(cells[curr.getWhitePosition().getTile().getColumn()-1][curr.getWhitePosition().getTile().getRow()-1]);
 		players[1].moveTo(cells[curr.getBlackPosition().getTile().getColumn()-1][curr.getBlackPosition().getTile().getRow()-1]);
 		
@@ -106,6 +105,8 @@ public class Board extends Pane
 			(wall.getMove().getWallDirection().equals(Direction.Horizontal) ? hWall : vWall)
 					[wall.getMove().getTargetTile().getColumn()-1][wall.getMove().getTargetTile().getRow()-1]
 					.set();
+		
+		activePlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ? 0 : 1;
 	}
 	
 	public Player getActivePlayer() { return this.players[activePlayer]; }
@@ -552,7 +553,13 @@ public class Board extends Pane
 							Platform.runLater(() -> onRemainingTimeChanged.accept(remainingTime));
 					} catch (InterruptedException e) { break; }
 				
-				//System.out.println("Exiting thread: " + clock.getId());
+				if (remainingTime == 0)
+				{
+					Controller.countdownZero(activePlayer == 0 ?
+							QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer() :
+							QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer());
+					synchronized(Board.this) { Board.this.notify(); System.out.println("notify timer"); }
+				}
 			});
 			
 			clock.start();
