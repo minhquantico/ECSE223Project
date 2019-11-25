@@ -160,7 +160,9 @@ public class Controller {
 	{
 		switch (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus())
 		{
+		case ReadyToStart:
 		case Running:
+		case Replay:
 			if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
 				PlayScreenController.instance.statusImage.setImage(PlayScreenController.whiteTurn);
 			else
@@ -174,6 +176,8 @@ public class Controller {
 			break;
 		case Draw:
 			PlayScreenController.instance.statusImage.setImage(PlayScreenController.draw);
+			break;
+		case Initializing:
 			break;
 		}
 		
@@ -222,7 +226,9 @@ public class Controller {
 	 *         game {string}") Load game in QuoridorApplication from provided file.
 	 */
 	public static void loadGame(File file) throws FileNotFoundException, InvalidPositionException {
-
+		initQuoridorAndBoard();
+		Controller.InitializeNewGame();
+		
 		try (Scanner input = new Scanner(file)) {
 			int no = 0;
 			while (input.hasNext())
@@ -328,11 +334,7 @@ public class Controller {
 			for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves()) {
 				if (no % 2 == 0)
 					output.print(no / 2 + 1 + ".");
-				output.print(' ');
-				output.print((char)('a' + m.getTargetTile().getColumn() - 1));
-				output.print((char)('1' + m.getTargetTile().getRow() - 1));
-				if (m instanceof WallMove)
-					output.print(((WallMove) m).getWallDirection() == Direction.Horizontal ? 'h' : 'v');
+				output.print(' ' + moveToToken(m));
 				if (no++ % 2 == 1)
 					output.println();
 			}
@@ -340,6 +342,41 @@ public class Controller {
 		
 		return true;
 	}
+	
+	public static boolean savePosition(File file, boolean overwrite) throws FileNotFoundException {
+		if (!overwrite && file.exists())
+			return false;
+		
+		try (PrintStream output = new PrintStream(file)) {
+			String whiteString = "W: ";
+			String blackString = "B: ";
+
+			whiteString += tileToToken(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile());
+			blackString += tileToToken(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile());
+			
+			for (Wall w : QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsOnBoard())
+				whiteString += " " + moveToToken(w.getMove());
+			for (Wall w : QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsOnBoard())
+				blackString += " " + moveToToken(w.getMove());
+			
+			if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+			{
+				output.println(whiteString);
+				output.println(blackString);
+			}
+			else
+			{
+				output.println(blackString);
+				output.println(whiteString);
+			}
+		}
+		
+		return true;
+	}
+	
+	private static String tileToToken(Tile t) { return "" + ('a' + t.getRow()-1) + ('1' + t.getColumn()-1); }
+	private static String moveToToken(Move m) { return tileToToken(m.getTargetTile()) + (m instanceof WallMove ? ((WallMove)m).getWallDirection() == Direction.Horizontal ? "h" : "v" : ""); }
+	
 	/**
 	 * @author Traian Coza Feature: LoadGamePosition. This loads the 
 	 * game Position from a file inputted by the user.It reads in values line by line corresponding to respective player.
