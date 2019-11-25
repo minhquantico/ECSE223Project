@@ -76,9 +76,12 @@ public class PlayScreenController {
     }
     
     @FXML
-    void savePosition()
+    void savePosition() throws FileNotFoundException
     {
-    	
+    	FileChooser chooser = new FileChooser();
+    	File f = chooser.showSaveDialog(QuoridorApplication.getPrimaryStage());
+    	if (f != null)
+			Controller.savePosition(f, true);
     }
     
     @FXML
@@ -152,7 +155,7 @@ public class PlayScreenController {
     	int y = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getTargetTile().getRow()-1;
     	boolean vertical = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection().equals(Direction.Vertical);
     	
-    	if (Controller.initPosValidation())
+    	if (Controller.isValidWallMove())
     		(vertical ? board.vWall : board.hWall)[x][y].setPossible();
     	else
     		(vertical ? board.vWall : board.hWall)[x][y].setIllegal();

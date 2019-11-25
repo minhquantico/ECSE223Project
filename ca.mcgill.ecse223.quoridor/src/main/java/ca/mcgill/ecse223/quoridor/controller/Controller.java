@@ -195,9 +195,8 @@ public class Controller {
 		}
 		catch (NullPointerException ex) { /* Do nothing */ }
 		
-		detectDraw();
-		checkGamePositionStatus();
-		if (!QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
+		
+		if (updateGameStatus())
 			return;
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
@@ -254,16 +253,15 @@ public class Controller {
 		int col = move.charAt(0) - 'a' + 1;
 		int row = move.charAt(1) - '1' + 1;
 		char or = move.length() == 2 ? '-' : move.charAt(2);
-
 		if (or == '-') // Step move
-			if (initPosValidation(getTile(col, row)))
+			if (isValidPawnMove(getTile(col, row)))
 				doPawnMove(col, row);
 			else
 				return false;
 		else // Wall move
 		{
 			setWallMoveCandidate(col, row, or == 'h' ? Direction.Horizontal : Direction.Vertical);
-			if (initPosValidation())
+			if (isValidWallMove())
 				doWallMove();
 			else
 				return false;
@@ -355,9 +353,9 @@ public class Controller {
 			blackString += tileToToken(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile());
 			
 			for (Wall w : QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsOnBoard())
-				whiteString += " " + moveToToken(w.getMove());
+				whiteString += ", " + moveToToken(w.getMove());
 			for (Wall w : QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsOnBoard())
-				blackString += " " + moveToToken(w.getMove());
+				blackString += ", " + moveToToken(w.getMove());
 			
 			if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
 			{
@@ -374,7 +372,7 @@ public class Controller {
 		return true;
 	}
 	
-	private static String tileToToken(Tile t) { return "" + ('a' + t.getRow()-1) + ('1' + t.getColumn()-1); }
+	private static String tileToToken(Tile t) { return "" + (char)('a' + t.getColumn()-1) + (char)('1' + t.getRow()-1); }
 	private static String moveToToken(Move m) { return tileToToken(m.getTargetTile()) + (m instanceof WallMove ? ((WallMove)m).getWallDirection() == Direction.Horizontal ? "h" : "v" : ""); }
 	
 	/**
@@ -433,7 +431,7 @@ public class Controller {
 				new WallMove(no, no/2, player, getTile(col, row), QuoridorApplication.getQuoridor().getCurrentGame(),
 						or == 'h' ? Direction.Horizontal : Direction.Vertical, w);
 				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(w.getMove());
-				if (!initPosValidation())
+				if (!isValidWallMove())
 					throw new InvalidPositionException();
 				
 				curpos.addWhiteWallsOnBoard(w);
@@ -467,7 +465,7 @@ public class Controller {
 				new WallMove(no, no/2, player, getTile(col, row), QuoridorApplication.getQuoridor().getCurrentGame(),
 						or == 'h' ? Direction.Horizontal : Direction.Vertical, w);
 				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(w.getMove());
-				if (!initPosValidation())
+				if (!isValidWallMove())
 					throw new InvalidPositionException();
 				
 				curpos.addBlackWallsOnBoard(w);
@@ -709,8 +707,8 @@ public class Controller {
 	 *                     the current move.
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
-	public static Boolean initPosValidation(Tile aTargetTile) {
-		//System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
+	public static Boolean isValidPawnMove(Tile aTargetTile) {
+		System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
 		//System.out.println("Player to move: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ? "white" : "black"));
 		
 		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
@@ -736,7 +734,7 @@ public class Controller {
 	 *                     the current move
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
-	public static Boolean initPosValidation()
+	public static Boolean isValidWallMove()
 	{
 		Tile aTargetTile = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getTargetTile();
 		Direction dir = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallDirection();
@@ -934,7 +932,7 @@ public class Controller {
 	 */
 	public static void dropWall()
 	{
-		if (initPosValidation())
+		if (isValidWallMove())
 			doWallMove();
 		else
 			cancelCandidate();
@@ -1132,27 +1130,21 @@ public class Controller {
 		
 	}
 	
-	public static void checkGamePositionStatus() {
-		Player player = QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
-		System.out.println("WAWAWAWAWAWAWAWAWAWAW   black player");
-		System.out.println(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile()));
+	/** Returns true if status changed */
+	public static boolean updateGameStatus() {
+		GameStatus initalStatus = QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
 		
-		System.out.println("white player");
-		System.out.println(isWinner(player.getNextPlayer(), QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile()));
-		
-		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile())) {
-			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
-			return;
-		}
-		
-		player =QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
-		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile())) {
+		Player player = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
+		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile()))
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
-			return;
-		}
 		
+		player = QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
+		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile()))
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
 		
+		detectDraw();
 		
+		return initalStatus != QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
 	}
 	
 //--------------------------------------------------------------------------------------------------------------------------

@@ -1104,7 +1104,7 @@ public class PawnBehaviour
 	  boolean ret = false;
 	  try
 	  {
-		  ret = Controller.initPosValidation(
+		  ret = Controller.isValidPawnMove(
 				  Controller.direction(
 				  Controller.getTile(getCurrentColumn(), getCurrentRow()),
 				  dirToInt(dir)));
@@ -1130,7 +1130,7 @@ public class PawnBehaviour
 	  calledLegal = true;
 	  
 	  boolean ret = false;
-	  try { ret =  Controller.initPosValidation(getJumpMoveTile(dir, dir2)); }
+	  try { ret =  Controller.isValidPawnMove(getJumpMoveTile(dir, dir2)); }
 	  catch (NullPointerException ex) { }
 	  if (!ret)
 		  throw new IllegalMoveException(player, dir, dir2);

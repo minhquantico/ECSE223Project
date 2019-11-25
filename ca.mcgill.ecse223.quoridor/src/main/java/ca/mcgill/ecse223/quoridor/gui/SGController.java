@@ -21,6 +21,8 @@ public class SGController {
     @FXML
     void startGame(ActionEvent event)
     {
+    	if (!QuoridorApplication.getQuoridor().hasCurrentGame())
+    		ca.mcgill.ecse223.quoridor.controller.Controller.InitializeNewGame();
     	QuoridorApplication.setScene("WhiteSelectUsername");
     }
     
@@ -54,6 +56,5 @@ public class SGController {
     void initialize()
     {
     	ca.mcgill.ecse223.quoridor.controller.Controller.initQuoridorAndBoard();
-    	ca.mcgill.ecse223.quoridor.controller.Controller.InitializeNewGame();
     }
 }

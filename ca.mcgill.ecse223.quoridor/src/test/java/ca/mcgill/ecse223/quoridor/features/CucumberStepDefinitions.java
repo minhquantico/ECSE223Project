@@ -902,11 +902,11 @@ public class CucumberStepDefinitions {
 				break;
 			Move m = moveIt.next();
 			if (m instanceof StepMove)
-				valid &= Controller.initPosValidation(((StepMove)m).getTargetTile());
+				valid &= Controller.isValidPawnMove(((StepMove)m).getTargetTile());
 			else
 			{
 				Controller.setWallMoveCandidate(m.getTargetTile().getColumn(), m.getTargetTile().getRow(), ((WallMove)m).getWallDirection());
-				valid &= Controller.initPosValidation();
+				valid &= Controller.isValidWallMove();
 			}
 		}
 	}
@@ -957,7 +957,7 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("The position shall be invalid")
 	public void the_position_shall_be_invalid() {
-		assert (!Controller.initPosValidation());
+		assert (!Controller.isValidWallMove());
 	}
 
 // Rotate Wall: Gohar Saqib Fazal
@@ -1278,7 +1278,7 @@ public class CucumberStepDefinitions {
 	 */
 	@When("I release the wall in my hand")
 	public void i_release_the_wall_in_my_hand() {
-		valid = Controller.initPosValidation();
+		valid = Controller.isValidWallMove();
 		wallsOnBoard();
 		System.out.println("Valid: " + valid);
 		if (valid)
@@ -1652,7 +1652,7 @@ public class CucumberStepDefinitions {
 
 	@When("Checking of game result is initated")
 	public void checking_of_game_result_is_initated() {
-	   Controller.checkGamePositionStatus();
+	   Controller.updateGameStatus();
 	    Controller.detectDraw();
 	}
 
