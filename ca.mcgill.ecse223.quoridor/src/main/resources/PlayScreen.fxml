@@ -16,27 +16,29 @@
       </ImageView>
       <Label fx:id="timeLabel" layoutX="157.0" layoutY="134.0" text="_____" />
       <Pane fx:id="boardPane" layoutX="229.0" layoutY="110.0" prefHeight="486.0" prefWidth="502.0" style="-fx-background-color: white;" styleClass="theme" stylesheets="@PlayScreen.css" />
-      <Button fx:id="SaveGameLabel" layoutX="62.0" layoutY="521.0" mnemonicParsing="false" onAction="#buttonClickedSaveGame" text="Save Game" />
-      <Label fx:id="wallLabel" layoutX="840.0" layoutY="164.0" scaleX="2.0" scaleY="2.0" text="Label" />
+      <Button fx:id="saveGame" layoutX="53.0" layoutY="556.0" mnemonicParsing="false" onAction="#saveGame" prefHeight="40.0" prefWidth="120.0" text="Save Game" />
+      <Label fx:id="wallLabel" layoutX="840.0" layoutY="164.0" scaleX="2.0" scaleY="2.0" text="10" />
       <ImageView fx:id="statusImage" fitHeight="94.0" fitWidth="317.0" layoutX="312.0" layoutY="8.0">
          <image>
             <Image url="@White_Player_Image.png" />
          </image>
       </ImageView>
       <Rectangle fx:id="wallStock" arcHeight="5.0" arcWidth="5.0" fill="#b9bfba" height="29.0" layoutX="787.0" layoutY="327.0" onMousePressed="#createWall" stroke="BLACK" strokeType="INSIDE" width="106.0" />
-      <Label fx:id="abcd" layoutX="809.0" layoutY="311.0" text="Wall Stock">
+      <Label layoutX="809.0" layoutY="311.0" text="Wall Stock">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Pane id="ReplayPane" fx:id="ReplayPane" layoutX="757.0" layoutY="390.0" prefHeight="170.0" prefWidth="170.0">
+      <Pane id="ReplayPane" fx:id="replayPane" layoutX="23.0" layoutY="257.0" prefHeight="130.0" prefWidth="170.0">
          <children>
-            <Button id="StepPrevious" fx:id="StepPrevious" layoutX="85.0" layoutY="37.0" mnemonicParsing="false" onMouseClicked="#StepPreviousClick" text="Step&gt;" />
-            <Button id="JumpEnd" fx:id="JumpEnd" layoutX="87.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#JumpEndClick" text="Jump&gt;&gt;" />
-            <Button id="StepNext" fx:id="StepNext" layoutX="29.0" layoutY="37.0" mnemonicParsing="false" onMouseClicked="#StepNextClick" text="&lt;Step" />
-            <Button id="Continue" fx:id="ContinueGame" layoutX="31.0" layoutY="85.0" mnemonicParsing="false" onMouseClicked="#ContinueGameClick" text="ContinueGame" />
-            <Button id="JumpBeginning" fx:id="JumpBeginning" layoutX="12.0" layoutY="1.0" mnemonicParsing="false" onMouseClicked="#JumpBeginningClick" text="&lt;&lt;Jump " />
+            <Button id="StepPrevious" fx:id="stepNext" layoutX="97.0" layoutY="37.0" mnemonicParsing="false" onAction="#stepNext" text="Step &gt;" />
+            <Button id="JumpEnd" fx:id="jumpEnd" layoutX="97.0" layoutY="1.0" mnemonicParsing="false" onAction="#jumpEnd" text="End   &gt;&gt;" />
+            <Button id="StepNext" fx:id="stepPrevious" layoutX="21.0" layoutY="37.0" mnemonicParsing="false" onAction="#stepPrevious" text="&lt; Step" />
+            <Button id="Continue" fx:id="continueGame" layoutX="29.0" layoutY="76.0" mnemonicParsing="false" onAction="#continueGame" prefHeight="40.0" prefWidth="120.0" text="Continue Game" />
+            <Button id="JumpBeginning" fx:id="jumpBeginning" layoutX="4.0" layoutY="1.0" mnemonicParsing="false" onAction="#jumpBeginning" text="&lt;&lt; Start " />
          </children>
       </Pane>
+      <Button fx:id="savePosition" layoutX="53.0" layoutY="503.0" mnemonicParsing="false" onAction="#savePosition" prefHeight="40.0" prefWidth="120.0" text="Save Position" />
+      <Button fx:id="resign" layoutX="780.0" layoutY="503.0" mnemonicParsing="false" onAction="#resign" prefHeight="40.0" prefWidth="120.0" text="Resign" />
    </children>
 </Pane>

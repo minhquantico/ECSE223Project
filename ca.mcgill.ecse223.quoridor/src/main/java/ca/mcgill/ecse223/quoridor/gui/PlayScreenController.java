@@ -26,70 +26,69 @@ import javafx.stage.FileChooser;
 
 public class PlayScreenController {
 
-    @FXML private Button EndTurnLabel;
     @FXML private Label wallLabel;
     @FXML public ImageView statusImage;
     @FXML public Pane pane;
     @FXML private Label timeLabel;
-    @FXML private Button SaveGameLabel;
-    @FXML private Label abcd;
+    @FXML private Button saveGame;
+    @FXML private Button savePosition;
     @FXML public Rectangle wallStock;
     @FXML private Pane boardPane;
+    @FXML private Button continueGame;
+    @FXML private Button stepNext;
+    @FXML private Button jumpEnd;
+    @FXML private Button stepPrevious;
+    @FXML private Button jumpBeginning;
+    @FXML private Pane replayPane;
     
     public Board board;
-    
     public Pane wall;
-
-    @FXML
-    private Button ContinueGame;
-
-    @FXML
-    private Button StepNext;
-
-    @FXML
-    private Button JumpEnd;
     
     @FXML
-    private Button StepPrevious;
+    void stepPrevious() {
+
+    }
 
     @FXML
-    private Button JumpBeginning;
+    void stepNext() {
+
+    }
 
     @FXML
-    private Pane ReplayPane;
+    void jumpEnd() {
+
+    }
+
+    @FXML
+    void jumpBeginning() {
+
+    }
     
     @FXML
-    void StepPreviousClick(ActionEvent event) {
+    void continueGame() {
 
     }
-
+    
     @FXML
-    void JumpEndClick(ActionEvent event) {
-
+    void resign()
+    {
+    	
     }
-
+    
     @FXML
-    void StepNextClick(ActionEvent event) {
-
+    void savePosition()
+    {
+    	
     }
-
+    
     @FXML
-    void ContinueGameClick(ActionEvent event) {
-
-    }
-
-    @FXML
-    void JumpBeginningClick(ActionEvent event) {
-
-    }
-    @FXML
-    void buttonClickedSaveGame(ActionEvent event) throws FileNotFoundException
+    void saveGame() throws FileNotFoundException
     {
     	FileChooser chooser = new FileChooser();
     	File f = chooser.showSaveDialog(QuoridorApplication.getPrimaryStage());
     	if (f != null)
 			Controller.saveGame(f, true);
-    } 
+    }
     
     public static PlayScreenController instance;
     
