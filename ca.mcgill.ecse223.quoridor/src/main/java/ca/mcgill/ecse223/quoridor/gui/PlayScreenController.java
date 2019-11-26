@@ -90,7 +90,8 @@ public class PlayScreenController {
     	Controller.jumpToFinalPos();
     	board.loadFromModel();
     	ca.mcgill.ecse223.quoridor.controller.Controller.StartClock();
-		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+    	board.getActivePlayer().getOnRemainingTimeChange().accept(board.getActivePlayer().getRemainingTime());
+    	QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
 		Controller.updateGameStatus();
     	Controller.updateStatusGUI();
     	if (isRunning())

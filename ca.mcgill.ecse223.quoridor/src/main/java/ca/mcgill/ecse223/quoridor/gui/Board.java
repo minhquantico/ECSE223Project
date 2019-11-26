@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.function.Consumer;
@@ -20,14 +21,19 @@ import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 //import tools.StopWatch;
+import javafx.scene.text.Text;
 
 // TODO: set isHackable to false <---- IMPORTANT
 public class Board extends Pane
@@ -47,8 +53,19 @@ public class Board extends Pane
 	private Runnable onGameEnded;
 	
 	private Thread game = new Thread(() -> {
-		while (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
-			try
+		try
+		{
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Initializing);
+			for (Player p : players)
+				if (p.isNetwork())
+				{
+					Platform.runLater(() -> this.getChildren().add(new LoadingPane(p)));
+					p.connect();
+					Platform.runLater(() -> this.getChildren().removeIf(c -> c instanceof LoadingPane));
+				}
+			
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+			while (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
 			{
 				players[activePlayer].takeTurn();
 				Platform.runLater(() ->
@@ -59,8 +76,13 @@ public class Board extends Pane
 				});
 				synchronized (Board.this) { Board.this.wait(); }
 			}
-			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
-			catch (Exception ex) { ex.printStackTrace(); }
+			
+			for (Player p : players)
+				if (p.isNetwork())
+					p.disconnect();
+		}
+		catch (InterruptedException ex) { System.err.println("Interrupted???"); }
+		catch (Exception ex) { ex.printStackTrace(); }
 		
 		onGameEnded.run();
 	});
@@ -105,8 +127,7 @@ public class Board extends Pane
 	    	if (Controller.isIPAdress(blackUser))
 	    		players[1].setNetwork(InetAddress.getByName(blackUser));
     	}
-    	catch (IOException ex)
-    		{ System.err.println(ex.getMessage()); }
+    	catch (IOException ex) { assert false; }
 	}
 	
 	public boolean isWaitingForMove() { return waitingForMove; }
@@ -416,28 +437,28 @@ public class Board extends Pane
 		{
 			assert players[activePlayer] == this;
 			
-			if (isNetwork())
-				Controller.doMove(networkIn.nextLine());
-			else
+			this.startClock();
+			
+			if (isComputer())
+				this.doBestMove();
+			else if (isNetwork())
+				try { Controller.doMove(networkIn.nextLine()); }
+				catch (NoSuchElementException ex) { Controller.resign(); }	// Resign if player disconnected
+			else		// Local user
 				synchronized (Board.this)
 				{
-					this.startClock();
-					
-					if (isComputer())
-						Platform.runLater(() -> doBestMove());
-					else
-						getPossibleMoves().forEach(c -> c.setSelected(true));
+					getPossibleMoves().forEach(c -> c.setSelected(true));
 					
 					Board.this.waitingForMove = true;
 					Board.this.wait();
 					Board.this.waitingForMove = false;
-					this.stopClock();
-					
-					if (adversary().isNetwork())
-						adversary().networkOut.println(Controller.moveToToken(
-								QuoridorApplication.getQuoridor().getCurrentGame().getMove(
-										QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1)));
 				}
+			if (adversary().isNetwork())
+				adversary().networkOut.println(Controller.moveToToken(
+						QuoridorApplication.getQuoridor().getCurrentGame().getMove(
+								QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1)));
+			
+			this.stopClock();
 		}
 		
 		public void doBestMove()
@@ -601,17 +622,20 @@ public class Board extends Pane
 		}
 		
 		public long getRemainingTime() { return this.remainingTime / 100; }
-		public void setOnRemainingTimeChange(Consumer<Long> action) { this.onRemainingTimeChanged = action; }
+		public void setOnRemainingTimeChange(Consumer<Long> action) { this.onRemainingTimeChanged = action;; }
+		public Consumer<Long> getOnRemainingTimeChange() { return this.onRemainingTimeChanged; }
 		
 		public void setComputer(boolean computer) { this.computer = computer; }
 		public boolean isComputer() { return this.computer; }
 		public boolean isUser() { return !isComputer() && !isNetwork(); }
 		
+		private InetAddress address = null;
 		private Socket socket = null;
 		private PrintStream networkOut = null;
 		private Scanner networkIn = null;
-		public boolean isNetwork() { return socket != null; }
-		public void setNetwork(InetAddress address) throws IOException
+		public boolean isNetwork() { return address != null; }
+		public void setNetwork(InetAddress address) { this.address = address; }
+		public void connect() throws IOException
 		{
 			try { socket = new Socket(address, 5000); }
 			catch (ConnectException ex)
@@ -630,9 +654,45 @@ public class Board extends Pane
 			networkIn = new Scanner(socket.getInputStream());
 			networkOut = new PrintStream(socket.getOutputStream());
 		}
+		public void disconnect() throws IOException
+		{
+			if (socket != null)
+				socket.close();
+			socket = null;
+		}
 		
 		public boolean isWhite() { return this == players[0]; }
 		public Player adversary() { return players[isWhite() ? 1 : 0]; }
 		
+	}
+	
+	private class LoadingPane extends Pane
+	{
+		public LoadingPane(Player player)
+		{
+			this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+			this.prefWidthProperty().bind(Board.this.widthProperty());
+			this.prefHeightProperty().bind(Board.this.heightProperty());
+			
+		    ImageView loading = new ImageView(new Image(QuoridorApplication.class.getClassLoader().getResourceAsStream("loading.gif")));
+		    loading.fitWidthProperty().bind(Board.this.widthProperty().divide(2));
+		    loading.fitHeightProperty().bind(Board.this.heightProperty().divide(2));
+		    loading.layoutXProperty().bind(Board.this.widthProperty().divide(4));
+		    loading.layoutYProperty().bind(Board.this.heightProperty().divide(4));
+		    
+		    Text text = new Text("Waiting for " + (player.isWhite() ? "white" : "black") + "@" + player.address.toString());
+		    text.setFont(Font.font(20));
+		    ChangeListener<Number> listener = (e, m, n) ->
+		    {
+		    	text.setLayoutX((Board.this.getWidth() - text.getLayoutBounds().getWidth()) / 2);
+		    	text.setLayoutY(Board.this.getHeight() / 6);
+		    };
+		    Board.this.widthProperty().addListener(listener);
+		    Board.this.heightProperty().addListener(listener);
+		    text.layoutBoundsProperty().addListener(e -> listener.changed(null, null, null));
+		    listener.changed(null, null, null);
+		    
+		    this.getChildren().addAll(loading, text);
+		}
 	}
 }
