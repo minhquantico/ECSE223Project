@@ -173,9 +173,15 @@ public class Controller {
 		case ReadyToStart:
 		case Running:
 			if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
+			{
 				PlayScreenController.instance.statusImage.setImage(PlayScreenController.whiteTurn);
+				PlayScreenController.instance.resign.setDisable(!PlayScreenController.instance.board.players[0].isUser());
+			}
 			else
+			{
 				PlayScreenController.instance.statusImage.setImage(PlayScreenController.blackTurn);
+				PlayScreenController.instance.resign.setDisable(!PlayScreenController.instance.board.players[1].isUser());
+			}
 			break;
 		case WhiteWon:
 			PlayScreenController.instance.statusImage.setImage(PlayScreenController.whiteWon);

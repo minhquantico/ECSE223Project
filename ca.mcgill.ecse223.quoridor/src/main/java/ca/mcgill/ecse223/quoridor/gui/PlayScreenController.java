@@ -10,9 +10,7 @@ import ca.mcgill.ecse223.quoridor.controller.Controller;
 import ca.mcgill.ecse223.quoridor.gui.Board.Player;
 import ca.mcgill.ecse223.quoridor.model.Direction;
 import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -36,6 +34,7 @@ public class PlayScreenController {
     @FXML private Button saveGame;
     @FXML private Button savePosition;
     @FXML public Rectangle wallStock;
+    @FXML public Button resign;
     @FXML private Pane boardPane;
     @FXML private Button continueGame;
     @FXML private Button stepNext;
