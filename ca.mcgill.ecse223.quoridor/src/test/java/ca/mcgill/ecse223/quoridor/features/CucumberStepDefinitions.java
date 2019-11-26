@@ -1573,11 +1573,6 @@ public class CucumberStepDefinitions {
 	    assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus(), GameStatus.Replay);
 	}
 
-	@Given("The game is replay mode")
-	public void the_game_is_replay_mode() {
-		theGameIsNotRunning();
-		i_initiate_replay_mode();
-	}
 
 	@Given("The following moves have been played in game:")
 	public void the_following_moves_have_been_played_in_game(io.cucumber.datatable.DataTable dataTable) {
@@ -1713,7 +1708,8 @@ public class CucumberStepDefinitions {
 
 	@Given("The game is in replay mode")
 	public void the_game_is_in_replay_mode() {
-	    // Write code here that turns the phrase above into concrete actions
+		initQuoridorAndBoard();
+		Controller.InitializeNewGame();
 	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 	}
 
@@ -1779,12 +1775,8 @@ public class CucumberStepDefinitions {
 	    // Write code here that turns the phrase above into concrete actions
 	    throw new cucumber.api.PendingException();
 	}
+	
 
-	@When("The game has a final result")
-	public void the_game_has_a_final_result() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
-	}
 
 	@When("The game to load has an invalid move")
 	public void the_game_to_load_has_an_invalid_move() {
