@@ -46,11 +46,8 @@ import javafx.scene.layout.Pane;
 				}
 	    	}
 	    	
-	    	if (whiteUsername.equals("Computer"))
-	    		PlayScreenController.instance.board.players[0].setComputer(true);
-	    	
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
-	    	QuoridorApplication.setScene("BlackSelectUsername");
+	    	QuoridorApplication.setScreen("BlackSelectUsername");
 	    }
 	    
 	    @FXML

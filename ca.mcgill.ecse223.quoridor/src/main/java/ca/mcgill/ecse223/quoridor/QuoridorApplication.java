@@ -1,7 +1,9 @@
 package ca.mcgill.ecse223.quoridor;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import ca.mcgill.ecse223.quoridor.model.Quoridor;
 import javafx.application.Application;
@@ -14,7 +16,7 @@ public class QuoridorApplication extends Application {
 	private static Quoridor quoridor;
 	
 	private static Stage primaryStage;
-	private static HashMap<String, Scene> scenes = new HashMap<>();
+	private static HashMap<String, Screen> screens = new HashMap<>();
 	
 	public static Quoridor getQuoridor()
 	{
@@ -42,32 +44,52 @@ public class QuoridorApplication extends Application {
 				ex.printStackTrace();
 		});
 		
-	    loadScreen("StartGame", "StartGame.fxml", "All.css", "StartGame.css");
-	    loadScreen("WhiteSelectUsername", "SelectWhitePlayerUsername.fxml", "All.css", "SelectWhitePlayerUsername.css");
-	    loadScreen("BlackSelectUsername", "SelectBlackPlayerUsername.fxml", "All.css", "SelectBlackPlayerUsername.css");
-	    loadScreen("ThinkingScreen", "ThinkingTime.fxml", "All.css", "ThinkingTime.css");
-	    loadScreen("PlayScreen", "PlayScreen.fxml", "PlayScreen.css");
-	    setScene("StartGame");
+	    addScreen("StartGame", "StartGame.fxml", "All.css", "StartGame.css");
+	    addScreen("WhiteSelectUsername", "SelectWhitePlayerUsername.fxml", "All.css", "SelectWhitePlayerUsername.css");
+	    addScreen("BlackSelectUsername", "SelectBlackPlayerUsername.fxml", "All.css", "SelectBlackPlayerUsername.css");
+	    addScreen("ThinkingScreen", "ThinkingTime.fxml", "All.css", "ThinkingTime.css");
+	    addScreen("PlayScreen", "PlayScreen.fxml", "PlayScreen.css");
+	    setScreen("StartGame");
 	    
 	    primaryStage.setOnHidden(e -> System.exit(0));
 	    primaryStage.setResizable(false);
 		primaryStage.show();
 	}
 	
-	public boolean loadScreen(String name, String fxml, String... css) throws IOException
+	public void addScreen(String name, String fxml, String... css) throws IOException
+		{ screens.put(name, new Screen(fxml, css)); }
+    
+    public static void setScreen(String name)
     {
-        Scene scene = new Scene(FXMLLoader.load(QuoridorApplication.class.getClassLoader().getResource(fxml)));
-        for (String style : css)
-        	scene.getStylesheets().add(QuoridorApplication.class.getClassLoader().getResource(style).toExternalForm());
-        scenes.put(name,scene);
-        return true;
+    	try { screens.get(name).setScreen(); }
+    	catch (IOException ex) { System.err.println(ex.getMessage()); }
     }
-    
-    public static void setScene(String name) { primaryStage.setScene(scenes.get(name)); }
     public static Stage getPrimaryStage() { return primaryStage; }
-    
-	public static void main(String[] args)
+	public static void main(String[] args) { launch(args); }
+	
+	private static class Screen
 	{
-		launch(args);
+		private FXMLLoader loader;
+		private List<String> css;
+		private Scene scene;
+		
+		public Screen(String fxml, String... css)
+		{
+			this.loader = new FXMLLoader(QuoridorApplication.class.getClassLoader().getResource(fxml));
+			this.css = new ArrayList<>();
+			for (String style : css)
+				this.css.add(QuoridorApplication.class.getClassLoader().getResource(style).toExternalForm());
+			this.scene = null;
+		}
+		
+		public void setScreen() throws IOException
+		{
+			if (this.scene == null)
+			{
+				this.scene = new Scene(loader.load());
+				this.scene.getStylesheets().addAll(css);
+			}
+			QuoridorApplication.primaryStage.setScene(this.scene);
+		}
 	}
 }

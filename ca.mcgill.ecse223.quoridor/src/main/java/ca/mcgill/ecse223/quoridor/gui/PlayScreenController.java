@@ -8,8 +8,10 @@ import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.controller.Controller;
 import ca.mcgill.ecse223.quoridor.gui.Board.Player;
 import ca.mcgill.ecse223.quoridor.model.Direction;
+import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -46,33 +48,56 @@ public class PlayScreenController {
     
     @FXML
     void stepPrevious() {
-
+    	assertReplay();
+    	Controller.stepBackwards();
+    	board.loadFromModel();
     }
 
     @FXML
     void stepNext() {
-
-    }
-
-    @FXML
-    void jumpEnd() {
-
+    	assertReplay();
+    	Controller.stepForwards();
+    	board.loadFromModel();
     }
 
     @FXML
     void jumpBeginning() {
-
+    	assertReplay();
+    	Controller.jumpToStartPos();
+    	board.loadFromModel();
+    }
+    
+    @FXML
+    void jumpEnd() {
+    	assertReplay();
+    	Controller.jumpToFinalPos();
+    	board.loadFromModel();
+    }
+    
+    void assertReplay() throws AssertionError
+    {
+    	if (!QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Replay))
+    		throw new AssertionError("Game not in replay mode!");
     }
     
     @FXML
     void continueGame() {
-
+    	replayPane.setVisible(false);
+    	Controller.jumpToFinalPos();
+    	board.loadFromModel();
+    	ca.mcgill.ecse223.quoridor.controller.Controller.StartClock();
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+		Controller.updateGameStatus();
+    	Controller.updateStatusGUI();
+    	if (isRunning())
+    		PlayScreenController.instance.board.startGame();
     }
     
     @FXML
     void resign()
     {
-    	
+    	if (isRunning())
+    		Controller.resign();
     }
     
     @FXML
@@ -98,6 +123,9 @@ public class PlayScreenController {
     @FXML
     public void createWall(MouseEvent e)
     {
+    	if (!isRunning())
+    		return;		// Nothing to do here
+    	
     	if (board.getActivePlayer().isComputer())
     	{
     		wallLabel.setText("Wait for computer!");
@@ -217,7 +245,6 @@ public class PlayScreenController {
     	board = new Board(2);
     	board.prefWidthProperty().bind(boardPane.widthProperty());
     	board.prefHeightProperty().bind(boardPane.heightProperty());
-    	
     	boardPane.getChildren().add(board);
     	
     	for (Player player : board.players)
@@ -237,13 +264,21 @@ public class PlayScreenController {
     	wall.prefHeightProperty().bind(board.hWall[0][0].prefHeightProperty());
     	wall.setBackground(board.hWall[0][0].SET);
     	
-    	statusImage.setImage(whiteTurn);
-    	
     	wallLabel.setText("10");
     	wallLabel.setWrapText(true);
     	wallLabel.setMaxWidth(80);		// TODO
+    	
+    	if (QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getUser().getName().equals("Computer"))
+    		PlayScreenController.instance.board.players[0].setComputer(true);
+    	if (QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser().getName().equals("Computer"))
+    		PlayScreenController.instance.board.players[1].setComputer(true);
+    	
+    	replayPane.setVisible(QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Replay));
+    	if (!replayPane.isVisible())
+    		continueGame();
     }
     
+    private boolean isRunning() { return QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running); }
     
     public int[] getWallMoveTile()
     {

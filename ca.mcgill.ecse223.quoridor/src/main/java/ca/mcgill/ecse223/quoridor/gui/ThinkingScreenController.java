@@ -24,24 +24,18 @@ public class ThinkingScreenController
 		int minute = Integer.parseInt(fieldMinute.getText());
 		int second = Integer.parseInt(fieldSecond.getText());
 		
-		if(minute != 0 || second != 0)
-		{
-			ca.mcgill.ecse223.quoridor.controller.Controller.setTotalThinkingTime(minute, second);
-			long totalSeconds = (minute * 60) + second;
-			ca.mcgill.ecse223.quoridor.controller.Controller.StartClock(totalSeconds);
-			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
-			QuoridorApplication.setScene("PlayScreen");
-			PlayScreenController.instance.board.startGame();
-			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
-		}
+		ca.mcgill.ecse223.quoridor.controller.Controller.setTotalThinkingTime(minute, second);
+		QuoridorApplication.setScreen("PlayScreen");
 	}
 	
 	public void checkTime()
 	{
 		try
 		{
-			Integer.parseInt(fieldMinute.getText());
-			Integer.parseInt(fieldSecond.getText());
+			if (Integer.parseInt(fieldMinute.getText()) < 0)
+				throw new NumberFormatException();
+			if (Integer.parseInt(fieldSecond.getText()) < 0)
+				throw new NumberFormatException();
 			
 			warning.setVisible(false);
 			button.setDisable(false);

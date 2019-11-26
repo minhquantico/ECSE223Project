@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.controller.Controller;
+import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,7 +24,7 @@ public class SGController {
     {
     	if (!QuoridorApplication.getQuoridor().hasCurrentGame())
     		ca.mcgill.ecse223.quoridor.controller.Controller.InitializeNewGame();
-    	QuoridorApplication.setScene("WhiteSelectUsername");
+    	QuoridorApplication.setScreen("WhiteSelectUsername");
     }
     
     @FXML
@@ -32,7 +33,11 @@ public class SGController {
     	FileChooser chooser = new FileChooser();
     	File f = chooser.showOpenDialog(QuoridorApplication.getPrimaryStage());
     	if (f != null)
-    		try { Controller.loadGame(f); }
+    		try
+    		{
+    			Controller.loadGame(f);
+    			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+    		}
     		catch (FileNotFoundException | Controller.InvalidPositionException ex)
     		{
     			System.err.println("Load Error: " + ex.getMessage());

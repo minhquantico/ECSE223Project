@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.InputMismatchException;
@@ -156,7 +157,7 @@ public class Controller {
 	 *         completes his move") end the Move of the current player and get the
 	 *         next player to move
 	 */
-	public static void endMoveGUI()
+	public static void updateStatusGUI()
 	{
 		switch (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus())
 		{
@@ -191,26 +192,26 @@ public class Controller {
 		try
 		{
 			if (PlayScreenController.instance.board.isWaitingForMove())
-				synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); System.out.println("notify endmove"); }
+				synchronized(PlayScreenController.instance.board) { PlayScreenController.instance.board.notify(); }
 		}
 		catch (NullPointerException ex) { /* Do nothing */ }
 		
+		updateGameStatus();
 		
-		if (updateGameStatus())
-			return;
-		
-		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
+		GameStatus status = QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
+		if (status != GameStatus.WhiteWon &&  status != GameStatus.BlackWon && status != GameStatus.Draw)
+			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().setPlayerToMove(
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
 	}
 	
-	public static void initJumpToStartPos() {
+	public static void jumpToStartPos() {
 		GamePosition startPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(0);
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(startPos);
 		
 	}
 	
-	public static void initJumpToFinalPos() {
-		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions();
+	public static void jumpToFinalPos() {
+		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions()-1;
 		GamePosition finalPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(max);
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(finalPos);
 		
@@ -225,10 +226,11 @@ public class Controller {
 	 *         game {string}") Load game in QuoridorApplication from provided file.
 	 */
 	public static void loadGame(File file) throws FileNotFoundException, InvalidPositionException {
-		initQuoridorAndBoard();
-		Controller.InitializeNewGame();
-		
 		try (Scanner input = new Scanner(file)) {
+			if (QuoridorApplication.getQuoridor().hasCurrentGame())
+				QuoridorApplication.getQuoridor().getCurrentGame().delete();
+			Controller.InitializeNewGame();
+			
 			int no = 0;
 			while (input.hasNext())
 			{
@@ -243,7 +245,7 @@ public class Controller {
 		}
 		catch (InputMismatchException ex)
 		{
-			clearGame();
+			QuoridorApplication.getQuoridor().getCurrentGame().delete();
 			throw new InvalidPositionException(ex.getMessage());
 		}
 	}
@@ -290,23 +292,8 @@ public class Controller {
 			cloned.addWhiteWallsOnBoard(w);
 		for (Wall w : pos.getBlackWallsOnBoard())
 			cloned.addBlackWallsOnBoard(w);
-
+		
 		return cloned;
-	}
-
-	/**
-	 * @author Traian Coza Clears the game
-	 */
-	private static void clearGame() {
-
-		QuoridorApplication.getQuoridor().getCurrentGame()
-				.setCurrentPosition(QuoridorApplication.getQuoridor().getCurrentGame().getPosition(0));
-		for (GamePosition pos : QuoridorApplication.getQuoridor().getCurrentGame().getPositions())
-			QuoridorApplication.getQuoridor().getCurrentGame().removePosition(pos);
-		QuoridorApplication.getQuoridor().getCurrentGame()
-				.addPosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition());
-		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
-			QuoridorApplication.getQuoridor().getCurrentGame().removeMove(m);
 	}
 
 	/**
@@ -381,10 +368,6 @@ public class Controller {
 	 * @param file
 	 */
 	public static void loadPosition(File file) throws FileNotFoundException, InvalidPositionException {
-		initQuoridorAndBoard();
-		Controller.InitializeNewGame();
-		
-		GamePosition curpos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		boolean whiteToMove = true;
 		Scanner whiteScan;
 		Scanner blackScan;
@@ -393,6 +376,12 @@ public class Controller {
 			whiteScan = new Scanner(fileScan.nextLine());
 			blackScan = new Scanner(fileScan.nextLine());
 		}
+		
+		if (QuoridorApplication.getQuoridor().hasCurrentGame())
+			QuoridorApplication.getQuoridor().getCurrentGame().delete();
+		Controller.InitializeNewGame();
+		
+		GamePosition curpos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		
 		int no = 0;
 		try
@@ -478,7 +467,10 @@ public class Controller {
 			curpos.setPlayerToMove(whiteToMove ? player.getNextPlayer() : player);
 		}
 		catch (ArrayIndexOutOfBoundsException | InputMismatchException ex)
-			{ throw new InvalidPositionException("!!"); }
+		{
+			QuoridorApplication.getQuoridor().getCurrentGame().delete();
+			throw new InvalidPositionException("!!");
+		}
 		
 		whiteScan.close();
 		blackScan.close();
@@ -708,7 +700,7 @@ public class Controller {
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
 	public static Boolean isValidPawnMove(Tile aTargetTile) {
-		System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
+		//System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
 		//System.out.println("Player to move: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ? "white" : "black"));
 		
 		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
@@ -803,13 +795,10 @@ public class Controller {
 				Direction.Vertical : Direction.Horizontal);
 	}
 	
+	public static void resign() { resign(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()); }
 	public static void resign(Player player) {
-		if(player == QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()) {
-			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
-		}
-		else {
-			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
-		}
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(player.hasGameAsWhite() ? GameStatus.BlackWon : GameStatus.WhiteWon);
+		endMove();
 	}
 	
 	public static void notRunning() {
@@ -867,12 +856,13 @@ public class Controller {
 	 * @author Minh Quan Hoang Feature: StartNewGame Step: @When("I start the
 	 *         clock") Starts the clock
 	 **/
-	public static void StartClock(long seconds) {
+	public static void StartClock() {
+		int seconds = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getRemainingTime().getMinutes() * 60;
+		seconds += QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getRemainingTime().getSeconds();
 		PlayScreenController.instance.board.players[0].startClock(seconds);
 		PlayScreenController.instance.board.players[1].startClock(seconds);
 		PlayScreenController.instance.board.players[0].stopClock();
 		PlayScreenController.instance.board.players[1].stopClock();
-
 	}
 	
 
@@ -1012,6 +1002,8 @@ public class Controller {
 	 * 
 	 */
 	public static void doWallMove() {
+		assertCurrentPositionIsLastPosition();
+		
 		WallMove wallMoveCandidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
 				cloneGamePosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()));
@@ -1032,9 +1024,19 @@ public class Controller {
 		endMove();
 	}
 	
+	private static void assertCurrentPositionIsLastPosition() throws AssertionError
+	{
+		GamePosition currentPosition = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		int currentPositionIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(currentPosition);
+		int lastPostionIndex = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions()-1;
+		if (currentPositionIndex != lastPostionIndex)
+			throw new AssertionError("Current position is not last position!");
+	}
 	
 	public static void doPawnMove(int i, int j)
 	{
+		assertCurrentPositionIsLastPosition();
+		
 		Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
 		int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() + 1;
 		int aRoundNumber = (int) Math.ceil(aMoveNumber / 2);
@@ -1111,6 +1113,7 @@ public class Controller {
 	 *                 less than the second equivalent of 24 hours)
 	 */
 	public static void setThinkingTime(int minutes, int seconds) {
+		@SuppressWarnings("deprecation")
 		Time time = new Time(0, minutes, seconds);
 		QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setRemainingTime(time);
 		QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().setRemainingTime(time);
@@ -1135,11 +1138,11 @@ public class Controller {
 		GameStatus initalStatus = QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
 		
 		Player player = QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer();
-		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile()))
+		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile()))
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
 		
-		player = QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
-		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile()))
+		player = player.getNextPlayer();
+		if(isWinner(player, QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile()))
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.BlackWon);
 		
 		detectDraw();
@@ -1236,7 +1239,7 @@ public class Controller {
 	public static void stepForwards() {
 		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
-		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions();
+		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions()-1;
 		int nextIndex = currentIndex == max? currentIndex : currentIndex + 1;
 		GamePosition newPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(nextIndex);
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(newPos);

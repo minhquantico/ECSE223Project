@@ -1719,12 +1719,12 @@ public class CucumberStepDefinitions {
 
 	@When("Jump to start position is initiated")
 	public void jump_to_start_position_is_initiated() {
-	    Controller.initJumpToStartPos();
+	    Controller.jumpToStartPos();
 	}
 	
 	@When("Jump to final position is initiated")
 	public void jump_to_final_position_is_initiated() {
-	    Controller.initJumpToFinalPos();
+	    Controller.jumpToFinalPos();
 	}
 
 

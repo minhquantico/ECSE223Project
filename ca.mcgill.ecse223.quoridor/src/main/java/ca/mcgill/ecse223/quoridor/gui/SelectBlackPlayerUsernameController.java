@@ -45,11 +45,8 @@ public class SelectBlackPlayerUsernameController {
     		}
     	}
     	
-    	if (blackUsername.equals("Computer"))
-    		PlayScreenController.instance.board.players[1].setComputer(true);
-    	
     	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
-    	QuoridorApplication.setScene("ThinkingScreen");
+    	QuoridorApplication.setScreen("ThinkingScreen");
     }
     
     @FXML

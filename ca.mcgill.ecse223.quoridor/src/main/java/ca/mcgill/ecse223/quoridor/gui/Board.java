@@ -39,13 +39,13 @@ public class Board extends Pane
 	private volatile boolean waitingForMove = false;
 	
 	private Thread game = new Thread(() -> {
-		do
+		while (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
 			try
 			{
 				players[activePlayer].takeTurn();
 				Platform.runLater(() ->
 				{
-					Controller.endMoveGUI();
+					Controller.updateStatusGUI();
 					this.loadFromModel();
 					synchronized (Board.this) { Board.this.notify(); }
 				});
@@ -53,7 +53,6 @@ public class Board extends Pane
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
 			catch (Exception ex) { ex.printStackTrace(); }
-		while (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running));
 	});
 	
 	
@@ -107,6 +106,7 @@ public class Board extends Pane
 					.set();
 		
 		activePlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ? 0 : 1;
+		forEachCell(c -> c.setSelected(false));
 	}
 	
 	public Player getActivePlayer() { return this.players[activePlayer]; }
@@ -405,7 +405,6 @@ public class Board extends Pane
 				Board.this.wait();
 				Board.this.waitingForMove = false;
 				this.stopClock();
-				forEachCell(c -> c.setSelected(false));
 			}
 		}
 		
