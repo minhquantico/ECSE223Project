@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.quoridor.gui;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import ca.mcgill.ecse223.quoridor.controller.Controller;
@@ -109,7 +110,12 @@ public class PlayScreenController {
     void resign()
     {
     	if (isRunning())
+    	{
     		Controller.resign();
+    		if (board.getActivePlayer().isNetwork())
+    			try { board.getActivePlayer().disconnect(); }
+    			catch (IOException ex) { System.err.println(ex.getMessage()); }
+    	}
     }
     
     @FXML

@@ -656,7 +656,7 @@ public class Board extends Pane
 		}
 		public void disconnect() throws IOException
 		{
-			if (socket != null)
+			if (socket != null && !socket.isClosed())
 				socket.close();
 			socket = null;
 		}
