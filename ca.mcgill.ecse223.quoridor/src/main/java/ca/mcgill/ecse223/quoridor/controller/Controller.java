@@ -246,7 +246,7 @@ public class Controller {
 				
 				no++;
 			}
-			System.out.println("Jamp");
+			
 			jumpToStartPos();
 		}
 		catch (InputMismatchException ex)
@@ -263,7 +263,7 @@ public class Controller {
 		char or = move.length() == 2 ? '-' : move.charAt(2);
 		if (or == '-') // Step move
 			if (isValidPawnMove(getTile(col, row)))
-				doPawnMove(col, row);
+				doPawnMoveStateMachine(col, row);
 			else
 				return false;
 		else // Wall move
