@@ -161,9 +161,9 @@ public class Controller {
 	{
 		switch (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus())
 		{
+		case Initializing:
 		case ReadyToStart:
 		case Running:
-		case Replay:
 			if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite())
 				PlayScreenController.instance.statusImage.setImage(PlayScreenController.whiteTurn);
 			else
@@ -178,7 +178,11 @@ public class Controller {
 		case Draw:
 			PlayScreenController.instance.statusImage.setImage(PlayScreenController.draw);
 			break;
-		case Initializing:
+		case Replay:
+			if (!updateGameStatus())
+				QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+			updateStatusGUI();
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 			break;
 		}
 		
@@ -242,6 +246,8 @@ public class Controller {
 				
 				no++;
 			}
+			System.out.println("Jamp");
+			jumpToStartPos();
 		}
 		catch (InputMismatchException ex)
 		{
@@ -873,7 +879,6 @@ public class Controller {
 	 **/
 	public static void setTotalThinkingTime(int minutes, int seconds) {
 		setThinkingTime(minutes, seconds); // overlaps with Jake's controller method
-		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
 	}
 
 	/**

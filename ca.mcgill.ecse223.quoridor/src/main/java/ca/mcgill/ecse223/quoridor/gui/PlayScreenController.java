@@ -50,6 +50,7 @@ public class PlayScreenController {
     void stepPrevious() {
     	assertReplay();
     	Controller.stepBackwards();
+    	Controller.updateStatusGUI();
     	board.loadFromModel();
     }
 
@@ -57,6 +58,7 @@ public class PlayScreenController {
     void stepNext() {
     	assertReplay();
     	Controller.stepForwards();
+    	Controller.updateStatusGUI();
     	board.loadFromModel();
     }
 
@@ -64,6 +66,7 @@ public class PlayScreenController {
     void jumpBeginning() {
     	assertReplay();
     	Controller.jumpToStartPos();
+    	Controller.updateStatusGUI();
     	board.loadFromModel();
     }
     
@@ -71,6 +74,7 @@ public class PlayScreenController {
     void jumpEnd() {
     	assertReplay();
     	Controller.jumpToFinalPos();
+    	Controller.updateStatusGUI();
     	board.loadFromModel();
     }
     
