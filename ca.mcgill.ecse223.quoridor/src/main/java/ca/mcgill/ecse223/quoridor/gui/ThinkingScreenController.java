@@ -32,9 +32,10 @@ public class ThinkingScreenController
 	{
 		try
 		{
-			if (Integer.parseInt(fieldMinute.getText()) < 0)
-				throw new NumberFormatException();
-			if (Integer.parseInt(fieldSecond.getText()) < 0)
+			int minutes = Integer.parseInt(fieldMinute.getText());
+			int seconds = Integer.parseInt(fieldSecond.getText());
+			int total = minutes * 60 + seconds;
+			if (minutes < 0 || seconds < 0 || total <= 0)
 				throw new NumberFormatException();
 			
 			warning.setVisible(false);
