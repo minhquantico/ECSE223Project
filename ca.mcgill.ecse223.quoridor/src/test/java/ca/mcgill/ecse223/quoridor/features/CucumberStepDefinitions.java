@@ -665,7 +665,7 @@ public class CucumberStepDefinitions {
 			if (isWhiteTurn()) {
 				assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.statusImage));
 			} else
-				assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.BlackPlayerImage));
+				assertTrue(PlayScreenController.instance.pane.getChildren().contains(PlayScreenController.instance.blackTurn));
 			}
 		}
 		
