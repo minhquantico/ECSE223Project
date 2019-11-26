@@ -37,6 +37,7 @@ public class Board extends Pane
 	public Wall[][] hWall = new Wall[COLS-1][ROWS-1];
 	
 	private volatile boolean waitingForMove = false;
+	private Runnable onGameEnded;
 	
 	private Thread game = new Thread(() -> {
 		while (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
@@ -53,6 +54,8 @@ public class Board extends Pane
 			}
 			catch (InterruptedException ex) { System.err.println("Interrupted???"); }
 			catch (Exception ex) { ex.printStackTrace(); }
+		
+		onGameEnded.run();
 	});
 	
 	
@@ -87,6 +90,7 @@ public class Board extends Pane
 	}
 	
 	public boolean isWaitingForMove() { return waitingForMove; }
+	public void setOnGameEnded(Runnable r) { this.onGameEnded = r; }
 	
 	public void loadFromModel()
 	{

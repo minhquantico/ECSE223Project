@@ -94,7 +94,14 @@ public class PlayScreenController {
 		Controller.updateGameStatus();
     	Controller.updateStatusGUI();
     	if (isRunning())
-    		PlayScreenController.instance.board.startGame();
+    	{
+    		board.setOnGameEnded(() ->
+    		{
+    			replayPane.setVisible(true);
+        		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+    		});
+    		board.startGame();
+    	}
     }
     
     @FXML
