@@ -471,6 +471,8 @@ public class Controller {
 			
 			// Set to move
 			curpos.setPlayerToMove(whiteToMove ? player.getNextPlayer() : player);
+			setStateMachineState(player);
+			setStateMachineState(player.getNextPlayer());
 		}
 		catch (ArrayIndexOutOfBoundsException | InputMismatchException ex)
 		{
@@ -491,6 +493,18 @@ public class Controller {
 	 */
 	public static void setOverwrite(boolean overwrite) {
 		throw new java.lang.UnsupportedOperationException();
+	}
+	
+	public static void setStateMachineState(Player p)
+	{
+		if (p.hasGameAsWhite())
+			p.getPawnBehaviour().setSMTest(
+					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow(),
+					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn());
+		else
+			p.getPawnBehaviour().setSMTest(
+					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow(),
+					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn());
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
