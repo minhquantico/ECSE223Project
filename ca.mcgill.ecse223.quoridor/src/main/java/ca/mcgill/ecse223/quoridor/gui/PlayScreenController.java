@@ -137,9 +137,12 @@ public class PlayScreenController {
     	if (!isRunning())
     		return;		// Nothing to do here
     	
-    	if (board.getActivePlayer().isComputer())
+    	if (!board.getActivePlayer().isUser())
     	{
-    		wallLabel.setText("Wait for computer!");
+    		wallLabel.setText(
+    				board.getActivePlayer().isComputer() ?
+    						"Wait for computer!" :
+    						"Wait for " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getUser().getName() + "!");
     		wallLabel.setTextFill(Color.RED);
     		return;
     	}
@@ -253,7 +256,9 @@ public class PlayScreenController {
     {
     	instance = this;
     	
-    	board = new Board(2);
+    	board = new Board(
+    			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getUser().getName(),
+    			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser().getName());
     	board.prefWidthProperty().bind(boardPane.widthProperty());
     	board.prefHeightProperty().bind(boardPane.heightProperty());
     	boardPane.getChildren().add(board);
@@ -278,11 +283,6 @@ public class PlayScreenController {
     	wallLabel.setText("10");
     	wallLabel.setWrapText(true);
     	wallLabel.setMaxWidth(80);		// TODO
-    	
-    	if (QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getUser().getName().equals("Computer"))
-    		PlayScreenController.instance.board.players[0].setComputer(true);
-    	if (QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser().getName().equals("Computer"))
-    		PlayScreenController.instance.board.players[1].setComputer(true);
     	
     	replayPane.setVisible(QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Replay));
     	if (!replayPane.isVisible())

@@ -4,6 +4,8 @@ package ca.mcgill.ecse223.quoridor.controller;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,6 +87,12 @@ public class Controller {
 		if (move1 instanceof WallMove)
 			return ((WallMove)move1).getWallDirection().equals(((WallMove)move2).getWallDirection());
 		return true;
+	}
+	
+	public static boolean isIPAdress(String ip)
+	{
+		try { InetAddress.getByName(ip); return true; }
+		catch (UnknownHostException ex) { return false; }
 	}
 	
 	/**
@@ -366,7 +374,7 @@ public class Controller {
 	}
 	
 	private static String tileToToken(Tile t) { return "" + (char)('a' + t.getColumn()-1) + (char)('1' + t.getRow()-1); }
-	private static String moveToToken(Move m) { return tileToToken(m.getTargetTile()) + (m instanceof WallMove ? ((WallMove)m).getWallDirection() == Direction.Horizontal ? "h" : "v" : ""); }
+	public static String moveToToken(Move m) { return tileToToken(m.getTargetTile()) + (m instanceof WallMove ? ((WallMove)m).getWallDirection() == Direction.Horizontal ? "h" : "v" : ""); }
 	
 	/**
 	 * @author Traian Coza Feature: LoadGamePosition. This loads the 

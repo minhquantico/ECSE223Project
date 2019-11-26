@@ -1,9 +1,16 @@
 
 package ca.mcgill.ecse223.quoridor.gui;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.ConnectException;
+import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -60,9 +67,8 @@ public class Board extends Pane
 	
 	
 	
-	public Board(int numberOfPlayers)
+	public Board(String whiteUser, String blackUser)
 	{
-		//board=this;
 		this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		for (int i = 0; i < COLS; i++)
@@ -76,17 +82,31 @@ public class Board extends Pane
 				}
 			}
 		
-		this.players = new Player[numberOfPlayers];
+		this.players = new Player[2];
 		if (players.length >= 1)
 			this.players[0] = new Player(3, Color.GREEN);
 		if (players.length >= 2)
 			this.players[1] = new Player(1, Color.RED);
-		if (players.length >= 3)
-			this.players[2] = new Player(2, Color.ORANGE);
-		if (players.length >= 4)
-			this.players[3] = new Player(0, Color.PURPLE);
-		
+//		if (players.length >= 3)
+//			this.players[2] = new Player(2, Color.ORANGE);
+//		if (players.length >= 4)
+//			this.players[3] = new Player(0, Color.PURPLE);
 		this.activePlayer = 0;
+		
+		if (whiteUser.equals("Computer"))
+    		players[0].setComputer(true);
+    	if (blackUser.equals("Computer"))
+    		players[1].setComputer(true);
+    	
+    	try
+    	{
+	    	if (Controller.isIPAdress(whiteUser))
+	    		players[0].setNetwork(InetAddress.getByName(whiteUser));
+	    	if (Controller.isIPAdress(blackUser))
+	    		players[1].setNetwork(InetAddress.getByName(blackUser));
+    	}
+    	catch (IOException ex)
+    		{ System.err.println(ex.getMessage()); }
 	}
 	
 	public boolean isWaitingForMove() { return waitingForMove; }
@@ -396,20 +416,28 @@ public class Board extends Pane
 		{
 			assert players[activePlayer] == this;
 			
-			synchronized (Board.this)
-			{
-				this.startClock();
-				
-				if (isComputer())
-					Platform.runLater(() -> doBestMove());
-				else
-					getPossibleMoves().forEach(c -> c.setSelected(true));
-				
-				Board.this.waitingForMove = true;
-				Board.this.wait();
-				Board.this.waitingForMove = false;
-				this.stopClock();
-			}
+			if (isNetwork())
+				Controller.doMove(networkIn.nextLine());
+			else
+				synchronized (Board.this)
+				{
+					this.startClock();
+					
+					if (isComputer())
+						Platform.runLater(() -> doBestMove());
+					else
+						getPossibleMoves().forEach(c -> c.setSelected(true));
+					
+					Board.this.waitingForMove = true;
+					Board.this.wait();
+					Board.this.waitingForMove = false;
+					this.stopClock();
+					
+					if (adversary().isNetwork())
+						adversary().networkOut.println(Controller.moveToToken(
+								QuoridorApplication.getQuoridor().getCurrentGame().getMove(
+										QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1)));
+				}
 		}
 		
 		public void doBestMove()
@@ -492,8 +520,6 @@ public class Board extends Pane
 				Controller.doWallMove();
 				System.out.println("Computer does wall move:");
 			}
-			
-			
 		}
 		
 		private Cell save;
@@ -579,5 +605,34 @@ public class Board extends Pane
 		
 		public void setComputer(boolean computer) { this.computer = computer; }
 		public boolean isComputer() { return this.computer; }
+		public boolean isUser() { return !isComputer() && !isNetwork(); }
+		
+		private Socket socket = null;
+		private PrintStream networkOut = null;
+		private Scanner networkIn = null;
+		public boolean isNetwork() { return socket != null; }
+		public void setNetwork(InetAddress address) throws IOException
+		{
+			try { socket = new Socket(address, 5000); }
+			catch (ConnectException ex)
+			{
+				ServerSocket server = new ServerSocket(5000);
+				do
+				{
+					if (socket != null)
+						socket.close();
+					socket = server.accept();
+				}
+				while (!socket.getInetAddress().equals(address));
+				server.close();
+			}
+			
+			networkIn = new Scanner(socket.getInputStream());
+			networkOut = new PrintStream(socket.getOutputStream());
+		}
+		
+		public boolean isWhite() { return this == players[0]; }
+		public Player adversary() { return players[isWhite() ? 1 : 0]; }
+		
 	}
 }
