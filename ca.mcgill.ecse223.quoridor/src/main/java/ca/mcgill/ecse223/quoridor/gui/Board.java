@@ -502,7 +502,7 @@ public class Board extends Pane
 		
 		public void moveTo(Cell dest)
 		{
-			position.getChildren().clear();
+			position.getChildren().remove(this);
 			(position = dest).getChildren().add(this);
 			
 //			if (game.isAlive())
