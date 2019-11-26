@@ -1713,7 +1713,7 @@ public class CucumberStepDefinitions {
 
 	@Given("The game is in replay mode")
 	public void the_game_is_in_replay_mode() {
-	    // Write code here that turns the phrase above into concrete actions
+	    // Write code here that turns the phrase above into concrete actions	
 	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 	}
 
@@ -1780,11 +1780,6 @@ public class CucumberStepDefinitions {
 	    throw new cucumber.api.PendingException();
 	}
 
-	@When("The game has a final result")
-	public void the_game_has_a_final_result() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
-	}
 
 	@When("The game to load has an invalid move")
 	public void the_game_to_load_has_an_invalid_move() {
