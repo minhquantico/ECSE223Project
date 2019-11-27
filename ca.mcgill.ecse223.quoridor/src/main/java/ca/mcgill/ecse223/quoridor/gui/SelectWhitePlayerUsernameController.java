@@ -4,6 +4,7 @@
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -39,11 +40,15 @@ import javafx.scene.layout.Pane;
 	    	{
 	    		ca.mcgill.ecse223.quoridor.controller.Controller.CreateNewUsername(whiteUsername);
 	    		
-	    		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
-				try (PrintStream stream = new PrintStream(new FileOutputStream(file, true)))
+	    		try (PrintStream stream =
+						new PrintStream(
+								new FileOutputStream(
+										new File(
+												QuoridorApplication.class.getClassLoader().getResource("Usernames.txt").toURI().getPath()), true)))
 				{
 					stream.println(whiteUsername);
 				}
+				catch (URISyntaxException ex) { System.err.println(ex.getMessage()); }
 	    	}
 	    	
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
@@ -53,12 +58,13 @@ import javafx.scene.layout.Pane;
 	    @FXML
 	    void initialize() throws FileNotFoundException
 	    {
-			try (Scanner input = new Scanner(new File(getClass().getClassLoader().getResource("Usernames.txt").getFile())))
+			try (Scanner input = new Scanner(new File(QuoridorApplication.class.getClassLoader().getResource("Usernames.txt").toURI().getPath())))
 			{
 				QuoridorApplication.getQuoridor().addUser("Computer");
 				while(input.hasNextLine())
 					QuoridorApplication.getQuoridor().addUser(input.nextLine());
 			}
+			catch (URISyntaxException ex) { System.err.println(ex.getMessage()); }
 			
 			for (User user : QuoridorApplication.getQuoridor().getUsers())
 				comboBoxWhite.getItems().add(user.getName());

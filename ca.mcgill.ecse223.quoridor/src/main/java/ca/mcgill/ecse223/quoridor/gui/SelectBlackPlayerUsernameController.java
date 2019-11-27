@@ -4,6 +4,7 @@
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import ca.mcgill.ecse223.quoridor.QuoridorApplication;
@@ -39,10 +40,15 @@ public class SelectBlackPlayerUsernameController {
     		
     		File file = new File(getClass().getClassLoader().getResource("Usernames.txt").getFile());
 
-			try (PrintStream stream = new PrintStream(new FileOutputStream(file, true)))
+    		try (PrintStream stream =
+					new PrintStream(
+							new FileOutputStream(
+									new File(
+											QuoridorApplication.class.getClassLoader().getResource("Usernames.txt").toURI().getPath()), true)))
 			{
 				stream.println(blackUsername);
-    		}
+			}
+			catch (URISyntaxException ex) { System.err.println(ex.getMessage()); }
     	}
     	
     	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
