@@ -7,18 +7,12 @@ Feature: Check if path exists
     Given The game is running
     Given The following walls exist:
       | wrow | wcol | wdir       |
-#      |    3 |    1 | horizontal |
-#      |    3 |    3 | horizontal |
-#      |    4 |    4 | horizontal |
-#      |    4 |    6 | horizontal |
-#      |    4 |    8 | horizontal |
-#      |    3 |    6 | vertical   |
-      |    1 |    3 | vertical |
-      |    3 |    3 | vertical |
-      |    4 |    4 | vertical |
-      |    6 |    4 | vertical |
-      |    8 |    4 | vertical |
-      |    6 |    3 | horizontal |
+      |    3 |    1 | horizontal |
+      |    3 |    3 | horizontal |
+      |    4 |    4 | horizontal |
+      |    4 |    6 | horizontal |
+      |    4 |    8 | horizontal |
+      |    3 |    6 | vertical   |
 
 
 # Structure of existing walls
@@ -37,17 +31,17 @@ Feature: Check if path exists
 # A wall move candidate is placed at numerous places 
     Examples: 
       | dir        | frow | fcol | brow | bcol | wrow | wcol | result |
-#      | horizontal |    3 |    7 |    2 |    5 |    6 |    5 | both   |
-#      | horizontal |    4 |    2 |    2 |    5 |    6 |    5 | both   |
-#      | horizontal |    3 |    5 |    2 |    5 |    6 |    5 | none   |
-#      | horizontal |    3 |    5 |    6 |    5 |    2 |    5 | both   |
-#      | horizontal |    3 |    5 |    2 |    5 |    3 |    5 | white  |
-#      | horizontal |    3 |    5 |    5 |    5 |    6 |    5 | black  |
-#      | vertical   |    2 |    4 |    2 |    5 |    6 |    5 | both   |
-#      | vertical   |    3 |    4 |    2 |    5 |    6 |    5 | none   |
-#      | vertical   |    3 |    4 |    6 |    5 |    2 |    5 | both   |
-#      | vertical   |    3 |    4 |    5 |    5 |    6 |    5 | black  |
-#      | vertical   |    1 |    6 |    2 |    5 |    6 |    5 | both   |
-#      | vertical   |    1 |    6 |    2 |    7 |    6 |    5 | white  |
-#      | vertical   |    1 |    6 |    6 |    5 |    2 |    7 | both   |
+      | horizontal |    3 |    7 |    2 |    5 |    6 |    5 | both   |
+      | horizontal |    4 |    2 |    2 |    5 |    6 |    5 | both   |
+      | horizontal |    3 |    5 |    2 |    5 |    6 |    5 | none   |
+      | horizontal |    3 |    5 |    6 |    5 |    2 |    5 | both   |
+      | horizontal |    3 |    5 |    2 |    5 |    3 |    5 | white  |
+      | horizontal |    3 |    5 |    5 |    5 |    6 |    5 | black  |
+      | vertical   |    2 |    4 |    2 |    5 |    6 |    5 | both   |
+      | vertical   |    3 |    4 |    2 |    5 |    6 |    5 | none   |
+      | vertical   |    3 |    4 |    6 |    5 |    2 |    5 | both   |
+      | vertical   |    3 |    4 |    5 |    5 |    6 |    5 | black  |
+      | vertical   |    1 |    6 |    2 |    5 |    6 |    5 | both   |
+      | vertical   |    1 |    6 |    2 |    7 |    6 |    5 | white  |
+      | vertical   |    1 |    6 |    6 |    5 |    2 |    7 | both   |
 

@@ -134,10 +134,10 @@ public class CucumberStepDefinitions {
 	public void the_player_is_located_at(Integer int1, Integer int2) {
 		if (isWhiteTurn()) {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest();
 		}else {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest();
 			
 		}
 	}
@@ -152,11 +152,11 @@ public class CucumberStepDefinitions {
 		if (!isWhiteTurn()){
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.getWhitePosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest();
 		}else {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.getBlackPosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest();
 		}
 	}
 	
@@ -1680,10 +1680,10 @@ public class CucumberStepDefinitions {
 	public void the_new_position_of_is(String string, Integer int1, Integer int2) {
 		if (string.equals("white")) {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest();
 		}else {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
-			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest(int1, int2);
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest();
 			
 		}
 	}
