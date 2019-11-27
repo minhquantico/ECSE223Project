@@ -23,8 +23,8 @@
             <Image url="@White_Player_Image.png" />
          </image>
       </ImageView>
-      <Rectangle fx:id="wallStock" arcHeight="5.0" arcWidth="5.0" fill="#b9bfba" height="29.0" layoutX="787.0" layoutY="327.0" onMousePressed="#createWall" stroke="BLACK" strokeType="INSIDE" width="106.0" />
-      <Label layoutX="809.0" layoutY="311.0" text="Wall Stock">
+      <Rectangle fx:id="wallStock" arcHeight="5.0" arcWidth="5.0" fill="#b9bfba" height="29.0" layoutX="787.0" layoutY="281.0" onMousePressed="#createWall" stroke="BLACK" strokeType="INSIDE" width="106.0" />
+      <Label layoutX="809.0" layoutY="265.0" text="Wall Stock">
          <font>
             <Font size="13.0" />
          </font>
@@ -40,5 +40,6 @@
       </Pane>
       <Button fx:id="savePosition" layoutX="53.0" layoutY="503.0" mnemonicParsing="false" onAction="#savePosition" prefHeight="40.0" prefWidth="120.0" text="Save Position" />
       <Button fx:id="resign" layoutX="780.0" layoutY="503.0" mnemonicParsing="false" onAction="#resign" prefHeight="40.0" prefWidth="120.0" text="Resign" />
+      <Button fx:id="hinr" layoutX="780.0" layoutY="452.0" mnemonicParsing="false" onAction="#hint" prefHeight="40.0" prefWidth="120.0" text="Hint" />
    </children>
 </Pane>

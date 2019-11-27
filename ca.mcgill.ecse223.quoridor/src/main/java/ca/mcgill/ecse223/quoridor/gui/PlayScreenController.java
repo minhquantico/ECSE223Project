@@ -35,6 +35,7 @@ public class PlayScreenController {
     @FXML private Button savePosition;
     @FXML public Rectangle wallStock;
     @FXML public Button resign;
+    @FXML public Button hint;
     @FXML private Pane boardPane;
     @FXML private Button continueGame;
     @FXML private Button stepNext;
@@ -114,6 +115,15 @@ public class PlayScreenController {
     		if (board.getActivePlayer().isNetwork())
     			try { board.getActivePlayer().disconnect(); }
     			catch (IOException ex) { System.err.println(ex.getMessage()); }
+    	}
+    }
+    
+    @FXML
+    void hint()
+    {
+    	if (isRunning())
+    	{
+    		board.getActivePlayer().getBestMove().recommend();
     	}
     }
     

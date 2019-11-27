@@ -172,10 +172,11 @@ public class Board extends Pane
 			action.accept((vertical ? hWall : vWall)[i/(ROWS-1)][i%(ROWS-1)]);
 	}
 	
-	public class Cell extends Pane
+	public class Cell extends Pane implements Move
 	{
 		public final Background DEFAULT = new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY));
 		public final Background SELECTED = new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY));
+		public final Background RECOMMENDED = new Background(new BackgroundFill(Color.DODGERBLUE, CornerRadii.EMPTY, Insets.EMPTY));
 		public final int x, y;
 		
 		// Used for Dijkstra's algorithm
@@ -197,8 +198,7 @@ public class Board extends Pane
 		public void setSelected(boolean selected)
 		{
 			this.setBackground(selected ? SELECTED : DEFAULT);
-			this.setOnMouseClicked(selected ? e ->
-				Controller.doPawnMoveStateMachine(this.x+1, this.y+1) : null);
+			this.setOnMouseClicked(selected ? e -> this.doMove() : null);
 		}
 		
 		public boolean hasPlayer()
@@ -232,9 +232,21 @@ public class Board extends Pane
 			default: return false;
 			}
 		}
+		
+		@Override
+		public void doMove()
+		{
+			Controller.doPawnMoveStateMachine(this.x+1, this.y+1);
+		}
+		
+		@Override
+		public void recommend()
+		{
+			this.setBackground(RECOMMENDED);
+		}
 	}
 	
-	public class Wall extends Pane
+	public class Wall extends Pane implements Move
 	{
 		public Background DEFAULT = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
 		public Background SET = new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY));
@@ -334,6 +346,19 @@ public class Board extends Pane
 		{
 			this.toFront();
 			this.setBackground(POSSIBLE);
+		}
+		
+		@Override
+		public void doMove()
+		{
+			Controller.setWallMoveCandidate(this.x+1, this.y+1, this.vertical ? Direction.Vertical : Direction.Horizontal);
+			Controller.doWallMove();
+		}
+		
+		@Override
+		public void recommend()
+		{
+			this.setPossible();
 		}
 	}
 	
@@ -440,7 +465,7 @@ public class Board extends Pane
 			this.startClock();
 			
 			if (isComputer())
-				this.doBestMove();
+				this.getBestMove().doMove();
 			else if (isNetwork())
 				try { Controller.doMove(networkIn.nextLine()); }
 				catch (NoSuchElementException ex) { Controller.resign(); }	// Resign if player disconnected
@@ -461,7 +486,7 @@ public class Board extends Pane
 			this.stopClock();
 		}
 		
-		public void doBestMove()
+		public Move getBestMove()
 		{
 			assert players[activePlayer] == this;
 			{
@@ -529,18 +554,9 @@ public class Board extends Pane
 				}
 			
 			if (bestWalls.isEmpty() || minCellCost < minWallCost + (int)(Math.random() * 2))
-			{
-				Cell pmove = bestCells.get((int)(Math.random()*bestCells.size()));
-				Controller.doPawnMoveStateMachine(pmove.x+1, pmove.y+1);
-				System.out.println("Computer did pawn move");
-			}
+				return bestCells.get((int)(Math.random()*bestCells.size()));
 			else
-			{
-				Wall wmove = bestWalls.get((int)(Math.random()*bestWalls.size()));
-				Controller.setWallMoveCandidate(wmove.x+1, wmove.y+1, wmove.vertical ? Direction.Vertical : Direction.Horizontal);
-				Controller.doWallMove();
-				System.out.println("Computer does wall move:");
-			}
+				return bestWalls.get((int)(Math.random()*bestWalls.size()));
 		}
 		
 		private Cell save;
@@ -551,9 +567,6 @@ public class Board extends Pane
 		{
 			position.getChildren().remove(this);
 			(position = dest).getChildren().add(this);
-			
-//			if (game.isAlive())
-//				synchronized (Board.this) { Board.this.notify(); }
 		}
 		
 		private boolean isWinner(Cell c)
@@ -664,6 +677,12 @@ public class Board extends Pane
 		public boolean isWhite() { return this == players[0]; }
 		public Player adversary() { return players[isWhite() ? 1 : 0]; }
 		
+	}
+	
+	public interface Move
+	{
+		public void doMove();
+		public void recommend();
 	}
 	
 	private class LoadingPane extends Pane
