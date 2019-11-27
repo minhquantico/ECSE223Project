@@ -1170,26 +1170,7 @@ public class PawnBehaviour
 	 */
   private boolean testVictory()
   {
-	  Tile tile = Controller.getTile(getCurrentColumn(), getCurrentRow());
-	  if(player.hasGameAsWhite()) {
-		   if(tile.getColumn() == 9) {
-		   return true;
-		   }
-		   else {
-		   return false;
-		   }
-	  }
-	  
-	  else if(player.hasGameAsBlack()) {
-		  if(tile.getColumn() == 1) {
-			  return true;
-		  }
-		  else {
-			  return false;
-		  }
-	  }
-	  else return false;
-	  
+	  return Controller.isWinner(player, Controller.getTile(getCurrentColumn(), getCurrentRow()));
   }
   
   /**
@@ -1267,7 +1248,12 @@ public class PawnBehaviour
 		  }
 	  return false;
 	  
-  } 
+  }
+  
+  public void setSMTest()
+  {
+	  setSMTest(getCurrentColumn(), getCurrentRow());
+  }
   
   /**
 	 * @author Jake Pogharian
@@ -1276,7 +1262,7 @@ public class PawnBehaviour
 	 *@param int row corresponding int for given row
 	 *@param int column corresponding int for given column
 	 */
-  public void setSMTest(int row, int column){
+  private void setSMTest(int row, int column){
 	//assuming it is already in active state
 
 	//longitudinal

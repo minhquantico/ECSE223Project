@@ -485,8 +485,8 @@ public class Controller {
 			
 			// Set to move
 			curpos.setPlayerToMove(whiteToMove ? player.getNextPlayer() : player);
-			setStateMachineState(player);
-			setStateMachineState(player.getNextPlayer());
+			player.getPawnBehaviour().setSMTest();
+			player.getNextPlayer().getPawnBehaviour().setSMTest();
 		}
 		catch (ArrayIndexOutOfBoundsException | InputMismatchException ex)
 		{
@@ -507,18 +507,6 @@ public class Controller {
 	 */
 	public static void setOverwrite(boolean overwrite) {
 		throw new java.lang.UnsupportedOperationException();
-	}
-	
-	public static void setStateMachineState(Player p)
-	{
-		if (p.hasGameAsWhite())
-			p.getPawnBehaviour().setSMTest(
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow(),
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn());
-		else
-			p.getPawnBehaviour().setSMTest(
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow(),
-					QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn());
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -674,8 +662,7 @@ public class Controller {
 	public static boolean isWinner(Player player, Tile tile)
 	{
 		return (player.getDestination().getDirection().equals(Direction.Horizontal) ?
-				tile.getColumn() :
-				tile.getRow()) == player.getDestination().getTargetNumber();
+				tile.getColumn() : tile.getRow()) == player.getDestination().getTargetNumber();
 	}
 	/**
 	 * @author Gohar Saqib Fazal
@@ -1209,12 +1196,13 @@ public class Controller {
 		// horizontally to get to the other side
 		// @formatter:off
 		/*
-		 * __________ | | | | |x-> <-x| | | |__________|
+		 * __________ | | | | |x-> <-x| | | |__________|			<------------ This
+		 * 															<------------ Is bullshit
 		 * 
 		 */
 		// @formatter:on
-		Player player1 = new Player(new Time(thinkingTime), user1, 9, Direction.Horizontal);
-		Player player2 = new Player(new Time(thinkingTime), user2, 1, Direction.Horizontal);
+		Player player1 = new Player(new Time(thinkingTime), user1, 1, Direction.Vertical);
+		Player player2 = new Player(new Time(thinkingTime), user2, 9, Direction.Vertical);
 		player1.setNextPlayer(player2);
 		player2.setNextPlayer(player1);
 
@@ -1240,9 +1228,9 @@ public class Controller {
 		Quoridor quoridor = QuoridorApplication.getQuoridor();
 		// There are total 36 tiles in the first four rows and
 		// indexing starts from 0 -> tiles with indices 36 and 36+8=44 are the starting
-		// positions
-		Tile player1StartPos = quoridor.getBoard().getTile(36);
-		Tile player2StartPos = quoridor.getBoard().getTile(44);
+		// positions		<----------- Such bullshit, pissed off
+		Tile player1StartPos = getTile(5, 9);
+		Tile player2StartPos = getTile(5, 1);
 
 		Game game = new Game(GameStatus.Initializing, MoveMode.PlayerMove, quoridor);
 		game.setWhitePlayer(players.get(0));
@@ -1262,9 +1250,11 @@ public class Controller {
 		}
 
 		game.setCurrentPosition(gamePosition);
-		
 		game.getWhitePlayer().getPawnBehaviour().initialize();
 		game.getBlackPlayer().getPawnBehaviour().initialize();
+		game.getWhitePlayer().getPawnBehaviour().setSMTest();
+		game.getBlackPlayer().getPawnBehaviour().setSMTest();
+		
 	}
 
 	public static void stepBackwards() {

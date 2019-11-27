@@ -106,9 +106,9 @@ public class Board extends Pane
 		
 		this.players = new Player[2];
 		if (players.length >= 1)
-			this.players[0] = new Player(3, Color.GREEN);
+			this.players[0] = new Player(2, Color.GREEN);
 		if (players.length >= 2)
-			this.players[1] = new Player(1, Color.RED);
+			this.players[1] = new Player(0, Color.RED);
 //		if (players.length >= 3)
 //			this.players[2] = new Player(2, Color.ORANGE);
 //		if (players.length >= 4)
