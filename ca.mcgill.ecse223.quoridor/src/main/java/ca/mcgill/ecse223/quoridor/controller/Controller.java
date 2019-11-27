@@ -724,6 +724,19 @@ public class Controller {
 		return -1;
 	}
 	
+	public static boolean wallMoveCandidateBlocksPath(Player player)
+	{
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(
+				QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
+		
+		boolean blocked = getShortestPathLength(player) == -1;
+		
+		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsOnBoard(
+				QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
+		
+		return blocked;
+	}
+	
 	/**
 	 * @author Gohar Saqib Fazal This controller method valdidates the postion of
 	 *         the pawn in the game Used in @When("Validation of the position is
@@ -793,22 +806,16 @@ public class Controller {
 				return false;
 		}
 		
-		// Temporarily set wall
+		// Temporarily set wall TODO
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(
 				QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
 		
-		boolean blocked = true;
-		int path;
-		if ((path = getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer())) == -1)
-			blocked = false;
+		if (wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()))
+			return false;
+		if (wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()))
+			return false;
 		
-		if ((path = getShortestPathLength(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer())) == -1)
-			blocked = false;
-		
-		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeWhiteWallsOnBoard(
-				QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate().getWallPlaced());
-		
-		return blocked;
+		return true;
 
 	}
 
