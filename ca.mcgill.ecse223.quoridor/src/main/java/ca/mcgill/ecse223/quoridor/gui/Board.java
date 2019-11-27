@@ -670,7 +670,7 @@ public class Board extends Pane
 	{
 		public LoadingPane(Player player)
 		{
-			this.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+			this.setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255, 0.75), CornerRadii.EMPTY, Insets.EMPTY)));
 			this.prefWidthProperty().bind(Board.this.widthProperty());
 			this.prefHeightProperty().bind(Board.this.heightProperty());
 			
@@ -678,14 +678,14 @@ public class Board extends Pane
 		    loading.fitWidthProperty().bind(Board.this.widthProperty().divide(2));
 		    loading.fitHeightProperty().bind(Board.this.heightProperty().divide(2));
 		    loading.layoutXProperty().bind(Board.this.widthProperty().divide(4));
-		    loading.layoutYProperty().bind(Board.this.heightProperty().divide(4));
+		    loading.layoutYProperty().bind(Board.this.heightProperty().divide(16).multiply(5));
 		    
 		    Text text = new Text("Waiting for " + (player.isWhite() ? "white" : "black") + "@" + player.address.toString());
 		    text.setFont(Font.font(20));
 		    ChangeListener<Number> listener = (e, m, n) ->
 		    {
 		    	text.setLayoutX((Board.this.getWidth() - text.getLayoutBounds().getWidth()) / 2);
-		    	text.setLayoutY(Board.this.getHeight() / 6);
+		    	text.setLayoutY(Board.this.getHeight() / 4);
 		    };
 		    Board.this.widthProperty().addListener(listener);
 		    Board.this.heightProperty().addListener(listener);
