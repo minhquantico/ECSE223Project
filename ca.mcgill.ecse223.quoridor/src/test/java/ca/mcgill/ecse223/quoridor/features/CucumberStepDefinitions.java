@@ -1837,6 +1837,26 @@ public class CucumberStepDefinitions {
 	    Controller.stepBackwards();
 	}
 	
+	// these were missing 
+	
+	@Given("The game is replay mode")
+	public void the_game_is_replay_mode() {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Given("The next move is {double}")
+	public void the_next_move_is(Double double1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
+	@Then("The next move shall be {double}")
+	public void the_next_move_shall_be(Double double1) {
+	    // Write code here that turns the phrase above into concrete actions
+	    throw new cucumber.api.PendingException();
+	}
+
 //-------------------------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------------------------------
