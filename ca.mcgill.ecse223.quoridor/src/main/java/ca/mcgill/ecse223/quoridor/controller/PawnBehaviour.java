@@ -1252,7 +1252,7 @@ public class PawnBehaviour
   
   public void setSMTest()
   {
-	  setSMTest(getCurrentColumn(), getCurrentRow());
+	  setSMTest(getCurrentRow(), getCurrentColumn());
   }
   
   /**
