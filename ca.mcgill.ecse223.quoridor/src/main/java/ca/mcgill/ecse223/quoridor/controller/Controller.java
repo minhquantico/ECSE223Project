@@ -403,7 +403,6 @@ public class Controller {
 		
 		GamePosition curpos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		
-		int no = 0;
 		try
 		{
 			if (whiteScan.next("[WB]:").equals("B:"))
@@ -437,7 +436,7 @@ public class Controller {
 				or = tokens[i].charAt(2);
 				
 				Wall w = curpos.getWhiteWallsInStock(0);
-				new WallMove(no, no/2, player, getTile(col, row), QuoridorApplication.getQuoridor().getCurrentGame(),
+				new WallMove(0, 0, player, getTile(col, row), QuoridorApplication.getQuoridor().getCurrentGame(),
 						or == 'h' ? Direction.Horizontal : Direction.Vertical, w);
 				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(w.getMove());
 				if (!isValidWallMove())
@@ -471,7 +470,7 @@ public class Controller {
 				or = tokens[i].charAt(2);
 				
 				Wall w = curpos.getBlackWallsInStock(0);
-				new WallMove(no, no/2, player, getTile(col, row), QuoridorApplication.getQuoridor().getCurrentGame(),
+				new WallMove(0, 0, player, getTile(col, row), QuoridorApplication.getQuoridor().getCurrentGame(),
 						or == 'h' ? Direction.Horizontal : Direction.Vertical, w);
 				QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(w.getMove());
 				if (!isValidWallMove())
@@ -988,8 +987,8 @@ public class Controller {
 				return false;
 			
 			Player aPlayer = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove();
-			int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() + 1;
-			int aRoundNumber = (int) Math.ceil(aMoveNumber / 2);
+			int aMoveNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() / 2 + 1;
+			int aRoundNumber = QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves() % 2 + 1;
 			Game aGame = QuoridorApplication.getQuoridor().getCurrentGame();
 			
 			if (tile == null) tile = getTile(1, 1);

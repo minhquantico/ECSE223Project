@@ -58,12 +58,9 @@ public class CucumberStepDefinitions {
 
 	@Given("^The game is running$")
 	public void theGameIsRunning() {
-		initQuoridorAndBoard();
+		Controller.initQuoridorAndBoard();
 		Controller.InitializeNewGame();
 		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
-//		initQuoridorAndBoard();
-//		ArrayList<Player> createUsersAndPlayers = createUsersAndPlayers("user1", "user2");
-//		createAndStartGame(createUsersAndPlayers);
 	}
 
 	@And("^It is my turn to move$")
@@ -171,6 +168,8 @@ public class CucumberStepDefinitions {
 	    // Here do no thing -> no walls were ever set 
 	}
 
+	private Player player;
+	
 	/**
 	 * @author Traian Coza
 	 * @param string: player
@@ -183,6 +182,9 @@ public class CucumberStepDefinitions {
 				.getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 				.getBlackPosition().getTile();
+		player = isWhiteTurn() ?
+				QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer() :
+				QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
 		
 		int dir = dirToInt(string2);
 		if (dir != -1)
@@ -206,7 +208,7 @@ public class CucumberStepDefinitions {
 		legal = dest != null;
 		if (!legal)
 			return;
-	    try { Controller.doPawnMoveStateMachine(dest.getColumn(), dest.getRow()); }
+		try { Controller.doPawnMoveStateMachine(dest.getColumn(), dest.getRow()); }
 	    catch (IllegalMoveException ex) { legal = false; }
 	}
 
@@ -228,12 +230,12 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("Player's new position shall be {int}:{int}")
 	public void player_s_new_position_shall_be(Integer int1, Integer int2) {
-		System.out.println("White turn: " + isWhiteTurn());
-		Tile pos = isWhiteTurn() != legal ?
+		Tile pos = player.hasGameAsWhite() ?
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 				.getWhitePosition().getTile() :
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 				.getBlackPosition().getTile();
+		System.out.println("legal: " + legal);
 		assertEquals(pos.getRow(), int1);
 		assertEquals(pos.getColumn(), int2);
 	}
@@ -550,10 +552,8 @@ public class CucumberStepDefinitions {
 	@Then("White's pawn shall be in its initial position")
 	public void white_s_pawn_shall_be_in_its_initial_position() {
 
-		assertTrue((QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile()
-				.getColumn() == 1)
-				&& (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile()
-						.getRow() == 5));
+		assertTrue(
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() == Controller.getTile(5, 9));
 	}
 
 	/**
@@ -562,10 +562,7 @@ public class CucumberStepDefinitions {
 	@Then("Black's pawn shall be in its initial position")
 	public void black_s_pawn_shall_be_in_its_initial_position() {
 
-		assertTrue((QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile()
-				.getColumn() == 9)
-				&& (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile()
-						.getRow() == 5));
+		assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile() == Controller.getTile(5,  1));
 	}
 
 	/**
@@ -1589,15 +1586,8 @@ public class CucumberStepDefinitions {
 
 	@Given("The next move is {int}:{int}")
 	public void the_next_move_is(int int1, int int2) {
-	    List<Move> list = QuoridorApplication.getQuoridor().getCurrentGame().getMoves();
-	    int index = 0;
-	    for(Move m: list) {
-	    	if(m.getMoveNumber() == int1 && m.getRoundNumber() == int2) {
-	    		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(index == 0 ? 0 : index-1);
-	    		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(pos);
-	    	}
-	    	index++;
-	    }
+	    QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
+	    		QuoridorApplication.getQuoridor().getCurrentGame().getPosition(2*(int1-1)+(int2-1)));
 	}
 
 	@When("I initiate to continue game")
@@ -1648,7 +1638,6 @@ public class CucumberStepDefinitions {
 	@When("Checking of game result is initated")
 	public void checking_of_game_result_is_initated() {
 	   Controller.updateGameStatus();
-	    Controller.detectDraw();
 	}
 
 	@Then("Game result shall be {string}")
@@ -1658,7 +1647,7 @@ public class CucumberStepDefinitions {
 			gameStatus=GameStatus.WhiteWon;
 		}else if(string.equals("blackWon")){
 			gameStatus=GameStatus.BlackWon;
-		}else if(string.equals("pending")){
+		}else if(string.equals("pending") || string.equals("Pending")){
 			gameStatus=GameStatus.Running;
 		}else if (string.equals("Drawn")) {
 			gameStatus=GameStatus.Draw;
@@ -1691,7 +1680,6 @@ public class CucumberStepDefinitions {
 	@Given("The clock of {string} is more than zero")
 	public void the_clock_of_is_more_than_zero(String string) {
 	    Controller.setTotalThinkingTime(10,10);
-	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
 	    
 	}
 
@@ -1726,10 +1714,10 @@ public class CucumberStepDefinitions {
 
 	@Then("The next move shall be {int}:{int}")
 	public void the_next_move_shall_be(int int1, int int2) {
-		int nextMove = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition());
-	    nextMove++;
-		Move move = QuoridorApplication.getQuoridor().getCurrentGame().getMove(nextMove);
-		assertTrue(move.getMoveNumber() == int1 && move.getRoundNumber() == int2);
+		int nextMove = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(
+				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition());
+		assertEquals(int1, nextMove / 2 + 1);
+		assertEquals(int2, nextMove % 2 + 1);
 	}
 
 	@Then("White player's position shall be \\({int},{int})")
@@ -1743,10 +1731,11 @@ public class CucumberStepDefinitions {
 	public void black_player_s_position_shall_be(int int1, int int2) {
 		int row = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
 	    int column = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
-	    assertTrue(row == int1 && column == int2);
+	    assertEquals(int1, row);
+	    assertEquals(int2, column);
 	}
 
-	@Then("White has <wwallno> on stock")
+	@Then("White has {int} on stock")
 	public void white_has_wwallno_on_stock(int int1) {
 	    int size = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size();
 	    assertTrue(size == int1);
@@ -1759,9 +1748,10 @@ public class CucumberStepDefinitions {
 	}
 
 	@When("I initiate to load a game in {string}")
-	public void i_initiate_to_load_a_game_in(String string) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	public void i_initiate_to_load_a_game_in(String string) throws FileNotFoundException {
+		valid = true;
+	    try { Controller.loadGame(new File(string)); }
+	    catch (InvalidPositionException ex) { valid = false; }
 	}
 
 	@When("Each game move is valid")
@@ -1836,27 +1826,6 @@ public class CucumberStepDefinitions {
 	public void step_forward_is_initiated() {
 	    Controller.stepBackwards();
 	}
-	
-	// these were missing 
-	
-	@Given("The game is replay mode")
-	public void the_game_is_replay_mode() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
-	}
-
-	@Given("The next move is {double}")
-	public void the_next_move_is(Double double1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
-	}
-
-	@Then("The next move shall be {double}")
-	public void the_next_move_shall_be(Double double1) {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
-	}
-
 //-------------------------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------------------------------
