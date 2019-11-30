@@ -297,6 +297,7 @@ public class PlayScreenController {
     		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 		});
     	Controller.StartClock();
+    	Controller.updateStatusGUI();
     	if (!replayPane.isVisible())
     		board.startGame();
     }

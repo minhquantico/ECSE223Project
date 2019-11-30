@@ -291,7 +291,7 @@ public class Board extends Pane
 				return false;
 			if (!Board.this.players[activePlayer].hasWalls())
 				return false;
-
+			
 			if (vertical)
 			{
 				if (y > 0 && vWall[x][y-1].isSet())
@@ -593,11 +593,12 @@ public class Board extends Pane
 		
 		public boolean hasWalls()
 		{
+			// Not ideal
 			switch (start)
 			{
-			case 0: return false;
+			case 0: return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock();
 			case 1: return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasBlackWallsInStock();
-			case 2: return false;
+			case 2: return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock();
 			case 3: return QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().hasWhiteWallsInStock();
 			default: return false;
 			}
@@ -606,7 +607,7 @@ public class Board extends Pane
 		private Consumer<Long> onRemainingTimeChanged;
 		public void startClock()
 		{
-			clock = new Thread(()->{
+			clock = new Thread(()-> {
 				while (!Thread.currentThread().isInterrupted() && remainingTime > 0)
 					try {
 						Thread.sleep(10);
@@ -629,7 +630,7 @@ public class Board extends Pane
 		
 		public boolean isClockStopped() {
 			if(clock == null || !clock.isAlive()) return true;
-			else return false; 
+			else return false;
 		}
 		
 		public long getRemainingTime() { return this.remainingTime / 100; }
