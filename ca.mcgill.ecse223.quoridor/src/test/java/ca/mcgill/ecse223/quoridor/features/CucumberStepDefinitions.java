@@ -1147,9 +1147,7 @@ public class CucumberStepDefinitions {
 	@Then("The game shall be running")
 	public void the_game_shall_be_running() {
 		if (QuoridorApplication.getQuoridor().hasCurrentGame()) {
-
-			assertTrue(
-					QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(Game.GameStatus.Running));
+			assertTrue(QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(Game.GameStatus.Running));
 		}
 	}
 
@@ -1567,15 +1565,20 @@ public class CucumberStepDefinitions {
 
 	@Then("The game shall be in replay mode")
 	public void the_game_shall_be_in_replay_mode() {
-	    assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus(), GameStatus.Replay);
+	    assertEquals(GameStatus.Replay, QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
 	}
 
 
 	@Given("The following moves have been played in game:")
 	public void the_following_moves_have_been_played_in_game(io.cucumber.datatable.DataTable dataTable) {
-		List<Map<String, String>> valueMaps = dataTable.asMaps();
-		for (Map<String, String> map : valueMaps)
-			Controller.doMove(map.get("move"));
+		for (Map<String, String> map : dataTable.asMaps())
+		{
+			if (map.get("move").charAt(1) == '-')
+				QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(
+						map.get("move").charAt(0) == '1' ? GameStatus.WhiteWon : GameStatus.BlackWon);
+			else
+				Controller.doMove(map.get("move"));
+		}
 	}
 
 	@Given("The game does not have a final result")
@@ -1591,13 +1594,12 @@ public class CucumberStepDefinitions {
 
 	@When("I initiate to continue game")
 	public void i_initiate_to_continue_game() {
-	    
+	    valid = Controller.continueGame();
 	}
 
 	@Then("The remaining moves of the game shall be removed")
 	public void the_remaining_moves_of_the_game_shall_be_removed() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    Controller.assertCurrentPositionIsLastPosition();
 	}
 
 	@Given("The game has a final result")
@@ -1612,8 +1614,7 @@ public class CucumberStepDefinitions {
 
 	@Then("I shall be notified that finished games cannot be continued")
 	public void i_shall_be_notified_that_finished_games_cannot_be_continued() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    assertFalse(valid);
 	}
 
 	@Given("The following moves were executed:")

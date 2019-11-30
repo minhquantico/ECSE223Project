@@ -235,7 +235,29 @@ public class Controller {
 		
 	}
 	
-	
+	public static boolean continueGame()
+	{
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus() != GameStatus.Replay)
+		{
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+			return false;
+		}
+		GamePosition current = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		jumpToFinalPos();
+		boolean changed = Controller.updateGameStatus();
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(current);
+		if (changed)
+			return false;
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+		int index = QuoridorApplication.getQuoridor().getCurrentGame().indexOfPosition(current);
+		index++;
+		while (index < QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions())
+		{
+			QuoridorApplication.getQuoridor().getCurrentGame().getPosition(index).delete();
+			QuoridorApplication.getQuoridor().getCurrentGame().getMove(index-1).delete();
+		}
+		return true;
+	}
 
 //--------------------------------------------------------------------------------------------------------------------------
 
@@ -1058,7 +1080,7 @@ public class Controller {
 		endMove();
 	}
 	
-	private static void assertCurrentPositionIsLastPosition() throws AssertionError
+	public static void assertCurrentPositionIsLastPosition() throws AssertionError
 	{
 		GamePosition currentPosition = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		int currentPositionIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(currentPosition);
@@ -1167,7 +1189,7 @@ public class Controller {
 		
 	}
 	
-	/** Returns true if status changed */
+	/** Checks if WhiteWon, BlackWon or Draw. Returns true if status changed */
 	public static boolean updateGameStatus() {
 		GameStatus initalStatus = QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
 		

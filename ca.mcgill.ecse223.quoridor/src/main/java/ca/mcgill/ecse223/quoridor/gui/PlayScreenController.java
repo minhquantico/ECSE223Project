@@ -86,22 +86,14 @@ public class PlayScreenController {
     }
     
     @FXML
-    void continueGame() {
-    	replayPane.setVisible(false);
-    	Controller.jumpToFinalPos();
-    	board.loadFromModel();
-    	ca.mcgill.ecse223.quoridor.controller.Controller.StartClock();
-    	board.getActivePlayer().getOnRemainingTimeChange().accept(board.getActivePlayer().getRemainingTime());
-    	QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
-		Controller.updateGameStatus();
-    	Controller.updateStatusGUI();
-    	if (isRunning())
+    void continueGame()
+    {
+    	if (Controller.continueGame())
     	{
-    		board.setOnGameEnded(() ->
-    		{
-    			replayPane.setVisible(true);
-        		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
-    		});
+    		replayPane.setVisible(false);
+    		ca.mcgill.ecse223.quoridor.controller.Controller.StartClock();
+    		board.getActivePlayer().getOnRemainingTimeChange().accept(board.getActivePlayer().getRemainingTime());
+    		Controller.updateStatusGUI();
     		board.startGame();
     	}
     }
@@ -277,6 +269,7 @@ public class PlayScreenController {
     			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getUser().getName());
     	board.prefWidthProperty().bind(boardPane.widthProperty());
     	board.prefHeightProperty().bind(boardPane.heightProperty());
+    	
     	boardPane.getChildren().add(board);
     	
     	for (Player player : board.players)
@@ -301,6 +294,11 @@ public class PlayScreenController {
     	wallLabel.setMaxWidth(80);		// TODO
     	
     	replayPane.setVisible(QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Replay));
+    	board.setOnGameEnded(() ->
+		{
+			replayPane.setVisible(true);
+    		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+		});
     	if (!replayPane.isVisible())
     		continueGame();
     }
