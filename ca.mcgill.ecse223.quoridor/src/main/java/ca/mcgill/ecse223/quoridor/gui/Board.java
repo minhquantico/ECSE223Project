@@ -607,7 +607,6 @@ public class Board extends Pane
 		public void startClock()
 		{
 			clock = new Thread(()->{
-				//System.out.println("Entering thread: " + clock.getId());
 				while (!Thread.currentThread().isInterrupted() && remainingTime > 0)
 					try {
 						Thread.sleep(10);
@@ -624,7 +623,6 @@ public class Board extends Pane
 					synchronized(Board.this) { Board.this.notify(); System.out.println("notify timer"); }
 				}
 			});
-			
 			clock.start();
 		}
 		public void stopClock() { clock.interrupt(); }

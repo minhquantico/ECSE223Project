@@ -1795,12 +1795,19 @@ public class CucumberStepDefinitions {
 
 	@When("The game is no longer running")
 	public void the_game_is_no_longer_running() {
-		//Controller.notRunning();
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
 	}
 
 	@Then("The final result shall be displayed")
 	public void the_final_result_shall_be_displayed() {
-	    // ??
+	    try
+	    {
+	    	System.out.println("Results: " + QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
+	    }
+	    catch (Exception ex)
+	    {
+	    	fail();
+	    }
 	}
 
 	@Then("White's clock shall not be counting down")

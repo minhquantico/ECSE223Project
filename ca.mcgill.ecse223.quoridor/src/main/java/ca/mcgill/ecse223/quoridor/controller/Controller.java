@@ -283,6 +283,10 @@ public class Controller {
 				no++;
 			}
 			
+			if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus() == GameStatus.Initializing)
+				QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
+			else
+				QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 			jumpToStartPos();
 		}
 		catch (InputMismatchException ex)

@@ -91,8 +91,7 @@ public class PlayScreenController {
     	if (Controller.continueGame())
     	{
     		replayPane.setVisible(false);
-    		ca.mcgill.ecse223.quoridor.controller.Controller.StartClock();
-    		board.getActivePlayer().getOnRemainingTimeChange().accept(board.getActivePlayer().getRemainingTime());
+    		Controller.StartClock();
     		Controller.updateStatusGUI();
     		board.startGame();
     	}
@@ -114,9 +113,7 @@ public class PlayScreenController {
     void hint()
     {
     	if (isRunning())
-    	{
     		board.getActivePlayer().getBestMove().recommend();
-    	}
     }
     
     @FXML
@@ -299,8 +296,9 @@ public class PlayScreenController {
 			replayPane.setVisible(true);
     		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 		});
+    	Controller.StartClock();
     	if (!replayPane.isVisible())
-    		continueGame();
+    		board.startGame();
     }
     
     private boolean isRunning() { return QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running); }

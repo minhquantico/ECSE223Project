@@ -1,5 +1,8 @@
 Feature: Report final result
 	As a player, I want to be notified when I won, lost or draw a Quoridor game.
+#
+	Background:
+		Given The game is running
 	
 	Scenario: 
 		When The game is no longer running

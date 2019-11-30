@@ -33,11 +33,7 @@ public class SGController {
     	FileChooser chooser = new FileChooser();
     	File f = chooser.showOpenDialog(QuoridorApplication.getPrimaryStage());
     	if (f != null)
-    		try
-    		{
-    			Controller.loadGame(f);
-    			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
-    		}
+    		try { Controller.loadGame(f); }
     		catch (FileNotFoundException | Controller.InvalidPositionException ex)
     		{
     			System.err.println("Load Error: " + ex.getMessage());
