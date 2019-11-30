@@ -52,7 +52,7 @@ public class Board extends Pane
 	private volatile boolean waitingForMove = false;
 	private Runnable onGameEnded;
 	
-	private Thread game = new Thread(() -> {
+	private Runnable gameLoop = () -> {
 		try
 		{
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Initializing);
@@ -85,7 +85,7 @@ public class Board extends Pane
 		catch (Exception ex) { ex.printStackTrace(); }
 		
 		onGameEnded.run();
-	});
+	};
 	
 	
 	
@@ -156,8 +156,14 @@ public class Board extends Pane
 	
 	public Player getActivePlayer() { return this.players[activePlayer]; }
 	
-	public void startGame() { loadFromModel(); if (players.length > 0) this.game.start(); }
-	public void setGameLoop(Runnable r) { game = new Thread(r); }
+	private Thread game = null;
+	public void startGame()
+	{
+		if (game != null && game.isAlive())
+			throw new AssertionError("Game is already running!");
+		loadFromModel();
+		(game = new Thread(gameLoop)).start();
+	}
 	
 	void forEachCell(Consumer<? super Cell> action)
 	{
