@@ -16,7 +16,9 @@ and see the board position after that move.
       |  3 |   1 | e3h  |
       |  3 |   2 | e8h  |
       |  4 |   1 | d3v  |
-      |  4 |   2 | f2   |
+#      |  4 |   2 | f2   |
+      |  4 |   2 | f3   |
+
     And The next move is <movno>:<rndno>
 #    When Step backward is initiated
     When Step forward is initiated
@@ -27,7 +29,8 @@ and see the board position after that move.
     And Black has <bwallno> on stock
 
     Examples: 
-      | movno | rndno | nmov | nrnd | wrow | wcol | wwall | brow | bcol | bwallno |
+#      | movno | rndno | nmov | nrnd | wrow | wcol | wwall | brow | bcol | bwallno |
+      | movno | rndno | nmov | nrnd | wrow | wcol | wwallno | brow | bcol | bwallno |
       |     1 |     1 |    1 |    2 |    8 |    5 |    10 |    1 |    5 |      10 |
       |     1 |     2 |    2 |    1 |    8 |    5 |    10 |    2 |    5 |      10 |
       |     2 |     1 |    2 |    2 |    7 |    5 |    10 |    2 |    5 |      10 |

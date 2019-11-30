@@ -24,7 +24,7 @@ public class ThinkingScreenController
 		int minute = Integer.parseInt(fieldMinute.getText());
 		int second = Integer.parseInt(fieldSecond.getText());
 		
-		ca.mcgill.ecse223.quoridor.controller.Controller.setTotalThinkingTime(minute, second);
+		ca.mcgill.ecse223.quoridor.controller.Controller.setThinkingTime(minute, second);
 		QuoridorApplication.setScreen("PlayScreen");
 	}
 	

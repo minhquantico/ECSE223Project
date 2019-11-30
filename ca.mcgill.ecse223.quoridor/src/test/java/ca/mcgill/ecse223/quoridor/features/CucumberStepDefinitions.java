@@ -4,6 +4,7 @@ package ca.mcgill.ecse223.quoridor.features;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -52,8 +53,6 @@ public class CucumberStepDefinitions {
 	@Given("^The game is not running$")
 	public void theGameIsNotRunning() {
 		initQuoridorAndBoard();
-		Controller.InitializeNewGame();
-		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Initializing);
 	}
 
 	@Given("^The game is running$")
@@ -866,7 +865,7 @@ public class CucumberStepDefinitions {
 	/* Traian Coza */
 	@Then("File {string} shall not be changed in the filesystem")
 	public void file_shall_not_be_changed_in_the_filesystem(String string) {
-		assertNotEquals(new File(string).lastModified() / 100, System.currentTimeMillis() / 100);
+		assertTrue(System.currentTimeMillis() - new File(string).lastModified() > 100);
 	}
 
 //-------------------------------------------------------------------------------------------------------------------------
@@ -1562,6 +1561,7 @@ public class CucumberStepDefinitions {
 
 	@When("I initiate replay mode")
 	public void i_initiate_replay_mode() {
+		Controller.InitializeNewGame();
 	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 	}
 
@@ -1580,8 +1580,7 @@ public class CucumberStepDefinitions {
 
 	@Given("The game does not have a final result")
 	public void the_game_does_not_have_a_final_result() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    the_game_has_no_final_results();
 	}
 
 	@Given("The next move is {int}:{int}")
@@ -1592,8 +1591,7 @@ public class CucumberStepDefinitions {
 
 	@When("I initiate to continue game")
 	public void i_initiate_to_continue_game() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    
 	}
 
 	@Then("The remaining moves of the game shall be removed")
@@ -1604,8 +1602,12 @@ public class CucumberStepDefinitions {
 
 	@Given("The game has a final result")
 	public void the_game_has_a_final_result() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		try
+		{
+			the_game_does_not_have_a_final_result();
+			fail();
+		}
+		catch (AssertionError e) { }
 	}
 
 	@Then("I shall be notified that finished games cannot be continued")
@@ -1643,13 +1645,13 @@ public class CucumberStepDefinitions {
 	@Then("Game result shall be {string}")
 	public void game_result_shall_be(String string) {
 		GameStatus gameStatus;
-		if(string.equals("whiteWon")) {
+		if(string.equalsIgnoreCase("whiteWon")) {
 			gameStatus=GameStatus.WhiteWon;
-		}else if(string.equals("blackWon")){
+		}else if(string.equalsIgnoreCase("blackWon")){
 			gameStatus=GameStatus.BlackWon;
-		}else if(string.equals("pending") || string.equals("Pending")){
+		}else if(string.equalsIgnoreCase("pending")){
 			gameStatus=GameStatus.Running;
-		}else if (string.equals("Drawn")) {
+		}else if (string.equalsIgnoreCase("Drawn")) {
 			gameStatus=GameStatus.Draw;
 		}else {
 			//add proper code to this for the DRAW
@@ -1679,7 +1681,7 @@ public class CucumberStepDefinitions {
 
 	@Given("The clock of {string} is more than zero")
 	public void the_clock_of_is_more_than_zero(String string) {
-	    Controller.setTotalThinkingTime(10,10);
+	    Controller.setThinkingTime(10,10);
 	    
 	}
 
@@ -1699,6 +1701,17 @@ public class CucumberStepDefinitions {
 		initQuoridorAndBoard();
 		Controller.InitializeNewGame();
 	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+	}
+	
+
+	@When("Step backward is initiated")
+	public void step_backward_is_initiated() {
+	    Controller.stepBackwards();
+	}
+	
+	@When("Step forward is initiated")
+	public void step_forward_is_initiated() {
+	    Controller.stepForwards();
 	}
 
 	@When("Jump to start position is initiated")
@@ -1738,13 +1751,13 @@ public class CucumberStepDefinitions {
 	@Then("White has {int} on stock")
 	public void white_has_wwallno_on_stock(int int1) {
 	    int size = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size();
-	    assertTrue(size == int1);
+	    assertEquals(int1, size);
 	}
 
 	@Then("Black has {int} on stock")
 	public void black_has_bwallno_on_stock(int int1) {
 		int size = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size();
-		assertTrue(size == int1);
+		assertEquals(int1, size);
 	}
 
 	@When("I initiate to load a game in {string}")
@@ -1756,28 +1769,27 @@ public class CucumberStepDefinitions {
 
 	@When("Each game move is valid")
 	public void each_game_move_is_valid() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    assertTrue(valid);
 	}
 
 	@When("The game has no final results")
 	public void the_game_has_no_final_results() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+		GameStatus status = QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
+	    assertNotEquals(GameStatus.WhiteWon, status);
+	    assertNotEquals(GameStatus.BlackWon, status);
+	    assertNotEquals(GameStatus.Draw, status);
 	}
 	
 
 
 	@When("The game to load has an invalid move")
 	public void the_game_to_load_has_an_invalid_move() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    assertFalse(valid);
 	}
 
 	@Then("The game shall notify the user that the game file is invalid")
 	public void the_game_shall_notify_the_user_that_the_game_file_is_invalid() {
-	    // Write code here that turns the phrase above into concrete actions
-	    throw new cucumber.api.PendingException();
+	    assertFalse(valid);
 	}
 
 	@When("The game is no longer running")
@@ -1817,15 +1829,6 @@ public class CucumberStepDefinitions {
 	    Controller.resign(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
 	}
 
-	@When("Step backward is initiated")
-	public void step_backward_is_initiated() {
-	    Controller.stepBackwards();
-	}
-	
-	@When("Step forward is initiated")
-	public void step_forward_is_initiated() {
-	    Controller.stepBackwards();
-	}
 //-------------------------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------------------------------

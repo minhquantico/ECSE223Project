@@ -900,6 +900,7 @@ public class Controller {
 	 **/
 	public static void setTotalThinkingTime(int minutes, int seconds) {
 		setThinkingTime(minutes, seconds); // overlaps with Jake's controller method
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.ReadyToStart);
 	}
 
 	/**
@@ -1031,6 +1032,7 @@ public class Controller {
 		assertCurrentPositionIsLastPosition();
 		
 		WallMove wallMoveCandidate = QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate();
+		GamePosition prevPosition = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
 				cloneGamePosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()));
 		QuoridorApplication.getQuoridor().getCurrentGame()
@@ -1038,11 +1040,17 @@ public class Controller {
 
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()
 				.hasGameAsWhite())
+		{
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.addWhiteWallsOnBoard(wallMoveCandidate.getWallPlaced());
+			prevPosition.addWhiteWallsInStock(wallMoveCandidate.getWallPlaced());
+		}
 		else
+		{
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()
 					.addBlackWallsOnBoard(wallMoveCandidate.getWallPlaced());
+			prevPosition.addBlackWallsInStock(wallMoveCandidate.getWallPlaced());
+		}
 		
 		QuoridorApplication.getQuoridor().getCurrentGame().addMove(QuoridorApplication.getQuoridor().getCurrentGame().getWallMoveCandidate());
 		QuoridorApplication.getQuoridor().getCurrentGame().setWallMoveCandidate(null);
@@ -1110,8 +1118,8 @@ public class Controller {
 		int dx = x - pos.getColumn();
 		int dy = y - pos.getRow();
 		
-		System.out.println("White: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite());
-		System.out.println("dx: " + dx + ", dy:" + dy);
+//		System.out.println("White: " + QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite());
+//		System.out.println("dx: " + dx + ", dy:" + dy);
 		sm.calledLegal = false;
 
 		if (Math.abs(dx + dy) == 1)	// Step move
@@ -1269,7 +1277,7 @@ public class Controller {
 		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
 		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions()-1;
-		int nextIndex = currentIndex == max? currentIndex : currentIndex + 1;
+		int nextIndex = currentIndex == max ? currentIndex : currentIndex + 1;
 		GamePosition newPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(nextIndex);
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(newPos);
 	}

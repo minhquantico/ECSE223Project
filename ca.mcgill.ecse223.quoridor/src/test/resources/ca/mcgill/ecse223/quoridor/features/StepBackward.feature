@@ -27,7 +27,8 @@ Feature: Step backward
     And Black has <bwallno> on stock
 
     Examples: 
-      | movno | rndno | nmov | nrnd | wrow | wcol | wwall | brow | bcol | bwallno |
+#      | movno | rndno | nmov | nrnd | wrow | wcol | wwall | brow | bcol | bwallno |
+      | movno | rndno | nmov | nrnd | wrow | wcol | wwallno | brow | bcol | bwallno |
       |     1 |     1 |    1 |    1 |    9 |    5 |    10 |    1 |    5 |      10 |
       |     1 |     2 |    1 |    1 |    9 |    5 |    10 |    1 |    5 |      10 |
       |     2 |     1 |    1 |    2 |    8 |    5 |    10 |    1 |    5 |      10 |
