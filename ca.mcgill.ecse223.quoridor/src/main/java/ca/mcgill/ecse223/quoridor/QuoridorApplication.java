@@ -92,5 +92,13 @@ public class QuoridorApplication extends Application {
 			}
 			QuoridorApplication.primaryStage.setScene(this.scene);
 		}
+		
+		
+		}
+	public static void relaunch(){
+		quoridor= new Quoridor();
+		QuoridorApplication.setScreen("StartGame");
+		
+		}
 	}
-}
+

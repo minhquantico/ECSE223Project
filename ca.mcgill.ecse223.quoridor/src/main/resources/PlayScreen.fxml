@@ -41,5 +41,6 @@
       <Button fx:id="savePosition" layoutX="53.0" layoutY="503.0" mnemonicParsing="false" onAction="#savePosition" prefHeight="40.0" prefWidth="120.0" text="Save Position" />
       <Button fx:id="resign" layoutX="780.0" layoutY="503.0" mnemonicParsing="false" onAction="#resign" prefHeight="40.0" prefWidth="120.0" text="Resign" />
       <Button fx:id="hinr" layoutX="780.0" layoutY="452.0" mnemonicParsing="false" onAction="#hint" prefHeight="40.0" prefWidth="120.0" text="Hint" />
+      <Button fx:id="menu" layoutX="809.0" layoutY="400.0" mnemonicParsing="false" onAction="#menuClick" text="EXIT" />
    </children>
 </Pane>
