@@ -1725,7 +1725,6 @@ public class CucumberStepDefinitions {
 	    Controller.jumpToFinalPos();
 	}
 
-
 	@Then("The next move shall be {int}:{int}")
 	public void the_next_move_shall_be(int int1, int int2) {
 		int nextMove = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(
