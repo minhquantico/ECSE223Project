@@ -49,6 +49,7 @@ public class QuoridorApplication extends Application {
 	    addScreen("BlackSelectUsername", "SelectBlackPlayerUsername.fxml", "All.css", "SelectBlackPlayerUsername.css");
 	    addScreen("ThinkingScreen", "ThinkingTime.fxml", "All.css", "ThinkingTime.css");
 	    addScreen("PlayScreen", "PlayScreen.fxml", "PlayScreen.css");
+	    addScreen("Help", "Help.fxml", "Help.css");
 	    setScreen("StartGame");
 	    
 	    primaryStage.setOnHidden(e -> System.exit(0));

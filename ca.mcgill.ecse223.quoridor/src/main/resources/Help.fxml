@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.HelpController">
+   <children>
+      <Button fx:id="Back" layoutX="365.0" layoutY="514.0" mnemonicParsing="false" onAction="#BackButton" prefHeight="40.0" prefWidth="120.0" text="Back to Menu" />
+      <MenuBar fx:id="menuBar" layoutX="22.0" layoutY="14.0">
+        <menus>
+          <Menu fx:id="GameRules" mnemonicParsing="false" onAction="#ClickGameRules" text="Game Rules" />
+            <Menu fx:id="BasicControls" mnemonicParsing="false" onAction="#ClickBasicControls" text="Basic Controls" />
+          <Menu fx:id="Computer" mnemonicParsing="false" onAction="#ClickComputer" text="Computer" />
+          <Menu fx:id="Network" mnemonicParsing="false" onAction="#ClickNetwork" text="Play or View on Network" />
+        </menus>
+      </MenuBar>
+      <Pane layoutX="15.0" layoutY="53.0" prefHeight="452.0" prefWidth="815.0" />
+   </children>
+</Pane>
