@@ -1635,7 +1635,7 @@ public class CucumberStepDefinitions {
 
 	@Given("Player {string} has just completed his move")
 	public void player_has_just_completed_his_move(String string) {
-	    // ??
+	    //just create a move
 	}
 
 	@Given("The last move of {string} is pawn move to {int}:{int}")
