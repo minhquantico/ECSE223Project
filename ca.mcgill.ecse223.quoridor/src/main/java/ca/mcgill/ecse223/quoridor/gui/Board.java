@@ -67,6 +67,7 @@ public class Board extends Pane
 				}
 			
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+			Platform.runLater(() -> loadFromModel());
 			while (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
 			{
 				players[activePlayer].takeTurn();
@@ -725,6 +726,7 @@ public class Board extends Pane
 				if (isWhite())
 				{
 					String moves = this.mainSocket.in.nextLine();
+					System.out.println("received " + moves);
 					for (String move :  moves.split(" "))
 						Controller.doMove(move);
 				}
@@ -737,9 +739,12 @@ public class Board extends Pane
 			while (!listeners.isEmpty())
 				if (listeners.get(0).isClosed())
 					listeners.remove(0).close();
-			this.listener.close();
+			if (this.listener != null)
+				this.listener.close();
 		}
-		private String readMove() { return this.mainSocket.in.nextLine(); }
+		private String readMove() {
+			String move = this.mainSocket.in.nextLine();
+			System.out.println("Received move: " + move);return move; }
 		private void sendMove()
 		{
 			String move = Controller.moveToToken(
