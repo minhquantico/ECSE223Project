@@ -40,7 +40,9 @@ public class Controller {
 
 	public static void detectDraw()
 	{	
-		List<Move> moves = QuoridorApplication.getQuoridor().getCurrentGame().getMoves();
+		GamePosition cur = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		int indexCur = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(cur);
+		List<Move> moves = QuoridorApplication.getQuoridor().getCurrentGame().getMoves().subList(0, indexCur);
 		if (moves.size() == 0)
 			return;
 		
