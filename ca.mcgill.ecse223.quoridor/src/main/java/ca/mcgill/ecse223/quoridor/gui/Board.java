@@ -66,8 +66,10 @@ public class Board extends Pane
 					Platform.runLater(() -> this.getChildren().removeIf(c -> c instanceof LoadingPane));
 				}
 			
+			Platform.runLater(() -> { loadFromModel(); synchronized (Board.this) { Board.this.notify(); }});
+			synchronized (Board.this) { Board.this.wait(); }
+			
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
-			Platform.runLater(() -> loadFromModel());
 			while (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus().equals(GameStatus.Running))
 			{
 				players[activePlayer].takeTurn();
@@ -487,7 +489,7 @@ public class Board extends Pane
 					Board.this.wait();
 					Board.this.waitingForMove = false;
 				}
-			if (adversary().isNetwork())
+			if (!isNetwork() && adversary().isNetwork())
 				adversary().sendMove();
 			
 			this.stopClock();
@@ -747,6 +749,7 @@ public class Board extends Pane
 			String move = Controller.moveToToken(
 					QuoridorApplication.getQuoridor().getCurrentGame().getMove(
 							QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1));
+			this.mainSocket.out.println(move);
 			for (FriendlySocket s : listeners)
 				s.out.println(move);
 		}
