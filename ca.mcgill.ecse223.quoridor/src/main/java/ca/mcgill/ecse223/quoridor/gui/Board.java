@@ -726,7 +726,6 @@ public class Board extends Pane
 				if (isWhite())
 				{
 					String moves = this.mainSocket.in.nextLine();
-					System.out.println("received " + moves);
 					for (String move :  moves.split(" "))
 						Controller.doMove(move);
 				}
@@ -742,15 +741,12 @@ public class Board extends Pane
 			if (this.listener != null)
 				this.listener.close();
 		}
-		private String readMove() {
-			String move = this.mainSocket.in.nextLine();
-			System.out.println("Received move: " + move);return move; }
+		private String readMove() { return this.mainSocket.in.nextLine(); }
 		private void sendMove()
 		{
 			String move = Controller.moveToToken(
 					QuoridorApplication.getQuoridor().getCurrentGame().getMove(
 							QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1));
-			this.mainSocket.out.println(move);
 			for (FriendlySocket s : listeners)
 				s.out.println(move);
 		}
