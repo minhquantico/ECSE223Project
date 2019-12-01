@@ -14,6 +14,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 public class SelectBlackPlayerUsernameController {
@@ -21,15 +22,23 @@ public class SelectBlackPlayerUsernameController {
     @FXML private ComboBox<String> comboBoxBlack;
     @FXML private Button next;
     @FXML private Pane pane;
+    @FXML private Label warning;
     
     @FXML
     void nextClicked(ActionEvent event) throws IOException
     {
     	boolean isListedBlack = false;
     	String blackUsername = comboBoxBlack.getSelectionModel().getSelectedItem(); 
-    	
+    	blackUsername = blackUsername.trim();
     	ArrayList<User> list = new ArrayList<User>(QuoridorApplication.getQuoridor().getUsers());
     	
+    	if(blackUsername.equals("") | blackUsername == null) {
+    		warning.setVisible(true);
+    	}
+    	
+    	else {
+    		warning.setVisible(false);
+    		
     	for(User u : list)
     		if(u.getName().equals(blackUsername))
     			isListedBlack = true;
@@ -53,6 +62,7 @@ public class SelectBlackPlayerUsernameController {
     	
     	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer(), blackUsername);
     	QuoridorApplication.setScreen("ThinkingScreen");
+    	}
     }
     
     @FXML

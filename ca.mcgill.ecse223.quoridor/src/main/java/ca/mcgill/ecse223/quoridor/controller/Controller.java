@@ -40,7 +40,9 @@ public class Controller {
 
 	public static void detectDraw()
 	{	
-		List<Move> moves = QuoridorApplication.getQuoridor().getCurrentGame().getMoves();
+		GamePosition cur = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		int indexCur = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(cur);
+		List<Move> moves = QuoridorApplication.getQuoridor().getCurrentGame().getMoves().subList(0, indexCur);
 		if (moves.size() == 0)
 			return;
 		
@@ -886,11 +888,12 @@ public class Controller {
 	 **/
 
 	public static void SelectExistingUsername(Player player, String username) {
-		
+		if(username != "") {
 		if (player.hasGameAsWhite()) {
 			Controller.setWhitePlayerUsername(username);
 		} else {
 			Controller.setBlackPlayerUsername(username);
+		}
 		}
 
 	}
@@ -902,6 +905,7 @@ public class Controller {
 	 *                creating a new user and adding it to the list of users
 	 **/
 	public static void CreateNewUsername(String username) {
+		if(username != "")
 		QuoridorApplication.getQuoridor().addUser(username);
 	}
 

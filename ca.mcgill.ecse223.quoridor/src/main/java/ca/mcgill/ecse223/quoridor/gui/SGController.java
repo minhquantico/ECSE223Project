@@ -25,7 +25,7 @@ public class SGController {
     
     @FXML
     void helpButton(ActionEvent event) {
-    	
+    	QuoridorApplication.setScreen("Help");
     }
     
     @FXML
