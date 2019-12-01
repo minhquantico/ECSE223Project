@@ -227,7 +227,6 @@ public class Controller {
 	public static void jumpToStartPos() {
 		GamePosition startPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(0);
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(startPos);
-		
 	}
 	
 	public static void jumpToFinalPos() {
@@ -415,6 +414,13 @@ public class Controller {
 	
 	private static String tileToToken(Tile t) { return "" + (char)('a' + t.getColumn()-1) + (char)('1' + t.getRow()-1); }
 	public static String moveToToken(Move m) { return tileToToken(m.getTargetTile()) + (m instanceof WallMove ? ((WallMove)m).getWallDirection() == Direction.Horizontal ? "h" : "v" : ""); }
+	public static String allMovesToTokens()
+	{
+		String moves = new String();
+		for (Move m : QuoridorApplication.getQuoridor().getCurrentGame().getMoves())
+			moves += moveToToken(m) + ' ';
+		return moves;
+	}
 	
 	/**
 	 * @author Traian Coza Feature: LoadGamePosition. This loads the 
