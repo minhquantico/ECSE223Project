@@ -43,9 +43,15 @@ public class PlayScreenController {
     @FXML private Button stepPrevious;
     @FXML private Button jumpBeginning;
     @FXML private Pane replayPane;
+    @FXML private Button menu;
     
     public Board board;
     public Pane wall;
+    
+    @FXML
+    void menuClick() {
+    	QuoridorApplication.relaunch();
+    }
     
     @FXML
     void stepPrevious() {
