@@ -4,32 +4,37 @@ import ca.mcgill.ecse223.quoridor.QuoridorApplication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class HelpController {
 
     @FXML
-    private MenuBar menuBar;
+    private ImageView networkImage;
 
     @FXML
-    private Menu GameRules;
+    private Button computerButton;
 
     @FXML
-    private Menu Network;
+    private Button GameRules;
+
+    @FXML
+    private Button controlsButton;
+
+    @FXML
+    private ImageView computerImage;
 
     @FXML
     private Button Back;
 
     @FXML
-    private Menu Computer;
+    private ImageView basicControlImage;
+
+    @FXML
+    private Button networkButton;
 
     @FXML
     private Pane pane;
-
-    @FXML
-    private Menu BasicControls;
 
     @FXML
     void BackButton(ActionEvent event) {
@@ -37,23 +42,25 @@ public class HelpController {
     }
 
     @FXML
-    void ClickGameRules(ActionEvent event) {
+    void gameRulesClick(ActionEvent event) {
+    	System.out.println("button pressed mna");
+    	computerImage.setVisible(true);
+    	basicControlImage.setVisible(false);
+    }
+
+    @FXML
+    void networkClick(ActionEvent event) {
+    	
+    }
+
+    @FXML
+    void controlsClick(ActionEvent event) {
 
     }
 
     @FXML
-    void ClickBasicControls(ActionEvent event) {
-
-    }
-
-    @FXML
-    void ClickComputer(ActionEvent event) {
-
-    }
-
-    @FXML
-    void ClickNetwork(ActionEvent event) {
-
+    void computerClick(ActionEvent event) {
+    	computerImage.setVisible(true);
     }
 
 }

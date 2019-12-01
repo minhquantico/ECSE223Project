@@ -9,15 +9,25 @@
 
 <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ca.mcgill.ecse223.quoridor.gui.HelpController">
    <children>
-      <Button fx:id="Back" layoutX="365.0" layoutY="514.0" mnemonicParsing="false" onAction="#BackButton" prefHeight="40.0" prefWidth="120.0" text="Back to Menu" />
-      <MenuBar fx:id="menuBar" layoutX="22.0" layoutY="14.0">
-        <menus>
-          <Menu fx:id="GameRules" mnemonicParsing="false" onAction="#ClickGameRules" text="Game Rules" />
-            <Menu fx:id="BasicControls" mnemonicParsing="false" onAction="#ClickBasicControls" text="Basic Controls" />
-          <Menu fx:id="Computer" mnemonicParsing="false" onAction="#ClickComputer" text="Computer" />
-          <Menu fx:id="Network" mnemonicParsing="false" onAction="#ClickNetwork" text="Play or View on Network" />
-        </menus>
-      </MenuBar>
-      <Pane layoutX="15.0" layoutY="53.0" prefHeight="452.0" prefWidth="815.0" />
+      <Button fx:id="Back" layoutX="390.0" layoutY="505.0" mnemonicParsing="false" onAction="#BackButton" prefHeight="40.0" prefWidth="120.0" text="Back to Menu" />
+      <Button fx:id="GameRules" layoutX="64.0" layoutY="41.0" mnemonicParsing="false" onAction="#gameRulesClick" text="Game Rules" />
+      <Button fx:id="networkButton" layoutX="288.0" layoutY="41.0" mnemonicParsing="false" onAction="#networkClick" text="Network" />
+      <Button fx:id="controlsButton" layoutX="182.0" layoutY="41.0" mnemonicParsing="false" onAction="#controlsClick" text="Controls" />
+      <Button fx:id="computerButton" layoutX="390.0" layoutY="41.0" mnemonicParsing="false" onAction="#computerClick" text="Computer Mode" />
+      <ImageView fx:id="basicControlImage" fitHeight="600.0" fitWidth="906.0" visible="false">
+         <image>
+            <Image url="@../../../../../../Desktop/BasicControls.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="computerImage" fitHeight="606.0" fitWidth="900.0" visible="false">
+         <image>
+            <Image url="@../../../../../../Desktop/Computer.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="networkImage" fitHeight="606.0" fitWidth="906.0">
+         <image>
+            <Image url="@../../../../../../Desktop/network.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>
