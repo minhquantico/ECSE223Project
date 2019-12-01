@@ -12,5 +12,6 @@
       <ComboBox fx:id="comboBoxWhite" editable="true" layoutX="606.0" layoutY="274.0" prefHeight="39.0" prefWidth="250.0" />
       <Button fx:id="next" layoutX="736.0" layoutY="511.0" mnemonicParsing="false" onAction="#nextClicked" prefHeight="40.0" prefWidth="120.0" text="Next" />
       <Label layoutX="220.0" layoutY="279.0" prefHeight="30.0" prefWidth="350.0" text="Select or create a username:" />
+      <Label fx:id="warning" alignment="CENTER" layoutX="658.0" layoutY="326.0" text="Invalid user! Retry." textFill="RED" visible="false" />
    </children>
 </Pane>

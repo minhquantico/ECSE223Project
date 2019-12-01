@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 
 	public class SelectWhitePlayerUsernameController {
@@ -22,6 +23,7 @@ import javafx.scene.layout.Pane;
 	    @FXML private ComboBox<String> comboBoxWhite;
 	    @FXML private Button next;
 	    @FXML private Pane pane;
+	    @FXML private Label warning;
 	    
 	    @FXML
 	    void nextClicked(ActionEvent event) throws FileNotFoundException
@@ -29,9 +31,15 @@ import javafx.scene.layout.Pane;
 	    	boolean isListedWhite = false;
 	    	
 	    	String whiteUsername = comboBoxWhite.getSelectionModel().getSelectedItem();
-	    	
+	    	whiteUsername = whiteUsername.trim();
 	    	ArrayList<User> list = new ArrayList<User>(QuoridorApplication.getQuoridor().getUsers());
 	    	
+	    	if(whiteUsername.equals("") || whiteUsername == null) {
+	    		warning.setVisible(true);
+	    	}
+	    	else {
+	    		warning.setVisible(false);
+	    		
 	    	for(User u: list)
 	    		if(u.getName().equals(whiteUsername))
 	    			isListedWhite = true;
@@ -53,6 +61,7 @@ import javafx.scene.layout.Pane;
 	    	
 	    	Controller.SelectExistingUsername(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer(), whiteUsername);
 	    	QuoridorApplication.setScreen("BlackSelectUsername");
+	    	}
 	    }
 	    
 	    @FXML
@@ -69,5 +78,6 @@ import javafx.scene.layout.Pane;
 			for (User user : QuoridorApplication.getQuoridor().getUsers())
 				comboBoxWhite.getItems().add(user.getName());
 			comboBoxWhite.getSelectionModel().clearAndSelect(0);
+			
 	    }
 	}
