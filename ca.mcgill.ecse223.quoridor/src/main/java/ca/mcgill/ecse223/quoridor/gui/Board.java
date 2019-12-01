@@ -712,8 +712,12 @@ public class Board extends Pane
 			else		// Both player are network, watch party
 			{
 				while (socket == null)		// Try and connect
-					try { socket = new Socket(address, 5001); }
-					catch (ConnectException ex) {}
+					try
+					{
+						socket = new Socket(address, 5001);
+						Thread.sleep(100);
+					}
+					catch (ConnectException | InterruptedException ex) {}
 				ServerSocket server = new ServerSocket(isWhite() ? 5000 : 5001);
 				do
 				{
