@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import ca.mcgill.ecse223.quoridor.controller.Controller;
+import ca.mcgill.ecse223.quoridor.model.GamePosition;
 import ca.mcgill.ecse223.quoridor.model.Quoridor;
+import ca.mcgill.ecse223.quoridor.model.User;
+import ca.mcgill.ecse223.quoridor.model.Wall;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,6 +20,7 @@ public class QuoridorApplication extends Application {
 	private static Quoridor quoridor;
 	
 	private static Stage primaryStage;
+	private static QuoridorApplication quoridorApplication;
 	private static HashMap<String, Screen> screens = new HashMap<>();
 	
 	public static Quoridor getQuoridor()
@@ -96,14 +101,36 @@ public class QuoridorApplication extends Application {
 		
 		}
 	public static void relaunch(){
+		//gamePosition, userMap, wallMap, wallPositionMap 
+	
+		//delete walls
+		while (!QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getWalls().isEmpty()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getWalls().get(0).delete();
+		}
+		while (!QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getWalls().isEmpty()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getWalls().get(0).delete();
+		}
+		
+		//clear all game positions
+		while (!QuoridorApplication.getQuoridor().getCurrentGame().getPositions().isEmpty()) {
+			QuoridorApplication.getQuoridor().getCurrentGame().getPositions().get(0).delete();
+		}
+		
+		//clear user map
+		while(!QuoridorApplication.getQuoridor().getUsers().isEmpty()) {
+			QuoridorApplication.getQuoridor().getUsers().get(0).delete();
+		}
+		
 		QuoridorApplication.getQuoridor().getBoard().delete();
 		QuoridorApplication.getQuoridor().delete();
+		
 		quoridor= new Quoridor();
+		Controller.initQuoridorAndBoard();
 		//QuoridorApplication.getQuoridor().setBoard(null);
 		
+		QuoridorApplication.screens.clear();
 		
-		QuoridorApplication.setScreen("StartGame");
-		
+		this.start(primaryStage);
 		
 		}
 	}
