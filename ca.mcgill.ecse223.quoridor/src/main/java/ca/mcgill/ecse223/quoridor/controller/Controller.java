@@ -237,6 +237,7 @@ public class Controller {
 	
 	public static boolean continueGame()
 	{
+		System.out.println("Mode: " + QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus() != GameStatus.Replay)
 		{
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
@@ -247,7 +248,10 @@ public class Controller {
 		boolean changed = Controller.updateGameStatus();
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(current);
 		if (changed)
+		{
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 			return false;
+		}
 		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
 		int index = QuoridorApplication.getQuoridor().getCurrentGame().indexOfPosition(current);
 		index++;
