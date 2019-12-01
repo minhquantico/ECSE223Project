@@ -43,24 +43,31 @@ public class HelpController {
 
     @FXML
     void gameRulesClick(ActionEvent event) {
-    	System.out.println("button pressed mna");
-    	computerImage.setVisible(true);
+    	
+    	computerImage.setVisible(false);
     	basicControlImage.setVisible(false);
+    	networkImage.setVisible(false);
     }
 
     @FXML
     void networkClick(ActionEvent event) {
-    	
+    	computerImage.setVisible(false);
+    	basicControlImage.setVisible(false);
+    	networkImage.setVisible(true);
     }
 
     @FXML
     void controlsClick(ActionEvent event) {
-
+    	computerImage.setVisible(false);
+    	basicControlImage.setVisible(true);
+    	networkImage.setVisible(false);
     }
 
     @FXML
     void computerClick(ActionEvent event) {
     	computerImage.setVisible(true);
+    	basicControlImage.setVisible(false);
+    	networkImage.setVisible(false);
     }
 
 }
