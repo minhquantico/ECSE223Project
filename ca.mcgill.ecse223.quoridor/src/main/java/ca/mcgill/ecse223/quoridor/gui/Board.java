@@ -66,7 +66,7 @@ public class Board extends Pane
 					Platform.runLater(() -> this.getChildren().removeIf(c -> c instanceof LoadingPane));
 				}
 			
-			Platform.runLater(() -> { loadFromModel(); Board.this.notify(); });
+			Platform.runLater(() -> { loadFromModel(); synchronized (Board.this) { Board.this.notify(); }});
 			synchronized (Board.this) { Board.this.wait(); }
 			
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
