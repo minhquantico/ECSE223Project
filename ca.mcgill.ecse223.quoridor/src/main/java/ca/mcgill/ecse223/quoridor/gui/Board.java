@@ -728,8 +728,9 @@ public class Board extends Pane
 				if (isWhite())
 				{
 					String moves = this.mainSocket.in.nextLine();
-					for (String move :  moves.split(" "))
-						Controller.doMove(move);
+					if (!moves.trim().isEmpty())
+						for (String move :  moves.split(" "))
+							Controller.doMove(move);
 				}
 			}
 		}
@@ -751,7 +752,8 @@ public class Board extends Pane
 							QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1));
 			this.mainSocket.out.println(move);
 			for (FriendlySocket s : listeners)
-				s.out.println(move);
+				if (!s.isClosed())
+					s.out.println(move);
 		}
 		
 		public boolean isWhite() { return this == players[0]; }
