@@ -96,8 +96,14 @@ public class QuoridorApplication extends Application {
 		
 		}
 	public static void relaunch(){
+		QuoridorApplication.getQuoridor().getBoard().delete();
+		QuoridorApplication.getQuoridor().delete();
 		quoridor= new Quoridor();
+		//QuoridorApplication.getQuoridor().setBoard(null);
+		
+		
 		QuoridorApplication.setScreen("StartGame");
+		
 		
 		}
 	}
