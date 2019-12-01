@@ -489,7 +489,7 @@ public class Board extends Pane
 					Board.this.wait();
 					Board.this.waitingForMove = false;
 				}
-			if (adversary().isNetwork())
+			if (!isNetwork() && adversary().isNetwork())
 				adversary().sendMove();
 			
 			this.stopClock();
@@ -749,6 +749,7 @@ public class Board extends Pane
 			String move = Controller.moveToToken(
 					QuoridorApplication.getQuoridor().getCurrentGame().getMove(
 							QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1));
+			this.mainSocket.out.println(move);
 			for (FriendlySocket s : listeners)
 				s.out.println(move);
 		}
