@@ -1538,6 +1538,11 @@ public class CucumberStepDefinitions {
 	    //Controller.getShortestPathLength(currentPlayer);
 	}
 
+	
+	
+	
+	
+	
 	@Then("Path is available for {string} player\\(s)")
 	public void path_is_available_for_player_s(String string) {
 	    if(string.equals("both")) {
