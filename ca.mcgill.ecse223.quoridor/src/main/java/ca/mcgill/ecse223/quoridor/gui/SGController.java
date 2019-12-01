@@ -19,6 +19,15 @@ public class SGController {
     @FXML private Button lgButton;
     @FXML private Button lpButton;
 
+    
+    @FXML
+    private Button helpButton;
+    
+    @FXML
+    void helpButton(ActionEvent event) {
+    	
+    }
+    
     @FXML
     void startGame(ActionEvent event)
     {
