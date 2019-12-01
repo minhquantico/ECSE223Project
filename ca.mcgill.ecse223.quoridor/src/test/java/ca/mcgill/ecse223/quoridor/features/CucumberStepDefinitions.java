@@ -1828,12 +1828,12 @@ public class CucumberStepDefinitions {
 
 	@Then("White shall be unable to move")
 	public void white_shall_be_unable_to_move() {
-	    //??
+	    //TO DO 
 	}
 
 	@Then("Black shall be unable to move")
 	public void black_shall_be_unable_to_move() {
-	    //??
+	    //TO DO 
 	}
 
 	@When("Player initates to resign")
