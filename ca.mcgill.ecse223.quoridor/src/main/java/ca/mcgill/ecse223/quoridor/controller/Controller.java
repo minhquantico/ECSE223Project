@@ -880,11 +880,12 @@ public class Controller {
 	 **/
 
 	public static void SelectExistingUsername(Player player, String username) {
-		
+		if(username != "") {
 		if (player.hasGameAsWhite()) {
 			Controller.setWhitePlayerUsername(username);
 		} else {
 			Controller.setBlackPlayerUsername(username);
+		}
 		}
 
 	}
@@ -896,6 +897,7 @@ public class Controller {
 	 *                creating a new user and adding it to the list of users
 	 **/
 	public static void CreateNewUsername(String username) {
+		if(username != "")
 		QuoridorApplication.getQuoridor().addUser(username);
 	}
 
