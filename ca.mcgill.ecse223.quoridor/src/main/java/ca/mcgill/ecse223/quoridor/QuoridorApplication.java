@@ -33,6 +33,7 @@ public class QuoridorApplication extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception
 	{
+		quoridorApplication = this;
 		QuoridorApplication.primaryStage = primaryStage;
 		
 		Thread.setDefaultUncaughtExceptionHandler((t, ex) ->
@@ -130,7 +131,12 @@ public class QuoridorApplication extends Application {
 		
 		QuoridorApplication.screens.clear();
 		
-		this.start(primaryStage);
+		try {
+			quoridorApplication.start(QuoridorApplication.primaryStage);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		}
 	}
