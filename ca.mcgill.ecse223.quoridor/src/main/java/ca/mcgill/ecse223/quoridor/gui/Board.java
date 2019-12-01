@@ -728,8 +728,9 @@ public class Board extends Pane
 				if (isWhite())
 				{
 					String moves = this.mainSocket.in.nextLine();
-					for (String move :  moves.split(" "))
-						Controller.doMove(move);
+					if (!moves.trim().isEmpty())
+						for (String move :  moves.split(" "))
+							Controller.doMove(move);
 				}
 			}
 		}
