@@ -683,18 +683,25 @@ public class Board extends Pane
 						return;
 					}
 					
+					System.out.println("Lisening");
 					while (true)
 						try
 						{
 							Socket request = this.listener.accept();
+							System.out.println("Got watcher!");
 							request.close();
 							Thread.sleep(100);
-							FriendlySocket listener = new FriendlySocket(request.getInetAddress(), isWhite() ? 5000 : 5001);
-							if (isWhite())
+							System.out.println("Slept 100");
+							System.out.println("Connected adress: " + request.getInetAddress());
+							FriendlySocket listener = new FriendlySocket(request.getInetAddress(), adversary().isWhite() ? 5000 : 5001);
+							System.out.println("Connected to listener");
+							if (adversary().isWhite())
 								listener.out.println(Controller.allMovesToTokens());
 							this.listeners.add(listener);
+							System.out.println("Aded listener");
 						}
-						catch (IOException | InterruptedException ex) { break; }
+						catch (IOException | InterruptedException ex) { ex.printStackTrace(); break; }
+						System.out.println("Done!");
 				}).start();
 				
 				this.mainSocket = new FriendlySocket(socket);
@@ -715,9 +722,12 @@ public class Board extends Pane
 				server.close();
 				
 				this.mainSocket = new FriendlySocket(socket);
-				String moves = this.mainSocket.in.nextLine();
-				for (String move :  moves.split(" "))
-					Controller.doMove(move);
+				if (isWhite())
+				{
+					String moves = this.mainSocket.in.nextLine();
+					for (String move :  moves.split(" "))
+						Controller.doMove(move);
+				}
 			}
 		}
 		public void disconnect() throws IOException
