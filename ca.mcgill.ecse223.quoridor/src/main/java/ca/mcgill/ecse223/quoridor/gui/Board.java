@@ -1,12 +1,14 @@
 
 package ca.mcgill.ecse223.quoridor.gui;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -473,7 +475,7 @@ public class Board extends Pane
 			if (isComputer())
 				this.getBestMove().doMove();
 			else if (isNetwork())
-				try { Controller.doMove(networkIn.nextLine()); }
+				try { Controller.doMove(this.readMove()); }
 				catch (NoSuchElementException ex) { Controller.resign(); }	// Resign if player disconnected
 			else		// Local user
 				synchronized (Board.this)
@@ -485,9 +487,7 @@ public class Board extends Pane
 					Board.this.waitingForMove = false;
 				}
 			if (adversary().isNetwork())
-				adversary().networkOut.println(Controller.moveToToken(
-						QuoridorApplication.getQuoridor().getCurrentGame().getMove(
-								QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1)));
+				adversary().sendMove();
 			
 			this.stopClock();
 		}
@@ -647,18 +647,64 @@ public class Board extends Pane
 		public boolean isComputer() { return this.computer; }
 		public boolean isUser() { return !isComputer() && !isNetwork(); }
 		
-		private InetAddress address = null;
-		private Socket socket = null;
-		private PrintStream networkOut = null;
-		private Scanner networkIn = null;
+		private InetAddress address;
+		private FriendlySocket mainSocket;
+		private List<FriendlySocket> listeners = new ArrayList<>();
+		private ServerSocket listener;
 		public boolean isNetwork() { return address != null; }
 		public void setNetwork(InetAddress address) { this.address = address; }
 		public void connect() throws IOException
 		{
-			try { socket = new Socket(address, 5000); }
-			catch (ConnectException ex)
+			assert listeners.isEmpty();
+			
+			Socket socket = null;
+			if (!adversary().isNetwork())
 			{
-				ServerSocket server = new ServerSocket(5000);
+				try { socket = new Socket(address, 5000); }
+				catch (ConnectException ex)
+				{
+					ServerSocket server = new ServerSocket(5000);
+					do
+					{
+						if (socket != null)
+							socket.close();
+						socket = server.accept();
+					}
+					while (!socket.getInetAddress().equals(address));
+					server.close();
+				}
+				
+				new Thread(() ->
+				{
+					try { this.listener = new ServerSocket(5001); }
+					catch (IOException ex)
+					{
+						System.err.println(ex.getMessage());
+						return;
+					}
+					
+					while (true)
+						try
+						{
+							Socket request = this.listener.accept();
+							request.close();
+							Thread.sleep(100);
+							FriendlySocket listener = new FriendlySocket(request.getInetAddress(), isWhite() ? 5000 : 5001);
+							if (isWhite())
+								listener.out.println(Controller.allMovesToTokens());
+							this.listeners.add(listener);
+						}
+						catch (IOException | InterruptedException ex) { break; }
+				}).start();
+				
+				this.mainSocket = new FriendlySocket(socket);
+			}
+			else		// Both player are network, watch party
+			{
+				while (socket == null)		// Try and connect
+					try { socket = new Socket(address, 5001); }
+					catch (ConnectException ex) {}
+				ServerSocket server = new ServerSocket(isWhite() ? 5000 : 5001);
 				do
 				{
 					if (socket != null)
@@ -667,16 +713,31 @@ public class Board extends Pane
 				}
 				while (!socket.getInetAddress().equals(address));
 				server.close();
+				
+				this.mainSocket = new FriendlySocket(socket);
+				String moves = this.mainSocket.in.nextLine();
+				for (String move :  moves.split(" "))
+					Controller.doMove(move);
 			}
-			
-			networkIn = new Scanner(socket.getInputStream());
-			networkOut = new PrintStream(socket.getOutputStream());
 		}
 		public void disconnect() throws IOException
 		{
-			if (socket != null && !socket.isClosed())
-				socket.close();
-			socket = null;
+			if (this.mainSocket != null && !this.mainSocket.isClosed())
+				this.mainSocket.close();
+			while (!listeners.isEmpty())
+				if (listeners.get(0).isClosed())
+					listeners.remove(0).close();
+			this.listener.close();
+		}
+		private String readMove() { return this.mainSocket.in.nextLine(); }
+		private void sendMove()
+		{
+			String move = Controller.moveToToken(
+					QuoridorApplication.getQuoridor().getCurrentGame().getMove(
+							QuoridorApplication.getQuoridor().getCurrentGame().numberOfMoves()-1));
+			this.mainSocket.out.println(move);
+			for (FriendlySocket s : listeners)
+				s.out.println(move);
 		}
 		
 		public boolean isWhite() { return this == players[0]; }
@@ -688,6 +749,28 @@ public class Board extends Pane
 	{
 		public void doMove();
 		public void recommend();
+	}
+	
+	public class FriendlySocket implements Closeable
+	{
+		private final Socket socket;
+		public final PrintStream out;
+		public final Scanner in;
+		
+		public FriendlySocket(InetAddress address, int port) throws IOException
+		{
+			this(new Socket(address, port));
+		}
+		
+		public FriendlySocket(Socket socket) throws IOException
+		{
+			this.socket = socket;
+			this.in = new Scanner(this.socket.getInputStream());
+			this.out = new PrintStream(this.socket.getOutputStream());
+		}
+		
+		public boolean isClosed() { return this.socket.isClosed(); }
+		public void close() throws IOException { this.socket.close(); }
 	}
 	
 	private class LoadingPane extends Pane
