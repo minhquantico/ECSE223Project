@@ -125,7 +125,7 @@ public class Controller {
 
 	/**
 	 * @author David Budaghyan Feature: MoveWall
-	 * 
+	 * Puts the wall back in stock which is neither on board nor in stock
 	 */
 	public static void cancelCandidate() {
 		
@@ -226,6 +226,12 @@ public class Controller {
 		
 		PlayScreenController.instance.updateWallCount();
 	}
+	
+	/**
+	 * @author Lenoy Christy
+	 * These methods return the index of current position and the number of positions
+	 * @return the number of positions or the current position index
+	 */
 	public static int numberOfPositions() { return QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions(); }
 	public static int currentPositionIndex() { return QuoridorApplication.getQuoridor().getCurrentGame().indexOfPosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()); }
 	
@@ -298,6 +304,11 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * @author Lenoy Christy
+	 * Checks whether the game is continuable or not
+	 * @return true if the game can be continued
+	 */
 	public static boolean isGameContinuable()
 	{
 		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus() != GameStatus.Replay)
@@ -382,7 +393,7 @@ public class Controller {
 
 	/**
 	 * @author Traian Coza
-	 * @param pos
+	 * @param pos: the position of the game
 	 * @return Game Position which is the cloned game position of the position
 	 *         passed into the method
 	 */
@@ -494,7 +505,7 @@ public class Controller {
 	/**
 	 * @author Traian Coza Feature: LoadGamePosition. This loads the 
 	 * game Position from a file inputted by the user.It reads in values line by line corresponding to respective player.
-	 * @param file
+	 * @param file: the name of the file to be loaded
 	 */
 	public static void loadPosition(File file) throws FileNotFoundException, InvalidPositionException {
 		boolean whiteToMove = true;
@@ -621,8 +632,9 @@ public class Controller {
 
 	/**
 	 * @author Gohar Saqib Fazal
-	 * @param x
-	 * @param y
+	 * This method gets the tile index for tile with specified row and column coordinates 
+	 * @param x: the row of the tile
+	 * @param y: the column of the tile
 	 * @return Tile object at the specified coordinates
 	 */
 	public static Tile getTile(int x, int y) {
@@ -635,9 +647,10 @@ public class Controller {
 
 	/**
 	 * @author Gohar Saqib Fazal
-	 * @param x
-	 * @param y
-	 * @param d
+	 * This method checks whether the wall is set or not
+	 * @param x: the row of the wall
+	 * @param y: the column of the wall
+	 * @param d: the direction of the wall
 	 * @return true or false depending on whether the wall at given coordinates were
 	 *         set
 	 */
@@ -658,8 +671,9 @@ public class Controller {
 
 	/**
 	 * @author Gohar Saqib Fazal
-	 * @param tile
-	 * @param d
+	 * This method checks which directions the current player can move to
+	 * @param tile: the tile at which the current player is
+	 * @param d: direction of move relative to the current position of the pawn
 	 * @return the possible moves (tiles) that the player can move to
 	 */
 	public static Tile direction(Tile tile, int d) {
@@ -679,8 +693,9 @@ public class Controller {
 	
 	/**
 	 * @author Gohar Saqib Fazal
-	 * @param tile
-	 * @param d
+	 * This method checks which directions are blocked for the current player
+	 * @param tile: the tile at which the current player is
+	 * @param d: directions that are blocked relative to the current position of the pawn
 	 * @return true or false depending on whether the user's intended tile and
 	 *         direction are blocked
 	 */
@@ -711,7 +726,7 @@ public class Controller {
 	/**
 	 * @author Gohar Saqib Fazal
 	 * This method checks whether the player is on the given tile or not
-	 * @param tile
+	 * @param tile: the tile being checked for the presence of the player
 	 * @return true or false depending on whether or not there is a player on the
 	 *         given tile
 	 */
@@ -1056,6 +1071,32 @@ public class Controller {
 	public static void setWhitePlayerUsername(String username) {
 		// This method does the same as the method above but for the white player
 		QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().setUser(User.getWithName(username));
+	}
+	
+	/**
+	 * @author Minh Quan Hoang
+	 * This method allows the pawn to step backward when the replay mode is called
+	 */
+	public static void stepBackwards() {
+		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
+		int previousIndex = currentIndex == 0 ? 0 : currentIndex - 1;
+		GamePosition newPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(previousIndex);
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(newPos);
+		
+	}
+
+	/**
+	 * @author Minh Quan Hoang
+	 * This method allows the pawn to step forward when the replay mode is called
+	 */
+	public static void stepForwards() {
+		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
+		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
+		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions()-1;
+		int nextIndex = currentIndex == max ? currentIndex : currentIndex + 1;
+		GamePosition newPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(nextIndex);
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(newPos);
 	}
 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -1410,29 +1451,4 @@ public class Controller {
 		
 	}
 
-	/**
-	 * @author Minh Quan Hoang
-	 * This method allows the pawn to step backward when the replay mode is called
-	 */
-	public static void stepBackwards() {
-		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
-		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
-		int previousIndex = currentIndex == 0 ? 0 : currentIndex - 1;
-		GamePosition newPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(previousIndex);
-		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(newPos);
-		
-	}
-
-	/**
-	 * @author Minh Quan Hoang
-	 * This method allows the pawn to step forward when the replay mode is called
-	 */
-	public static void stepForwards() {
-		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
-		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
-		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions()-1;
-		int nextIndex = currentIndex == max ? currentIndex : currentIndex + 1;
-		GamePosition newPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(nextIndex);
-		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(newPos);
-	}
 }
