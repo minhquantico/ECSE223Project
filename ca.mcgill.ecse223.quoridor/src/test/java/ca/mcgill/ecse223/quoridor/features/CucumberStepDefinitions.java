@@ -917,7 +917,7 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("File with {string} shall be updated in the filesystem")
 	public void file_with_shall_be_updated_in_the_filesystem(String string) {
-		assertEquals(new File(string).lastModified() / 1000, System.currentTimeMillis() / 1000);
+		assertTrue(System.currentTimeMillis() - new File(string).lastModified() < 1000);
 	}
 
 	// 3rd scenario

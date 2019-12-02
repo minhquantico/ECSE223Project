@@ -9,7 +9,9 @@ import ca.mcgill.ecse223.quoridor.model.Game.GameStatus;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 
 public class SGController {
@@ -22,6 +24,9 @@ public class SGController {
     
     @FXML
     private Button helpButton;
+    
+    @FXML
+    private Label errorLabel;
     
     @FXML
     void helpButton(ActionEvent event) {
@@ -42,10 +47,15 @@ public class SGController {
     	FileChooser chooser = new FileChooser();
     	File f = chooser.showOpenDialog(QuoridorApplication.getPrimaryStage());
     	if (f != null)
-    		try { Controller.loadGame(f); }
+    		try { Controller.loadGame(f); 
+    		errorLabel.setText("VALID LOAD GAME");
+			errorLabel.setTextFill(Color.GREEN);
+    		}
     		catch (FileNotFoundException | Controller.InvalidPositionException ex)
     		{
-    			System.err.println("Load Error: " + ex.getMessage());
+    			
+    			errorLabel.setText("INVALID LOAD GAME: "+ ex.getMessage());
+    			errorLabel.setTextFill(Color.RED);
     		}
     }
     
@@ -55,10 +65,14 @@ public class SGController {
     	FileChooser chooser = new FileChooser();
     	File f = chooser.showOpenDialog(QuoridorApplication.getPrimaryStage());
     	if (f != null)
-    		try { Controller.loadPosition(f); }
+    		try { Controller.loadPosition(f); 
+    		errorLabel.setText("VALID LOAD POSITION");
+			errorLabel.setTextFill(Color.GREEN);
+    		}
     		catch (FileNotFoundException | Controller.InvalidPositionException ex)
     		{
-    			System.err.println("Load Error: " + ex.getMessage());
+    			errorLabel.setText("INVALID LOAD POSITION ERROR: "+ ex.getMessage());
+    			errorLabel.setTextFill(Color.RED);
     		}
     }
 

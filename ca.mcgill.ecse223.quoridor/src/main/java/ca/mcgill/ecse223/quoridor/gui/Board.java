@@ -8,7 +8,6 @@ import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,9 +28,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -695,20 +691,15 @@ public class Board extends Pane
 						try
 						{
 							Socket request = this.listener.accept();
-							System.out.println("Got watcher!");
 							request.close();
 							Thread.sleep(100);
-							System.out.println("Slept 100");
-							System.out.println("Connected adress: " + request.getInetAddress());
 							FriendlySocket listener = new FriendlySocket(request.getInetAddress(), adversary().isWhite() ? 5000 : 5001);
-							System.out.println("Connected to listener");
 							if (adversary().isWhite())
 								listener.out.println(Controller.allMovesToTokens());
 							this.listeners.add(listener);
 							System.out.println("Aded listener");
 						}
 						catch (IOException | InterruptedException ex) { ex.printStackTrace(); break; }
-						System.out.println("Done!");
 				}).start();
 				
 				this.mainSocket = new FriendlySocket(socket);
