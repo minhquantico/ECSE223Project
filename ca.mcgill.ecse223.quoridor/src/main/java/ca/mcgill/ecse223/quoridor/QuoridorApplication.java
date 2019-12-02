@@ -48,7 +48,7 @@ public class QuoridorApplication extends Application {
 	    addScreen("WhiteSelectUsername", "SelectWhitePlayerUsername.fxml", "All.css", "SelectWhitePlayerUsername.css");
 	    addScreen("BlackSelectUsername", "SelectBlackPlayerUsername.fxml", "All.css", "SelectBlackPlayerUsername.css");
 	    addScreen("ThinkingScreen", "ThinkingTime.fxml", "All.css", "ThinkingTime.css");
-	    addScreen("PlayScreen", "PlayScreen.fxml", "PlayScreen.css");
+	    addScreen("PlayScreen", "PlayScreen.fxml", "All.css", "PlayScreen.css");
 	    addScreen("Help", "Help.fxml", "Help.css");
 	    setScreen("StartGame");
 	    

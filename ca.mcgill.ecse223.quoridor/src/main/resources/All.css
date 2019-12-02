@@ -10,4 +10,10 @@ TextField {
 	-fx-font-size: 24px;
 }
 
+#timeLabel {
+	-fx-font-size: 14px;
+}
 
+#wallStockLabel {
+	-fx-font-size: 14px;
+}
