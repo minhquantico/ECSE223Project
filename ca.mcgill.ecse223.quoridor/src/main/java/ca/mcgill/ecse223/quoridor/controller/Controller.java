@@ -256,8 +256,9 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().getPosition(index).delete();
 				QuoridorApplication.getQuoridor().getCurrentGame().getMove(index-1).delete();
 			}
+			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest();
+			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest();
 			return true;
-			
 		}
 		else
 		{
