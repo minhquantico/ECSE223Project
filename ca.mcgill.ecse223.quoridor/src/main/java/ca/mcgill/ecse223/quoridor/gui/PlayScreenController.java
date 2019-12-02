@@ -37,11 +37,11 @@ public class PlayScreenController {
     @FXML public Button resign;
     @FXML public Button hint;
     @FXML private Pane boardPane;
-    @FXML private Button continueGame;
-    @FXML private Button stepNext;
-    @FXML private Button jumpEnd;
-    @FXML private Button stepPrevious;
-    @FXML private Button jumpBeginning;
+    @FXML public Button continueGame;
+    @FXML public Button stepNext;
+    @FXML public Button jumpEnd;
+    @FXML public Button stepPrevious;
+    @FXML public Button jumpBeginning;
     @FXML private Pane replayPane;
     @FXML private Button menu;
     
@@ -301,6 +301,7 @@ public class PlayScreenController {
 		{
 			replayPane.setVisible(true);
     		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+    		Controller.updateStatusGUI();
 		});
     	Controller.StartClock();
     	Controller.updateStatusGUI();

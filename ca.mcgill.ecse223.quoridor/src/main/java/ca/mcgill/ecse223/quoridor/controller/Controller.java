@@ -199,11 +199,19 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
 			updateStatusGUI();
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+			PlayScreenController.instance.jumpBeginning.setDisable(currentPositionIndex() == 0);
+			PlayScreenController.instance.jumpEnd.setDisable(currentPositionIndex() == numberOfPositions()-1);
+			PlayScreenController.instance.stepNext.setDisable(PlayScreenController.instance.jumpEnd.isDisable());
+			PlayScreenController.instance.stepPrevious.setDisable(PlayScreenController.instance.jumpBeginning.isDisable());
+			PlayScreenController.instance.continueGame.setDisable(!isGameContinuable());
 			break;
 		}
 		
 		PlayScreenController.instance.updateWallCount();
 	}
+	public static int numberOfPositions() { return QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions(); }
+	public static int currentPositionIndex() { return QuoridorApplication.getQuoridor().getCurrentGame().indexOfPosition(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition()); }
+	
 	/**
 	 * @author Lenoy Christy This will end the move of a player and make necessary changes to the model
 	 */
@@ -230,7 +238,7 @@ public class Controller {
 	}
 	
 	public static void jumpToFinalPos() {
-		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions()-1;
+		int max = numberOfPositions()-1;
 		GamePosition finalPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(max);
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(finalPos);
 		
@@ -238,29 +246,38 @@ public class Controller {
 	
 	public static boolean continueGame()
 	{
-		System.out.println("Mode: " + QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
-		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus() != GameStatus.Replay)
+		if (isGameContinuable())
+		{
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
+			int index = currentPositionIndex();
+			index++;
+			while (index < QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions())
+			{
+				QuoridorApplication.getQuoridor().getCurrentGame().getPosition(index).delete();
+				QuoridorApplication.getQuoridor().getCurrentGame().getMove(index-1).delete();
+			}
+			return true;
+			
+		}
+		else
 		{
 			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 			return false;
 		}
+	}
+	
+	public static boolean isGameContinuable()
+	{
+		if (QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus() != GameStatus.Replay)
+			return false;
+		
 		GamePosition current = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		jumpToFinalPos();
 		boolean changed = Controller.updateGameStatus();
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(current);
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 		if (changed)
-		{
-			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 			return false;
-		}
-		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Running);
-		int index = QuoridorApplication.getQuoridor().getCurrentGame().indexOfPosition(current);
-		index++;
-		while (index < QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions())
-		{
-			QuoridorApplication.getQuoridor().getCurrentGame().getPosition(index).delete();
-			QuoridorApplication.getQuoridor().getCurrentGame().getMove(index-1).delete();
-		}
 		return true;
 	}
 
