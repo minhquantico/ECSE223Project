@@ -291,7 +291,10 @@ public class Controller {
 			while (index < QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions())
 			{
 				QuoridorApplication.getQuoridor().getCurrentGame().getPosition(index).delete();
-				QuoridorApplication.getQuoridor().getCurrentGame().getMove(index-1).delete();
+				Move m = QuoridorApplication.getQuoridor().getCurrentGame().getMove(index-1);
+				System.out.println("Number of moves: " + QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size());
+				System.out.println("Deleting: " + m);
+				m.delete();
 			}
 			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest();
 			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest();
@@ -1179,6 +1182,8 @@ public class Controller {
 				aWallPlaced = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().get(0);
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(aWallPlaced);
 			}
+			
+			System.out.println("wall placed: " + aWallPlaced);
 			
 			wallMoveCandidate = new WallMove(aMoveNumber, aRoundNumber, aPlayer, tile, aGame, d, aWallPlaced);
 		}

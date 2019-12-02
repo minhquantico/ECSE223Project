@@ -71,6 +71,7 @@ public class WallMove extends Move
     boolean wasSet = false;
     if (aNewWallPlaced == null)
     {
+    	
       //Unable to setWallPlaced to null, as move must always be associated to a wallPlaced
       return wasSet;
     }
@@ -130,6 +131,7 @@ public class WallMove extends Move
   public void delete()
   {
     Wall existingWallPlaced = wallPlaced;
+    System.out.println("Dleteing wll move");
     wallPlaced = null;
     if (existingWallPlaced != null)
     {

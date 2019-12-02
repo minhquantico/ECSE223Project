@@ -300,8 +300,12 @@ public class PlayScreenController {
     	board.setOnGameEnded(() ->
 		{
 			replayPane.setVisible(true);
-    		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+			GameStatus prevStatus = QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
+			QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
     		Controller.updateStatusGUI();
+    		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(prevStatus);
+    		Controller.updateStatusGUI();
+    		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 		});
     	Controller.StartClock();
     	Controller.updateStatusGUI();
