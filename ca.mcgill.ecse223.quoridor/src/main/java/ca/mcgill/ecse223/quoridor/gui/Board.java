@@ -628,7 +628,7 @@ public class Board extends Pane
 							Platform.runLater(() -> onRemainingTimeChanged.accept(this.getRemainingTime()));
 					} catch (InterruptedException e) { break; }
 				
-				if (remainingTime == 0)
+				if (remainingTime <= 0)
 				{
 					Controller.countdownZero(activePlayer == 0 ?
 							QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer() :
@@ -702,7 +702,7 @@ public class Board extends Pane
 							this.listeners.add(listener);
 							System.out.println("Aded listener");
 						}
-						catch (IOException | InterruptedException ex) { ex.printStackTrace(); break; }
+						catch (IOException | InterruptedException ex) { break; }
 				}).start();
 				
 				this.mainSocket = new FriendlySocket(socket);
