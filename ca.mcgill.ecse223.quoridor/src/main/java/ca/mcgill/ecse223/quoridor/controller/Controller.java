@@ -38,6 +38,10 @@ import javafx.scene.shape.Rectangle;
 
 public class Controller {
 
+	/**
+	 * @author David Budaghyan
+	 * This method detects whether the game has drawn or not
+	 */
 	public static void detectDraw()
 	{	
 		GamePosition cur = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
@@ -81,6 +85,13 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * @author David Budaghyan
+	 * This method checks whether the moves were equal to help inform us in the case of a draw.
+	 * @param move1: the previous move of the player 
+	 * @param move2: the current move of the player 
+	 * @return true if the two moves are equal
+	 */
 	public static boolean moveEquals(Move move1, Move move2)
 	{
 		boolean equals = move1.getTargetTile() == move2.getTargetTile();
@@ -91,6 +102,12 @@ public class Controller {
 		return true;
 	}
 	
+	/**
+	 * @author David Budaghyan
+	 * This method checks the validity of the IP Address being passed.
+	 * @param ip: the string that is being checked whether it is valid or not
+	 * @return true if the IP Address is valid
+	 */
 	public static boolean isIPAdress(String ip)
 	{
 		try { InetAddress.getByName(ip); return true; }
@@ -205,7 +222,8 @@ public class Controller {
 		PlayScreenController.instance.updateWallCount();
 	}
 	/**
-	 * @author Lenoy Christy This will end the move of a player and make necessary changes to the model
+	 * @author Lenoy Christy 
+	 * This will end the move of a player and make necessary changes to the model
 	 */
 	public static void endMove()
 	{
@@ -224,11 +242,19 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().getNextPlayer());
 	}
 	
+	/**
+	 * @author Lenoy Christy
+	 * This method makes the pawn to step backward to start position
+	 */
 	public static void jumpToStartPos() {
 		GamePosition startPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(0);
 		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(startPos);
 	}
 	
+	/**
+	 * @author Lenoy Christy
+	 * This method makes the pawn to step forward to final position
+	 */
 	public static void jumpToFinalPos() {
 		int max = QuoridorApplication.getQuoridor().getCurrentGame().numberOfPositions()-1;
 		GamePosition finalPos = QuoridorApplication.getQuoridor().getCurrentGame().getPosition(max);
@@ -236,6 +262,11 @@ public class Controller {
 		
 	}
 	
+	/**
+	 * @author Lenoy Christy
+	 * Continues the game out of the replay mode
+	 * @return true when the continue game button is pressed and the game goes out of the replay mode
+	 */
 	public static boolean continueGame()
 	{
 		System.out.println("Mode: " + QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
@@ -303,6 +334,12 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * @author Traian Coza
+	 * This method does the move in the application
+	 * @param move: the move that is being done
+	 * @return true in the case that the move is done successfully
+	 */
 	public static boolean doMove(String move)
 	{
 		int col = move.charAt(0) - 'a' + 1;
@@ -352,7 +389,7 @@ public class Controller {
 	/**
 	 * @author Traian Coza Feature: LoadPosition step: ("The position to load is
 	 *         valid") Check if current GamePosition is valid.
-	 * @return true of false
+	 * @return true of false depending on whether position is valid or not
 	 */
 	public static boolean positionIsValid() {
 		// TODO Auto-generated method stub
@@ -362,7 +399,7 @@ public class Controller {
 	/**
 	 * @author Traian Coza Feature: SavePosition step: ("The user initiates to save
 	 *         the game with name {string}") Save current game to provided file.
-	 * @param file
+	 * @param file: the name of the file to be saved
 	 */
 	public static boolean saveGame(File file, boolean overwrite) throws FileNotFoundException {
 		if (!overwrite && file.exists())
@@ -381,6 +418,14 @@ public class Controller {
 		return true;
 	}
 	
+	/**
+	 * @author Traian Coza
+	 * This method saves the position with a given file name
+	 * @param file: the name of the file to be saved
+	 * @param overwrite: True in the case of overwriting a file 
+	 * @return true when the save position is done
+	 * @throws FileNotFoundException: Signals that an attempt to open the file denoted by a specified pathname has failed.
+	 */
 	public static boolean savePosition(File file, boolean overwrite) throws FileNotFoundException {
 		if (!overwrite && file.exists())
 			return false;
@@ -412,6 +457,12 @@ public class Controller {
 		return true;
 	}
 	
+	/**
+	 * @author Traian Coza
+	 * These methods converts the coordinates(rows and columns) of the tiles and moves to token
+	 * @param t: target tile
+	 * @return String: tokenized move or tile
+	 */
 	private static String tileToToken(Tile t) { return "" + (char)('a' + t.getColumn()-1) + (char)('1' + t.getRow()-1); }
 	public static String moveToToken(Move m) { return tileToToken(m.getTargetTile()) + (m instanceof WallMove ? ((WallMove)m).getWallDirection() == Direction.Horizontal ? "h" : "v" : ""); }
 	public static String allMovesToTokens()
@@ -641,6 +692,7 @@ public class Controller {
 
 	/**
 	 * @author Gohar Saqib Fazal
+	 * This method checks whether the player is on the given tile or not
 	 * @param tile
 	 * @return true or false depending on whether or not there is a player on the
 	 *         given tile
@@ -655,6 +707,7 @@ public class Controller {
 
 	/**
 	 * @author Gohar Saqib Fazal
+	 * This method gets the possible step moves that the player can move to
 	 * @return a set of Tiles that the player can move to
 	 */
 	public static Set<Tile> getPossibleStepMoves(Player player) {
@@ -693,9 +746,10 @@ public class Controller {
 	
 	/**
 	 * @author Gohar Saqib Fazal
-	 * @return boolean : identifies if player has won
+	 * This method checks whether the player is a winner or not
 	 * @param  Tile tile: is the tile at which player finds himself
 	 * @param  Player for which we are validating win
+	 * @return boolean : identifies if player has won
 	 */
 	
 	public static boolean isWinner(Player player, Tile tile)
@@ -705,6 +759,7 @@ public class Controller {
 	}
 	/**
 	 * @author Gohar Saqib Fazal
+	 * This method gets the shortest path length to the end point for the player
 	 * @return int : refers to the length of  the given path
 	 * @param  Player: player refers to the player concerned
 	 */
@@ -750,6 +805,12 @@ public class Controller {
 		return -1;
 	}
 	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * This method checks that the wall move candidate doesn't block the path for the player
+	 * @param player: the player who is checked for the fact that their path is blocked or not
+	 * @return boolean true if the path of the player is blocked
+	 */
 	public static boolean wallMoveCandidateBlocksPath(Player player)
 	{
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().addWhiteWallsOnBoard(
@@ -862,12 +923,21 @@ public class Controller {
 				Direction.Vertical : Direction.Horizontal);
 	}
 	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * These controller methods initiates the resign functionality of the game. When one of the players calls this button the other player wins the game. 
+	 * It gets the current player to move and then calls the resign method for that player.
+	 */
 	public static void resign() { resign(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()); }
 	public static void resign(Player player) {
 		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(player.hasGameAsWhite() ? GameStatus.BlackWon : GameStatus.WhiteWon);
 		endMove();
 	}
 	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * This controller method sets the status of the game to not running
+	 */
 	public static void notRunning() {
 		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Initializing);
 	}
@@ -985,8 +1055,7 @@ public class Controller {
 	 *         move and complete the move when it is in fact valid, change whose
 	 *         turn it is, etc.
 	 * @param int x: This is a parameter of type Tile and will be used by the
-	 *             method to know where to perform the wall drop.
-	 *             
+	 *             method to know where to perform the wall drop.     
 	 * @param int y: this the Y coordinate of the wall to be dropped
 	 */
 	public static void dropWall()
@@ -1002,11 +1071,8 @@ public class Controller {
 	 *         my hand" This method is used to perform the act of dropping a wall.
 	 *         it will get the corresponding tile for the wallMove
 	 * @param int x:This is the X coordinate of the desired wall move
-	 *        int y: This is the Y coordinate of the desired Wall move
+	 * @param int y: This is the Y coordinate of the desired Wall move
 	 */
-
-	
-	
 	public static boolean setWallMoveCandidate(int i, int j, Direction d)
 	{
 		if (i < 1 || i > 9-1 || j < 1 || j > 9-1)
@@ -1100,6 +1166,11 @@ public class Controller {
 		endMove();
 	}
 	
+	/**
+	 * @author Jake Pogharian
+	 * This method asserts that the current position is the last position
+	 * @throws AssertionError: If it fails the error is printed
+	 */
 	public static void assertCurrentPositionIsLastPosition() throws AssertionError
 	{
 		GamePosition currentPosition = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
@@ -1109,6 +1180,12 @@ public class Controller {
 			throw new AssertionError("Current position is not last position!");
 	}
 	
+	/**
+	 * @author Jake Pogharian
+	 * This method does the pawn move to the required position
+	 * @param i: row of the position that the pawn moves to
+	 * @param j: column of the position that the pawn moves to
+	 */
 	public static void doPawnMove(int i, int j)
 	{
 		assertCurrentPositionIsLastPosition();
@@ -1135,6 +1212,7 @@ public class Controller {
 		endMove();
 	}
 	/**
+	 *  @author Jake Pogharian
 	 *  This method is used to get the current player's corresponding state machine.
 	 */
 	public static PawnBehaviour getCurrentStateMachine()
@@ -1143,6 +1221,7 @@ public class Controller {
 	}
 	
 	/**
+	 * @author Jake Pogharian
 	 *  This method is used to do a pawnMove by calling on the corresponding state machine event. It will see if it is a jumpMove,
 	 *  if so, it will call the jumpMove(dir1, dir2) event, if it sees that it is a step move, 
 	 *  it will call the stepMove(dir1) event. It will internally convert the tile coordinates into a direction.
@@ -1195,8 +1274,11 @@ public class Controller {
 		QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().setRemainingTime(time);
 	}
 
-	
-	
+	/**
+	 * @author Jake Pogharian
+	 * This method updates the status of the game when the thinking time for one of player goes down to zero
+	 * @param player: the player whose clock counts down to zero
+	 */
 	public static void countdownZero(Player player) {
 		
 		//assumes player passed as parameters is the one with zero time left
@@ -1209,7 +1291,11 @@ public class Controller {
 		
 	}
 	
-	/** Checks if WhiteWon, BlackWon or Draw. Returns true if status changed */
+	/**
+	 * @author Jake Pogharian
+	 * This method checks if white won, black won or draw
+	 * @return boolean: true returned if status changed
+	 */
 	public static boolean updateGameStatus() {
 		GameStatus initalStatus = QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
 		
@@ -1306,6 +1392,10 @@ public class Controller {
 		
 	}
 
+	/**
+	 * @author Minh Quan Hoang
+	 * This method allows the pawn to step backward when the replay mode is called
+	 */
 	public static void stepBackwards() {
 		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);
@@ -1315,6 +1405,10 @@ public class Controller {
 		
 	}
 
+	/**
+	 * @author Minh Quan Hoang
+	 * This method allows the pawn to step forward when the replay mode is called
+	 */
 	public static void stepForwards() {
 		GamePosition pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition();
 		int currentIndex = QuoridorApplication.getQuoridor().getCurrentGame().getPositions().indexOf(pos);

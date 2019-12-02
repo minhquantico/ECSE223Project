@@ -212,7 +212,7 @@ public class CucumberStepDefinitions {
 	}
 
 	/**
-	 * @author TRAIAN "Allllllaaaaaaahhhhhh" Coza
+	 * @author Traian Coza
 	 * @param string: side
 	 * @param string2: status
 	 */
@@ -718,7 +718,12 @@ public class CucumberStepDefinitions {
 	Exception error;
 	File file;
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza 
+	 * This method initiates to load the saved game with the specified file name
+	 * @param string: The file name of the saved game that is to be loaded
+	 * @throws FileNotFoundException: Exception thrown in the case that the file is not found
+	 */
 	@When("I initiate to load a saved game {string}")
 	public void i_initiate_to_load_a_saved_game(String string) throws FileNotFoundException {
 		try {
@@ -732,20 +737,33 @@ public class CucumberStepDefinitions {
 		error = null;
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method checks that the position to load is valid
+	 */
 	@When("The position to load is valid")
 	public void the_position_to_load_is_valid() {
 		assertTrue(valid);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method asserts the players turn
+	 * @param string: the player whose turn it is
+	 */
 	@Then("It shall be {string}'s turn")
 	public void it_shall_be_s_turn(String string) {
 		assertEquals(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()
 				.hasGameAsWhite() ? "white" : "black", string);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method ensures that the player is at the specified position on the board
+	 * @param string: the player
+	 * @param int1: row of the current position of the player
+	 * @param int2: column of the current position of the player
+	 */
 	@Then("{string} shall be at {int}:{int}")
 	public void shall_be_at(String string, Integer int1, Integer int2) {
 		Tile t = string.equals("white")
@@ -755,7 +773,13 @@ public class CucumberStepDefinitions {
 		assertTrue(t.getRow() == int1 && t.getColumn() == int2);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method ensures that the vertical walls are at the specified coordinates
+	 * @param string: the player
+	 * @param int1: row of the position of the vertical wall
+	 * @param int2: column of the position of the vertical wall
+	 */
 	@Then("{string} shall have a vertical wall at {int}:{int}")
 	public void shall_have_a_vertical_wall_at(String string, Integer int1, Integer int2) {
 		List<Wall> walls = string.equals("white")
@@ -770,7 +794,13 @@ public class CucumberStepDefinitions {
 		assertTrue(exists);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method ensures that the horizontal wall of the player is at the specified coordinates
+	 * @param string: the player
+	 * @param int1: row of the position of the horizontal wall
+	 * @param int2: column of the position of the horizontal wall
+	 */
 	@Then("{string} shall have a horizontal wall at {int}:{int}")
 	public void shall_have_a_horizontal_wall_at(String string, Integer int1, Integer int2) {
 		List<Wall> walls = string.equals("white")
@@ -785,7 +815,11 @@ public class CucumberStepDefinitions {
 		assertTrue(exists);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method ensures that both players have remaining walls in their stacks
+	 * @param int1: remaining walls in stock
+	 */
 	@Then("Both players shall have {int} in their stacks")
 	public void both_players_shall_have_in_their_stacks(Integer int1) {
 		assertEquals(
@@ -798,13 +832,19 @@ public class CucumberStepDefinitions {
 
 	// 2nd scenario
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method checks whether the position to load is invalid
+	 */
 	@When("The position to load is invalid")
 	public void the_position_to_load_is_invalid() {
 		assertFalse(valid);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method returns an error if the position to load is invalid
+	 */
 	@Then("The load shall return an error")
 	public void the_load_shall_return_an_error() {
 		assertNotNull(error);
@@ -814,7 +854,11 @@ public class CucumberStepDefinitions {
 
 	// 1st scenario
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method checks that no file with the given filename exists in the file system
+	 * @param string: filename of the file in the file system 
+	 */
 	@Given("No file {string} exists in the filesystem")
 	public void no_file_exists_in_the_filesystem(String string) {
 		File file = new File(string);
@@ -822,13 +866,22 @@ public class CucumberStepDefinitions {
 			file.delete();
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method initiates the saving of the game with a specific filename
+	 * @param string: the filename of the file to be saved
+	 * @throws FileNotFoundException: signals that the attempt to open the file denoted by a specified path name has failed.
+	 */
 	@When("The user initiates to save the game with name {string}")
 	public void the_user_initiates_to_save_the_game_with_name(String string) throws FileNotFoundException {
 		Controller.saveGame(file = new File(string), false);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method creates a new file in the filesystem with the given filename
+	 * @param string: filename of the file saved
+	 */
 	@Then("A file with {string} shall be created in the filesystem")
 	public void a_file_with_shall_be_created_in_the_filesystem(String string) {
 		assertTrue(new File(string).exists());
@@ -836,19 +889,32 @@ public class CucumberStepDefinitions {
 
 	// 2nd scenario
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method is for the 2nd scenario where the file already exists in the filesystem.
+	 * @param string: filename
+	 * @throws IOException: exception happens when there is a failure during reading, writing and searching file or directory operation.
+	 */
 	@Given("File {string} exists in the filesystem")
 	public void file_exists_in_the_filesystem(String string) throws IOException {
 		new File(string).createNewFile();
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * In the case that the file already exists the user overwrites the existing file
+	 * @throws FileNotFoundException: signals that the attempt to open the file denoted by a specified path name has failed.
+	 */
 	@When("The user confirms to overwrite existing file")
 	public void the_user_confirms_to_overwrite_existing_file() throws FileNotFoundException {
 		Controller.saveGame(file, true);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method ensures that file is updated in the filesystem
+	 * @param string: file name
+	 */
 	@Then("File with {string} shall be updated in the filesystem")
 	public void file_with_shall_be_updated_in_the_filesystem(String string) {
 		assertEquals(new File(string).lastModified() / 1000, System.currentTimeMillis() / 1000);
@@ -856,13 +922,21 @@ public class CucumberStepDefinitions {
 
 	// 3rd scenario
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method is called when the user cancels the overwriting of the existing file
+	 * @throws FileNotFoundException: signals that the attempt to open the file denoted by a specified path name has failed.
+	 */
 	@When("The user cancels to overwrite existing file")
 	public void the_user_cancels_to_overwrite_existing_file() throws FileNotFoundException {
 		Controller.saveGame(file, false);
 	}
 
-	/* Traian Coza */
+	/**
+	 * @author Traian Coza
+	 * This method ensures that the file is not changed in the file system.
+	 * @param string: filename
+	 */
 	@Then("File {string} shall not be changed in the filesystem")
 	public void file_shall_not_be_changed_in_the_filesystem(String string) {
 		assertTrue(System.currentTimeMillis() - new File(string).lastModified() > 0);
@@ -1514,8 +1588,7 @@ public class CucumberStepDefinitions {
 
 	
 	
-	////------------------------DELIVERABLE 5 Step Definitions------------------------///
-	//gohome 
+	////------------------------DELIVERABLE 5 Step Definitions------------------------/// 
 	
 	/**
 	 * @author Gohar Saqib Fazal Feature: CheckIfPathExists
@@ -1526,7 +1599,7 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("A {string} wall move candidate exists at position {int}:{int}")
 	public void a_wall_move_candidate_exists_at_position(String string, Integer int1, Integer int2) {
-	    a_wall_move_candidate_exists_with_at_position(string, int1, int2);
+		a_wall_move_candidate_exists_with_at_position(string, int1, int2);
 	}
 
 	/**
@@ -1539,7 +1612,7 @@ public class CucumberStepDefinitions {
 	public void the_black_player_is_located_at(Integer int1, Integer int2) {
 		QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
 	}
-	
+
 	/**
 	 * @author Gohar Saqib Fazal Feature: CheckIfPathExists
 	 * This method places the white player at the location int1, int2
@@ -1567,55 +1640,47 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("Path is available for {string} player\\(s)")
 	public void path_is_available_for_player_s(String string) {
-	    if(string.equals("both")) {
-	    	assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
-	    	assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
-	    }
-	    else if(string.equals("white")){
-	    	assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
-	    	//assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
-	    }
-	    else if(string.equals("black")) {
-	    	//assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
-	    	assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
-	    }
-	    else {
-	    	assertTrue(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
-	    	assertTrue(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));	    }
+		if(string.equals("both")) {
+			assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
+			assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
+		}
+		else if(string.equals("white")){
+			assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
+			//assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
+		}
+		else if(string.equals("black")) {
+			//assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
+			assertFalse(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));
+		}
+		else {
+			assertTrue(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer()));
+			assertTrue(Controller.wallMoveCandidateBlocksPath(QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer()));	    }
 	}
-	
-	//--------------------------------------------------------------------------------------------------------------------------------------------------//
 
-	//train
-	
-	  /**
-	 * @author: Traian Coza, Feature:Enter Replay Mode
-	 * This method places the wall move candidate at int1, int2
+	/**
+	 * @author: Traian Coza, Feature: EnterReplayMode
 	 * This method invokes a controller method to initialize a new game, and then sets the Game status to enumeration Replay
 	 **/
-	 
 	@When("I initiate replay mode")
 	public void i_initiate_replay_mode() {
 		Controller.InitializeNewGame();
-	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 	}
-	
+
 	/**
 	 * @author: Traian Coza, Feature: EnterReplayMode
 	 * This method asserts if the enum GameStatus has been set to Replay
 	 */
-
 	@Then("The game shall be in replay mode")
 	public void the_game_shall_be_in_replay_mode() {
-	    assertEquals(GameStatus.Replay, QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
+		assertEquals(GameStatus.Replay, QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
 	}
 
 	/**
 	 * @author Traian Coza, Feature: EnterReplayMode
 	 * This method plays the moves specified in the dataTable passed as a parameter
 	 * @param dataTable: A datatable containing the moves that will have been played in game as a result of this method.
-	*/
-	
+	 */
 	@Given("The following moves have been played in game:")
 	public void the_following_moves_have_been_played_in_game(io.cucumber.datatable.DataTable dataTable) {
 		for (Map<String, String> map : dataTable.asMaps())
@@ -1627,46 +1692,49 @@ public class CucumberStepDefinitions {
 				Controller.doMove(map.get("move"));
 		}
 	}
-/** @author: Traian Coza, Feature: EnterReplayMode
- *  This method ensures that the game does not have a final result by calling the_game_has_no_final_results method
- */
+	
+	/** @author: Traian Coza, Feature: EnterReplayMode
+	 *  This method ensures that the game does not have a final result by calling the_game_has_no_final_results method
+	 */
 	@Given("The game does not have a final result")
 	public void the_game_does_not_have_a_final_result() {
-	    the_game_has_no_final_results();
-	}
-/**
- * @author Traian Coza, Feature: EnterReplayMode
- * This method sets the next move according to the move and round numbers passed as parameters
- * @param int1 - movenumber, the number of the move 
- * @param int2 - roundnumber, the number of the round
- */
-	@Given("The next move is {int}:{int}")
-	public void the_next_move_is(int int1, int int2) {
-	    QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
-	    		QuoridorApplication.getQuoridor().getCurrentGame().getPosition(2*(int1-1)+(int2-1)));
-	}
-/**
- * @author Traian Coza, Feature: EnterReplayMode
- * This method invokes a controller method that initiates the call to continue game 
- */
-	@When("I initiate to continue game")
-	public void i_initiate_to_continue_game() {
-	    valid = Controller.continueGame();
-	}
-/**
- * @author Traian Coza, Feature: EnterReplayMode
- * This method asserts if the remaining moves of the game have been removed. 
- */
-
-	@Then("The remaining moves of the game shall be removed")
-	public void the_remaining_moves_of_the_game_shall_be_removed() {
-	    Controller.assertCurrentPositionIsLastPosition();
+		the_game_has_no_final_results();
 	}
 	
-/**
- * @author Traian Coza, Feature: EnterReplayMode
- * This method ensures that the game does now have a final result by calling the_game_has_a_final_result helper method
- */
+	/**
+	 * @author Traian Coza, Feature: EnterReplayMode
+	 * This method sets the next move according to the move and round numbers passed as parameters
+	 * @param int1 - movenumber, the number of the move 
+	 * @param int2 - roundnumber, the number of the round
+	 */
+	@Given("The next move is {int}:{int}")
+	public void the_next_move_is(int int1, int int2) {
+		QuoridorApplication.getQuoridor().getCurrentGame().setCurrentPosition(
+				QuoridorApplication.getQuoridor().getCurrentGame().getPosition(2*(int1-1)+(int2-1)));
+	}
+	
+	/**
+	 * @author Traian Coza, Feature: EnterReplayMode
+	 * This method invokes a controller method that initiates the call to continue game 
+	 */
+	@When("I initiate to continue game")
+	public void i_initiate_to_continue_game() {
+		valid = Controller.continueGame();
+	}
+	
+	/**
+	 * @author Traian Coza, Feature: EnterReplayMode
+	 * This method asserts if the remaining moves of the game have been removed. 
+	 */
+	@Then("The remaining moves of the game shall be removed")
+	public void the_remaining_moves_of_the_game_shall_be_removed() {
+		Controller.assertCurrentPositionIsLastPosition();
+	}
+
+	/**
+	 * @author Traian Coza, Feature: EnterReplayMode
+	 * This method ensures that the game does now have a final result by calling the_game_has_a_final_result helper method
+	 */
 	@Given("The game has a final result")
 	public void the_game_has_a_final_result() {
 		try
@@ -1677,19 +1745,15 @@ public class CucumberStepDefinitions {
 		catch (AssertionError e) { }
 	}
 
-/**
- * @author Traian Coza, Feature: Enter Replay Mode
- * Asserts that the user is notified that finished games cannot be continued 
- */
-
+	/**
+	 * @author Traian Coza, Feature: Enter Replay Mode
+	 * Asserts that the user is notified that finished games cannot be continued 
+	 */
 	@Then("I shall be notified that finished games cannot be continued")
 	public void i_shall_be_notified_that_finished_games_cannot_be_continued() {
-	    assertFalse(valid);
+		assertFalse(valid);
 	}
-	
-	//--------------------------------------------------------------------------------------------------------------------//
 
-	//Jack
 	/** 
 	 * @author Jake Pogharian, Feature: IdentifyGameDrawn
 	 * Executes the moves from the data table
@@ -1701,11 +1765,11 @@ public class CucumberStepDefinitions {
 		for (Map<String, String> map : valueMaps) {
 			Integer row = Integer.decode(map.get("row"));
 			Integer col = Integer.decode(map.get("col"));
-			
+
 			Controller.doPawnMove(col, row);;
 		}
 	}
-	
+
 	/**
 	 * @author Jake Pogharian Feature: IdentifyGameDrawn
 	 * This method completes the player's move
@@ -1713,9 +1777,9 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("Player {string} has just completed his move")
 	public void player_has_just_completed_his_move(String string) {
-	    //just create a move
+		//just create a move
 	}
-	
+
 	/**
 	 * @author Jake Pogharian Feature: IdentifyGameDrawn
 	 * This method makes the last move for a player
@@ -1725,18 +1789,18 @@ public class CucumberStepDefinitions {
 	 */
 	@Given("The last move of {string} is pawn move to {int}:{int}")
 	public void the_last_move_of_is_pawn_move_to(String string, Integer int1, Integer int2) {
-	    Controller.doPawnMove(int2, int1);
+		Controller.doPawnMove(int2, int1);
 	}
-	
+
 	/**
 	 * @author Jake Pogharian Feature: IdentifyGameDrawn
 	 * This method checks and updates the status of the game.
 	 */
 	@When("Checking of game result is initated")
 	public void checking_of_game_result_is_initated() {
-	   Controller.updateGameStatus();
+		Controller.updateGameStatus();
 	}
-	
+
 	/**
 	 * @author Jake Pogharian Feature: IdentifyGameDrawn
 	 * This method changes the game status depending on the string given.
@@ -1757,23 +1821,20 @@ public class CucumberStepDefinitions {
 			//add proper code to this for the DRAW
 			gameStatus=GameStatus.Initializing;
 		}
-		
+
 		Game game = QuoridorApplication.getQuoridor().getCurrentGame();
-	    assertEquals(gameStatus, game.getGameStatus());
+		assertEquals(gameStatus, game.getGameStatus());
 	}
-	
+
 	/**
 	 * @author Gohar Saqib Fazal Feature: CheckIfPathExists
 	 * This method asserts that the status of the game is anything but running.
 	 */
 	@Then("The game shall no longer be running")
 	public void the_game_shall_no_longer_be_running() {
-	    assertNotEquals(GameStatus.Running, QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
+		assertNotEquals(GameStatus.Running, QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
 	}
-	
-	//--------------------------------------------------------------------------------------------------------------------//
-//jack
-	
+
 	/**
 	 * @author Jake Pogharian Feature: IdentifyGameWon
 	 * This method places the player at int1, int2 position.
@@ -1789,20 +1850,20 @@ public class CucumberStepDefinitions {
 		}else {
 			QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().setTile(Controller.getTile(int2, int1));
 			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest();
-			
+
 		}
 	}
-	
+
 	/**
 	 * @author Jake Pogharian Feature: IdentifyGameWon
 	 * This method sets the thinking time of the white or black player to more than zero.
 	 */
 	@Given("The clock of {string} is more than zero")
 	public void the_clock_of_is_more_than_zero(String string) {
-	    Controller.setThinkingTime(10,10);
-	    
+		Controller.setThinkingTime(10,10);
+
 	}
-	
+
 	/**
 	 * @author Jake Pogharian Feature: IdentifyGameWon
 	 * This method counts down the thinking time of the white or black player to zero.
@@ -1816,11 +1877,9 @@ public class CucumberStepDefinitions {
 		} else {
 			player=QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer();
 		}
-	   Controller.countdownZero(player);
+		Controller.countdownZero(player);
 	}
-	//--------------------------------------------------------------------------------------------------------------------//
-// king kong
-	
+
 	/**
 	 * @author Minh Quan Hoang Feature: StepBackward, StepForward
 	 * This method puts the game status to replay mode.
@@ -1829,51 +1888,45 @@ public class CucumberStepDefinitions {
 	public void the_game_is_in_replay_mode() {
 		initQuoridorAndBoard();
 		Controller.InitializeNewGame();
-	    QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
+		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.Replay);
 	}
-	
-	//--------------------------------------------------------------------------------------------------------------------//
-//king kong
-	
+
 	/**
 	 * @author Minh Quan Hoang Feature: StepBackward
 	 * This method makes the game go back one step (one move backwards) in the replay mode.
 	 */
 	@When("Step backward is initiated")
 	public void step_backward_is_initiated() {
-	    Controller.stepBackwards();
+		Controller.stepBackwards();
 	}
-	//--------------------------------------------------------------------------------------------------------------------//
+	
 	/**
 	 * @author Minh Quan Hoang Feature: StepForward
 	 * This method makes the game go forward one step (one move forwards) in the replay mode.
 	 */
 	@When("Step forward is initiated")
 	public void step_forward_is_initiated() {
-	    Controller.stepForwards();
+		Controller.stepForwards();
 	}
-	//--------------------------------------------------------------------------------------------------------------------//
-//lenoy
-	
+
 	/**
 	 * @author Lenoy Christy Feature: JumpToStart
 	 * This method jumps to the starting position of the game in replay mode.
 	 */
 	@When("Jump to start position is initiated")
 	public void jump_to_start_position_is_initiated() {
-	    Controller.jumpToStartPos();
+		Controller.jumpToStartPos();
 	}
-	//christy
-	
+
 	/**
 	 * @author Lenoy Christy Feature: JumpToFinal
 	 * This method jumps to the final position of the game in replay mode.
 	 */
 	@When("Jump to final position is initiated")
 	public void jump_to_final_position_is_initiated() {
-	    Controller.jumpToFinalPos();
+		Controller.jumpToFinalPos();
 	}
-//king kong
+
 	/**
 	 * @author Minh Quan Hoang Feature: StepBackward, StepForward
 	 * This method checks that the current position is such that the next move is as specified true.
@@ -1887,7 +1940,7 @@ public class CucumberStepDefinitions {
 		assertEquals(int1, nextMove / 2 + 1);
 		assertEquals(int2, nextMove % 2 + 1);
 	}
-//king kong
+
 	/**
 	 * @author Minh Quan Hoang Feature: StepBackward, StepForward
 	 * This method checks if the white player at int1, int2 position.
@@ -1896,11 +1949,11 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("White player's position shall be \\({int},{int})")
 	public void white_player_s_position_shall_be(int int1, int int2) {
-	    int row = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow();
-	    int column = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn();
-	    assertTrue(row == int1 && column == int2);
+		int row = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getRow();
+		int column = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile().getColumn();
+		assertTrue(row == int1 && column == int2);
 	}
-//king kong
+	
 	/**
 	 * @author Minh Quan Hoang Feature: StepBackward, StepForward
 	 * This method checks if the black player is at int1, int2 position.
@@ -1911,11 +1964,11 @@ public class CucumberStepDefinitions {
 	@Then("Black player's position shall be \\({int},{int})")
 	public void black_player_s_position_shall_be(int int1, int int2) {
 		int row = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getRow();
-	    int column = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
-	    assertEquals(int1, row);
-	    assertEquals(int2, column);
+		int column = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackPosition().getTile().getColumn();
+		assertEquals(int1, row);
+		assertEquals(int2, column);
 	}
-	//king kong
+	
 	/**
 	 * @author Minh Quan Hoang Feature: StepBackward, StepForward
 	 * This method checks if the white player has int1 number of walls on stock
@@ -1923,10 +1976,10 @@ public class CucumberStepDefinitions {
 	 */
 	@Then("White has {int} on stock")
 	public void white_has_wwallno_on_stock(int int1) {
-	    int size = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size();
-	    assertEquals(int1, size);
+		int size = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhiteWallsInStock().size();
+		assertEquals(int1, size);
 	}
-	//king kong
+
 	/**
 	 * @author Minh Quan Hoang Feature: StepBackward, StepForward
 	 * This method checks if the black player has int1 number of walls on stock
@@ -1937,83 +1990,131 @@ public class CucumberStepDefinitions {
 		int size = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getBlackWallsInStock().size();
 		assertEquals(int1, size);
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: LoadGame
+	 * This method loads a game in the given file
+	 * @param string FileName of the file that is to be loaded
+	 * @throws FileNotFoundException It throws this exception if there is no file to load
+	 */
 	@When("I initiate to load a game in {string}")
 	public void i_initiate_to_load_a_game_in(String string) throws FileNotFoundException {
 		valid = true;
-	    try { Controller.loadGame(new File(string)); }
-	    catch (InvalidPositionException ex) { valid = false; }
+		try { Controller.loadGame(new File(string)); }
+		catch (InvalidPositionException ex) { valid = false; }
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: LoadGame
+	 * This method checks that each game move is valid before the game is loaded
+	 */
 	@When("Each game move is valid")
 	public void each_game_move_is_valid() {
-	    assertTrue(valid);
+		assertTrue(valid);
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: LoadGame
+	 * This method checks that the game has no final results and is still in progress.
+	 */
 	@When("The game has no final results")
 	public void the_game_has_no_final_results() {
 		GameStatus status = QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus();
-	    assertNotEquals(GameStatus.WhiteWon, status);
-	    assertNotEquals(GameStatus.BlackWon, status);
-	    assertNotEquals(GameStatus.Draw, status);
+		assertNotEquals(GameStatus.WhiteWon, status);
+		assertNotEquals(GameStatus.BlackWon, status);
+		assertNotEquals(GameStatus.Draw, status);
 	}
-	
 
-//david
+	/**
+	 * @author David Budaghyan Feature: LoadGame
+	 * This checks whether the game to load has an invalid move.
+	 */
 	@When("The game to load has an invalid move")
 	public void the_game_to_load_has_an_invalid_move() {
-	    assertFalse(valid);
+		assertFalse(valid);
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: LoadGame
+	 * This notifies the user that the game file is invalid when the game to load has an invalid move.
+	 */
 	@Then("The game shall notify the user that the game file is invalid")
 	public void the_game_shall_notify_the_user_that_the_game_file_is_invalid() {
-	    assertFalse(valid);
+		assertFalse(valid);
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: ReportFinalResult
+	 * It checks whether the game is running or not. In the case that it's not running the final result is displayed on the screen.
+	 */
 	@When("The game is no longer running")
 	public void the_game_is_no_longer_running() {
 		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(GameStatus.WhiteWon);
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: ReportFinalResult
+	 * This method displays the final result on the screen when the game is over
+	 */
 	@Then("The final result shall be displayed")
 	public void the_final_result_shall_be_displayed() {
-	    try
-	    {
-	    	System.out.println("Results: " + QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
-	    }
-	    catch (Exception ex)
-	    {
-	    	fail();
-	    }
+		try
+		{
+			System.out.println("Results: " + QuoridorApplication.getQuoridor().getCurrentGame().getGameStatus());
+		}
+		catch (Exception ex)
+		{
+			fail();
+		}
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: ReportFinalResult
+	 * This method ensures that the white players clock isn't counting down when the game is over.
+	 */
 	@Then("White's clock shall not be counting down")
 	public void white_s_clock_shall_not_be_counting_down() {
 		if(!(PlayScreenController.instance==null))
 			assertTrue(PlayScreenController.instance.board.players[0].isClockStopped());
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: ReportFinalResult
+	 * This method ensures that the black players clock isn't counting down when the game is over
+	 */
 	@Then("Black's clock shall not be counting down")
 	public void black_s_clock_shall_not_be_counting_down() {
 		if(!(PlayScreenController.instance==null))
 			assertTrue(PlayScreenController.instance.board.players[1].isClockStopped());
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: ReportFinalResult
+	 * This is a GUI method that ensures that white shall not be able to move when the game is over.
+	 */
 	@Then("White shall be unable to move")
 	public void white_shall_be_unable_to_move() {
-	    //TO DO 
+		//Implemented in GUI
 	}
-//david
+	
+	/**
+	 * @author David Budaghyan Feature: ReportFinalResult
+	 * This is a GUI method that ensures that black shall not be able to move when the game is over. 
+	 */
 	@Then("Black shall be unable to move")
 	public void black_shall_be_unable_to_move() {
-	    //TO DO 
-	}
-//gohome
-	@When("Player initates to resign")
-	public void player_initates_to_resign() {
-	    Controller.resign(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
+		//Implemented in GUI
 	}
 
+	/**
+	 * @author Gohar Saqib Fazal Feature: ResignGame
+	 * This method initiates the resign functionality for the player that presses the resign button
+	 */
+	@When("Player initates to resign")
+	public void player_initates_to_resign() {
+		Controller.resign(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove());
+	}
+	//THE SAVE GAME CUCUMBER STEPS ARE DONE WITH SAVE POSITION AND LOAD POSITION CUCUMBER STEP DEFINITIONS SEPERATELY BECAUSE THEY WERE SIMILAR TO EACH OTHER
 //-------------------------------------------------------------------------------------------------------------------------
 
 //-------------------------------------------------------------------------------------------------------------------------
