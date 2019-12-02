@@ -34,13 +34,13 @@
             <Button id="StepPrevious" fx:id="stepNext" layoutX="97.0" layoutY="37.0" mnemonicParsing="false" onAction="#stepNext" text="Step &gt;" />
             <Button id="JumpEnd" fx:id="jumpEnd" layoutX="97.0" layoutY="1.0" mnemonicParsing="false" onAction="#jumpEnd" text="End   &gt;&gt;" />
             <Button id="StepNext" fx:id="stepPrevious" layoutX="21.0" layoutY="37.0" mnemonicParsing="false" onAction="#stepPrevious" text="&lt; Step" />
-            <Button id="Continue" fx:id="continueGame" layoutX="29.0" layoutY="76.0" mnemonicParsing="false" onAction="#continueGame" prefHeight="40.0" prefWidth="120.0" text="Continue Game" />
+            <Button id="Continue" fx:id="continueGame" layoutX="25.0" layoutY="76.0" mnemonicParsing="false" onAction="#continueGame" prefHeight="40.0" prefWidth="130.0" text="Continue Game" />
             <Button id="JumpBeginning" fx:id="jumpBeginning" layoutX="4.0" layoutY="1.0" mnemonicParsing="false" onAction="#jumpBeginning" text="&lt;&lt; Start " />
          </children>
       </Pane>
       <Button fx:id="savePosition" layoutX="53.0" layoutY="503.0" mnemonicParsing="false" onAction="#savePosition" prefHeight="40.0" prefWidth="120.0" text="Save Position" />
       <Button fx:id="resign" layoutX="780.0" layoutY="503.0" mnemonicParsing="false" onAction="#resign" prefHeight="40.0" prefWidth="120.0" text="Resign" />
       <Button fx:id="hint" layoutX="780.0" layoutY="452.0" mnemonicParsing="false" onAction="#hint" prefHeight="40.0" prefWidth="120.0" text="Hint" />
-      <Button fx:id="menu" layoutX="832.0" layoutY="566.0" mnemonicParsing="false" onAction="#menuClick" prefHeight="30.0" prefWidth="68.0" text="EXIT" />
+      <Button fx:id="menu" layoutX="832.0" layoutY="566.0" mnemonicParsing="false" onAction="#menuClick" prefHeight="30.0" prefWidth="68.0" text="Exit" />
    </children>
 </Pane>

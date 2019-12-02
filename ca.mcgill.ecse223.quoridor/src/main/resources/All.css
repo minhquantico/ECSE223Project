@@ -17,3 +17,8 @@ TextField {
 #wallStockLabel {
 	-fx-font-size: 14px;
 }
+
+Button {
+	-fx-background-color: #e6e16a;
+	-fx-border-color: black;
+}
