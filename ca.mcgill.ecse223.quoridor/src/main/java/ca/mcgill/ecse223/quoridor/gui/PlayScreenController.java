@@ -118,7 +118,7 @@ public class PlayScreenController {
     @FXML
     void hint()
     {
-    	if (isRunning())
+    	//if (isRunning())
     		board.getActivePlayer().getBestMove().recommend();
     }
     
