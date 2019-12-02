@@ -870,12 +870,8 @@ public class Controller {
 	 * @return Boolean: This tells us whether the pawn position is valid or not
 	 */
 	public static Boolean isValidPawnMove(Tile aTargetTile) {
-		//System.out.println("Target move: " + aTargetTile.getColumn() + ", " + aTargetTile.getRow());
-		//System.out.println("Player to move: " + (QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ? "white" : "black"));
-		
 		for (Tile aTarget : getPossibleStepMoves(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()))
 		{
-			//System.out.println("Possible move: " + aTarget.getColumn() + ", " + aTarget.getRow());
 			if (aTarget == aTargetTile)
 				return true;
 		}
@@ -1183,8 +1179,6 @@ public class Controller {
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().removeBlackWallsInStock(aWallPlaced);
 			}
 			
-			System.out.println("wall placed: " + aWallPlaced);
-			
 			wallMoveCandidate = new WallMove(aMoveNumber, aRoundNumber, aPlayer, tile, aGame, d, aWallPlaced);
 		}
 		else
@@ -1301,6 +1295,14 @@ public class Controller {
 	 */
 	public static void doPawnMoveStateMachine(int x, int y)
 	{
+		if (isValidPawnMove(Controller.getTile(x, y)))
+			doPawnMove(x, y);
+		else
+			throw new IllegalMoveException();
+		
+		if (true)
+			return;
+		
 		PawnBehaviour sm = getCurrentStateMachine();
 		Tile pos = QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove().hasGameAsWhite() ?
 				QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getWhitePosition().getTile() :

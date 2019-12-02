@@ -14,4 +14,6 @@ public class IllegalMoveException extends RuntimeException
 	{
 		super((p.hasGameAsWhite() ? "white" : "black") + ": " + d1 + ", " + d2);
 	}
+	
+	public IllegalMoveException() {}
 }
