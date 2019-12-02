@@ -29,6 +29,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -92,11 +95,11 @@ public class Board extends Pane
 		onGameEnded.run();
 	};
 	
-	
-	
+	public static final Image BOARD = new Image(QuoridorApplication.class.getClassLoader().getResourceAsStream("network.png"));
 	public Board(String whiteUser, String blackUser)
 	{
-		this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+		//this.setBackground(new Background(new BackgroundFill(Color.LIGHTBLUE, CornerRadii.EMPTY, Insets.EMPTY)));
+		this.setStyle(" -fx-background-size: stretch; -fx-background-image: url(\"boardBackground.png\");");
 		
 		for (int i = 0; i < COLS; i++)
 			for (int j = 0; j < ROWS; j++)
@@ -111,9 +114,9 @@ public class Board extends Pane
 		
 		this.players = new Player[2];
 		if (players.length >= 1)
-			this.players[0] = new Player(2, Color.GREEN);
+			this.players[0] = new Player(2, Color.WHITE);
 		if (players.length >= 2)
-			this.players[1] = new Player(0, Color.RED);
+			this.players[1] = new Player(0, Color.BLACK);
 //		if (players.length >= 3)
 //			this.players[2] = new Player(2, Color.ORANGE);
 //		if (players.length >= 4)
@@ -185,9 +188,9 @@ public class Board extends Pane
 	
 	public class Cell extends Pane implements Move
 	{
-		public final Background DEFAULT = new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY));
-		public final Background SELECTED = new Background(new BackgroundFill(Color.AQUA, CornerRadii.EMPTY, Insets.EMPTY));
-		public final Background RECOMMENDED = new Background(new BackgroundFill(Color.DODGERBLUE, CornerRadii.EMPTY, Insets.EMPTY));
+		public final Background DEFAULT = new Background(new BackgroundFill(Color.web("#FFFFFF", 0.50), CornerRadii.EMPTY, Insets.EMPTY));
+		public final Background SELECTED = new Background(new BackgroundFill(Color.web("#73ff00", 0.7), CornerRadii.EMPTY, Insets.EMPTY));
+		public final Background RECOMMENDED = new Background(new BackgroundFill(Color.web("#1E90FF", 0.75), CornerRadii.EMPTY, Insets.EMPTY));
 		public final int x, y;
 		
 		// Used for Dijkstra's algorithm
@@ -260,9 +263,10 @@ public class Board extends Pane
 	public class Wall extends Pane implements Move
 	{
 		public Background DEFAULT = new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
-		public Background SET = new Background(new BackgroundFill(Color.GRAY, CornerRadii.EMPTY, Insets.EMPTY));
-		public Background POSSIBLE = new Background(new BackgroundFill(Color.rgb(0x80, 0x80, 0x80, 0.5), CornerRadii.EMPTY, Insets.EMPTY));
-		public Background ILLEGAL = new Background(new BackgroundFill(Color.rgb(0xFF, 0x00, 0x00, 0.5), CornerRadii.EMPTY, Insets.EMPTY));
+		public Background SET = new Background(new BackgroundFill(Color.web("#984237"), CornerRadii.EMPTY, Insets.EMPTY));
+		public Background POSSIBLE = new Background(new BackgroundFill(Color.web("#984237", 0.75), CornerRadii.EMPTY, Insets.EMPTY));
+		public Background RECOMMENDED = new Background(new BackgroundFill(Color.web("#1E90FF", 0.75), CornerRadii.EMPTY, Insets.EMPTY));
+		public Background ILLEGAL = new Background(new BackgroundFill(Color.rgb(0xFF, 0x00, 0x00, 1), CornerRadii.EMPTY, Insets.EMPTY));
 		
 		private int x, y; 
 		public boolean vertical, set = false;
@@ -369,7 +373,7 @@ public class Board extends Pane
 		@Override
 		public void recommend()
 		{
-			this.setPossible();
+			this.setBackground(RECOMMENDED);
 		}
 	}
 	
@@ -712,8 +716,12 @@ public class Board extends Pane
 			else		// Both player are network, watch party
 			{
 				while (socket == null)		// Try and connect
-					try { socket = new Socket(address, 5001); }
-					catch (ConnectException ex) {}
+					try
+					{
+						socket = new Socket(address, 5001);
+						Thread.sleep(100);
+					}
+					catch (ConnectException | InterruptedException ex) {}
 				ServerSocket server = new ServerSocket(isWhite() ? 5000 : 5001);
 				do
 				{
