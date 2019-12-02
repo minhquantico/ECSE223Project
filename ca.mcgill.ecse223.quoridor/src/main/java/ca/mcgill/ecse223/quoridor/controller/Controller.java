@@ -962,6 +962,12 @@ public class Controller {
 	 * It gets the current player to move and then calls the resign method for that player.
 	 */
 	public static void resign() { resign(QuoridorApplication.getQuoridor().getCurrentGame().getCurrentPosition().getPlayerToMove()); }
+	
+	/**
+	 * @author Gohar Saqib Fazal
+	 * This method calls the resign function for the current player and sets the game status accordingly
+	 * @param player the player that has called the resign button
+	 */
 	public static void resign(Player player) {
 		QuoridorApplication.getQuoridor().getCurrentGame().setGameStatus(player.hasGameAsWhite() ? GameStatus.BlackWon : GameStatus.WhiteWon);
 		endMove();
