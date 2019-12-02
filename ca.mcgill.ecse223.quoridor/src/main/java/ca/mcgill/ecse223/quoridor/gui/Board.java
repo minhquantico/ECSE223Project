@@ -596,7 +596,7 @@ public class Board extends Pane
 		private long remainingTime;
 		public void startClock(long remainingTime)
 		{
-			this.remainingTime = remainingTime * 100;
+			this.remainingTime = remainingTime * 1000;
 			startClock();
 		}
 		
@@ -616,13 +616,16 @@ public class Board extends Pane
 		private Consumer<Long> onRemainingTimeChanged;
 		public void startClock()
 		{
-			clock = new Thread(()-> {
+			clock = new Thread(()->
+			{
+				long currentTime = System.currentTimeMillis();
 				while (!Thread.currentThread().isInterrupted() && remainingTime > 0)
 					try {
-						Thread.sleep(10);
-						remainingTime--;
+						Thread.sleep(100);
+						remainingTime += currentTime - (currentTime = System.currentTimeMillis());
+						
 						if (onRemainingTimeChanged != null)
-							Platform.runLater(() -> onRemainingTimeChanged.accept(remainingTime));
+							Platform.runLater(() -> onRemainingTimeChanged.accept(this.getRemainingTime()));
 					} catch (InterruptedException e) { break; }
 				
 				if (remainingTime == 0)
@@ -642,7 +645,7 @@ public class Board extends Pane
 			else return false;
 		}
 		
-		public long getRemainingTime() { return this.remainingTime / 100; }
+		public long getRemainingTime() { return this.remainingTime / 1000; }
 		public void setOnRemainingTimeChange(Consumer<Long> action) { this.onRemainingTimeChanged = action;; }
 		public Consumer<Long> getOnRemainingTimeChange() { return this.onRemainingTimeChanged; }
 		
