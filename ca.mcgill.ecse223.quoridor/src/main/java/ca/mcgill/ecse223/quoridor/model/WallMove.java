@@ -131,7 +131,6 @@ public class WallMove extends Move
   public void delete()
   {
     Wall existingWallPlaced = wallPlaced;
-    System.out.println("Dleteing wll move");
     wallPlaced = null;
     if (existingWallPlaced != null)
     {

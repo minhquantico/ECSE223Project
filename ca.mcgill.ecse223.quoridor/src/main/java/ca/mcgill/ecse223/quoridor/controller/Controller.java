@@ -292,9 +292,9 @@ public class Controller {
 			{
 				QuoridorApplication.getQuoridor().getCurrentGame().getPosition(index).delete();
 				Move m = QuoridorApplication.getQuoridor().getCurrentGame().getMove(index-1);
-				System.out.println("Number of moves: " + QuoridorApplication.getQuoridor().getCurrentGame().getMoves().size());
-				System.out.println("Deleting: " + m);
 				m.delete();
+				QuoridorApplication.getQuoridor().getCurrentGame().removeMove(m);
+				
 			}
 			QuoridorApplication.getQuoridor().getCurrentGame().getWhitePlayer().getPawnBehaviour().setSMTest();
 			QuoridorApplication.getQuoridor().getCurrentGame().getBlackPlayer().getPawnBehaviour().setSMTest();

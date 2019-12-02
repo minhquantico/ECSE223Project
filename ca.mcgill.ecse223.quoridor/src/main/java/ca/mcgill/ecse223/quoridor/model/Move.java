@@ -39,9 +39,7 @@ public abstract class Move
       throw new RuntimeException("Unable to create Move due to aTargetTile");
     }
     
-    System.out.println("GONNA ADD GAME");
     boolean didAddGame = setGame(aGame);
-    System.out.println("ADDED GAME");
     if (!didAddGame)
     {
       throw new RuntimeException("Unable to create move due to game");
@@ -172,7 +170,6 @@ public abstract class Move
   /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
   {
-	  System.out.println("Setting game to: " + aGame);
     boolean wasSet = false;
     if (aGame == null)
     {
@@ -225,7 +222,6 @@ public abstract class Move
 
   public void delete()
   {
-	  System.out.println("Deleting wallmove");
     player = null;
     targetTile = null;
     if (nextMove != null)
@@ -234,10 +230,8 @@ public abstract class Move
     }
     Game placeholderGame = game;
     this.game = null;
-    System.out.println("Game is : " + placeholderGame);
     if(placeholderGame != null)
     {
-    	System.out.println("Gonna remove move");
       placeholderGame.removeMove(this);
     }
     if (prevMove != null)
