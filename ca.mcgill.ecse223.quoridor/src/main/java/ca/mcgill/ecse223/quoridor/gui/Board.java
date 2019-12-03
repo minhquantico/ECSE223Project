@@ -627,6 +627,8 @@ public class Board extends Pane
 						if (onRemainingTimeChanged != null)
 							Platform.runLater(() -> onRemainingTimeChanged.accept(this.getRemainingTime()));
 					} catch (InterruptedException e) { break; }
+				if (onRemainingTimeChanged != null)
+					Platform.runLater(() -> onRemainingTimeChanged.accept(this.getRemainingTime()));
 				
 				if (remainingTime <= 0)
 				{
@@ -645,7 +647,7 @@ public class Board extends Pane
 			else return false;
 		}
 		
-		public long getRemainingTime() { return this.remainingTime / 1000; }
+		public long getRemainingTime() { return (long)Math.ceil(this.remainingTime / 1000d); }
 		public void setOnRemainingTimeChange(Consumer<Long> action) { this.onRemainingTimeChanged = action;; }
 		public Consumer<Long> getOnRemainingTimeChange() { return this.onRemainingTimeChanged; }
 		
